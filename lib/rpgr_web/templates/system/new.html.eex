@@ -1,0 +1,5 @@
+<h2>New System</h2>
+
+<%= render "form.html", Map.put(assigns, :action, system_path(@conn, :create)) %>
+
+<span><%= link "Back", to: system_path(@conn, :index) %></span>

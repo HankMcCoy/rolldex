@@ -3,8 +3,8 @@
 
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Systems$ReactTemplate = require("./Systems.bs.js");
+var App$ReactTemplate = require("./App.bs.js");
 
-ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, Systems$ReactTemplate.make(/* array */[])), "app");
+ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, App$ReactTemplate.make(/* array */[])), "app");
 
 /*  Not a pure module */

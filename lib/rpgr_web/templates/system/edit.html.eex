@@ -1,5 +1,0 @@
-<h2>Edit System</h2>
-
-<%= render "form.html", Map.put(assigns, :action, system_path(@conn, :update, @system)) %>
-
-<span><%= link "Back", to: system_path(@conn, :index) %></span>

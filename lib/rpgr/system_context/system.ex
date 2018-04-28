@@ -4,7 +4,6 @@ defmodule Rpgr.SystemContext.System do
 
   schema "systems" do
     field :name, :string
-
     timestamps()
   end
 

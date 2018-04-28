@@ -17,11 +17,10 @@ defmodule RpgrWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/systems", SystemController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", RpgrWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", RpgrWeb do
+    pipe_through :api
+    resources "/systems", SystemController
+  end
 end

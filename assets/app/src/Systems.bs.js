@@ -41,7 +41,7 @@ function make() {
                                           return React.createElement("li", {
                                                       key: String(system[/* id */0])
                                                     }, system[/* name */1]);
-                                        }), match[/* systems */0]))) : "Loading...");
+                                        }), match[/* systems */0]))) : "Loading...", React.createElement("label", undefined, "Name: ", React.createElement("input", undefined)));
             }),
           /* initialState */(function () {
               return /* record */[

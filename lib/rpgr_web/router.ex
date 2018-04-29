@@ -13,14 +13,14 @@ defmodule RpgrWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", RpgrWeb do
-    pipe_through :browser # Use the default browser stack
-
-    get "/", PageController, :index
-  end
-
   scope "/api", RpgrWeb do
     pipe_through :api
     resources "/systems", SystemController
+  end
+
+  scope "/", RpgrWeb do
+    pipe_through :browser # Use the default browser stack
+
+    get "/*path", PageController, :index
   end
 end

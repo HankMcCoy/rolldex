@@ -10,7 +10,7 @@ var ReasonReact = require("reason-react/src/ReasonReact.js");
 var SystemData$ReactTemplate = require("./SystemData.bs.js");
 var AddSystemForm$ReactTemplate = require("./AddSystemForm.bs.js");
 
-var component = ReasonReact.reducerComponent("Systems");
+var component = ReasonReact.reducerComponent("SystemsPage");
 
 function make() {
   return /* record */[

@@ -7,4 +7,6 @@ var App$ReactTemplate = require("./App.bs.js");
 
 ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, App$ReactTemplate.make(/* array */[])), "app");
 
+ReasonReact.Router[/* push */0]("");
+
 /*  Not a pure module */

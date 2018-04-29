@@ -7,12 +7,8 @@ type action =
   | LoadSystems
   | LoadSystemsSuccess(list(SystemData.system));
 
-/* Component template declaration.
-   Needs to be **after** state and action declarations! */
-let component = ReasonReact.reducerComponent("Systems");
+let component = ReasonReact.reducerComponent("SystemsPage");
 
-/* greeting and children are props. `children` isn't used, therefore ignored.
-   We ignore it by prepending it with an underscore */
 let make = _children => {
   ...component,
   initialState: () => {systems: [], loaded: false},

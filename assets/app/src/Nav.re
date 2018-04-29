@@ -1,54 +1,47 @@
 let style = ReactDOMRe.Style.make;
 
-let combine = ReactDOMRe.Style.combine;
+module NavItem = {
+  let combine = ReactDOMRe.Style.combine;
+  let navItemStyle =
+    style(
+      ~paddingLeft="20px",
+      ~height="45px",
+      ~lineHeight="45px",
+      ~color="#fff",
+      ~background="#5A605E",
+      ~overflow="hidden",
+      ~cursor="pointer",
+      (),
+    );
+  let activeNavItemStyle = style(~background="#484D4B", ());
+  let navItemTitleStyle =
+    style(~height="45px", ~lineHeight="45px", ~fontSize="24px", ());
+  let component = ReasonReact.statelessComponent("NavItem");
+  let make = (~isActive, ~name, ~href, _children) => {
+    ...component,
+    render: _self =>
+      <Link
+        style=(
+          isActive ? combine(navItemStyle, activeNavItemStyle) : navItemStyle
+        )
+        href>
+        (ReasonReact.string(name))
+      </Link>,
+  };
+};
 
-type navItem =
-  | Systems
-  | Campaigns
-  | Settings;
+let component = ReasonReact.statelessComponent("Nav");
 
-type state = {toggledItem: option(navItem)};
-
-type action =
-  | ToggleItem(navItem);
-
-let navItemStyle =
-  style(
-    ~paddingLeft="20px",
-    ~height="45px",
-    ~background="#5A605E",
-    ~transition="background 0.2s, height 0.2s",
-    ~overflow="hidden",
-    ~cursor="pointer",
-    (),
-  );
-
-let navItemTitleStyle =
-  style(~height="45px", ~lineHeight="45px", ~fontSize="24px", ());
-
-let navItemSubItemsStyle = style(~paddingLeft="10px", ());
-
-let expandedNavItemStyle = style(~background="#484D4B", ~height="95px", ());
-
-let component = ReasonReact.reducerComponent("Nav");
-
-let make = _children => {
+let make = (~activeRoute: AppRoutes.route, _children) => {
   ...component,
-  initialState: () => {toggledItem: None},
-  reducer: (action, state) =>
-    switch (action) {
-    | ToggleItem(navItem) =>
-      ReasonReact.Update({
-        toggledItem:
-          state.toggledItem == Some(navItem) ? None : Some(navItem),
-      })
-    },
-  render: ({send, state: {toggledItem}}) =>
+  render: _self =>
     <div
       style=(style(~height="100%", ~background="#5A605E", ~color="#fff", ()))>
-      <div
+      <Link
+        href="/"
         style=(
           style(
+            ~color="#fff",
             ~height="80px",
             ~lineHeight="80px",
             ~fontSize="36px",
@@ -58,23 +51,16 @@ let make = _children => {
           )
         )>
         (ReasonReact.string("Rolldex"))
-      </div>
-      <div
-        style=(
-          toggledItem == Some(Systems) ?
-            combine(navItemStyle, expandedNavItemStyle) : navItemStyle
-        )
-        onClick=(_event => send(ToggleItem(Systems)))>
-        <div style=navItemTitleStyle> (ReasonReact.string("Systems")) </div>
-        <div style=navItemSubItemsStyle>
-          (ReasonReact.string("Sub-items"))
-        </div>
-      </div>
-      <div style=navItemStyle>
-        <div style=navItemTitleStyle> (ReasonReact.string("Campaigns")) </div>
-      </div>
-      <div style=navItemStyle>
-        <div style=navItemTitleStyle> (ReasonReact.string("Settings")) </div>
-      </div>
+      </Link>
+      <NavItem
+        isActive=(activeRoute === AppRoutes.Systems)
+        href="/systems"
+        name="Systems"
+      />
+      <NavItem
+        isActive=(activeRoute === AppRoutes.Campaigns)
+        href="/campaigns"
+        name="Campaigns"
+      />
     </div>,
 };

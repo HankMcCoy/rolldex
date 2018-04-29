@@ -6,19 +6,9 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-
-function decodeSystem(json) {
-  return /* record */[
-          /* id */Json_decode.field("id", Json_decode.$$int, json),
-          /* name */Json_decode.field("name", Json_decode.string, json)
-        ];
-}
-
-function decodeSystems(json) {
-  return Json_decode.list(decodeSystem, json);
-}
+var SystemData$ReactTemplate = require("./SystemData.bs.js");
+var AddSystemForm$ReactTemplate = require("./AddSystemForm.bs.js");
 
 var component = ReasonReact.reducerComponent("Systems");
 
@@ -41,7 +31,7 @@ function make() {
                                           return React.createElement("li", {
                                                       key: String(system[/* id */0])
                                                     }, system[/* name */1]);
-                                        }), match[/* systems */0]))) : "Loading...", React.createElement("label", undefined, "Name: ", React.createElement("input", undefined)));
+                                        }), match[/* systems */0]))) : "Loading...", ReasonReact.element(/* None */0, /* None */0, AddSystemForm$ReactTemplate.make(/* array */[])));
             }),
           /* initialState */(function () {
               return /* record */[
@@ -58,11 +48,7 @@ function make() {
                           ]]);
               } else {
                 return /* SideEffects */Block.__(1, [(function (self) {
-                              fetch("/api/systems").then((function (prim) {
-                                          return prim.json();
-                                        })).then((function (json) {
-                                        return Promise.resolve(Json_decode.field("data", decodeSystems, json));
-                                      })).then((function (systems) {
+                              SystemData$ReactTemplate.getSystems(/* () */0).then((function (systems) {
                                       Curry._1(self[/* send */3], /* LoadSystemsSuccess */[systems]);
                                       return Promise.resolve(/* () */0);
                                     }));
@@ -75,8 +61,6 @@ function make() {
         ];
 }
 
-exports.decodeSystem = decodeSystem;
-exports.decodeSystems = decodeSystems;
 exports.component = component;
 exports.make = make;
 /* component Not a pure module */

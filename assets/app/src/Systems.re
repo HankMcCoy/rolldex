@@ -1,25 +1,11 @@
-type system = {
-  id: int,
-  name: string,
-};
-
 type state = {
-  systems: list(system),
+  systems: list(SystemData.system),
   loaded: bool,
 };
 
 type action =
   | LoadSystems
-  | LoadSystemsSuccess(list(system));
-
-let decodeSystem = json : system =>
-  Json.Decode.{
-    id: json |> field("id", int),
-    name: json |> field("name", string),
-  };
-
-let decodeSystems = json : list(system) =>
-  Json.Decode.list(decodeSystem, json);
+  | LoadSystemsSuccess(list(SystemData.system));
 
 /* Component template declaration.
    Needs to be **after** state and action declarations! */
@@ -37,11 +23,7 @@ let make = _children => {
         (
           self => {
             Js.Promise.(
-              Fetch.fetch("/api/systems")
-              |> then_(Fetch.Response.json)
-              |> then_(json =>
-                   Json.Decode.field("data", decodeSystems, json) |> resolve
-                 )
+              SystemData.getSystems()
               |> then_(systems => {
                    self.send(LoadSystemsSuccess(systems));
                    resolve();
@@ -62,7 +44,7 @@ let make = _children => {
           <ul>
             (
               systems
-              |> List.map(system =>
+              |> List.map((system: SystemData.system) =>
                    <li key=(string_of_int(system.id))>
                      (ReasonReact.string(system.name))
                    </li>
@@ -73,7 +55,7 @@ let make = _children => {
           </ul> :
           ReasonReact.string("Loading...")
       )
-      <label> (ReasonReact.string("Name: ")) <input /> </label>
+      <AddSystemForm />
     </div>,
   didMount: self => self.send(LoadSystems),
 };

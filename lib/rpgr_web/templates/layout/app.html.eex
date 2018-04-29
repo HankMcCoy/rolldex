@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>RPGr</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <style>
       /* http://meyerweb.com/eric/tools/css/reset/
         v2.0 | 20110126
@@ -39,7 +40,7 @@
       }
       body {
         line-height: 1;
-        font-family: sans-serif;
+        font-family: Roboto, sans-serif;
       }
       ol, ul {
         list-style: none;

@@ -1,4 +1,4 @@
-let style = ReactDOMRe.Style.make;
+open Util;
 
 module NavItem = {
   let combine = ReactDOMRe.Style.combine;
@@ -45,6 +45,7 @@ let make = (~activeRoute: AppRoutes.route, _children) => {
             ~height="80px",
             ~lineHeight="80px",
             ~fontSize="36px",
+            ~fontWeight="300",
             ~paddingLeft="20px",
             ~background="#333",
             (),

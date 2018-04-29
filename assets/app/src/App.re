@@ -11,8 +11,8 @@ let reducer = (action, _state) =>
 let mapUrlToRoute = (url: ReasonReact.Router.url) =>
   switch (url.path) {
   | [] => AppRoutes.Home
-  | ["systems"] => AppRoutes.Systems
-  | ["campaigns"] => AppRoutes.Campaigns
+  | ["systems", ..._theRest] => AppRoutes.Systems
+  | ["campaigns", ..._theRest] => AppRoutes.Campaigns
   | _ => AppRoutes.Home
   };
 
@@ -42,8 +42,8 @@ let make = _children => {
         (
           switch (self.state.route) {
           | Home => <HomePage />
-          | Systems => <SystemsPage />
-          | Campaigns => <CampaignsPage />
+          | Systems => <SystemsApp />
+          | Campaigns => <CampaignsApp />
           }
         )
       </div>

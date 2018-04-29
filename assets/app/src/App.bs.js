@@ -7,8 +7,8 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Nav$ReactTemplate = require("./Nav.bs.js");
 var HomePage$ReactTemplate = require("./HomePage.bs.js");
-var SystemsPage$ReactTemplate = require("./SystemsPage.bs.js");
-var CampaignsPage$ReactTemplate = require("./CampaignsPage.bs.js");
+var SystemsApp$ReactTemplate = require("./systems/SystemsApp.bs.js");
+var CampaignsApp$ReactTemplate = require("./campaigns/CampaignsApp.bs.js");
 
 function reducer(action, _) {
   return /* Update */Block.__(0, [/* record */[/* route */action[0]]]);
@@ -19,17 +19,9 @@ function mapUrlToRoute(url) {
   if (match) {
     switch (match[0]) {
       case "campaigns" : 
-          if (match[1]) {
-            return /* Home */0;
-          } else {
-            return /* Campaigns */2;
-          }
+          return /* Campaigns */2;
       case "systems" : 
-          if (match[1]) {
-            return /* Home */0;
-          } else {
-            return /* Systems */1;
-          }
+          return /* Systems */1;
       default:
         return /* Home */0;
     }
@@ -1105,10 +1097,10 @@ function make() {
                     tmp = ReasonReact.element(/* None */0, /* None */0, HomePage$ReactTemplate.make(/* array */[]));
                     break;
                 case 1 : 
-                    tmp = ReasonReact.element(/* None */0, /* None */0, SystemsPage$ReactTemplate.make(/* array */[]));
+                    tmp = ReasonReact.element(/* None */0, /* None */0, SystemsApp$ReactTemplate.make(/* array */[]));
                     break;
                 case 2 : 
-                    tmp = ReasonReact.element(/* None */0, /* None */0, CampaignsPage$ReactTemplate.make(/* array */[]));
+                    tmp = ReasonReact.element(/* None */0, /* None */0, CampaignsApp$ReactTemplate.make(/* array */[]));
                     break;
                 
               }

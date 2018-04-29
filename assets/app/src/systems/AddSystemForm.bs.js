@@ -5,7 +5,7 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("./Util.bs.js");
+var Util$ReactTemplate = require("../Util.bs.js");
 var SystemData$ReactTemplate = require("./SystemData.bs.js");
 
 var component = ReasonReact.reducerComponent("AddSystemForm");

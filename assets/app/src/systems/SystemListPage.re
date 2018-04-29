@@ -1,3 +1,5 @@
+open Util;
+
 type state = {
   systems: list(SystemData.system),
   loaded: bool,
@@ -7,7 +9,7 @@ type action =
   | LoadSystems
   | LoadSystemsSuccess(list(SystemData.system));
 
-let component = ReasonReact.reducerComponent("SystemsPage");
+let component = ReasonReact.reducerComponent("SystemListPage");
 
 let make = _children => {
   ...component,
@@ -34,7 +36,9 @@ let make = _children => {
       ReasonReact.Update({systems, loaded: true})
     },
   render: ({state: {loaded, systems}}) =>
-    <div>
+    <Page>
+      <h1 style=(style(~fontSize="48px", ()))> (s("Systems")) </h1>
+      <Spacer height="20px" />
       (
         loaded ?
           <ul>
@@ -42,7 +46,9 @@ let make = _children => {
               systems
               |> List.map((system: SystemData.system) =>
                    <li key=(string_of_int(system.id))>
-                     (ReasonReact.string(system.name))
+                     <Link href=("/systems/" ++ string_of_int(system.id))>
+                       (ReasonReact.string(system.name))
+                     </Link>
                    </li>
                  )
               |> Array.of_list
@@ -51,7 +57,8 @@ let make = _children => {
           </ul> :
           ReasonReact.string("Loading...")
       )
+      <Spacer height="20px" />
       <AddSystemForm />
-    </div>,
+    </Page>,
   didMount: self => self.send(LoadSystems),
 };

@@ -6,7 +6,7 @@ var Page$ReactTemplate = require("../components/Page.bs.js");
 
 var component = ReasonReact.statelessComponent("Systempage");
 
-function make(id, _) {
+function make(system, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -18,7 +18,7 @@ function make(id, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */["System " + String(id)]));
+              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[system[/* name */1]]));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

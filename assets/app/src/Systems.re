@@ -34,7 +34,7 @@ let make = (_children) => {
 
   initialState: () => {systems: [], loaded: false},
 
-  reducer: (action, state) =>
+  reducer: (action, _state) =>
     switch (action) {
     | LoadSystems => ReasonReact.SideEffects(self => {
       Js.Promise.(
@@ -58,12 +58,12 @@ let make = (_children) => {
           <ul>
             (
               systems
-              |> List.map(system => 
+              |> List.map(system =>
                 <li key={string_of_int(system.id)}>
                   (ReasonReact.string(system.name))
                 </li>)
               |> Array.of_list
-              |> ReasonReact.arrayToElement
+              |> ReasonReact.array
             )
           </ul> :
           ReasonReact.string("Loading...")

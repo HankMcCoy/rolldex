@@ -35,10 +35,10 @@ let make = _children => {
   ],
   render: self =>
     <div style=(style(~display="flex", ()))>
-      <div style=(style(~width="300px", ~height="100vh", ()))>
+      <div style=(style(~flex="0 0 300px", ~height="100vh", ()))>
         <Nav activeRoute=self.state.route />
       </div>
-      <div>
+      <div style=(style(~flex="1 0 0%", ~minWidth="0px", ()))>
         (
           switch (self.state.route) {
           | Home => <HomePage />

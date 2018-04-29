@@ -6,7 +6,7 @@ let make = (~system: SystemData.system, _children) => {
   ...component,
   render: _self =>
     <Page>
-      <h1> (s(system.name)) </h1>
+      <Heading l=1> (s(system.name)) </Heading>
       <p> (s(system.description)) </p>
     </Page>,
 };

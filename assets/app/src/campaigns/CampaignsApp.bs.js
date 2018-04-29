@@ -3,6 +3,7 @@
 
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Page$ReactTemplate = require("../components/Page.bs.js");
+var Heading$ReactTemplate = require("../components/Heading.bs.js");
 
 var component = ReasonReact.statelessComponent("CampaignsApp");
 
@@ -18,7 +19,7 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */["Campaigns"]));
+              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, Heading$ReactTemplate.make(1, /* array */["Campaigns"]))]));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

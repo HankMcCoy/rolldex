@@ -5,6 +5,7 @@ var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Page$ReactTemplate = require("../components/Page.bs.js");
 var Util$ReactTemplate = require("../Util.bs.js");
+var Heading$ReactTemplate = require("../components/Heading.bs.js");
 
 var component = ReasonReact.statelessComponent("Systempage");
 
@@ -21,7 +22,7 @@ function make(system, _) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
               return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[
-                              React.createElement("h1", undefined, Util$ReactTemplate.s(system[/* name */1])),
+                              ReasonReact.element(/* None */0, /* None */0, Heading$ReactTemplate.make(1, /* array */[Util$ReactTemplate.s(system[/* name */1])])),
                               React.createElement("p", undefined, Util$ReactTemplate.s(system[/* description */2]))
                             ]));
             }),

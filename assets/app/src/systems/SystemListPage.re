@@ -6,7 +6,7 @@ let make = (~systems: list(SystemData.system), _children) => {
   ...component,
   render: _self =>
     <Page>
-      <h1 style=(style(~fontSize="48px", ()))> (s("Systems")) </h1>
+      <Heading l=1> (s("Systems")) </Heading>
       <Spacer height="20px" />
       <ul>
         (

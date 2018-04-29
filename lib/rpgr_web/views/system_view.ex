@@ -11,6 +11,6 @@ defmodule RpgrWeb.SystemView do
   end
 
   def render("system.json", %{system: system}) do
-    %{id: system.id, name: system.name}
+    %{id: system.id, name: system.name, description: system.description}
   end
 end

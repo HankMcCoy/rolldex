@@ -1,14 +1,19 @@
-type draftSystem = {name: string};
+type draftSystem = {
+  name: string,
+  description: string,
+};
 
 type system = {
   id: int,
   name: string,
+  description: string,
 };
 
 let decodeSystem = json : system =>
   Json.Decode.{
     id: json |> field("id", int),
     name: json |> field("name", string),
+    description: json |> field("description", string),
   };
 
 let decodeSystems = json : list(system) =>
@@ -26,6 +31,11 @@ let getSystems = () =>
 let createSystem = (draftSystem: draftSystem) => {
   let systemDict = Js.Dict.empty();
   Js.Dict.set(systemDict, "name", Js.Json.string(draftSystem.name));
+  Js.Dict.set(
+    systemDict,
+    "description",
+    Js.Json.string(draftSystem.description),
+  );
   let payload = Js.Dict.empty();
   Js.Dict.set(payload, "system", Js.Json.object_(systemDict));
   Js.Promise.(

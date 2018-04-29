@@ -7,7 +7,8 @@ var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
 function decodeSystem(json) {
   return /* record */[
           /* id */Json_decode.field("id", Json_decode.$$int, json),
-          /* name */Json_decode.field("name", Json_decode.string, json)
+          /* name */Json_decode.field("name", Json_decode.string, json),
+          /* description */Json_decode.field("description", Json_decode.string, json)
         ];
 }
 
@@ -26,6 +27,7 @@ function getSystems() {
 function createSystem(draftSystem) {
   var systemDict = { };
   systemDict["name"] = draftSystem[/* name */0];
+  systemDict["description"] = draftSystem[/* description */1];
   var payload = { };
   payload["system"] = systemDict;
   return fetch("/api/systems", Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* Some */[{

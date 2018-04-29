@@ -4,13 +4,14 @@ defmodule Rpgr.SystemContext.System do
 
   schema "systems" do
     field :name, :string
+    field :description, :string
     timestamps()
   end
 
   @doc false
   def changeset(system, attrs) do
     system
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
+    |> cast(attrs, [:name, :description])
+    |> validate_required([:name, :description])
   end
 end

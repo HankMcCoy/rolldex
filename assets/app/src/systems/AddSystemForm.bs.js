@@ -23,33 +23,60 @@ function make() {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (param) {
               var send = param[/* send */3];
-              return React.createElement("div", undefined, React.createElement("label", undefined, "Name: ", React.createElement("input", {
-                                  value: param[/* state */1][/* name */0],
-                                  onChange: (function ($$event) {
-                                      return Curry._1(send, /* ChangeName */Block.__(0, [Util$ReactTemplate.getTarget($$event).value]));
-                                    })
-                                })), React.createElement("button", {
+              var match = param[/* state */1];
+              return React.createElement("div", undefined, React.createElement("div", undefined, React.createElement("label", undefined, "Name: ", React.createElement("input", {
+                                      value: match[/* name */0],
+                                      onChange: (function ($$event) {
+                                          return Curry._1(send, /* ChangeName */Block.__(0, [Util$ReactTemplate.getTarget($$event).value]));
+                                        })
+                                    }))), React.createElement("div", undefined, React.createElement("label", undefined, "Description: ", React.createElement("input", {
+                                      value: match[/* description */1],
+                                      onChange: (function ($$event) {
+                                          return Curry._1(send, /* ChangeDescription */Block.__(1, [Util$ReactTemplate.getTarget($$event).value]));
+                                        })
+                                    }))), React.createElement("button", {
                               onClick: (function () {
                                   return Curry._1(send, /* AddSystem */0);
                                 })
                             }, "Add"));
             }),
           /* initialState */(function () {
-              return /* record */[/* name */""];
+              return /* record */[
+                      /* name */"",
+                      /* description */""
+                    ];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */(function (action, state) {
               if (typeof action === "number") {
                 return /* SideEffects */Block.__(1, [(function (self) {
-                              SystemData$ReactTemplate.createSystem(/* record */[/* name */state[/* name */0]]).then((function (system) {
-                                      return Promise.resolve(Curry._1(self[/* send */3], /* AddSystemSuccess */Block.__(1, [system])));
+                              SystemData$ReactTemplate.createSystem(/* record */[
+                                      /* name */state[/* name */0],
+                                      /* description */state[/* description */1]
+                                    ]).then((function (system) {
+                                      return Promise.resolve(Curry._1(self[/* send */3], /* AddSystemSuccess */Block.__(2, [system])));
                                     }));
                               return /* () */0;
                             })]);
-              } else if (action.tag) {
-                return /* Update */Block.__(0, [/* record */[/* name */""]]);
               } else {
-                return /* Update */Block.__(0, [/* record */[/* name */action[0]]]);
+                switch (action.tag | 0) {
+                  case 0 : 
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* name */action[0],
+                                  /* description */state[/* description */1]
+                                ]]);
+                  case 1 : 
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* name */state[/* name */0],
+                                  /* description */action[0]
+                                ]]);
+                  case 2 : 
+                      return /* Update */Block.__(0, [/* record */[
+                                  /* name */"",
+                                  /* description */""
+                                ]]);
+                  
+                }
               }
             }),
           /* subscriptions */component[/* subscriptions */13],

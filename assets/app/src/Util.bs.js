@@ -1059,8 +1059,19 @@ function s(prim) {
   return prim;
 }
 
+function getHex(color) {
+  if (color) {
+    return "#6C6EA0";
+  } else {
+    return "#417F9C";
+  }
+}
+
+var Color = /* module */[/* getHex */getHex];
+
 exports.getTarget = getTarget;
 exports.style = style;
 exports.combineStyles = combineStyles;
 exports.s = s;
+exports.Color = Color;
 /* ReactDOMRe Not a pure module */

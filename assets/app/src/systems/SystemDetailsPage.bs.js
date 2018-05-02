@@ -3,9 +3,9 @@
 
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Page$ReactTemplate = require("../components/Page.bs.js");
 var Util$ReactTemplate = require("../Util.bs.js");
-var Heading$ReactTemplate = require("../components/Heading.bs.js");
+var PageHeader$ReactTemplate = require("../components/PageHeader.bs.js");
+var PageContent$ReactTemplate = require("../components/PageContent.bs.js");
 
 var component = ReasonReact.statelessComponent("Systempage");
 
@@ -21,10 +21,13 @@ function make(system, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[
-                              ReasonReact.element(/* None */0, /* None */0, Heading$ReactTemplate.make(1, /* array */[Util$ReactTemplate.s(system[/* name */1])])),
-                              React.createElement("p", undefined, Util$ReactTemplate.s(system[/* description */2]))
-                            ]));
+              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, PageHeader$ReactTemplate.make(/* :: */[
+                                  /* record */[
+                                    /* text */"Systems",
+                                    /* href */"/systems"
+                                  ],
+                                  /* [] */0
+                                ], system[/* name */1], /* SystemsBlue */0, /* array */[])), ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[React.createElement("p", undefined, Util$ReactTemplate.s(system[/* description */2]))])));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

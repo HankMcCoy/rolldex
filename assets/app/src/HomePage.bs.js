@@ -2,8 +2,8 @@
 'use strict';
 
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Page$ReactTemplate = require("./components/Page.bs.js");
 var Heading$ReactTemplate = require("./components/Heading.bs.js");
+var PageContent$ReactTemplate = require("./components/PageContent.bs.js");
 
 var component = ReasonReact.statelessComponent("HomePage");
 
@@ -19,7 +19,7 @@ function make() {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, Heading$ReactTemplate.make(1, /* array */["Home"]))]));
+              return ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, Heading$ReactTemplate.make(1, /* array */["Home"]))]));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

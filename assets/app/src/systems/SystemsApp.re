@@ -68,7 +68,7 @@ let make = _children => {
   ],
   render: ({state: {route, systems}}) =>
     switch (route, systems) {
-    | (_, None) => <Page> (s("Loading...")) </Page>
+    | (_, None) => <PageContent> (s("Loading...")) </PageContent>
     | (ListAll, Some(systems)) => <SystemListPage systems />
     | (ViewOne(id), Some(systems)) =>
       <SystemDetailsPage

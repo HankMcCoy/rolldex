@@ -2,11 +2,11 @@ open Util;
 
 let component = ReasonReact.statelessComponent("Heading");
 
-let h1Styles = style(~fontSize="48px", ~fontWeight="300", ());
+let h1Styles = style(~fontSize="36px", ~fontWeight="300", ());
 
-let h2Styles = style(~fontSize="36px", ~fontWeight="300", ());
+let h2Styles = style(~fontSize="24px", ~fontWeight="300", ());
 
-let h3Styles = style(~fontSize="24px", ~fontWeight="400", ());
+let h3Styles = style(~fontSize="18px", ~fontWeight="400", ());
 
 let make = (~l, children) => {
   ...component,

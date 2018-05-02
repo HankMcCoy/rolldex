@@ -6,9 +6,9 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Page$ReactTemplate = require("../components/Page.bs.js");
 var Util$ReactTemplate = require("../Util.bs.js");
 var SystemData$ReactTemplate = require("./SystemData.bs.js");
+var PageContent$ReactTemplate = require("../components/PageContent.bs.js");
 var SystemListPage$ReactTemplate = require("./SystemListPage.bs.js");
 var SystemDetailsPage$ReactTemplate = require("./SystemDetailsPage.bs.js");
 var SystemCreationPage$ReactTemplate = require("./SystemCreationPage.bs.js");
@@ -88,7 +88,7 @@ function make() {
                                       }), systems[0]), /* array */[]));
                 }
               } else {
-                return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[Util$ReactTemplate.s("Loading...")]));
+                return ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[Util$ReactTemplate.s("Loading...")]));
               }
             }),
           /* initialState */(function () {

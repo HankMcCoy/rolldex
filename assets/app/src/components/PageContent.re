@@ -1,6 +1,6 @@
 open Util;
 
-let component = ReasonReact.statelessComponent("Page");
+let component = ReasonReact.statelessComponent("PageContent");
 
 let make = children => {
   ...component,

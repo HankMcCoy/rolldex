@@ -4,7 +4,7 @@
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Util$ReactTemplate = require("../Util.bs.js");
 
-var component = ReasonReact.statelessComponent("Page");
+var component = ReasonReact.statelessComponent("PageContent");
 
 function make(children) {
   return /* record */[

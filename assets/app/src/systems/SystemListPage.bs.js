@@ -6,10 +6,9 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var React = require("react");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
 var Link$ReactTemplate = require("../components/Link.bs.js");
-var Page$ReactTemplate = require("../components/Page.bs.js");
-var Util$ReactTemplate = require("../Util.bs.js");
 var Spacer$ReactTemplate = require("../components/Spacer.bs.js");
-var Heading$ReactTemplate = require("../components/Heading.bs.js");
+var PageHeader$ReactTemplate = require("../components/PageHeader.bs.js");
+var PageContent$ReactTemplate = require("../components/PageContent.bs.js");
 var AddSystemForm$ReactTemplate = require("./AddSystemForm.bs.js");
 
 var component = ReasonReact.statelessComponent("SystemListPage");
@@ -26,17 +25,16 @@ function make(systems, _) {
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function () {
-              return ReasonReact.element(/* None */0, /* None */0, Page$ReactTemplate.make(/* array */[
-                              ReasonReact.element(/* None */0, /* None */0, Heading$ReactTemplate.make(1, /* array */[Util$ReactTemplate.s("Systems")])),
-                              ReasonReact.element(/* None */0, /* None */0, Spacer$ReactTemplate.make(/* None */0, /* Some */["20px"], /* array */[])),
-                              React.createElement("ul", undefined, $$Array.of_list(List.map((function (system) {
-                                              return React.createElement("li", {
-                                                          key: String(system[/* id */0])
-                                                        }, ReasonReact.element(/* None */0, /* None */0, Link$ReactTemplate.make("/systems/" + String(system[/* id */0]), /* None */0, /* None */0, /* array */[system[/* name */1]])));
-                                            }), systems))),
-                              ReasonReact.element(/* None */0, /* None */0, Spacer$ReactTemplate.make(/* None */0, /* Some */["20px"], /* array */[])),
-                              ReasonReact.element(/* None */0, /* None */0, AddSystemForm$ReactTemplate.make(/* array */[]))
-                            ]));
+              return React.createElement("div", undefined, ReasonReact.element(/* None */0, /* None */0, PageHeader$ReactTemplate.make(/* [] */0, "Systems", /* SystemsBlue */0, /* array */[])), ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[
+                                  ReasonReact.element(/* None */0, /* None */0, Spacer$ReactTemplate.make(/* None */0, /* Some */["20px"], /* array */[])),
+                                  React.createElement("ul", undefined, $$Array.of_list(List.map((function (system) {
+                                                  return React.createElement("li", {
+                                                              key: String(system[/* id */0])
+                                                            }, ReasonReact.element(/* None */0, /* None */0, Link$ReactTemplate.make("/systems/" + String(system[/* id */0]), /* None */0, /* None */0, /* array */[system[/* name */1]])));
+                                                }), systems))),
+                                  ReasonReact.element(/* None */0, /* None */0, Spacer$ReactTemplate.make(/* None */0, /* Some */["20px"], /* array */[])),
+                                  ReasonReact.element(/* None */0, /* None */0, AddSystemForm$ReactTemplate.make(/* array */[]))
+                                ])));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

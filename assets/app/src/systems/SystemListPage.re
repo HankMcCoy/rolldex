@@ -6,26 +6,22 @@ let make = (~systems: list(SystemData.system), _children) => {
   ...component,
   render: _self =>
     <div>
-      <PageHeader
-        title="Systems"
-        breadcrumbs=
-          /*
-           {text: "Systems", href: "https://cnn.com"},
-           {text: "Savage Worlds", href: "https://cnn.com"},
-           */
-          []
-        background=Color.SystemsBlue
-      />
+      <PageHeader title="Systems" breadcrumbs=[] background=Color.SystemsBlue>
+        <AddButton size=Large subApp=SystemsSubApp href="/systems/add" />
+      </PageHeader>
       <PageContent>
-        <Spacer height="20px" />
-        <ul>
+        <ul style=(style(~maxWidth="400px", ()))>
           (
             systems
             |> List.map((system: SystemData.system) =>
-                 <li key=(string_of_int(system.id))>
-                   <Link href=("/systems/" ++ string_of_int(system.id))>
-                     (ReasonReact.string(system.name))
-                   </Link>
+                 <li
+                   key=(string_of_int(system.id))
+                   style=(style(~marginBottom="10px", ()))>
+                   <PreviewCard
+                     href=("/systems/" ++ string_of_int(system.id))
+                     title=system.name
+                     description=system.description
+                   />
                  </li>
                )
             |> Array.of_list
@@ -33,7 +29,6 @@ let make = (~systems: list(SystemData.system), _children) => {
           )
         </ul>
         <Spacer height="20px" />
-        <AddSystemForm />
       </PageContent>
     </div>,
 };

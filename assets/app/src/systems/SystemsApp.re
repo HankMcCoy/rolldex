@@ -41,7 +41,7 @@ let reducer = (action, state) =>
 let mapUrlToRoute = (url: ReasonReact.Router.url) => {
   Js.log(url);
   switch (url.path) {
-  | ["systems", "edit"] => Create
+  | ["systems", "add"] => Create
   | ["systems", id] => ViewOne(int_of_string(id))
   | ["systems"] => ListAll
   | _ => Create

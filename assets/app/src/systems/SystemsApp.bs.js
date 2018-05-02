@@ -42,7 +42,7 @@ function mapUrlToRoute(url) {
     var match$1 = match[1];
     if (match$1) {
       var id = match$1[0];
-      if (id === "edit" || match$1[1]) {
+      if (id === "add" || match$1[1]) {
         return /* Create */1;
       } else {
         return /* ViewOne */[Caml_format.caml_int_of_string(id)];

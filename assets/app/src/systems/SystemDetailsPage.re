@@ -11,6 +11,16 @@ let make = (~system: SystemData.system, _children) => {
         breadcrumbs=[{text: "Systems", href: "/systems"}]
         background=Color.SystemsBlue
       />
-      <PageContent> <p> (s(system.description)) </p> </PageContent>
+      <div
+        style=(style(~display="flex", ~justifyContent="space-between", ()))>
+        <PageContent>
+          <div style=(style(~maxWidth="500px", ()))>
+            <Heading l=2> (s("Description")) </Heading>
+            <Spacer height="12px" />
+            <Para text=system.description />
+          </div>
+        </PageContent>
+        <PageSidebar subApp=SystemsSubApp />
+      </div>
     </div>,
 };

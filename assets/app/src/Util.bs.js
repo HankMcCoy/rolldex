@@ -1060,10 +1060,16 @@ function s(prim) {
 }
 
 function getHex(color) {
-  if (color) {
-    return "#6C6EA0";
-  } else {
-    return "#417F9C";
+  switch (color) {
+    case 0 : 
+        return "#417F9C";
+    case 1 : 
+        return "#E4EAED";
+    case 2 : 
+        return "#6C6EA0";
+    case 3 : 
+        return "#E4E4ED";
+    
   }
 }
 

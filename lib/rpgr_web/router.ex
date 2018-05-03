@@ -16,6 +16,7 @@ defmodule RpgrWeb.Router do
   scope "/api", RpgrWeb do
     pipe_through :api
     resources "/systems", SystemController
+    resources "/campaigns", CampaignController
   end
 
   scope "/", RpgrWeb do

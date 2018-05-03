@@ -4,9 +4,9 @@ defmodule RpgrWeb.SystemControllerTest do
   alias Rpgr.SystemContext
   alias Rpgr.SystemContext.System
 
-  @create_attrs %{}
-  @update_attrs %{}
-  @invalid_attrs %{}
+  @create_attrs %{name: "Savage Worlds", description: "Lots of dice"}
+  @update_attrs %{name: "Fate Core", description: "Lightweight and fun"}
+  @invalid_attrs %{name: nil, description: nil}
 
   def fixture(:system) do
     {:ok, system} = SystemContext.create_system(@create_attrs)
@@ -31,7 +31,9 @@ defmodule RpgrWeb.SystemControllerTest do
 
       conn = get conn, system_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
-        "id" => id}
+        "id" => id,
+        "name" => "Savage Worlds",
+        "description" => "Lots of dice"}
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -49,7 +51,9 @@ defmodule RpgrWeb.SystemControllerTest do
 
       conn = get conn, system_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
-        "id" => id}
+        "id" => id,
+        "name" => "Fate Core",
+        "description" => "Lightweight and fun"}
     end
 
     test "renders errors when data is invalid", %{conn: conn, system: system} do

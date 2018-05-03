@@ -6,37 +6,15 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
-var Util$ReactTemplate = require("../Util.bs.js");
-var SystemData$ReactTemplate = require("./SystemData.bs.js");
-var PageContent$ReactTemplate = require("../components/PageContent.bs.js");
 var SystemListPage$ReactTemplate = require("./SystemListPage.bs.js");
 var SystemDetailsPage$ReactTemplate = require("./SystemDetailsPage.bs.js");
 var SystemCreationPage$ReactTemplate = require("./SystemCreationPage.bs.js");
 
-function reducer(action, state) {
-  if (typeof action === "number") {
-    return /* SideEffects */Block.__(1, [(function (self) {
-                  SystemData$ReactTemplate.getSystems(/* () */0).then((function (systems) {
-                          Curry._1(self[/* send */3], /* FetchSystemsSuccess */Block.__(1, [systems]));
-                          return Promise.resolve(/* () */0);
-                        }));
-                  return /* () */0;
-                })]);
-  } else if (action.tag) {
-    return /* Update */Block.__(0, [/* record */[
-                /* route */state[/* route */0],
-                /* systems : Some */[action[0]]
-              ]]);
-  } else {
-    return /* Update */Block.__(0, [/* record */[
-                /* route */action[0],
-                /* systems */state[/* systems */1]
-              ]]);
-  }
+function reducer(action, _) {
+  return /* Update */Block.__(0, [/* record */[/* route */action[0]]]);
 }
 
 function mapUrlToRoute(url) {
-  console.log(url);
   var match = url[/* path */0];
   if (match && match[0] === "systems") {
     var match$1 = match[1];
@@ -57,45 +35,34 @@ function mapUrlToRoute(url) {
 
 var component = ReasonReact.reducerComponent("SystemsApp");
 
-function make() {
+function make(systems, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
           /* handedOffState */component[/* handedOffState */2],
           /* willReceiveProps */component[/* willReceiveProps */3],
-          /* didMount */(function (self) {
-              return Curry._1(self[/* send */3], /* FetchSystems */0);
-            }),
+          /* didMount */component[/* didMount */4],
           /* didUpdate */component[/* didUpdate */5],
           /* willUnmount */component[/* willUnmount */6],
           /* willUpdate */component[/* willUpdate */7],
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (param) {
-              var match = param[/* state */1];
-              var systems = match[/* systems */1];
-              var route = match[/* route */0];
-              if (systems) {
-                if (typeof route === "number") {
-                  if (route !== 0) {
-                    return ReasonReact.element(/* None */0, /* None */0, SystemCreationPage$ReactTemplate.make(/* array */[]));
-                  } else {
-                    return ReasonReact.element(/* None */0, /* None */0, SystemListPage$ReactTemplate.make(systems[0], /* array */[]));
-                  }
+              var route = param[/* state */1][/* route */0];
+              if (typeof route === "number") {
+                if (route !== 0) {
+                  return ReasonReact.element(/* None */0, /* None */0, SystemCreationPage$ReactTemplate.make(/* array */[]));
                 } else {
-                  var id = route[0];
-                  return ReasonReact.element(/* None */0, /* None */0, SystemDetailsPage$ReactTemplate.make(List.find((function (s) {
-                                        return s[/* id */0] === id;
-                                      }), systems[0]), /* array */[]));
+                  return ReasonReact.element(/* None */0, /* None */0, SystemListPage$ReactTemplate.make(systems, /* array */[]));
                 }
               } else {
-                return ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[Util$ReactTemplate.s("Loading...")]));
+                var id = route[0];
+                return ReasonReact.element(/* None */0, /* None */0, SystemDetailsPage$ReactTemplate.make(List.find((function (s) {
+                                      return s[/* id */0] === id;
+                                    }), systems), /* array */[]));
               }
             }),
           /* initialState */(function () {
-              return /* record */[
-                      /* route */mapUrlToRoute(ReasonReact.Router[/* dangerouslyGetInitialUrl */3](/* () */0)),
-                      /* systems : None */0
-                    ];
+              return /* record */[/* route */mapUrlToRoute(ReasonReact.Router[/* dangerouslyGetInitialUrl */3](/* () */0))];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */reducer,
@@ -104,7 +71,7 @@ function make() {
                       /* Sub */[
                         (function () {
                             return ReasonReact.Router[/* watchUrl */1]((function (url) {
-                                          return Curry._1(self[/* send */3], /* ChangeRoute */Block.__(0, [mapUrlToRoute(url)]));
+                                          return Curry._1(self[/* send */3], /* ChangeRoute */[mapUrlToRoute(url)]);
                                         }));
                           }),
                         ReasonReact.Router[/* unwatchUrl */2]

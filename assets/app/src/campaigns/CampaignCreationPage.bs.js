@@ -9,7 +9,7 @@ var AddCampaignForm$ReactTemplate = require("./AddCampaignForm.bs.js");
 
 var component = ReasonReact.statelessComponent("CampaignCreationPage");
 
-function make() {
+function make(systems, _) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],
@@ -27,7 +27,7 @@ function make() {
                                     /* href */"/systems"
                                   ],
                                   /* [] */0
-                                ], "Add campaign", /* CampaignsPeriwinkle */2, /* array */[])), ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, AddCampaignForm$ReactTemplate.make(/* array */[]))])));
+                                ], "Add campaign", /* CampaignsPeriwinkle */2, /* array */[])), ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, AddCampaignForm$ReactTemplate.make(systems, /* array */[]))])));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

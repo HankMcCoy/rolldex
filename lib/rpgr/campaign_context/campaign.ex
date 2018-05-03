@@ -14,7 +14,7 @@ defmodule Rpgr.CampaignContext.Campaign do
   @doc false
   def changeset(campaign, attrs) do
     campaign
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description])
+    |> cast(attrs, [:name, :description, :system_id])
+    |> validate_required([:name, :description, :system_id])
   end
 end

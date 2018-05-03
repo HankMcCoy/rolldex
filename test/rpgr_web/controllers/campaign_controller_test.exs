@@ -3,14 +3,24 @@ defmodule RpgrWeb.CampaignControllerTest do
 
   alias Rpgr.CampaignContext
   alias Rpgr.CampaignContext.Campaign
+  alias Rpgr.SystemContext
+  alias Rpgr.SystemContext.System
 
   @create_attrs %{description: "some description", name: "some name"}
   @update_attrs %{description: "some updated description", name: "some updated name"}
-  @invalid_attrs %{description: nil, name: nil}
+  @invalid_attrs %{description: nil, name: nil, system_id: nil}
 
-  def fixture(:campaign) do
-    {:ok, campaign} = CampaignContext.create_campaign(@create_attrs)
+  def fixture(:campaign, system) do
+    {:ok, campaign} = CampaignContext.create_campaign(
+      @create_attrs
+      |> Enum.into(%{ system_id: system.id })
+    )
     campaign
+  end
+
+  def fixture(:system) do
+    {:ok, system} = SystemContext.create_system(@create_attrs)
+    system
   end
 
   setup %{conn: conn} do
@@ -26,14 +36,21 @@ defmodule RpgrWeb.CampaignControllerTest do
 
   describe "create campaign" do
     test "renders campaign when data is valid", %{conn: conn} do
-      conn = post conn, campaign_path(conn, :create), campaign: @create_attrs
+      system = fixture(:system)
+      conn = post(
+        conn,
+        campaign_path(conn, :create),
+        campaign: @create_attrs |> Enum.into(%{system_id: system.id})
+      )
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get conn, campaign_path(conn, :show, id)
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "description" => "some description",
-        "name" => "some name"}
+        "name" => "some name",
+        "system_id" => system.id
+      }
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -45,7 +62,7 @@ defmodule RpgrWeb.CampaignControllerTest do
   describe "update campaign" do
     setup [:create_campaign]
 
-    test "renders campaign when data is valid", %{conn: conn, campaign: %Campaign{id: id} = campaign} do
+    test "renders campaign when data is valid", %{conn: conn, campaign: %Campaign{id: id, system_id: system_id} = campaign} do
       conn = put conn, campaign_path(conn, :update, campaign), campaign: @update_attrs
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
@@ -53,7 +70,8 @@ defmodule RpgrWeb.CampaignControllerTest do
       assert json_response(conn, 200)["data"] == %{
         "id" => id,
         "description" => "some updated description",
-        "name" => "some updated name"}
+        "name" => "some updated name",
+        "system_id" => system_id}
     end
 
     test "renders errors when data is invalid", %{conn: conn, campaign: campaign} do
@@ -75,7 +93,8 @@ defmodule RpgrWeb.CampaignControllerTest do
   end
 
   defp create_campaign(_) do
-    campaign = fixture(:campaign)
+    system = fixture(:system)
+    campaign = fixture(:campaign, system)
     {:ok, campaign: campaign}
   end
 end

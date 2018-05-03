@@ -13,6 +13,7 @@ defmodule RpgrWeb.CampaignView do
   def render("campaign.json", %{campaign: campaign}) do
     %{id: campaign.id,
       name: campaign.name,
-      description: campaign.description}
+      description: campaign.description,
+      system_id: campaign.system_id}
   end
 end

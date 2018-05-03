@@ -5,56 +5,30 @@ type route =
   | ViewOne(int)
   | Create;
 
-type state = {
-  route,
-  systems: option(list(SystemData.system)),
-};
+type state = {route};
 
 type action =
-  | ChangeRoute(route)
-  | FetchSystems
-  | FetchSystemsSuccess(list(SystemData.system));
+  | ChangeRoute(route);
 
-let reducer = (action, state) =>
+let reducer = (action, _state) =>
   switch (action) {
-  | ChangeRoute(route) => ReasonReact.Update({...state, route})
-  | FetchSystems =>
-    ReasonReact.SideEffects(
-      (
-        self => {
-          Js.Promise.(
-            SystemData.getSystems()
-            |> then_(systems => {
-                 self.send(FetchSystemsSuccess(systems));
-                 resolve();
-               })
-          )
-          |> ignore;
-          ();
-        }
-      ),
-    )
-  | FetchSystemsSuccess(systems) =>
-    ReasonReact.Update({...state, systems: Some(systems)})
+  | ChangeRoute(route) => ReasonReact.Update({route: route})
   };
 
-let mapUrlToRoute = (url: ReasonReact.Router.url) => {
-  Js.log(url);
+let mapUrlToRoute = (url: ReasonReact.Router.url) =>
   switch (url.path) {
   | ["systems", "add"] => Create
   | ["systems", id] => ViewOne(int_of_string(id))
   | ["systems"] => ListAll
   | _ => Create
   };
-};
 
 let component = ReasonReact.reducerComponent("SystemsApp");
 
-let make = _children => {
+let make = (~systems, _children) => {
   ...component,
   initialState: () => {
     route: mapUrlToRoute(ReasonReact.Router.dangerouslyGetInitialUrl()),
-    systems: None,
   },
   reducer,
   subscriptions: self => [
@@ -66,15 +40,13 @@ let make = _children => {
       ReasonReact.Router.unwatchUrl,
     ),
   ],
-  render: ({state: {route, systems}}) =>
-    switch (route, systems) {
-    | (_, None) => <PageContent> (s("Loading...")) </PageContent>
-    | (ListAll, Some(systems)) => <SystemListPage systems />
-    | (ViewOne(id), Some(systems)) =>
+  render: ({state: {route}}) =>
+    switch (route) {
+    | ListAll => <SystemListPage systems />
+    | ViewOne(id) =>
       <SystemDetailsPage
         system=(List.find((s: SystemData.system) => s.id === id, systems))
       />
-    | (Create, _) => <SystemCreationPage />
+    | Create => <SystemCreationPage />
     },
-  didMount: self => self.send(FetchSystems),
 };

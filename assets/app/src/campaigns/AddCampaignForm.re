@@ -13,8 +13,6 @@ type action =
   | AddCampaign
   | AddCampaignSuccess(CampaignData.campaign);
 
-/* Component template declaration.
-   Needs to be **after** state and action declarations! */
 let component = ReasonReact.reducerComponent("AddCampaignForm");
 
 let buttonStyle =
@@ -35,7 +33,7 @@ exception CannotAddCampaign;
 
 /* greeting and children are props. `children` isn't used, therefore ignored.
    We ignore it by prepending it with an underscore */
-let make = _children => {
+let make = (~systems: list(SystemData.system), _children) => {
   ...component,
   initialState: () => {name: "", description: "", system_id: None},
   reducer: (action, state) =>
@@ -124,7 +122,28 @@ let make = _children => {
         <label>
           <Heading l=2> (s("System")) </Heading>
           <Spacer height="15px" />
-          <select> <option /> <option> (s("Thing")) </option> </select>
+          <select
+            onChange=(
+              event => {
+                let value = getTarget(event)##value;
+                send(
+                  switch (value) {
+                  | "" => ChangeSystem(None)
+                  | value => ChangeSystem(Some(int_of_string(value)))
+                  },
+                );
+              }
+            )>
+            (
+              systems
+              |> List.map(({id, name}: SystemData.system) =>
+                   <option value=(string_of_int(id))> (s(name)) </option>
+                 )
+              |> List.append([<option />])
+              |> Array.of_list
+              |> ReasonReact.array
+            )
+          </select>
         </label>
       </div>
       <Spacer height="20px" />

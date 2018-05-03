@@ -5,37 +5,14 @@ type route =
   | ViewOne(int)
   | Create;
 
-type state = {
-  route,
-  campaigns: option(list(CampaignData.campaign)),
-};
+type state = {route};
 
 type action =
-  | ChangeRoute(route)
-  | FetchCampaigns
-  | FetchCampaignsSuccess(list(CampaignData.campaign));
+  | ChangeRoute(route);
 
-let reducer = (action, state) =>
+let reducer = (action, _state) =>
   switch (action) {
-  | ChangeRoute(route) => ReasonReact.Update({...state, route})
-  | FetchCampaigns =>
-    ReasonReact.SideEffects(
-      (
-        self => {
-          Js.Promise.(
-            CampaignData.getCampaigns()
-            |> then_(campaigns => {
-                 self.send(FetchCampaignsSuccess(campaigns));
-                 resolve();
-               })
-          )
-          |> ignore;
-          ();
-        }
-      ),
-    )
-  | FetchCampaignsSuccess(campaigns) =>
-    ReasonReact.Update({...state, campaigns: Some(campaigns)})
+  | ChangeRoute(route) => ReasonReact.Update({route: route})
   };
 
 let mapUrlToRoute = (url: ReasonReact.Router.url) => {
@@ -50,11 +27,10 @@ let mapUrlToRoute = (url: ReasonReact.Router.url) => {
 
 let component = ReasonReact.reducerComponent("CampaignsApp");
 
-let make = _children => {
+let make = (~campaigns, ~systems, _children) => {
   ...component,
   initialState: () => {
     route: mapUrlToRoute(ReasonReact.Router.dangerouslyGetInitialUrl()),
-    campaigns: None,
   },
   reducer,
   subscriptions: self => [
@@ -66,17 +42,15 @@ let make = _children => {
       ReasonReact.Router.unwatchUrl,
     ),
   ],
-  render: ({state: {route, campaigns}}) =>
-    switch (route, campaigns) {
-    | (_, None) => <PageContent> (s("Loading...")) </PageContent>
-    | (ListAll, Some(campaigns)) => <CampaignListPage campaigns />
-    | (ViewOne(id), Some(campaigns)) =>
+  render: ({state: {route}}) =>
+    switch (route) {
+    | ListAll => <CampaignListPage campaigns />
+    | ViewOne(id) =>
       <CampaignDetailsPage
         campaign=(
           List.find((s: CampaignData.campaign) => s.id === id, campaigns)
         )
       />
-    | (Create, _) => <CampaignCreationPage />
+    | Create => <CampaignCreationPage systems />
     },
-  didMount: self => self.send(FetchCampaigns),
 };

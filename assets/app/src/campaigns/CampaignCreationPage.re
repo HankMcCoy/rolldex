@@ -2,7 +2,7 @@ open Util;
 
 let component = ReasonReact.statelessComponent("CampaignCreationPage");
 
-let make = _children => {
+let make = (~systems, _children) => {
   ...component,
   render: _self =>
     <div>
@@ -11,6 +11,6 @@ let make = _children => {
         breadcrumbs=[{text: "Campaigns", href: "/systems"}]
         background=Color.CampaignsPeriwinkle
       />
-      <PageContent> <AddCampaignForm /> </PageContent>
+      <PageContent> <AddCampaignForm systems /> </PageContent>
     </div>,
 };

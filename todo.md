@@ -1,3 +1,5 @@
 - [x] FE: Style systems CRUD like the mock
-->[ ] BE: Basic Campaign CRUD
-- [ ] FE: Basic Campaign CRUD like the mock
+- [x] BE: Basic Campaign CRUD
+- [x] FE: Basic Campaign CRUD like the mock
+- [ ] FE: Load campaigns/systems after adding one
+- [ ] FE: Show validation error for required fields when creating systems/campaigns

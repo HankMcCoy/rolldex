@@ -1,15 +1,15 @@
 open Util;
 
-let component = ReasonReact.statelessComponent("SystemDetailsPage");
+let component = ReasonReact.statelessComponent("CampaignDetailsPage");
 
-let make = (~system: SystemData.system, _children) => {
+let make = (~campaign: CampaignData.campaign, _children) => {
   ...component,
   render: _self =>
     <div>
       <PageHeader
-        title=system.name
-        breadcrumbs=[{text: "Systems", href: "/systems"}]
-        background=Color.SystemsBlue
+        title=campaign.name
+        breadcrumbs=[{text: "Campaigns", href: "/campaigns"}]
+        background=Color.CampaignsPeriwinkle
       />
       <div
         style=(style(~display="flex", ~justifyContent="space-between", ()))>
@@ -17,10 +17,10 @@ let make = (~system: SystemData.system, _children) => {
           <div style=(style(~maxWidth="500px", ()))>
             <Heading l=2> (s("Description")) </Heading>
             <Spacer height="12px" />
-            <Para text=system.description />
+            <Para text=campaign.description />
           </div>
         </PageContent>
-        <PageSidebar subApp=SystemsSubApp />
+        <PageSidebar subApp=CampaignsSubApp />
       </div>
     </div>,
 };

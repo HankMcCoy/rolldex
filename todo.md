@@ -1,3 +1,3 @@
-- [ ] FE: Style systems CRUD like the mock
+- [x] FE: Style systems CRUD like the mock
 - [ ] BE: Basic Campaign CRUD
 - [ ] FE: Basic Campaign CRUD like the mock

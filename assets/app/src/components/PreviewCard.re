@@ -2,7 +2,7 @@ open Util;
 
 let component = ReasonReact.statelessComponent("PreviewCard");
 
-let make = (~title, ~description, ~href, _children) => {
+let make = (~title, ~description, ~badge=None, ~href, _children) => {
   ...component,
   render: _self =>
     <Link
@@ -18,7 +18,25 @@ let make = (~title, ~description, ~href, _children) => {
         )
       )
       href>
-      <Heading l=3> (s(title)) </Heading>
+      <div
+        style=(
+          style(
+            ~display="flex",
+            ~justifyContent="space-between",
+            ~alignItems="center",
+            (),
+          )
+        )>
+        <div> <Heading l=3> (s(title)) </Heading> </div>
+        <div>
+          (
+            switch (badge) {
+            | None => ReasonReact.null
+            | Some(badge) => badge
+            }
+          )
+        </div>
+      </div>
       <Spacer height="10px" />
       <div> (s(description)) </div>
     </Link>,

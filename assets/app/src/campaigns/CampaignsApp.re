@@ -44,7 +44,7 @@ let make = (~campaigns, ~systems, _children) => {
   ],
   render: ({state: {route}}) =>
     switch (route) {
-    | ListAll => <CampaignListPage campaigns />
+    | ListAll => <CampaignListPage campaigns systems />
     | ViewOne(id) =>
       <CampaignDetailsPage
         campaign=(

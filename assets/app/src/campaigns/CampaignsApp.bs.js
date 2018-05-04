@@ -53,7 +53,7 @@ function make(campaigns, systems, _) {
                 if (route !== 0) {
                   return ReasonReact.element(/* None */0, /* None */0, CampaignCreationPage$ReactTemplate.make(systems, /* array */[]));
                 } else {
-                  return ReasonReact.element(/* None */0, /* None */0, CampaignListPage$ReactTemplate.make(campaigns, /* array */[]));
+                  return ReasonReact.element(/* None */0, /* None */0, CampaignListPage$ReactTemplate.make(campaigns, systems, /* array */[]));
                 }
               } else {
                 var id = route[0];

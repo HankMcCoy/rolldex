@@ -9,6 +9,18 @@ type system = {
   description: string,
 };
 
+module SystemMap = Map.Make(Int32);
+
+let getSystemMap = systems =>
+  systems
+  |> List.fold_left(
+       (map, system) => SystemMap.add(Int32.of_int(system.id), system, map),
+       SystemMap.empty,
+     );
+
+let getSystemFromMap = (id, systemMap) =>
+  SystemMap.find(Int32.of_int(id), systemMap);
+
 let decodeSystem = json : system =>
   Json.Decode.{
     id: json |> field("id", int),

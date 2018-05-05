@@ -96,33 +96,21 @@ let make = (~systems: list(SystemData.system), _children) => {
       <Spacer height="25px" />
       <div>
         <label>
-          <Heading l=2> (s("Description")) </Heading>
-          <Spacer height="15px" />
-          <textarea
-            style=(
-              style(
-                ~minHeight="170px",
-                ~width="100%",
-                ~fontFamily="Roboto",
-                ~fontSize="16px",
-                ~fontWeight="300",
-                ~padding="10px",
-                (),
-              )
-            )
-            value=description
-            onChange=(
-              event => send(ChangeDescription(getTarget(event)##value))
-            )
-          />
-        </label>
-      </div>
-      <Spacer height="25px" />
-      <div>
-        <label>
           <Heading l=2> (s("System")) </Heading>
           <Spacer height="15px" />
           <select
+            style=(
+              style(
+                ~background="#fff",
+                ~height="34px",
+                ~width="260px",
+                ~padding="0 10px",
+                ~fontSize="16px",
+                ~fontWeight="300",
+                ~fontFamily="Roboto",
+                (),
+              )
+            )
             onChange=(
               event => {
                 let value = getTarget(event)##value;
@@ -144,6 +132,30 @@ let make = (~systems: list(SystemData.system), _children) => {
               |> ReasonReact.array
             )
           </select>
+        </label>
+      </div>
+      <Spacer height="25px" />
+      <div>
+        <label>
+          <Heading l=2> (s("Description")) </Heading>
+          <Spacer height="15px" />
+          <textarea
+            style=(
+              style(
+                ~minHeight="170px",
+                ~width="100%",
+                ~fontFamily="Roboto",
+                ~fontSize="16px",
+                ~fontWeight="300",
+                ~padding="10px",
+                (),
+              )
+            )
+            value=description
+            onChange=(
+              event => send(ChangeDescription(getTarget(event)##value))
+            )
+          />
         </label>
       </div>
       <Spacer height="20px" />

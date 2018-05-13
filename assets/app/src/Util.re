@@ -14,12 +14,14 @@ type subApp =
 
 module Color = {
   type color =
+    | White
     | SystemsBlue
     | SystemsLightBlue
     | CampaignsPeriwinkle
     | CampaignsLightPeriwinkle;
   let getHex = (color: color) =>
     switch (color) {
+    | White => "#fff"
     | SystemsBlue => "#417F9C"
     | SystemsLightBlue => "#E4EAED"
     | CampaignsPeriwinkle => "#6C6EA0"

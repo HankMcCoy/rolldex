@@ -7,7 +7,12 @@ let make = (~systems: list(SystemData.system), _children) => {
   render: _self =>
     <div>
       <PageHeader title="Systems" breadcrumbs=[] background=Color.SystemsBlue>
-        <AddButton size=Large subApp=SystemsSubApp href="/systems/add" />
+        <AddButton
+          size=Large
+          fgColor=Color.SystemsBlue
+          bgColor=Color.White
+          href="/systems/add"
+        />
       </PageHeader>
       <PageContent>
         <ul style=(style(~maxWidth="400px", ()))>

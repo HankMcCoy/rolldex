@@ -11,12 +11,11 @@ let genericStyle =
     ~padding="0",
     ~border="none",
     ~borderRadius="2px",
-    ~background="#fff",
     ~textAlign="center",
     (),
   );
 
-let make = (~subApp, ~size, ~href=?, _children) => {
+let make = (~fgColor, ~bgColor, ~size, ~href=?, _children) => {
   ...component,
   render: _self => {
     let pxSize =
@@ -29,12 +28,8 @@ let make = (~subApp, ~size, ~href=?, _children) => {
         ~width=pxSize,
         ~height=pxSize,
         ~lineHeight=pxSize,
-        ~color=
-          switch (subApp) {
-          | SystemsSubApp => Color.getHex(Color.SystemsBlue)
-          | CampaignsSubApp => Color.getHex(Color.CampaignsPeriwinkle)
-          | SettingsSubApp => Color.getHex(Color.SystemsBlue)
-          },
+        ~color=Color.getHex(fgColor),
+        ~background=Color.getHex(bgColor),
         ~fontSize=
           switch (size) {
           | Medium => "36px"

@@ -6,31 +6,72 @@ var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var ReasonReact = require("reason-react/src/ReasonReact.js");
+var Util$ReactTemplate = require("../Util.bs.js");
 var CampaignListPage$ReactTemplate = require("./CampaignListPage.bs.js");
+var SessionDetailPage$ReactTemplate = require("./sessions/SessionDetailPage.bs.js");
 var CampaignDetailsPage$ReactTemplate = require("./CampaignDetailsPage.bs.js");
+var SessionCreationPage$ReactTemplate = require("./sessions/SessionCreationPage.bs.js");
 var CampaignCreationPage$ReactTemplate = require("./CampaignCreationPage.bs.js");
 
 function reducer(action, _) {
-  return /* Update */Block.__(0, [/* record */[/* route */action[0]]]);
+  var route = action[0];
+  if (typeof route === "number") {
+    return /* Update */Block.__(0, [/* record */[/* route */route]]);
+  } else if (route.tag) {
+    return /* Update */Block.__(0, [/* record */[/* route */route]]);
+  } else {
+    return /* UpdateWithSideEffects */Block.__(2, [
+              /* record */[/* route : ViewOneCampaign */Block.__(0, [route[0]])],
+              (function () {
+                  console.log("Fetch sessions");
+                  return /* () */0;
+                })
+            ]);
+  }
 }
 
 function mapUrlToRoute(url) {
-  console.log(url);
   var match = url[/* path */0];
   if (match && match[0] === "campaigns") {
     var match$1 = match[1];
     if (match$1) {
-      var id = match$1[0];
-      if (id === "add" || match$1[1]) {
-        return /* Create */1;
+      var campaignId = match$1[0];
+      var match$2 = match$1[1];
+      if (match$2) {
+        if (match$2[0] === "sessions") {
+          var match$3 = match$2[1];
+          if (match$3) {
+            var sessionId = match$3[0];
+            if (sessionId === "add") {
+              if (match$3[1]) {
+                return /* CreateCampaign */2;
+              } else {
+                return /* CreateSession */Block.__(2, [Caml_format.caml_int_of_string(campaignId)]);
+              }
+            } else if (match$3[1]) {
+              return /* CreateCampaign */2;
+            } else {
+              return /* ViewOneSession */Block.__(1, [
+                        Caml_format.caml_int_of_string(campaignId),
+                        Caml_format.caml_int_of_string(sessionId)
+                      ]);
+            }
+          } else {
+            return /* CreateCampaign */2;
+          }
+        } else {
+          return /* CreateCampaign */2;
+        }
+      } else if (campaignId === "add") {
+        return /* CreateCampaign */2;
       } else {
-        return /* ViewOne */[Caml_format.caml_int_of_string(id)];
+        return /* ViewOneCampaign */Block.__(0, [Caml_format.caml_int_of_string(campaignId)]);
       }
     } else {
-      return /* ListAll */0;
+      return /* ListAllCampaigns */1;
     }
   } else {
-    return /* Create */1;
+    return /* CreateCampaign */2;
   }
 }
 
@@ -42,7 +83,9 @@ function make(campaigns, systems, _) {
           /* reactClassInternal */component[/* reactClassInternal */1],
           /* handedOffState */component[/* handedOffState */2],
           /* willReceiveProps */component[/* willReceiveProps */3],
-          /* didMount */component[/* didMount */4],
+          /* didMount */(function (self) {
+              return Curry._1(self[/* send */3], /* ChangeRoute */[mapUrlToRoute(ReasonReact.Router[/* dangerouslyGetInitialUrl */3](/* () */0))]);
+            }),
           /* didUpdate */component[/* didUpdate */5],
           /* willUnmount */component[/* willUnmount */6],
           /* willUpdate */component[/* willUpdate */7],
@@ -50,20 +93,35 @@ function make(campaigns, systems, _) {
           /* render */(function (param) {
               var route = param[/* state */1][/* route */0];
               if (typeof route === "number") {
-                if (route !== 0) {
-                  return ReasonReact.element(/* None */0, /* None */0, CampaignCreationPage$ReactTemplate.make(systems, /* array */[]));
-                } else {
-                  return ReasonReact.element(/* None */0, /* None */0, CampaignListPage$ReactTemplate.make(campaigns, systems, /* array */[]));
+                switch (route) {
+                  case 0 : 
+                      return Util$ReactTemplate.s("Loading...");
+                  case 1 : 
+                      return ReasonReact.element(/* None */0, /* None */0, CampaignListPage$ReactTemplate.make(campaigns, systems, /* array */[]));
+                  case 2 : 
+                      return ReasonReact.element(/* None */0, /* None */0, CampaignCreationPage$ReactTemplate.make(systems, /* array */[]));
+                  
                 }
               } else {
-                var id = route[0];
-                return ReasonReact.element(/* None */0, /* None */0, CampaignDetailsPage$ReactTemplate.make(List.find((function (s) {
-                                      return s[/* id */0] === id;
-                                    }), campaigns), /* array */[]));
+                switch (route.tag | 0) {
+                  case 0 : 
+                      var id = route[0];
+                      return ReasonReact.element(/* None */0, /* None */0, CampaignDetailsPage$ReactTemplate.make(List.find((function (c) {
+                                            return c[/* id */0] === id;
+                                          }), campaigns), /* array */[]));
+                  case 1 : 
+                      return ReasonReact.element(/* None */0, /* None */0, SessionDetailPage$ReactTemplate.make(/* array */[]));
+                  case 2 : 
+                      var campaignId = route[0];
+                      return ReasonReact.element(/* None */0, /* None */0, SessionCreationPage$ReactTemplate.make(List.find((function (c) {
+                                            return c[/* id */0] === campaignId;
+                                          }), campaigns), /* array */[]));
+                  
+                }
               }
             }),
           /* initialState */(function () {
-              return /* record */[/* route */mapUrlToRoute(ReasonReact.Router[/* dangerouslyGetInitialUrl */3](/* () */0))];
+              return /* record */[/* route : Loading */0];
             }),
           /* retainedProps */component[/* retainedProps */11],
           /* reducer */reducer,

@@ -9,17 +9,14 @@ type system = {
   description: string,
 };
 
-module SystemMap = Map.Make(Int32);
+type systemMap = Belt.Map.Int.t(system);
 
 let getSystemMap = systems =>
-  systems
-  |> List.fold_left(
-       (map, system) => SystemMap.add(Int32.of_int(system.id), system, map),
-       SystemMap.empty,
-     );
+  Belt.Map.Int.fromArray(
+    systems |> Array.of_list |> Array.map(system => (system.id, system)),
+  );
 
-let getSystemFromMap = (id, systemMap) =>
-  SystemMap.find(Int32.of_int(id), systemMap);
+let getSystemFromMap = (id, systemMap) => Belt.Map.Int.getExn(systemMap, id);
 
 let decodeSystem = json : system =>
   Json.Decode.{

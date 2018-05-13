@@ -83,8 +83,6 @@ let make = _children => {
   ],
   render: self =>
     switch (self.state.systems, self.state.campaigns) {
-    | (None, _campaigns) => loadingEl
-    | (_systems, None) => loadingEl
     | (Some(systems), Some(campaigns)) =>
       <div style=(style(~display="flex", ()))>
         <div style=(style(~flex="0 0 300px", ~height="100vh", ()))>
@@ -100,6 +98,7 @@ let make = _children => {
           )
         </div>
       </div>
+    | _ => loadingEl
     },
   didMount: self => {
     self.send(FetchCampaigns);

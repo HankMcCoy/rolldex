@@ -4,7 +4,8 @@ let component = ReasonReact.statelessComponent("CampaignDetailsPage");
 
 let make = (~campaign: CampaignData.campaign, _children) => {
   ...component,
-  render: _self =>
+  render: _self => {
+    let id = campaign.id;
     <div>
       <PageHeader
         title=campaign.name
@@ -18,9 +19,28 @@ let make = (~campaign: CampaignData.campaign, _children) => {
             <Heading l=2> (s("Description")) </Heading>
             <Spacer height="12px" />
             <Para text=campaign.description />
+            <Spacer height="12px" />
+            <div
+              style=(
+                style(
+                  ~display="flex",
+                  ~alignItems="center",
+                  ~justifyContent="space-between",
+                  (),
+                )
+              )>
+              <Heading l=2> (s("Sessions")) </Heading>
+              <AddButton
+                size=Medium
+                fgColor=Color.White
+                bgColor=Color.CampaignsPeriwinkle
+                href={j|/campaigns/$id/sessions/add|j}
+              />
+            </div>
           </div>
         </PageContent>
         <PageSidebar subApp=CampaignsSubApp />
       </div>
-    </div>,
+    </div>;
+  },
 };

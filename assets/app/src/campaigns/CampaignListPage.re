@@ -64,7 +64,12 @@ let make =
     <div>
       <PageHeader
         title="Campaigns" breadcrumbs=[] background=Color.CampaignsPeriwinkle>
-        <AddButton size=Large subApp=CampaignsSubApp href="/campaigns/add" />
+        <AddButton
+          size=Large
+          bgColor=Color.White
+          fgColor=Color.CampaignsPeriwinkle
+          href="/campaigns/add"
+        />
       </PageHeader>
       <PageContent>
         <ul style=(style(~maxWidth="400px", ()))>

@@ -1062,12 +1062,14 @@ function s(prim) {
 function getHex(color) {
   switch (color) {
     case 0 : 
-        return "#417F9C";
+        return "#fff";
     case 1 : 
-        return "#E4EAED";
+        return "#417F9C";
     case 2 : 
-        return "#6C6EA0";
+        return "#E4EAED";
     case 3 : 
+        return "#6C6EA0";
+    case 4 : 
         return "#E4E4ED";
     
   }

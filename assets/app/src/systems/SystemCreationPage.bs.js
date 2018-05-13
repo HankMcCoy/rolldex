@@ -27,7 +27,7 @@ function make() {
                                     /* href */"/systems"
                                   ],
                                   /* [] */0
-                                ], "Add system", /* SystemsBlue */0, /* array */[])), ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, AddSystemForm$ReactTemplate.make(/* array */[]))])));
+                                ], "Add system", /* SystemsBlue */1, /* array */[])), ReasonReact.element(/* None */0, /* None */0, PageContent$ReactTemplate.make(/* array */[ReasonReact.element(/* None */0, /* None */0, AddSystemForm$ReactTemplate.make(/* array */[]))])));
             }),
           /* initialState */component[/* initialState */10],
           /* retainedProps */component[/* retainedProps */11],

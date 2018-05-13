@@ -90,4 +90,68 @@ defmodule Rpgr.CampaignContextTest do
       assert %Ecto.Changeset{} = CampaignContext.change_campaign(campaign)
     end
   end
+
+  describe "sessions" do
+    alias Rpgr.CampaignContext.Session
+
+    @valid_attrs %{name: "some name", notes: "some notes", summary: "some summary"}
+    @update_attrs %{name: "some updated name", notes: "some updated notes", summary: "some updated summary"}
+    @invalid_attrs %{name: nil, notes: nil, summary: nil}
+
+    def session_fixture(attrs \\ %{}) do
+      {:ok, session} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> CampaignContext.create_session()
+
+      session
+    end
+
+    test "list_sessions/0 returns all sessions" do
+      session = session_fixture()
+      assert CampaignContext.list_sessions() == [session]
+    end
+
+    test "get_session!/1 returns the session with given id" do
+      session = session_fixture()
+      assert CampaignContext.get_session!(session.id) == session
+    end
+
+    test "create_session/1 with valid data creates a session" do
+      assert {:ok, %Session{} = session} = CampaignContext.create_session(@valid_attrs)
+      assert session.name == "some name"
+      assert session.notes == "some notes"
+      assert session.summary == "some summary"
+    end
+
+    test "create_session/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = CampaignContext.create_session(@invalid_attrs)
+    end
+
+    test "update_session/2 with valid data updates the session" do
+      session = session_fixture()
+      assert {:ok, session} = CampaignContext.update_session(session, @update_attrs)
+      assert %Session{} = session
+      assert session.name == "some updated name"
+      assert session.notes == "some updated notes"
+      assert session.summary == "some updated summary"
+    end
+
+    test "update_session/2 with invalid data returns error changeset" do
+      session = session_fixture()
+      assert {:error, %Ecto.Changeset{}} = CampaignContext.update_session(session, @invalid_attrs)
+      assert session == CampaignContext.get_session!(session.id)
+    end
+
+    test "delete_session/1 deletes the session" do
+      session = session_fixture()
+      assert {:ok, %Session{}} = CampaignContext.delete_session(session)
+      assert_raise Ecto.NoResultsError, fn -> CampaignContext.get_session!(session.id) end
+    end
+
+    test "change_session/1 returns a session changeset" do
+      session = session_fixture()
+      assert %Ecto.Changeset{} = CampaignContext.change_session(session)
+    end
+  end
 end

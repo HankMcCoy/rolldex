@@ -7,7 +7,7 @@ let make = children => {
   render: _self =>
     ReasonReact.createDomElement(
       "div",
-      ~props={"style": style(~padding="35px 30px", ())},
+      ~props={"style": style(~padding="35px 30px", ~flex="1 0 0%", ())},
       children,
     ),
 };

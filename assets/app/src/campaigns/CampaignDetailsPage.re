@@ -2,7 +2,12 @@ open Util;
 
 let component = ReasonReact.statelessComponent("CampaignDetailsPage");
 
-let make = (~campaign: CampaignData.campaign, _children) => {
+let make =
+    (
+      ~sessions: option(list(SessionData.session)),
+      ~campaign: CampaignData.campaign,
+      _children,
+    ) => {
   ...component,
   render: _self => {
     let id = campaign.id;

@@ -22,8 +22,8 @@ function decodeSessions(json) {
   return Json_decode.list(decodeSession, json);
 }
 
-function getSessions() {
-  return fetch("/api/sessions").then((function (prim) {
+function getSessions(campaignId) {
+  return fetch("/api/campaigns/" + (String(campaignId) + "/sessions")).then((function (prim) {
                   return prim.json();
                 })).then((function (json) {
                 return Promise.resolve(Json_decode.field("data", decodeSessions, json));

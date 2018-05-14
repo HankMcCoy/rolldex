@@ -14,7 +14,7 @@ var PageSidebar$ReactTemplate = require("../components/PageSidebar.bs.js");
 
 var component = ReasonReact.statelessComponent("CampaignDetailsPage");
 
-function make(campaign, _) {
+function make(_, campaign, _$1) {
   return /* record */[
           /* debugName */component[/* debugName */0],
           /* reactClassInternal */component[/* reactClassInternal */1],

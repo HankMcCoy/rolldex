@@ -4,42 +4,96 @@ type route =
   | Loading
   | ListAllCampaigns
   | ViewOneCampaign(int)
-  | CreateCampaign
+  | AddCampaign
   | ViewOneSession(int, int)
-  | CreateSession(int);
+  | AddSession(int);
 
-type state = {route};
+type sessionsMap = Belt.Map.Int.t(list(SessionData.session));
+
+type state = {
+  route,
+  sessionsByCampaign: sessionsMap,
+};
 
 type action =
-  | ChangeRoute(route);
+  | ChangeRoute(route)
+  | FetchSessions(int)
+  | CreateSession(SessionData.draftSession)
+  | CreateSessionSuccess(SessionData.session)
+  | FetchSessionsSuccess(int, list(SessionData.session));
 
-let reducer = (action, _state) =>
+let reducer = (action, state) =>
   switch (action) {
   | ChangeRoute(ViewOneCampaign(campaignId)) =>
     ReasonReact.UpdateWithSideEffects(
-      {route: ViewOneCampaign(campaignId)},
-      (_self => Js.log("Fetch sessions")),
+      {...state, route: ViewOneCampaign(campaignId)},
+      (self => self.send(FetchSessions(campaignId))),
     )
-  | ChangeRoute(route) => ReasonReact.Update({route: route})
+  | ChangeRoute(route) => ReasonReact.Update({...state, route})
+  | FetchSessions(campaignId) =>
+    ReasonReact.SideEffects(
+      (
+        self => {
+          Js.Promise.(
+            SessionData.getSessions(campaignId)
+            |> then_(sessions => {
+                 self.send(FetchSessionsSuccess(campaignId, sessions));
+                 resolve();
+               })
+          )
+          |> ignore;
+          ();
+        }
+      ),
+    )
+  | FetchSessionsSuccess(campaignId, sessions) =>
+    ReasonReact.Update({
+      ...state,
+      sessionsByCampaign:
+        Belt.Map.Int.set(state.sessionsByCampaign, campaignId, sessions),
+    })
+  | CreateSession(draftSession) =>
+    ReasonReact.SideEffects(
+      (
+        self => {
+          Js.Promise.(
+            SessionData.createSession(draftSession)
+            |> then_(session =>
+                 self.send(CreateSessionSuccess(session)) |> resolve
+               )
+            |> ignore
+          );
+          ();
+        }
+      ),
+    )
+  | CreateSessionSuccess(session) =>
+    ReasonReact.SideEffects(
+      (self => self.send(FetchSessions(session.campaign_id))),
+    )
+  | _ => ReasonReact.NoUpdate
   };
 
 let mapUrlToRoute = (url: ReasonReact.Router.url) =>
   switch (url.path) {
   | ["campaigns", campaignId, "sessions", "add"] =>
-    CreateSession(int_of_string(campaignId))
+    AddSession(int_of_string(campaignId))
   | ["campaigns", campaignId, "sessions", sessionId] =>
     ViewOneSession(int_of_string(campaignId), int_of_string(sessionId))
-  | ["campaigns", "add"] => CreateCampaign
+  | ["campaigns", "add"] => AddCampaign
   | ["campaigns", campaignId] => ViewOneCampaign(int_of_string(campaignId))
   | ["campaigns"] => ListAllCampaigns
-  | _ => CreateCampaign
+  | _ => AddCampaign
   };
 
 let component = ReasonReact.reducerComponent("CampaignsApp");
 
 let make = (~campaigns, ~systems, _children) => {
   ...component,
-  initialState: () => {route: Loading},
+  initialState: () => {
+    route: Loading,
+    sessionsByCampaign: Belt.Map.Int.empty,
+  },
   reducer,
   didMount: self =>
     self.send(
@@ -56,10 +110,10 @@ let make = (~campaigns, ~systems, _children) => {
       ReasonReact.Router.unwatchUrl,
     ),
   ],
-  render: ({state: {route}}) =>
+  render: ({state: {route, sessionsByCampaign}}) =>
     switch (route) {
     | Loading => s("Loading...")
-    | CreateSession(campaignId) =>
+    | AddSession(campaignId) =>
       <SessionCreationPage
         campaign=(
           List.find(
@@ -72,10 +126,11 @@ let make = (~campaigns, ~systems, _children) => {
     | ListAllCampaigns => <CampaignListPage campaigns systems />
     | ViewOneCampaign(id) =>
       <CampaignDetailsPage
+        sessions=(Belt.Map.Int.get(sessionsByCampaign, id))
         campaign=(
           List.find((c: CampaignData.campaign) => c.id === id, campaigns)
         )
       />
-    | CreateCampaign => <CampaignCreationPage systems />
+    | AddCampaign => <CampaignCreationPage systems />
     },
 };

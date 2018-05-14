@@ -25,9 +25,11 @@ let decodeSession = json : session =>
 let decodeSessions = json : list(session) =>
   Json.Decode.list(decodeSession, json);
 
-let getSessions = () =>
+let getSessions = campaignId =>
   Js.Promise.(
-    Fetch.fetch("/api/sessions")
+    Fetch.fetch(
+      "/api/campaigns/" ++ string_of_int(campaignId) ++ "/sessions",
+    )
     |> then_(Fetch.Response.json)
     |> then_(json =>
          Json.Decode.field("data", decodeSessions, json) |> resolve

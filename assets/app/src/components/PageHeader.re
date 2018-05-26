@@ -21,6 +21,16 @@ module Breadcrumb = {
   };
 };
 
+module BreadcrumbDivider = {
+  let component =
+    ReasonReact.statelessComponent("PageHeaderBreadcrumbDivider");
+  let make = _children => {
+    ...component,
+    render: _self =>
+      <div style=(style(~padding="0 3px", ()))> (s(">")) </div>,
+  };
+};
+
 module BreadcrumbList = {
   let component = ReasonReact.statelessComponent("PageHeaderBreadcrumbList");
   let make = children => {
@@ -66,14 +76,22 @@ let make =
             <BreadcrumbList>
               (
                 breadcrumbs
-                |> List.mapi((idx, b) =>
+                |> List.mapi((idx, b) => {
+                     let crumb =
+                       <Breadcrumb
+                         text=b.text
+                         href=b.href
+                         key=(string_of_int(idx))
+                       />;
                      idx === List.length(breadcrumbs) - 1 ?
-                       [<Breadcrumb text=b.text href=b.href />] :
+                       [crumb] :
                        [
-                         <Breadcrumb text=b.text href=b.href />,
-                         Breadcrumb.divider,
-                       ]
-                   )
+                         crumb,
+                         <BreadcrumbDivider
+                           key=(string_of_int(idx) ++ "_divider")
+                         />,
+                       ];
+                   })
                 |> List.flatten
                 |> Array.of_list
                 |> ReasonReact.array

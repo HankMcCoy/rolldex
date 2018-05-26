@@ -29,6 +29,11 @@ let reducer = (action, state) =>
       {...state, route: ViewOneCampaign(campaignId)},
       (self => self.send(FetchSessions(campaignId))),
     )
+  | ChangeRoute(ViewOneSession(campaignId, sessionId)) =>
+    ReasonReact.UpdateWithSideEffects(
+      {...state, route: ViewOneSession(campaignId, sessionId)},
+      (self => self.send(FetchSessions(campaignId))),
+    )
   | ChangeRoute(route) => ReasonReact.Update({...state, route})
   | FetchSessions(campaignId) =>
     ReasonReact.SideEffects(
@@ -68,10 +73,20 @@ let reducer = (action, state) =>
       ),
     )
   | CreateSessionSuccess(session) =>
-    ReasonReact.SideEffects(
+    ReasonReact.UpdateWithSideEffects(
+      {
+        ...state,
+        sessionsByCampaign:
+          Belt.Map.Int.update(
+            state.sessionsByCampaign, session.campaign_id, sessions =>
+            switch (sessions) {
+            | Some(sessions) => Some(List.append(sessions, [session]))
+            | None => None
+            }
+          ),
+      },
       (self => self.send(FetchSessions(session.campaign_id))),
     )
-  | _ => ReasonReact.NoUpdate
   };
 
 let mapUrlToRoute = (url: ReasonReact.Router.url) =>
@@ -122,7 +137,26 @@ let make = (~campaigns, ~systems, _children) => {
           )
         )
       />
-    | ViewOneSession(_campaignId, _sessionId) => <SessionDetailPage />
+    | ViewOneSession(campaignId, sessionId) =>
+      let sessions = Belt.Map.Int.get(sessionsByCampaign, campaignId);
+      switch (sessions) {
+      | Some(sessions) =>
+        <SessionDetailPage
+          campaign=(
+            List.find(
+              (c: CampaignData.campaign) => c.id === campaignId,
+              campaigns,
+            )
+          )
+          session=(
+            List.find(
+              (s: SessionData.session) => s.id === sessionId,
+              sessions,
+            )
+          )
+        />
+      | None => s("Loading...")
+      };
     | ListAllCampaigns => <CampaignListPage campaigns systems />
     | ViewOneCampaign(id) =>
       <CampaignDetailsPage

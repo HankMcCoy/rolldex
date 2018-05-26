@@ -117,8 +117,9 @@ function make(campaign, _) {
                                   /* notes */action[0]
                                 ]]);
                   case 3 : 
+                      var addedSession = action[0];
                       return /* SideEffects */Block.__(1, [(function () {
-                                    return ReasonReact.Router[/* push */0]("/sessions");
+                                    return ReasonReact.Router[/* push */0]("/campaigns/" + (String(addedSession[/* campaign_id */4]) + ("/sessions/" + String(addedSession[/* id */0]))));
                                   })]);
                   
                 }

@@ -24,29 +24,46 @@ function reducer(action, state) {
                       /* route */route,
                       /* sessionsByCampaign */state[/* sessionsByCampaign */1]
                     ]]);
-        } else if (route.tag) {
-          return /* Update */Block.__(0, [/* record */[
-                      /* route */route,
-                      /* sessionsByCampaign */state[/* sessionsByCampaign */1]
-                    ]]);
         } else {
-          var campaignId = route[0];
-          return /* UpdateWithSideEffects */Block.__(2, [
-                    /* record */[
-                      /* route : ViewOneCampaign */Block.__(0, [campaignId]),
-                      /* sessionsByCampaign */state[/* sessionsByCampaign */1]
-                    ],
-                    (function (self) {
-                        return Curry._1(self[/* send */3], /* FetchSessions */Block.__(1, [campaignId]));
-                      })
-                  ]);
+          switch (route.tag | 0) {
+            case 0 : 
+                var campaignId = route[0];
+                return /* UpdateWithSideEffects */Block.__(2, [
+                          /* record */[
+                            /* route : ViewOneCampaign */Block.__(0, [campaignId]),
+                            /* sessionsByCampaign */state[/* sessionsByCampaign */1]
+                          ],
+                          (function (self) {
+                              return Curry._1(self[/* send */3], /* FetchSessions */Block.__(1, [campaignId]));
+                            })
+                        ]);
+            case 1 : 
+                var campaignId$1 = route[0];
+                return /* UpdateWithSideEffects */Block.__(2, [
+                          /* record */[
+                            /* route : ViewOneSession */Block.__(1, [
+                                campaignId$1,
+                                route[1]
+                              ]),
+                            /* sessionsByCampaign */state[/* sessionsByCampaign */1]
+                          ],
+                          (function (self) {
+                              return Curry._1(self[/* send */3], /* FetchSessions */Block.__(1, [campaignId$1]));
+                            })
+                        ]);
+            default:
+              return /* Update */Block.__(0, [/* record */[
+                          /* route */route,
+                          /* sessionsByCampaign */state[/* sessionsByCampaign */1]
+                        ]]);
+          }
         }
     case 1 : 
-        var campaignId$1 = action[0];
+        var campaignId$2 = action[0];
         return /* SideEffects */Block.__(1, [(function (self) {
-                      SessionData$ReactTemplate.getSessions(campaignId$1).then((function (sessions) {
+                      SessionData$ReactTemplate.getSessions(campaignId$2).then((function (sessions) {
                               Curry._1(self[/* send */3], /* FetchSessionsSuccess */Block.__(4, [
-                                      campaignId$1,
+                                      campaignId$2,
                                       sessions
                                     ]));
                               return Promise.resolve(/* () */0);
@@ -63,9 +80,24 @@ function reducer(action, state) {
                     })]);
     case 3 : 
         var session = action[0];
-        return /* SideEffects */Block.__(1, [(function (self) {
+        return /* UpdateWithSideEffects */Block.__(2, [
+                  /* record */[
+                    /* route */state[/* route */0],
+                    /* sessionsByCampaign */Belt_MapInt.update(state[/* sessionsByCampaign */1], session[/* campaign_id */4], (function (sessions) {
+                            if (sessions) {
+                              return /* Some */[List.append(sessions[0], /* :: */[
+                                            session,
+                                            /* [] */0
+                                          ])];
+                            } else {
+                              return /* None */0;
+                            }
+                          }))
+                  ],
+                  (function (self) {
                       return Curry._1(self[/* send */3], /* FetchSessions */Block.__(1, [session[/* campaign_id */4]]));
-                    })]);
+                    })
+                ]);
     case 4 : 
         return /* Update */Block.__(0, [/* record */[
                     /* route */state[/* route */0],
@@ -137,6 +169,7 @@ function make(campaigns, systems, _) {
           /* shouldUpdate */component[/* shouldUpdate */8],
           /* render */(function (param) {
               var match = param[/* state */1];
+              var sessionsByCampaign = match[/* sessionsByCampaign */1];
               var route = match[/* route */0];
               if (typeof route === "number") {
                 switch (route) {
@@ -152,15 +185,26 @@ function make(campaigns, systems, _) {
                 switch (route.tag | 0) {
                   case 0 : 
                       var id = route[0];
-                      return ReasonReact.element(/* None */0, /* None */0, CampaignDetailsPage$ReactTemplate.make(Belt_MapInt.get(match[/* sessionsByCampaign */1], id), List.find((function (c) {
+                      return ReasonReact.element(/* None */0, /* None */0, CampaignDetailsPage$ReactTemplate.make(Belt_MapInt.get(sessionsByCampaign, id), List.find((function (c) {
                                             return c[/* id */0] === id;
                                           }), campaigns), /* array */[]));
                   case 1 : 
-                      return ReasonReact.element(/* None */0, /* None */0, SessionDetailPage$ReactTemplate.make(/* array */[]));
-                  case 2 : 
+                      var sessionId = route[1];
                       var campaignId = route[0];
+                      var sessions = Belt_MapInt.get(sessionsByCampaign, campaignId);
+                      if (sessions) {
+                        return ReasonReact.element(/* None */0, /* None */0, SessionDetailPage$ReactTemplate.make(List.find((function (s) {
+                                              return s[/* id */0] === sessionId;
+                                            }), sessions[0]), List.find((function (c) {
+                                              return c[/* id */0] === campaignId;
+                                            }), campaigns), /* array */[]));
+                      } else {
+                        return Util$ReactTemplate.s("Loading...");
+                      }
+                  case 2 : 
+                      var campaignId$1 = route[0];
                       return ReasonReact.element(/* None */0, /* None */0, SessionCreationPage$ReactTemplate.make(List.find((function (c) {
-                                            return c[/* id */0] === campaignId;
+                                            return c[/* id */0] === campaignId$1;
                                           }), campaigns), /* array */[]));
                   
                 }

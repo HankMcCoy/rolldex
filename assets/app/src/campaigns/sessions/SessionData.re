@@ -50,7 +50,9 @@ let createSession = (draftSession: draftSession) => {
   Js.Dict.set(payload, "session", Js.Json.object_(sessionDict));
   Js.Promise.(
     Fetch.fetchWithInit(
-      "/api/sessions",
+      "/api/campaigns/"
+      ++ string_of_int(draftSession.campaign_id)
+      ++ "/sessions",
       Fetch.RequestInit.make(
         ~method_=Post,
         ~body=

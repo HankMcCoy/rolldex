@@ -38,7 +38,7 @@ function createSession(draftSession) {
   sessionDict["campaign_id"] = draftSession[/* campaign_id */3];
   var payload = { };
   payload["session"] = sessionDict;
-  return fetch("/api/sessions", Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* Some */[{
+  return fetch("/api/campaigns/" + (String(draftSession[/* campaign_id */3]) + "/sessions"), Fetch.RequestInit[/* make */0](/* Some */[/* Post */2], /* Some */[{
                           "Content-Type": "application/json"
                         }], /* Some */[JSON.stringify(payload)], /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0, /* None */0)(/* () */0)).then((function (prim) {
                   return prim.json();

@@ -42,6 +42,33 @@ let make =
                 href={j|/campaigns/$id/sessions/add|j}
               />
             </div>
+            <ul style=(style(~maxWidth="400px", ()))>
+              (
+                switch (sessions) {
+                | Some(sessions) =>
+                  sessions
+                  |> List.map((session: SessionData.session) =>
+                       <li
+                         key=(string_of_int(session.id))
+                         style=(style(~marginBottom="10px", ()))>
+                         <PreviewCard
+                           href=(
+                             "/campaigns/"
+                             ++ string_of_int(campaign.id)
+                             ++ "/sessions/"
+                             ++ string_of_int(session.id)
+                           )
+                           title=session.name
+                           description=session.summary
+                         />
+                       </li>
+                     )
+                  |> Array.of_list
+                  |> ReasonReact.array
+                | None => s("Loading...")
+                }
+              )
+            </ul>
           </div>
         </PageContent>
         <PageSidebar subApp=CampaignsSubApp />

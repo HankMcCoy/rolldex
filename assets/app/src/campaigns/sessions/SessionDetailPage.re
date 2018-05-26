@@ -2,21 +2,24 @@ open Util;
 
 let component = ReasonReact.statelessComponent("SessionDetailsPage");
 
-let session: SessionData.session = {
-  id: 12,
-  name: "Good session",
-  summary: "It was good",
-  notes: "I DON'T KNOW WHAT YOU WANT FROM ME",
-  campaign_id: 1,
-};
-
-let make = _children => {
+let make =
+    (
+      ~session: SessionData.session,
+      ~campaign: CampaignData.campaign,
+      _children,
+    ) => {
   ...component,
   render: _self =>
     <div>
       <PageHeader
         title=session.name
-        breadcrumbs=[{text: "Sessions", href: "/sessions"}]
+        breadcrumbs=[
+          {text: "Campaigns", href: "/campaigns"},
+          {
+            text: campaign.name,
+            href: "/campaigns/" ++ string_of_int(campaign.id),
+          },
+        ]
         background=Color.CampaignsPeriwinkle
       />
       <div

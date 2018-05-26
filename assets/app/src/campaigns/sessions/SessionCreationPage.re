@@ -61,9 +61,17 @@ let make = (~campaign: CampaignData.campaign, _children) => {
           }
         ),
       )
-    | AddSessionSuccess(_addedSession) =>
+    | AddSessionSuccess(addedSession) =>
       ReasonReact.SideEffects(
-        (_self => ReasonReact.Router.push("/sessions")),
+        (
+          _self =>
+            ReasonReact.Router.push(
+              "/campaigns/"
+              ++ string_of_int(addedSession.campaign_id)
+              ++ "/sessions/"
+              ++ string_of_int(addedSession.id),
+            )
+        ),
       )
     },
   render: ({send, state: {name, summary, notes}}) =>

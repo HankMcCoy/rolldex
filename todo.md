@@ -1,5 +1,8 @@
 - [x] FE: Style systems CRUD like the mock
 - [x] BE: Basic Campaign CRUD
 - [x] FE: Basic Campaign CRUD like the mock
-- [ ] FE: Load campaigns/systems after adding one
+- [x] FE: Load campaigns/systems after adding one
+- [ ] FE: Make data loading at least vaguely sane
+- [ ] FE: Add Glamor
+- [ ] FE & BE: Basic world entity CRUD
 - [ ] FE: Show validation error for required fields when creating systems/campaigns

@@ -7,7 +7,9 @@ type state = {
 
 type action =
   | ChangeName(string)
-  | ChangeDescription(string);
+  | ChangeDescription(string)
+  | AddSystem
+  | AddSystemSuccess(SystemData.system);
 
 /* Component template declaration.
    Needs to be **after** state and action declarations! */
@@ -29,7 +31,7 @@ let buttonStyle =
 
 /* greeting and children are props. `children` isn't used, therefore ignored.
    We ignore it by prepending it with an underscore */
-let make = (~dispatch, _children) => {
+let make = _children => {
   ...component,
   initialState: () => {name: "", description: ""},
   reducer: (action, state) =>
@@ -41,8 +43,15 @@ let make = (~dispatch, _children) => {
       ReasonReact.SideEffects(
         (
           self => {
-            dispatch(
-              App.SystemAction(System.CreateSystem({name, description})),
+            Js.Promise.(
+              SystemData.createSystem({
+                name: state.name,
+                description: state.description,
+              })
+              |> then_(system =>
+                   self.send(AddSystemSuccess(system)) |> resolve
+                 )
+              |> ignore
             );
             ();
           }

@@ -25,7 +25,7 @@ let mapUrlToRoute = (url: ReasonReact.Router.url) =>
 
 let component = ReasonReact.reducerComponent("SystemsApp");
 
-let make = (~domainData: DomainData.domainDataState, ~dispatch, _children) => {
+let make = (~systems, _children) => {
   ...component,
   initialState: () => {
     route: mapUrlToRoute(ReasonReact.Router.dangerouslyGetInitialUrl()),
@@ -42,8 +42,11 @@ let make = (~domainData: DomainData.domainDataState, ~dispatch, _children) => {
   ],
   render: ({state: {route}}) =>
     switch (route) {
-    | ListAll => <SystemListPage domainData />
-    | ViewOne(id) => <SystemDetailsPage domainData id />
-    | Create => <SystemCreationPage domainData dispatch />
+    | ListAll => <SystemListPage systems />
+    | ViewOne(id) =>
+      <SystemDetailsPage
+        system=(List.find((s: SystemData.system) => s.id === id, systems))
+      />
+    | Create => <SystemCreationPage />
     },
 };

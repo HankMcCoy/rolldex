@@ -103,7 +103,7 @@ let mapUrlToRoute = (url: ReasonReact.Router.url) =>
 
 let component = ReasonReact.reducerComponent("CampaignsApp");
 
-let make = (~campaigns, ~systems, _children) => {
+let make = (~domainData: DomainData.domainDataState, ~systems, _children) => {
   ...component,
   initialState: () => {
     route: Loading,
@@ -125,46 +125,15 @@ let make = (~campaigns, ~systems, _children) => {
       ReasonReact.Router.unwatchUrl,
     ),
   ],
-  render: ({state: {route, sessionsByCampaign}}) =>
+  render: ({state: {route}}) =>
     switch (route) {
     | Loading => s("Loading...")
-    | AddSession(campaignId) =>
-      <SessionCreationPage
-        campaign=(
-          List.find(
-            (c: CampaignData.campaign) => c.id == campaignId,
-            campaigns,
-          )
-        )
-      />
+    | AddSession(campaignId) => <SessionCreationPage domainData campaignId />
     | ViewOneSession(campaignId, sessionId) =>
-      let sessions = Belt.Map.Int.get(sessionsByCampaign, campaignId);
-      switch (sessions) {
-      | Some(sessions) =>
-        <SessionDetailPage
-          campaign=(
-            List.find(
-              (c: CampaignData.campaign) => c.id === campaignId,
-              campaigns,
-            )
-          )
-          session=(
-            List.find(
-              (s: SessionData.session) => s.id === sessionId,
-              sessions,
-            )
-          )
-        />
-      | None => s("Loading...")
-      };
-    | ListAllCampaigns => <CampaignListPage campaigns systems />
-    | ViewOneCampaign(id) =>
-      <CampaignDetailsPage
-        sessions=(Belt.Map.Int.get(sessionsByCampaign, id))
-        campaign=(
-          List.find((c: CampaignData.campaign) => c.id === id, campaigns)
-        )
-      />
-    | AddCampaign => <CampaignCreationPage systems />
+      <SessionDetailPage domainData campaignId sessionId />
+    | ListAllCampaigns => <CampaignListPage domainData />
+    | ViewOneCampaign(campaignId) =>
+      <CampaignDetailsPage domainData campaignId />
+    | AddCampaign => <CampaignCreationPage domainData />
     },
 };

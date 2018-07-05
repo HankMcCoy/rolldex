@@ -2,56 +2,30 @@ open Util;
 
 type state = {
   route: AppRoutes.route,
-  systems: option(list(SystemData.system)),
-  campaigns: option(list(CampaignData.campaign)),
+  domainData: DomainData.domainDataState,
 };
 
 type action =
   | ChangeRoute(AppRoutes.route)
-  | FetchCampaigns
-  | FetchCampaignsSuccess(list(CampaignData.campaign))
-  | FetchSystems
-  | FetchSystemsSuccess(list(SystemData.system));
+  | SystemAction(System.systemAction)
+  | CampaignAction(Campaign.campaignAction);
 
 let reducer = (action, state) =>
   switch (action) {
   | ChangeRoute(route) => ReasonReact.Update({...state, route})
-  | FetchCampaigns =>
-    ReasonReact.SideEffects(
-      (
-        self => {
-          Js.Promise.(
-            CampaignData.getCampaigns()
-            |> then_(campaigns => {
-                 self.send(FetchCampaignsSuccess(campaigns));
-                 resolve();
-               })
-          )
-          |> ignore;
-          ();
-        }
-      ),
-    )
-  | FetchCampaignsSuccess(campaigns) =>
-    ReasonReact.Update({...state, campaigns: Some(campaigns)})
-  | FetchSystems =>
-    ReasonReact.SideEffects(
-      (
-        self => {
-          Js.Promise.(
-            SystemData.getSystems()
-            |> then_(systems => {
-                 self.send(FetchSystemsSuccess(systems));
-                 resolve();
-               })
-          )
-          |> ignore;
-          ();
-        }
-      ),
-    )
-  | FetchSystemsSuccess(systems) =>
-    ReasonReact.Update({...state, systems: Some(systems)})
+  | SystemAction(systemAction) =>
+    switch (System.reducer(systemAction, state.domainData.systems)) {
+    | ReasonReact.Update(nextState) =>
+      ReasonReact.Update({
+        ...state,
+        domainData: {
+          ...state.domainData,
+          systems: nextState,
+        },
+      })
+    | _ => ReasonReact.NoUpdate
+    }
+  | CampaignAction(_action) => ReasonReact.NoUpdate
   };
 
 let mapUrlToRoute = (url: ReasonReact.Router.url) =>
@@ -71,7 +45,13 @@ let loadingEl = s("Loading...");
 let make = _children => {
   ...component,
   reducer,
-  initialState: () => {route: Home, campaigns: None, systems: None},
+  initialState: () => {
+    route: Home,
+    domainData: {
+      campaigns: Campaign.initialState,
+      systems: System.initialState,
+    },
+  },
   subscriptions: self => [
     Sub(
       () =>
@@ -81,27 +61,26 @@ let make = _children => {
       ReasonReact.Router.unwatchUrl,
     ),
   ],
-  render: self =>
-    switch (self.state.systems, self.state.campaigns) {
-    | (Some(systems), Some(campaigns)) =>
-      <div style=(style(~display="flex", ()))>
-        <div style=(style(~flex="0 0 300px", ~height="100vh", ()))>
-          <Nav activeRoute=self.state.route />
-        </div>
-        <div style=(style(~flex="1 0 0%", ~minWidth="0px", ()))>
-          (
-            switch (self.state.route) {
-            | Home => <HomePage />
-            | Systems => <SystemsApp systems />
-            | Campaigns => <CampaignsApp campaigns systems />
-            }
-          )
-        </div>
+  render: self => {
+    let dispatch = action => self.send(action);
+    <div style=(style(~display="flex", ()))>
+      <div style=(style(~flex="0 0 300px", ~height="100vh", ()))>
+        <Nav activeRoute=self.state.route />
       </div>
-    | _ => loadingEl
-    },
+      <div style=(style(~flex="1 0 0%", ~minWidth="0px", ()))>
+        (
+          switch (self.state.route) {
+          | Home => <HomePage />
+          | Systems => <SystemsApp domainData=self.state.domainData dispatch />
+          | Campaigns =>
+            <CampaignsApp domainData=self.state.domainData dispatch />
+          }
+        )
+      </div>
+    </div>;
+  },
   didMount: self => {
-    self.send(FetchCampaigns);
-    self.send(FetchSystems);
+    self.send(SystemAction(System.GetSystems));
+    self.send(CampaignAction(Campaign.GetCampaigns));
   },
 };

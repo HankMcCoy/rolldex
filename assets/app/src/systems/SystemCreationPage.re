@@ -2,7 +2,7 @@ open Util;
 
 let component = ReasonReact.statelessComponent("SystemCreationPage");
 
-let make = _children => {
+let make = (~dispatch, _children) => {
   ...component,
   render: _self =>
     <div>
@@ -11,6 +11,6 @@ let make = _children => {
         breadcrumbs=[{text: "Systems", href: "/systems"}]
         background=Color.SystemsBlue
       />
-      <PageContent> <AddSystemForm /> </PageContent>
+      <PageContent> <AddSystemForm dispatch /> </PageContent>
     </div>,
 };

@@ -12,8 +12,7 @@ config :rpgr, RpgrWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["start", cd: Path.expand("../assets/app", __DIR__)],
-    npm: ["run", "webpack", cd: Path.expand("../assets/app", __DIR__)],
+    npm: ["start", cd: Path.expand("../assets/app", __DIR__)]
   ]
 
 # ## SSL Support

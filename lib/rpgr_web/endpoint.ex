@@ -11,6 +11,13 @@ defmodule RpgrWeb.Endpoint do
     at: "/", from: :rpgr, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
+  plug Plug.Static,
+    at: "/", from: {:rpgr, "assets/public"}, gzip: false,
+    only: ~w(favicon.ico index.html manifest.json)
+
+  plug Plug.Static.IndexHtml,
+    at: "/"
+
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
   if code_reloading? do
@@ -37,6 +44,7 @@ defmodule RpgrWeb.Endpoint do
     key: "_rpgr_key",
     signing_salt: "bAV72NPe"
 
+  plug CORSPlug, origin: ["http://localhost:3000", "http://localhost:4000"]
   plug RpgrWeb.Router
 
   @doc """

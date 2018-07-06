@@ -4,6 +4,8 @@ import get from 'lodash-es/get'
 const gray20 = '#333333'
 const gray30 = '#484D4B'
 const gray38 = '#5A605E'
+const gray87 = '#ddd'
+const gray97 = '#F8F8F8'
 const white = '#fff'
 
 const campaignPurple = '#6C6EA0'
@@ -17,6 +19,8 @@ const theme = {
   gray20,
   gray30,
   gray38,
+  gray87,
+  gray97,
   white,
   campaignPurple,
   systemBlue,

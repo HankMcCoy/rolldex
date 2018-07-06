@@ -10,10 +10,7 @@ config :rpgr, RpgrWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
-  check_origin: false,
-  watchers: [
-    npm: ["start", cd: Path.expand("../assets/app", __DIR__)]
-  ]
+  check_origin: false
 
 # ## SSL Support
 #

@@ -4,12 +4,12 @@ import styled from 'react-emotion'
 
 const SSpacer = styled('div')`
   flex: 0 0 auto;
-  height: ${({ height }) => height};
-  width: ${({ width }) => width};
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
 `
 type Props = {
-  width: number,
-  height: number,
+  width?: number,
+  height?: number,
 }
 export default function Spacer(props: Props) {
   return <SSpacer {...props} />

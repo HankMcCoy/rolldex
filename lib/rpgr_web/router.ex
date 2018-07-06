@@ -10,7 +10,7 @@ defmodule RpgrWeb.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug :accepts, ["html", "json"]
   end
 
   scope "/api", RpgrWeb do

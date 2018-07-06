@@ -1,9 +1,10 @@
 // @flow
 import * as React from 'react'
+import { css } from 'emotion'
 import styled from 'react-emotion'
 import { NavLink } from 'react-router-dom'
 
-import { fromTheme } from 'theme'
+import theme, { fromTheme } from 'r/theme'
 
 const StyledNav = styled('div')`
   display: flex;
@@ -20,12 +21,19 @@ const StyledLink = styled(NavLink)`
   text-decoration: none;
 `
 
-type Props = {}
-export default function Nav({  }: Props) {
+const active = css`
+  background-color: ${theme.gray30};
+`
+
+export default function Nav() {
   return (
     <StyledNav>
-      <StyledLink to="/systems">Systems</StyledLink>
-      <StyledLink to="/campaigns">Campaigns</StyledLink>
+      <StyledLink to="/systems" activeClassName={active}>
+        Systems
+      </StyledLink>
+      <StyledLink to="/campaigns" activeClassName={active}>
+        Campaigns
+      </StyledLink>
     </StyledNav>
   )
 }

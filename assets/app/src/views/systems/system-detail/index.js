@@ -5,11 +5,11 @@ import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 
 type Props = {}
-export default function CampaignDetail() {
+export default function SystemDetail() {
   return (
     <React.Fragment>
-      <PageHeader title="Campaigns Detail" />
-      <PageContent>Some info about a campaign</PageContent>
+      <PageHeader title="Systems Detail" />
+      <PageContent>Some info about a system</PageContent>
     </React.Fragment>
   )
 }

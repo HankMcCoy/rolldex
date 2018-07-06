@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
-import { fromTheme } from 'theme'
+import { fromTheme } from 'r/theme'
 
 const StyledLink = styled(Link)`
   align-items: center;
@@ -17,7 +17,6 @@ const StyledLink = styled(Link)`
   padding-left: ${fromTheme('sidebarHzPadding')};
   text-decoration: none;
 `
-type Props = {}
 export default function Logo() {
   return <StyledLink to="/">Rolldex</StyledLink>
 }

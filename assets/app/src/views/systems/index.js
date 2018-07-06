@@ -1,15 +1,20 @@
+// @flow
 import * as React from 'react'
 import styled from 'react-emotion'
+import { Route } from 'react-router-dom'
+import type { Match } from 'react-router-dom'
 
-import PageHeader from 'components/page-header'
-import PageContent from 'components/page-content'
+import SystemDetail from './system-detail'
+import SystemList from './system-list'
 
-type Props = {}
-export default function Systems() {
+type Props = {
+  match: Match,
+}
+export default function Systems({ match }: Props) {
   return (
     <React.Fragment>
-      <PageHeader title="Systems" />
-      <PageContent>A list of systems</PageContent>
+      <Route exact path={match.path} component={SystemList} />
+      <Route path={`${match.path}/:systemId`} component={SystemDetail} />
     </React.Fragment>
   )
 }

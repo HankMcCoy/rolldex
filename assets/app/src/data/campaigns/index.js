@@ -1,22 +1,25 @@
 // @flow
-import { success, createReducer } from 'util/redux'
 import keyBy from 'lodash-es/keyBy'
 
-export const GET_CAMPAIGN_LIST = 'CAMPAIGN/GET_CAMPAIGN_LIST'
+import { actionXhr, success, createReducer } from 'r/util/redux'
+
+import { FETCH_CAMPAIGN_LIST } from './action-types'
 
 export type Campaign = {
-  id: string,
+  id: number,
   name: string,
   description: string,
+  inserted_at: string,
+  updated_at: string,
 }
 
 type State = {
-  [string]: Campaign,
+  [number]: Campaign,
 }
 const initialState: State = {}
 export default createReducer(initialState, {
-  [success(GET_CAMPAIGN_LIST)]: (state, campaigns: Array<Campaign>) => ({
+  [success(FETCH_CAMPAIGN_LIST)]: (state, campaigns: Array<Campaign>) => ({
     ...state,
-    ...keyBy(campaigns),
+    ...keyBy(campaigns, 'id'),
   }),
 })

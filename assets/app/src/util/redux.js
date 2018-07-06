@@ -79,8 +79,8 @@ function mapStateToSelectors(propToSelectorMap) {
 }
 
 type ConnectArgs = {
-  selectors: Object,
-  actionCreators: Object,
+  selectors?: Object,
+  actionCreators?: Object,
 }
 export const connect = ({ selectors, actionCreators }: ConnectArgs) =>
   reduxConnect(

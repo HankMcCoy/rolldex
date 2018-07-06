@@ -3,7 +3,7 @@ import keyBy from 'lodash-es/keyBy'
 
 import { actionXhr, success, createReducer } from 'r/util/redux'
 
-import { FETCH_CAMPAIGN_LIST } from './action-types'
+import { FETCH_CAMPAIGN_LIST, FETCH_CAMPAIGN } from './action-types'
 
 export type Campaign = {
   id: number,
@@ -21,5 +21,9 @@ export default createReducer(initialState, {
   [success(FETCH_CAMPAIGN_LIST)]: (state, campaigns: Array<Campaign>) => ({
     ...state,
     ...keyBy(campaigns, 'id'),
+  }),
+  [success(FETCH_CAMPAIGN)]: (state, campaign: Campaign) => ({
+    ...state,
+    [campaign.id]: campaign,
   }),
 })

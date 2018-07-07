@@ -1,6 +1,11 @@
 // @flow
 import { actionXhr } from 'r/util/redux'
-import { FETCH_CAMPAIGN_LIST, FETCH_CAMPAIGN } from './action-types'
+import {
+  CREATE_CAMPAIGN,
+  FETCH_CAMPAIGN_LIST,
+  FETCH_CAMPAIGN,
+} from './action-types'
+import type { DraftCampaign } from './index'
 
 export const fetchCampaignList = () =>
   actionXhr({
@@ -14,4 +19,12 @@ export const fetchCampaign = (id: number) =>
     actionType: FETCH_CAMPAIGN,
     method: 'GET',
     path: `/api/campaigns/${id}`,
+  })
+
+export const createCampaign = (draftCampaign: DraftCampaign) =>
+  actionXhr({
+    actionType: CREATE_CAMPAIGN,
+    method: 'POST',
+    path: '/api/campaigns',
+    requestBody: { campaign: draftCampaign },
   })

@@ -52,10 +52,14 @@ export const actionXhr = ({
     type: actionType,
     payload: initialPayload,
   })
-  window
+
+  return window
     .fetch(path, {
       method,
       body: requestBody !== undefined ? JSON.stringify(requestBody) : undefined,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     })
     .then(resp => {
       if (!resp.ok) throw new Error('Fetch failed')
@@ -63,16 +67,19 @@ export const actionXhr = ({
     })
     .then(
       json => {
+        const payload = transformSuccessPayload(json.data)
         dispatch({
           type: success(actionType),
-          payload: transformSuccessPayload(json.data),
+          payload,
         })
+        return payload
       },
       err => {
         dispatch({
           type: failure(actionType),
           payload: transformFailurePayload(err),
         })
+        throw err
       },
     )
 }

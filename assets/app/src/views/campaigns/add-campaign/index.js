@@ -2,12 +2,15 @@
 import * as React from 'react'
 import styled from 'react-emotion'
 import flowRight from 'lodash-es/flowRight'
-import { Formik, Field } from 'formik'
+import { Formik } from 'formik'
 import { type History, withRouter } from 'react-router-dom'
 
-import { fromTheme } from 'r/theme'
+import { connect } from 'r/util/redux'
+import { required } from 'r/util/formik'
 import type { System } from 'r/data/systems'
 import { withSystemList } from 'r/data/systems/connectors'
+import type { Campaign, DraftCampaign } from 'r/data/campaigns'
+import { createCampaign } from 'r/data/campaigns/action-creators'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import FormField from 'r/components/form-field'
@@ -26,8 +29,9 @@ const ButtonsWrapper = styled('div')`
 type Props = {
   systems: Array<System> | void,
   history: History,
+  createCampaign: DraftCampaign => Promise<Campaign>,
 }
-function AddCampaign({ systems, history }: Props) {
+function AddCampaign({ systems, history, createCampaign }: Props) {
   return (
     <React.Fragment>
       <PageHeader title="New Campaign" />
@@ -37,20 +41,28 @@ function AddCampaign({ systems, history }: Props) {
             initialValues={{
               name: '',
               description: '',
-              systemId: '',
+              system_id: '',
             }}
             onSubmit={(values, { setSubmitting }) => {
               const { name, description } = values
-              const systemId = values.systemId
-                ? parseInt(values.systemId, 10)
-                : undefined
-              console.log({ name, description, systemId })
+              const system_id = parseInt(values.system_id, 10)
+              createCampaign({ name, description, system_id }).then(
+                campaign => {
+                  setSubmitting(false)
+                  history.push(`/campaigns/${campaign.id}`)
+                },
+              )
             }}
             render={({ handleSubmit, handleChange, handleBlur, values }) => (
               <form onSubmit={handleSubmit}>
-                <FormField name="name" label="Name" />
+                <FormField name="name" label="Name" validate={required} />
                 <Spacer height={20} />
-                <FormField name="systemId" label="System" component="select">
+                <FormField
+                  name="system_id"
+                  label="System"
+                  component="select"
+                  validate={required}
+                >
                   <option />
                   {systems &&
                     systems.map(s => (
@@ -64,6 +76,7 @@ function AddCampaign({ systems, history }: Props) {
                   name="description"
                   label="Description"
                   component="textarea"
+                  validate={required}
                 />
                 <Spacer height={20} />
                 <ButtonsWrapper>
@@ -76,7 +89,7 @@ function AddCampaign({ systems, history }: Props) {
                     Cancel
                   </SecondaryButton>
                   <Spacer width={10} />
-                  <PrimaryButton>Save</PrimaryButton>
+                  <PrimaryButton type="submit">Save</PrimaryButton>
                 </ButtonsWrapper>
               </form>
             )}
@@ -90,4 +103,9 @@ function AddCampaign({ systems, history }: Props) {
 export default flowRight(
   withSystemList,
   withRouter,
+  connect({
+    actionCreators: {
+      createCampaign,
+    },
+  }),
 )(AddCampaign)

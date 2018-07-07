@@ -1,9 +1,7 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
 
 import { intersperse } from 'r/util'
-import { connect } from 'r/util/redux'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import Spacer from 'r/components/spacer'

@@ -1,17 +1,27 @@
 // @flow
 import keyBy from 'lodash-es/keyBy'
 
-import { actionXhr, success, createReducer } from 'r/util/redux'
+import { success, createReducer } from 'r/util/redux'
 
-import { FETCH_CAMPAIGN_LIST, FETCH_CAMPAIGN } from './action-types'
+import {
+  CREATE_CAMPAIGN,
+  FETCH_CAMPAIGN_LIST,
+  FETCH_CAMPAIGN,
+} from './action-types'
 
-export type Campaign = {
+export type Campaign = {|
   id: number,
   name: string,
+  system_id: number,
   description: string,
   inserted_at: string,
   updated_at: string,
-}
+|}
+
+export type DraftCampaign = $Diff<
+  Campaign,
+  {| id: number, inserted_at: string, updated_at: string |},
+>
 
 type State = {
   [number]: Campaign,
@@ -23,6 +33,10 @@ export default createReducer(initialState, {
     ...keyBy(campaigns, 'id'),
   }),
   [success(FETCH_CAMPAIGN)]: (state, campaign: Campaign) => ({
+    ...state,
+    [campaign.id]: campaign,
+  }),
+  [success(CREATE_CAMPAIGN)]: (state, campaign: Campaign) => ({
     ...state,
     [campaign.id]: campaign,
   }),

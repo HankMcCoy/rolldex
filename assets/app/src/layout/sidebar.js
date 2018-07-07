@@ -1,8 +1,6 @@
 // @flow
 import * as React from 'react'
-import { css } from 'emotion'
 import styled from 'react-emotion'
-import { Link } from 'react-router-dom'
 
 import Logo from './logo'
 import Nav from './nav'
@@ -22,8 +20,7 @@ const NavWrp = styled('div')`
   flex: 1 0 0%;
 `
 
-type Props = {}
-export default function Sidebar({  }: Props) {
+export default function Sidebar() {
   return (
     <Root>
       <LogoWrp>

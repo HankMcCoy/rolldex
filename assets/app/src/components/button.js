@@ -1,5 +1,4 @@
 // @flow
-import * as React from 'react'
 import styled from 'react-emotion'
 
 import { fromTheme } from 'r/theme'

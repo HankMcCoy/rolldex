@@ -3,7 +3,6 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { Link, withRouter } from 'react-router-dom'
 
-import { fromTheme } from 'r/theme'
 import { getSubAppColor } from 'r/util'
 
 const commonStyles = {

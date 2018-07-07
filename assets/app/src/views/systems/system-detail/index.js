@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
 import flowRight from 'lodash-es/flowRight'
 import { withProps, mapProps, lifecycle, type HOC } from 'recompose'
 

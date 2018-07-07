@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
 
 import { connect } from 'r/util/redux'
 import { intersperse } from 'r/util'

@@ -29,7 +29,7 @@ const theme = {
   textColor: gray20,
 
   // SIZES
-  topBarHeight: '80px',
+  topBarHeight: '100px',
   sidebarHzPadding: '20px',
   pageHzPadding: '30px',
 

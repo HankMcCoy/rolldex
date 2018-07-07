@@ -17,12 +17,16 @@ import { withCampaign } from 'r/data/campaigns/connectors'
 import type { Session } from 'r/data/sessions'
 import { withSessionList } from 'r/data/sessions/connectors'
 
+import type { Noun } from 'r/data/nouns'
+import { withNounList } from 'r/data/nouns/connectors'
+
 type Props = {
   campaign: Campaign | void,
   sessions: Array<Session> | void,
+  nouns: Array<Noun> | void,
 }
-function CampaignDetail({ campaign, sessions }: Props) {
-  if (!campaign || !sessions) return <LoadingPage />
+function CampaignDetail({ campaign, sessions, nouns }: Props) {
+  if (!campaign || !sessions || !nouns) return <LoadingPage />
   const { name, description, id } = campaign
   return (
     <React.Fragment>
@@ -46,11 +50,14 @@ function CampaignDetail({ campaign, sessions }: Props) {
             </AddableList>
           </Column>
           <Column>
-            <AddableList
-              title="World"
-              addPath={`/campaigns/${id}/entities/add`}
-            >
-              World stuff
+            <AddableList title="World" addPath={`/campaigns/${id}/nouns/add`}>
+              {nouns.map(n => (
+                <ListCard
+                  title={n.name}
+                  description={n.description}
+                  to={`/campaigns/${campaign.id}/nouns/${n.id}`}
+                />
+              ))}
             </AddableList>
           </Column>
         </ColumnView>
@@ -63,4 +70,5 @@ const getCampaignId = ({ match: { params } }) => +params.campaignId
 export default flowRight(
   withCampaign(getCampaignId),
   withSessionList(getCampaignId),
+  withNounList(getCampaignId),
 )(CampaignDetail)

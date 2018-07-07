@@ -7,6 +7,7 @@ import CampaignDetail from './campaign-detail'
 import CampaignList from './campaign-list'
 import AddCampaign from './add-campaign'
 import Sessions from './sessions'
+import Nouns from './nouns'
 
 type Props = {
   match: Match,
@@ -21,6 +22,7 @@ export default function Campaigns({ match }: Props) {
           path={`${match.path}/:campaignId/sessions`}
           component={Sessions}
         />
+        <Route path={`${match.path}/:campaignId/nouns`} component={Nouns} />
         <Route path={`${match.path}/:campaignId`} component={CampaignDetail} />
       </Switch>
     </React.Fragment>

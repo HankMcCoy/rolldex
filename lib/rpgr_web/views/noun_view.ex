@@ -13,7 +13,7 @@ defmodule RpgrWeb.NounView do
   def render("noun.json", %{noun: noun}) do
     %{id: noun.id,
       name: noun.name,
-      nounType: noun.nounType,
+      noun_type: noun.noun_type,
       description: noun.description,
       campaign_id: noun.campaign_id}
   end

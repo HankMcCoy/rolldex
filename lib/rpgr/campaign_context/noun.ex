@@ -5,7 +5,7 @@ defmodule Rpgr.CampaignContext.Noun do
 
   schema "nouns" do
     field :name, :string
-    field :nounType, :string
+    field :noun_type, :string
     field :description, :string
     field :campaign_id, :id
 
@@ -15,8 +15,8 @@ defmodule Rpgr.CampaignContext.Noun do
   @doc false
   def changeset(session, attrs) do
     session
-    |> cast(attrs, [:name, :nounType, :description, :campaign_id])
-    |> validate_required([:name, :nounType, :description, :campaign_id])
-    |> validate_inclusion(:nounType, ["PERSON", "PLACE", "THING"])
+    |> cast(attrs, [:name, :noun_type, :description, :campaign_id])
+    |> validate_required([:name, :noun_type, :description, :campaign_id])
+    |> validate_inclusion(:noun_type, ["PERSON", "PLACE", "THING"])
   end
 end

@@ -2,7 +2,9 @@
 - [x] BE: Basic Campaign CRUD
 - [x] FE: Basic Campaign CRUD like the mock
 - [x] FE: Load campaigns/systems after adding one
-- [ ] FE: Make data loading at least vaguely sane
-- [ ] FE: Add Glamor
-- [ ] FE & BE: Basic world entity CRUD
+- [x] FE & BE: Basic world entity CRUD
+- [x] FE: Rewrite in React/Redux, with basic system/campaign/session CRUD working
+- [ ] FE & BE: Naive entity extraction
+- [ ] FE: Expando sidebar nav
+- [ ] FE: Breadcrumbs in the header
 - [ ] FE: Show validation error for required fields when creating systems/campaigns

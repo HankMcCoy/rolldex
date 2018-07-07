@@ -23,7 +23,10 @@ function CampaignList({ campaigns }: Props) {
     : 'Loading...'
   return (
     <React.Fragment>
-      <PageHeader title="Campaigns" controls={<AddBtn to="/campaigns/add" />} />
+      <PageHeader
+        title="Campaigns"
+        controls={<AddBtn to="/campaigns/add" inverted />}
+      />
       <PageContent>{content}</PageContent>
     </React.Fragment>
   )

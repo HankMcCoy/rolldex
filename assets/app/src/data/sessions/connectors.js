@@ -9,8 +9,8 @@ import { selectSession, selectSessionList } from 'r/data/sessions/selectors'
 import { fetchSession, fetchSessionList } from 'r/data/sessions/action-creators'
 
 export const withSession: <T>(
-  (T) => number,
-) => HOC<T, { session: Session }> = getId =>
+  (T) => { campaignId: number, sessionId: number },
+) => HOC<T, { session: Session }> = getIds =>
   flowRight(
     connect({
       actionCreators: {
@@ -19,13 +19,14 @@ export const withSession: <T>(
     }),
     lifecycle({
       componentDidMount() {
-        this.props.fetchSession(getId(this.props))
+        const { campaignId, sessionId } = getIds(this.props)
+        this.props.fetchSession(campaignId, sessionId)
       },
     }),
     mapProps(props => omit(props, ['fetchSession', 'sessionId'])),
     connect({
       selectors: {
-        session: selectSession(getId),
+        session: selectSession(props => getIds(props).sessionId),
       },
     }),
   )

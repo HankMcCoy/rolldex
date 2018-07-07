@@ -6,10 +6,19 @@ import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import Spacer from 'r/components/spacer'
 import AddBtn from 'r/components/add-btn'
+import ListCard from 'r/components/list-card'
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaignList } from 'r/data/campaigns/connectors'
 
-import CampaignCard from './campaign-card'
+function CampaignCard({ campaign }: { campaign: Campaign }) {
+  return (
+    <ListCard
+      to={`/campaigns/${campaign.id}`}
+      title={campaign.name}
+      description={campaign.description}
+    />
+  )
+}
 
 type Props = {
   campaigns: Array<Campaign> | void,

@@ -11,6 +11,12 @@ const Header = styled.div`
   justify-content: space-between;
 `
 
+const List = styled.div`
+  & > *:not(:last-child) {
+    margin-bottom: 10px;
+  }
+`
+
 type Props = {
   title: string,
   addPath: string,
@@ -24,7 +30,7 @@ export default function AddableList({ title, addPath, children }: Props) {
         <AddBtn to={addPath} />
       </Header>
       <Spacer height={10} />
-      <div>{children}</div>
+      <List>{children}</List>
     </div>
   )
 }

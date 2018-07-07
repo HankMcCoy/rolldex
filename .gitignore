@@ -27,3 +27,5 @@ npm-debug.log
 /config/*.secret.exs
 
 flow-typed
+
+*.swp

@@ -88,7 +88,10 @@ video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: Roboto, sans-serif;
+  color: #333;
+  line-height: 1;
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
   vertical-align: baseline;
 }
 
@@ -111,13 +114,6 @@ section {
 html,
 body {
   height: 100%;
-}
-
-body {
-  line-height: 1;
-  font-family: Roboto, sans-serif;
-  font-size: 16px;
-  color: #333;
 }
 
 body * {

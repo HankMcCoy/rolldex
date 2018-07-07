@@ -2,7 +2,10 @@
 import flatMap from 'lodash-es/flatMap'
 import { matchPath } from 'react-router-dom'
 
-export function intersperse<T>(arr: Array<T>, inter: number => T): Array<T> {
+export function intersperse<X, Y>(
+  arr: Array<X>,
+  inter: number => Y,
+): Array<X | Y> {
   return flatMap(arr, (a, i) => (i ? [inter(i), a] : [a]))
 }
 

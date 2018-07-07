@@ -36,14 +36,14 @@ type Props = {
 function AddBtn({ inverted = false, onClick, to, match }: Props) {
   if (onClick) {
     return (
-      <StyledButton onClick={onClick} inverted match={match}>
+      <StyledButton onClick={onClick} inverted={inverted} match={match}>
         +
       </StyledButton>
     )
   }
   if (to) {
     return (
-      <StyledLink to={to} inverted match={match}>
+      <StyledLink to={to} inverted={inverted} match={match}>
         +
       </StyledLink>
     )

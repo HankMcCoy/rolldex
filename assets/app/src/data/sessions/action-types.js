@@ -1,0 +1,4 @@
+// @flow
+export const CREATE_SESSION = 'CREATE_SESSION'
+export const FETCH_SESSION_LIST = 'FETCH_SESSION_LIST'
+export const FETCH_SESSION = 'FETCH_SESSION'

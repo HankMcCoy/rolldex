@@ -4,7 +4,8 @@ import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
 import { fromTheme } from 'r/theme'
-import H3 from 'r/components/h3'
+import H3 from './h3'
+import Spacer from './spacer'
 
 const StyledLink = styled(Link)`
   background: ${fromTheme('gray97')};
@@ -24,6 +25,7 @@ export default function ListCard({ title, description, to }: Props) {
   return (
     <StyledLink to={to}>
       <H3>{title}</H3>
+      <Spacer height={10} />
       <div>{description}</div>
     </StyledLink>
   )

@@ -8,10 +8,10 @@ import type { System } from 'r/data/systems'
 import { selectSystemList } from 'r/data/systems/selectors'
 import { fetchSystemList } from 'r/data/systems/action-creators'
 
-type ConnectedProps = {
-  systems: Array<System> | void,
-}
-export const withSystemList: HOC<*, ConnectedProps> = flowRight(
+export const withSystemList: HOC<
+  *,
+  { systems: Array<System> | void },
+> = flowRight(
   connect({
     actionCreators: {
       fetchSystemList,

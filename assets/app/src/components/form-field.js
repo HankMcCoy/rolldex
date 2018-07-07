@@ -6,22 +6,21 @@ import { Field } from 'formik'
 import H2 from 'r/components/h2'
 import Spacer from 'r/components/spacer'
 
-const Root = styled('div')`
+const Label = styled('label')`
   display: flex;
   flex-direction: column;
 `
 
 type Props = {
   label: React.Node,
+  name: string,
 }
-export default function FormField({ label, ...rest }: Props) {
+export default function FormField({ label, name, ...rest }: Props) {
   return (
-    <Root>
-      <label>
-        <H2>{label}</H2>
-      </label>
+    <Label>
+      <H2>{label}</H2>
       <Spacer height={10} />
-      <Field {...rest} />
-    </Root>
+      <Field name={name} {...rest} />
+    </Label>
   )
 }

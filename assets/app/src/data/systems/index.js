@@ -1,7 +1,7 @@
 // @flow
 import keyBy from 'lodash-es/keyBy'
 
-import { actionXhr, success, createReducer } from 'r/util/redux'
+import { success, createReducer } from 'r/util/redux'
 
 import { FETCH_SYSTEM_LIST, FETCH_SYSTEM } from './action-types'
 

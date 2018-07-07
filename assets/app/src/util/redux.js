@@ -36,6 +36,8 @@ type ActionXhrParams = {
   actionType: string,
   requestBody?: any,
   initialPayload?: *,
+  transformSuccessPayload?: any => any,
+  transformFailurePayload?: any => any,
 }
 export const actionXhr = ({
   method,
@@ -43,6 +45,8 @@ export const actionXhr = ({
   actionType,
   requestBody,
   initialPayload,
+  transformSuccessPayload = p => p,
+  transformFailurePayload = p => p,
 }: ActionXhrParams) => (dispatch: any) => {
   dispatch({
     type: actionType,
@@ -61,13 +65,13 @@ export const actionXhr = ({
       json => {
         dispatch({
           type: success(actionType),
-          payload: json.data,
+          payload: transformSuccessPayload(json.data),
         })
       },
       err => {
         dispatch({
           type: failure(actionType),
-          payload: err,
+          payload: transformFailurePayload(err),
         })
       },
     )

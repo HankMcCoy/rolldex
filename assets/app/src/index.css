@@ -150,3 +150,17 @@ table {
 #root {
   height: 100%;
 }
+
+input,
+select,
+textarea {
+  font-weight: 300;
+  font-size: 16px;
+  padding: 5px;
+}
+
+input,
+select {
+  height: 34px;
+  line-height: 34px;
+}

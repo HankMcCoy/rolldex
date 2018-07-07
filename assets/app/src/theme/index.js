@@ -10,6 +10,7 @@ const white = '#fff'
 
 const campaignPurple = '#6C6EA0'
 const systemBlue = '#417F9C'
+const primaryGreen = '#3BA170'
 
 export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
   get(theme, path)
@@ -24,6 +25,7 @@ const theme = {
   white,
   campaignPurple,
   systemBlue,
+  primaryGreen,
   textColor: gray20,
 
   // SIZES

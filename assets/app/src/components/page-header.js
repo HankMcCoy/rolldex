@@ -2,40 +2,49 @@
 
 import * as React from 'react'
 import styled from 'react-emotion'
-import { withRouter, matchPath } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import H1 from 'r/components/h1'
 import { fromTheme } from 'r/theme'
+import { getSubAppColor } from 'r/util'
 
 const Root = styled('div')`
-  background: ${({ subApp, theme }) =>
-    subApp === 'campaigns' ? theme.campaignPurple : theme.systemBlue};
+  background: ${getSubAppColor};
   height: ${fromTheme('topBarHeight')};
   line-height: ${fromTheme('topBarHeight')};
   padding-left: ${fromTheme('pageHzPadding')};
   padding-right: ${fromTheme('pageHzPadding')};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const Left = styled('div')`
+  flex: 0 0 auto;
+`
+
+const Right = styled('div')`
+  flex: 0 0 auto;
 `
 
 const Heading = styled(H1)`
   color: ${fromTheme('white')};
 `
 
-type SubApp = 'campaigns' | 'systems'
-const getSubApp = (path: string): SubApp => {
-  if (matchPath(path, { path: '/campaigns' })) return 'campaigns'
-  if (matchPath(path, { path: '/systems' })) return 'systems'
-  throw new Error('HOW STYLE HEADERS??')
-}
-
 type Props = {
   title: string,
-  match: Object,
+  match: {
+    path: string,
+  },
+  controls?: React.Node,
 }
-function PageHeader({ title, match }: Props) {
-  const subApp = getSubApp(match.path)
+function PageHeader({ title, match, controls }: Props) {
   return (
-    <Root subApp={subApp}>
-      <Heading>{title}</Heading>
+    <Root match={match}>
+      <Left>
+        <Heading>{title}</Heading>
+      </Left>
+      <Right>{controls}</Right>
     </Root>
   )
 }

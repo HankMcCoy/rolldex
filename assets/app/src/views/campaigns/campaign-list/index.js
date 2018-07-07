@@ -7,6 +7,7 @@ import { intersperse } from 'r/util'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import Spacer from 'r/components/spacer'
+import AddBtn from 'r/components/add-btn'
 import type { Campaign } from 'r/data/campaigns'
 import { selectCampaignList } from 'r/data/campaigns/selectors'
 import { fetchCampaignList } from 'r/data/campaigns/action-creators'
@@ -29,7 +30,10 @@ class CampaignList extends React.Component<Props> {
       : 'Loading...'
     return (
       <React.Fragment>
-        <PageHeader title="Campaigns" />
+        <PageHeader
+          title="Campaigns"
+          controls={<AddBtn to="/campaigns/add" />}
+        />
         <PageContent>{content}</PageContent>
       </React.Fragment>
     )

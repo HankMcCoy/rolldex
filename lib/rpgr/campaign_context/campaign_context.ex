@@ -61,4 +61,33 @@ defmodule Rpgr.CampaignContext do
   def change_session(%Session{} = session) do
     Session.changeset(session, %{})
   end
+
+
+  alias Rpgr.CampaignContext.Noun
+
+  def list_nouns do
+    Repo.all(Noun)
+  end
+
+  def get_noun!(id), do: Repo.get!(Noun, id)
+
+  def create_noun(attrs \\ %{}) do
+    %Noun{}
+    |> Noun.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_noun(%Noun{} = noun, attrs) do
+    noun
+    |> Noun.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_noun(%Noun{} = noun) do
+    Repo.delete(noun)
+  end
+
+  def change_noun(%Noun{} = noun) do
+    Noun.changeset(noun, %{})
+  end
 end

@@ -18,6 +18,7 @@ defmodule RpgrWeb.Router do
     resources "/systems", SystemController
     resources "/campaigns", CampaignController do
       resources "/sessions", SessionController, except: [:new, :edit]
+      resources "/nouns", NounController, except: [:new, :edit]
     end
   end
 

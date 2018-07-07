@@ -3,6 +3,7 @@ defmodule RpgrWeb.SessionController do
 
   alias Rpgr.CampaignContext
   alias Rpgr.CampaignContext.Session
+  alias Rpgr.CampaignContext.NounsInSession
 
   action_fallback RpgrWeb.FallbackController
 
@@ -38,5 +39,10 @@ defmodule RpgrWeb.SessionController do
     with {:ok, %Session{}} <- CampaignContext.delete_session(session) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def nouns(conn, %{"session_id" => id}) do
+    nouns = CampaignContext.get_nouns_in_session(id)
+    render(conn, "nouns_in_session.json", nouns: nouns)
   end
 end

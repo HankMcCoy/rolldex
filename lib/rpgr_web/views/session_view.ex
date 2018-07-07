@@ -17,4 +17,8 @@ defmodule RpgrWeb.SessionView do
       notes: session.notes,
       campaign_id: session.campaign_id}
   end
+
+  def render("nouns_in_session.json", %{nouns: nouns}) do
+    %{data: render_many(nouns, RpgrWeb.NounView, "noun.json")}
+  end
 end

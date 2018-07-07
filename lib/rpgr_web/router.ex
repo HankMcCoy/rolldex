@@ -17,7 +17,9 @@ defmodule RpgrWeb.Router do
     pipe_through :api
     resources "/systems", SystemController
     resources "/campaigns", CampaignController do
-      resources "/sessions", SessionController, except: [:new, :edit]
+      resources "/sessions", SessionController, except: [:new, :edit] do
+        get "/nouns", SessionController, :nouns
+      end
       resources "/nouns", NounController, except: [:new, :edit]
     end
   end

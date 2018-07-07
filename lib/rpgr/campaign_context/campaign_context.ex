@@ -90,4 +90,14 @@ defmodule Rpgr.CampaignContext do
   def change_noun(%Noun{} = noun) do
     Noun.changeset(noun, %{})
   end
+
+  def get_nouns_in_session(id) do
+    session = Repo.get!(Session, id)
+    nouns = list_nouns()
+    Enum.filter(nouns, fn(noun) ->
+      nounName = String.downcase(noun.name)
+      String.downcase(session.summary) =~ nounName or
+        String.downcase(session.notes) =~ nounName
+    end)
+  end
 end

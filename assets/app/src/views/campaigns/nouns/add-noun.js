@@ -42,6 +42,7 @@ function AddNoun({ campaign, history, createNoun }: Props) {
           }}
           onSubmit={(values, { setSubmitting }) => {
             const { name, description, nounType } = values
+            if (nounType === '') throw new Error('Empty nounType')
             createNoun({
               name,
               description,

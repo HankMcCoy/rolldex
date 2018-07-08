@@ -1,11 +1,9 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
 import flowRight from 'lodash-es/flowRight'
 
 import PageHeader, { HeaderButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
-import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
 import Spacer from 'r/components/spacer'
 
@@ -13,28 +11,10 @@ import type { Session } from 'r/data/sessions'
 import { withSession } from 'r/data/sessions/connectors'
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaign } from 'r/data/campaigns/connectors'
-import { fromTheme } from 'r/theme'
+
+import PageWithSidebar from 'r/components/page-with-sidebar'
 
 import NounsInSession from './nouns-in-session'
-
-const HorizLayout = styled.div`
-  display: flex;
-  flex: 1 0 0%;
-`
-
-const LeftColumn = styled.div`
-  flex: 1 0 0%;
-`
-
-const RightColumn = styled.div`
-  flex: 0 0 300px;
-`
-
-const PageSidebar = styled.div`
-  background: ${fromTheme('campaignColorLight')};
-  color: ${fromTheme('campaignText')};
-  height: 100%;
-`
 
 type Props = {
   session: Session | void,
@@ -59,21 +39,19 @@ function SessionDetail({ session, campaign }: Props) {
           </HeaderButton>
         }
       />
-      <HorizLayout>
-        <LeftColumn>
-          <PageContent>
+      <PageWithSidebar
+        content={
+          <React.Fragment>
             <TextSection title="Summary">{summary}</TextSection>
             <Spacer height={20} />
-            <TextSection title="Notes">{notes}</TextSection>
+            <TextSection title="Notes" pre>
+              {notes}
+            </TextSection>
             <Spacer height={20} />
-          </PageContent>
-        </LeftColumn>
-        <RightColumn>
-          <PageSidebar>
-            <NounsInSession session={session} />
-          </PageSidebar>
-        </RightColumn>
-      </HorizLayout>
+          </React.Fragment>
+        }
+        sidebar={<NounsInSession session={session} />}
+      />
     </React.Fragment>
   )
 }

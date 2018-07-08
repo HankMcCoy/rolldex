@@ -14,8 +14,11 @@ const campaignColorLight = '#E4E4ED'
 const systemColor = '#417F9C'
 const primaryGreen = '#3BA170'
 
-export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
-  get(theme, path)
+export const fromTheme = (path: string): mixed => ({
+  theme,
+}: {
+  theme: Object,
+}) => get(theme, path)
 
 const theme = {
   // COLORS
@@ -36,6 +39,7 @@ const theme = {
   topBarHeight: '100px',
   sidebarHzPadding: '20px',
   pageHzPadding: '30px',
+  pageSidebarWidth: 300,
 
   // FONTS
   contentFont: {

@@ -1,17 +1,44 @@
 // @flow
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
+import styled from 'react-emotion'
 
+import { fromTheme } from 'r/theme'
 import PageHeader, { HeaderButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
-import PageContent from 'r/components/page-content'
+import PageWithSidebar from 'r/components/page-with-sidebar'
 import TextSection from 'r/components/text-section'
 
-import type { Noun } from 'r/data/nouns'
+import type { Noun, NounType } from 'r/data/nouns'
 import { withNoun } from 'r/data/nouns/connectors'
 
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaign } from 'r/data/campaigns/connectors'
+
+import PersonSvg from 'r/svg/person'
+import PlaceSvg from 'r/svg/place'
+import ThingSvg from 'r/svg/thing'
+
+const nounTypeToSvg: { [NounType]: React.Node } = {
+  PERSON: <PersonSvg />,
+  PLACE: <PlaceSvg />,
+  THING: <ThingSvg />,
+}
+
+const AvatarWrapper = styled.div`
+  width: ${fromTheme('pageSidebarWidth')}px;
+  height: ${fromTheme('pageSidebarWidth')}px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #9c9dc9;
+  border-bottom: 1px solid ${fromTheme('gray87')};
+  & > svg {
+    width: 60%;
+    height: 60%;
+    stroke: ${fromTheme('white')};
+  }
+`
 
 type Props = {
   noun: Noun | void,
@@ -20,6 +47,7 @@ type Props = {
 function NounDetail({ noun, campaign }: Props) {
   if (!noun || !campaign) return <LoadingPage />
   const { name, description, noun_type } = noun
+  const typeSvg = nounTypeToSvg[noun_type]
   return (
     <React.Fragment>
       <PageHeader
@@ -34,10 +62,10 @@ function NounDetail({ noun, campaign }: Props) {
           </HeaderButton>
         }
       />
-      <PageContent>
-        TYPE: {noun_type}
-        <TextSection title="Description">{description}</TextSection>
-      </PageContent>
+      <PageWithSidebar
+        content={<TextSection title="Description">{description}</TextSection>}
+        sidebar={<AvatarWrapper>{typeSvg}</AvatarWrapper>}
+      />
     </React.Fragment>
   )
 }

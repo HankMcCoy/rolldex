@@ -6,7 +6,7 @@ import {
   FETCH_CAMPAIGN_LIST,
   FETCH_CAMPAIGN,
 } from './action-types'
-import type { DraftCampaign } from './index'
+import type { Campaign, DraftCampaign } from './index'
 
 export const fetchCampaignList = () =>
   actionXhr({

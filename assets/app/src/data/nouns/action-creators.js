@@ -6,7 +6,7 @@ import {
   FETCH_NOUN_LIST,
   FETCH_NOUN,
 } from './action-types'
-import type { DraftNoun } from './index'
+import type { Noun, DraftNoun } from './index'
 
 export const fetchNounList = (campaignId: number) =>
   actionXhr({

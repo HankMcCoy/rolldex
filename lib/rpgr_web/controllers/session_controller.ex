@@ -41,8 +41,8 @@ defmodule RpgrWeb.SessionController do
     end
   end
 
-  def nouns(conn, %{"session_id" => id}) do
+  def related_nouns(conn, %{"session_id" => id}) do
     nouns = CampaignContext.get_nouns_in_session(id)
-    render(conn, "nouns_in_session.json", nouns: nouns)
+    render(conn, "related_nouns.json", nouns: nouns)
   end
 end

@@ -1,6 +1,7 @@
 // @flow
 import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
+import isEqual from 'lodash-es/isEqual'
 import { type HOC, lifecycle, mapProps } from 'recompose'
 
 import { connect } from 'r/util/redux'
@@ -21,6 +22,13 @@ export const withNoun: <T>(
       componentDidMount() {
         const { campaignId, nounId } = getIds(this.props)
         this.props.fetchNoun(campaignId, nounId)
+      },
+      componentDidUpdate(prevProps) {
+        const curIds = getIds(this.props)
+        const prevIds = getIds(prevProps)
+        if (!isEqual(curIds, prevIds)) {
+          this.props.fetchNoun(curIds.campaignId, curIds.nounId)
+        }
       },
     }),
     mapProps(props => omit(props, ['fetchNoun', 'nounId'])),

@@ -6,9 +6,7 @@ import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
 import { withState, lifecycle, mapProps } from 'recompose'
 
-import type { Session } from 'r/data/sessions'
 import type { Noun } from 'r/data/nouns'
-import { callApi } from 'r/util/api'
 
 import H2 from 'r/components/h2'
 import Spacer from 'r/components/spacer'
@@ -31,9 +29,9 @@ const UnstyledLink = styled(Link)`
   text-decoration: none;
 `
 
-const NounLink = ({ session, noun }) => (
+const NounLink = ({ noun, campaignId }) => (
   <li>
-    <UnstyledLink to={`/campaigns/${session.campaign_id}/nouns/${noun.id}`}>
+    <UnstyledLink to={`/campaigns/${campaignId}/nouns/${noun.id}`}>
       - {noun.name}
     </UnstyledLink>
   </li>
@@ -41,9 +39,9 @@ const NounLink = ({ session, noun }) => (
 
 type Props = {
   nouns: Array<Noun> | void,
-  session: Session,
+  campaignId: number,
 }
-function NounsInSession({ nouns, session }: Props) {
+function NounsInSession({ nouns, campaignId }: Props) {
   if (!nouns) return 'Loading...'
   const people = nouns.filter(n => n.noun_type === 'PERSON')
   const places = nouns.filter(n => n.noun_type === 'PLACE')
@@ -56,7 +54,9 @@ function NounsInSession({ nouns, session }: Props) {
           <H2>People</H2>
           <Spacer height={15} />
           <NounList>
-            {people.map(noun => <NounLink noun={noun} session={session} />)}
+            {people.map(noun => (
+              <NounLink noun={noun} campaignId={campaignId} />
+            ))}
           </NounList>
         </NounGroup>
       ) : null}
@@ -65,7 +65,9 @@ function NounsInSession({ nouns, session }: Props) {
           <H2>Places</H2>
           <Spacer height={15} />
           <NounList>
-            {places.map(noun => <NounLink noun={noun} session={session} />)}
+            {places.map(noun => (
+              <NounLink noun={noun} campaignId={campaignId} />
+            ))}
           </NounList>
         </NounGroup>
       ) : null}
@@ -74,7 +76,9 @@ function NounsInSession({ nouns, session }: Props) {
           <H2>Things</H2>
           <Spacer height={15} />
           <NounList>
-            {things.map(noun => <NounLink noun={noun} session={session} />)}
+            {things.map(noun => (
+              <NounLink noun={noun} campaignId={campaignId} />
+            ))}
           </NounList>
         </NounGroup>
       ) : null}
@@ -86,16 +90,8 @@ export default flowRight(
   withState('nouns', 'setNouns', []),
   lifecycle({
     componentDidMount() {
-      const {
-        setNouns,
-        session: { id, campaign_id },
-      } = this.props
-      callApi({
-        path: `/api/campaigns/${campaign_id}/sessions/${id}/nouns`,
-        method: 'GET',
-      }).then(({ data: nouns }) => {
-        setNouns(nouns)
-      })
+      const { getNouns, setNouns } = this.props
+      getNouns().then(setNouns)
     },
   }),
   mapProps(props => omit(props, ['setNouns'])),

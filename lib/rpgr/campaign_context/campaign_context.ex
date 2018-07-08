@@ -6,6 +6,8 @@ defmodule Rpgr.CampaignContext do
   import Ecto.Query, warn: false
   alias Rpgr.Repo
 
+  # CAMPAIGNS
+
   alias Rpgr.CampaignContext.Campaign
 
   def list_campaigns do
@@ -33,6 +35,8 @@ defmodule Rpgr.CampaignContext do
   def change_campaign(%Campaign{} = campaign) do
     Campaign.changeset(campaign, %{})
   end
+
+  # SESSIONS
 
   alias Rpgr.CampaignContext.Session
 
@@ -62,6 +66,7 @@ defmodule Rpgr.CampaignContext do
     Session.changeset(session, %{})
   end
 
+  # NOUNS
 
   alias Rpgr.CampaignContext.Noun
 
@@ -91,6 +96,8 @@ defmodule Rpgr.CampaignContext do
     Noun.changeset(noun, %{})
   end
 
+  # NOUNS FOR THINGS
+
   def get_nouns_in_session(id) do
     session = Repo.get!(Session, id)
     nouns = list_nouns()
@@ -98,6 +105,21 @@ defmodule Rpgr.CampaignContext do
       nounName = String.downcase(noun.name)
       String.downcase(session.summary) =~ nounName or
         String.downcase(session.notes) =~ nounName
+    end)
+  end
+
+  def get_related_nouns_for_noun(nounId) do
+    srcNoun = Repo.get!(Noun, nounId)
+    candidateNouns = list_nouns()
+    Enum.filter(candidateNouns, fn(candidateNoun) ->
+      candidateReferenceThisNoun =
+        String.downcase(candidateNoun.description) =~ String.downcase(srcNoun.name)
+      thisNounReferencesCandidate =
+        String.downcase(srcNoun.description) =~ String.downcase(candidateNoun.name)
+
+      candidateNoun.id != nounId and (
+        candidateReferenceThisNoun or thisNounReferencesCandidate
+      )
     end)
   end
 end

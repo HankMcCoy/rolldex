@@ -18,9 +18,11 @@ defmodule RpgrWeb.Router do
     resources "/systems", SystemController
     resources "/campaigns", CampaignController do
       resources "/sessions", SessionController, except: [:new, :edit] do
-        get "/nouns", SessionController, :nouns
+        get "/related-nouns", SessionController, :related_nouns
       end
-      resources "/nouns", NounController, except: [:new, :edit]
+      resources "/nouns", NounController, except: [:new, :edit] do
+        get "/related-nouns", NounController, :related_nouns
+      end
     end
   end
 

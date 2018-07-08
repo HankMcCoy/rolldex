@@ -39,4 +39,9 @@ defmodule RpgrWeb.NounController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def related_nouns(conn, %{"noun_id" => id}) do
+    nouns = CampaignContext.get_related_nouns_for_noun(id)
+    render(conn, "index.json", nouns: nouns)
+  end
 end

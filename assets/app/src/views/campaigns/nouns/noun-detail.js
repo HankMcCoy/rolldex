@@ -8,12 +8,15 @@ import PageHeader, { HeaderButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageWithSidebar from 'r/components/page-with-sidebar'
 import TextSection from 'r/components/text-section'
+import RelatedNouns from 'r/components/related-nouns'
 
 import type { Noun, NounType } from 'r/data/nouns'
 import { withNoun } from 'r/data/nouns/connectors'
 
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaign } from 'r/data/campaigns/connectors'
+
+import { callApi } from 'r/util/api'
 
 import PersonSvg from 'r/svg/person'
 import PlaceSvg from 'r/svg/place'
@@ -64,7 +67,24 @@ function NounDetail({ noun, campaign }: Props) {
       />
       <PageWithSidebar
         content={<TextSection title="Description">{description}</TextSection>}
-        sidebar={<AvatarWrapper>{typeSvg}</AvatarWrapper>}
+        sidebar={
+          <React.Fragment>
+            <AvatarWrapper>{typeSvg}</AvatarWrapper>
+
+            <RelatedNouns
+              key={noun.id}
+              campaignId={campaign.id}
+              getNouns={() =>
+                callApi({
+                  path: `/api/campaigns/${campaign.id}/nouns/${
+                    noun.id
+                  }/related-nouns`,
+                  method: 'GET',
+                }).then(({ data: nouns }) => nouns)
+              }
+            />
+          </React.Fragment>
+        }
       />
     </React.Fragment>
   )

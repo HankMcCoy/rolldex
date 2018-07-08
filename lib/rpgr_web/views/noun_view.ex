@@ -17,4 +17,8 @@ defmodule RpgrWeb.NounView do
       description: noun.description,
       campaign_id: noun.campaign_id}
   end
+
+  def render("related_nouns.json", %{nouns: nouns}) do
+    %{data: render_many(nouns, NounView, "noun.json")}
+  end
 end

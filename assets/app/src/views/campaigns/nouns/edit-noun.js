@@ -1,13 +1,10 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
 import flowRight from 'lodash-es/flowRight'
-import { Formik } from 'formik'
 import { withRouter } from 'react-router-dom'
 import { type History } from 'history'
 
 import { connect } from 'r/util/redux'
-import { required } from 'r/util/formik'
 
 import type { Noun } from 'r/data/nouns'
 import { updateNoun } from 'r/data/nouns/action-creators'
@@ -18,19 +15,9 @@ import { withCampaign } from 'r/data/campaigns/connectors'
 
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
-import FormField from 'r/components/form-field'
-import { PrimaryButton, SecondaryButton } from 'r/components/button'
-import Spacer from 'r/components/spacer'
 import LoadingPage from 'r/components/loading-page'
 
-const FormWrapper = styled('div')`
-  max-width: 500px;
-`
-
-const ButtonsWrapper = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`
+import NounForm from './noun-form'
 
 type Props = {
   campaign: Campaign,
@@ -50,64 +37,28 @@ function EditNoun({ campaign, noun, history, updateNoun }: Props) {
         ]}
       />
       <PageContent>
-        <FormWrapper>
-          <Formik
-            initialValues={{
-              name: noun.name,
-              description: noun.description,
-              nounType: noun.noun_type,
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              const { name, description, nounType } = values
-              updateNoun({
-                ...noun,
-                name,
-                description,
-                noun_type: nounType,
-              }).then(noun => {
-                setSubmitting(false)
-                history.push(`/campaigns/${campaign.id}`)
-              })
-            }}
-            render={({ handleSubmit, handleChange, handleBlur, values }) => (
-              <form onSubmit={handleSubmit}>
-                <FormField name="name" label="Name" validate={required} />
-                <Spacer height={20} />
-                <FormField
-                  name="nounType"
-                  label="Type"
-                  component="select"
-                  validate={required}
-                >
-                  <option />
-                  <option value="PERSON">Person</option>
-                  <option value="PLACE">Place</option>
-                  <option value="THING">Thing</option>
-                </FormField>
-                <Spacer height={20} />
-                <FormField
-                  name="description"
-                  label="Description"
-                  component="textarea"
-                  validate={required}
-                />
-                <Spacer height={20} />
-                <ButtonsWrapper>
-                  <SecondaryButton
-                    onClick={e => {
-                      e.preventDefault()
-                      history.push(`/campaigns/${campaign.id}`)
-                    }}
-                  >
-                    Cancel
-                  </SecondaryButton>
-                  <Spacer width={10} />
-                  <PrimaryButton type="submit">Save</PrimaryButton>
-                </ButtonsWrapper>
-              </form>
-            )}
-          />
-        </FormWrapper>
+        <NounForm
+          initialValues={{
+            name: noun.name,
+            description: noun.description,
+            nounType: noun.noun_type,
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            const { name, description, nounType } = values
+            updateNoun({
+              ...noun,
+              name,
+              description,
+              noun_type: nounType,
+            }).then(noun => {
+              setSubmitting(false)
+              history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+            })
+          }}
+          onCancel={() => {
+            history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+          }}
+        />
       </PageContent>
     </React.Fragment>
   )

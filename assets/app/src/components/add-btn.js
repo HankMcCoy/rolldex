@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import styled from 'react-emotion'
-import { Link, withRouter } from 'react-router-dom'
+import { type Match, Link, withRouter } from 'react-router-dom'
 
 import { getSubAppColor } from 'r/util'
 
@@ -29,9 +29,7 @@ type Props = {
   inverted?: boolean,
   onClick?: (SyntheticMouseEvent<HTMLButtonElement>) => void,
   to?: string,
-  match: {
-    path: string,
-  },
+  match: Match,
 }
 function AddBtn({ inverted = false, onClick, to, match }: Props) {
   if (onClick) {

@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import styled from 'react-emotion'
-import { withRouter, Link } from 'react-router-dom'
+import { type Match, withRouter, Link } from 'react-router-dom'
 
 import H1 from 'r/components/h1'
 import Spacer from 'r/components/spacer'
@@ -78,9 +78,7 @@ type ExternalProps = {|
   controls?: React.Node,
 |}
 type RouterProps = {
-  match: {
-    path: string,
-  },
+  match: Match,
 }
 function PageHeader({
   title,
@@ -110,7 +108,7 @@ function PageHeader({
   )
 }
 
-const PageHeaderExport: React.ComponentType<ExternalProps> = withRouter(
+const PageHeaderExport: React$ComponentType<ExternalProps> = withRouter(
   PageHeader,
 )
 export default PageHeaderExport

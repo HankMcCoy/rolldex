@@ -2,7 +2,12 @@
 
 import React, { Component } from 'react'
 import { Provider as ReduxProvider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
+import {
+  type StoreEnhancer,
+  createStore,
+  applyMiddleware,
+  compose,
+} from 'redux'
 import thunk from 'redux-thunk'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { ThemeProvider } from 'emotion-theming'
@@ -14,7 +19,10 @@ import Campaigns from './views/campaigns'
 import reducer from './reducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)))
+const storeEnhancer: StoreEnhancer<*, *, *> = composeEnhancers(
+  applyMiddleware(thunk),
+)
+const store = createStore(reducer, storeEnhancer)
 
 class App extends Component<{}> {
   render() {

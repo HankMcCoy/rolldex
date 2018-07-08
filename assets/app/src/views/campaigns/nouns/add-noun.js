@@ -1,7 +1,8 @@
 // @flow
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
-import { type History, withRouter } from 'react-router-dom'
+import { type History } from 'history'
+import { withRouter } from 'react-router-dom'
 
 import { connect } from 'r/util/redux'
 

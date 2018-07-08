@@ -1,5 +1,6 @@
 // @flow
 import styled from 'react-emotion'
+import { Link } from 'react-router-dom'
 
 import { fromTheme } from 'r/theme'
 
@@ -16,6 +17,12 @@ export const Button = styled('button')`
   width: 100px;
   cursor: pointer;
 `
+
+const UnstyledLink = styled(Link)`
+  text-decoration: none;
+`
+
+export const LinkButton = Button.withComponent(UnstyledLink)
 
 export const PrimaryButton = styled(Button)`
   background: ${fromTheme('primaryGreen')};

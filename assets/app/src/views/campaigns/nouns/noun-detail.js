@@ -2,7 +2,7 @@
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
 
-import PageHeader from 'r/components/page-header'
+import PageHeader, { HeaderButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
@@ -10,15 +10,30 @@ import TextSection from 'r/components/text-section'
 import type { Noun } from 'r/data/nouns'
 import { withNoun } from 'r/data/nouns/connectors'
 
+import type { Campaign } from 'r/data/campaigns'
+import { withCampaign } from 'r/data/campaigns/connectors'
+
 type Props = {
   noun: Noun | void,
+  campaign: Campaign | void,
 }
-function NounDetail({ noun }: Props) {
-  if (!noun) return <LoadingPage />
+function NounDetail({ noun, campaign }: Props) {
+  if (!noun || !campaign) return <LoadingPage />
   const { name, description, noun_type } = noun
   return (
     <React.Fragment>
-      <PageHeader title={name} />
+      <PageHeader
+        title={name}
+        breadcrumbs={[
+          { text: 'Campaigns', to: '/campaigns' },
+          { text: campaign.name, to: `/campaigns/${campaign.id}` },
+        ]}
+        controls={
+          <HeaderButton to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}>
+            Edit
+          </HeaderButton>
+        }
+      />
       <PageContent>
         TYPE: {noun_type}
         <TextSection title="Description">{description}</TextSection>
@@ -31,4 +46,7 @@ const getIds = ({ match: { params } }) => ({
   nounId: +params.nounId,
   campaignId: +params.campaignId,
 })
-export default flowRight(withNoun(getIds))(NounDetail)
+export default flowRight(
+  withNoun(getIds),
+  withCampaign(props => getIds(props).campaignId),
+)(NounDetail)

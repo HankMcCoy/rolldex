@@ -30,7 +30,10 @@ function CampaignDetail({ campaign, sessions, nouns }: Props) {
   const { name, description, id } = campaign
   return (
     <React.Fragment>
-      <PageHeader title={name} />
+      <PageHeader
+        title={name}
+        breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
+      />
       <PageContent>
         <ColumnView gutterWidth={40}>
           <Column>

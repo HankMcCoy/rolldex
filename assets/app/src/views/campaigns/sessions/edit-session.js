@@ -4,8 +4,9 @@ import flowRight from 'lodash-es/flowRight'
 import { type History, withRouter } from 'react-router-dom'
 
 import { connect } from 'r/util/redux'
-import type { Session, DraftSession } from 'r/data/sessions'
-import { createSession } from 'r/data/sessions/action-creators'
+import type { Session } from 'r/data/sessions'
+import { updateSession } from 'r/data/sessions/action-creators'
+import { withSession } from 'r/data/sessions/connectors'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
@@ -17,42 +18,42 @@ import SessionForm from './session-form'
 
 type Props = {
   campaign: Campaign | void,
+  session: Session,
   history: History,
-  createSession: DraftSession => Promise<Session>,
+  updateSession: Session => Promise<Session>,
 }
-function AddSession({ campaign, history, createSession }: Props) {
-  if (!campaign) return <LoadingPage />
+function EditSession({ campaign, session, history, updateSession }: Props) {
+  if (!campaign || !session) return <LoadingPage />
   return (
     <React.Fragment>
       <PageHeader
-        title="New Session"
+        title={`Edit ${session.name}`}
         breadcrumbs={[
           { text: 'Campaigns', to: '/campaigns' },
           { text: campaign.name, to: `/campaigns/${campaign.id}` },
-          { text: 'Add Session', to: `/campaigns/${campaign.id}/add` },
         ]}
       />
       <PageContent>
         <SessionForm
           initialValues={{
-            name: '',
-            summary: '',
-            notes: '',
+            name: session.name,
+            summary: session.summary,
+            notes: session.notes,
           }}
           onSubmit={(values, { setSubmitting }) => {
             const { name, summary, notes } = values
-            createSession({
+            updateSession({
+              ...session,
               name,
               summary,
               notes,
-              campaign_id: campaign.id,
             }).then(session => {
               setSubmitting(false)
-              history.push(`/campaigns/${campaign.id}`)
+              history.push(`/campaigns/${campaign.id}/sessions/${session.id}`)
             })
           }}
           onCancel={() => {
-            history.push(`/campaigns/${campaign.id}`)
+            history.push(`/campaigns/${campaign.id}/sessions/${session.id}`)
           }}
         />
       </PageContent>
@@ -60,12 +61,17 @@ function AddSession({ campaign, history, createSession }: Props) {
   )
 }
 
+const getIds = ({ match: { params } }) => ({
+  campaignId: +params.campaignId,
+  sessionId: +params.sessionId,
+})
 export default flowRight(
   withRouter,
-  withCampaign(({ match: { params } }) => +params.campaignId),
+  withCampaign(props => getIds(props).campaignId),
+  withSession(getIds),
   connect({
     actionCreators: {
-      createSession,
+      updateSession,
     },
   }),
-)(AddSession)
+)(EditSession)

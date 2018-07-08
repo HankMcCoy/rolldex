@@ -2,10 +2,11 @@
 import { actionXhr } from 'r/util/redux'
 import {
   CREATE_SESSION,
+  UPDATE_SESSION,
   FETCH_SESSION_LIST,
   FETCH_SESSION,
 } from './action-types'
-import type { DraftSession } from './index'
+import type { Session, DraftSession } from './index'
 
 export const fetchSessionList = (campaignId: number) =>
   actionXhr({
@@ -27,4 +28,12 @@ export const createSession = (draftSession: DraftSession) =>
     method: 'POST',
     path: `/api/campaigns/${draftSession.campaign_id}/sessions`,
     requestBody: { session: draftSession },
+  })
+
+export const updateSession = (session: Session) =>
+  actionXhr({
+    actionType: UPDATE_SESSION,
+    method: 'PUT',
+    path: `/api/campaigns/${session.campaign_id}/sessions/${session.id}`,
+    requestBody: { session },
   })

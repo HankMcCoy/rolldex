@@ -1,98 +1,61 @@
 // @flow
 import * as React from 'react'
-import { withProps } from 'recompose'
-import styled from 'react-emotion'
 import flowRight from 'lodash-es/flowRight'
-import { Formik } from 'formik'
 import { type History, withRouter } from 'react-router-dom'
 
 import { connect } from 'r/util/redux'
-import { required } from 'r/util/formik'
+
 import type { Noun, DraftNoun } from 'r/data/nouns'
 import { createNoun } from 'r/data/nouns/action-creators'
+
+import type { Campaign } from 'r/data/campaigns'
+import { withCampaign } from 'r/data/campaigns/connectors'
+
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
-import FormField from 'r/components/form-field'
-import { PrimaryButton, SecondaryButton } from 'r/components/button'
-import Spacer from 'r/components/spacer'
+import LoadingPage from 'r/components/loading-page'
 
-const FormWrapper = styled('div')`
-  max-width: 500px;
-`
-
-const ButtonsWrapper = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`
+import NounForm from './noun-form'
 
 type Props = {
-  campaignId: number,
+  campaign: Campaign,
   history: History,
   createNoun: DraftNoun => Promise<Noun>,
 }
-function AddNoun({ campaignId, history, createNoun }: Props) {
+function AddNoun({ campaign, history, createNoun }: Props) {
+  if (!campaign) return <LoadingPage />
   return (
     <React.Fragment>
-      <PageHeader title="New Noun" />
+      <PageHeader
+        title="New Noun"
+        breadcrumbs={[
+          { text: 'Campaigns', to: '/campaigns' },
+          { text: campaign.name, to: `/campaigns/${campaign.id}` },
+        ]}
+      />
       <PageContent>
-        <FormWrapper>
-          <Formik
-            initialValues={{
-              name: '',
-              description: '',
-              nounType: '',
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              const { name, description, nounType } = values
-              createNoun({
-                name,
-                description,
-                noun_type: nounType,
-                campaign_id: campaignId,
-              }).then(noun => {
-                setSubmitting(false)
-                history.push(`/campaigns/${campaignId}`)
-              })
-            }}
-            render={({ handleSubmit, handleChange, handleBlur, values }) => (
-              <form onSubmit={handleSubmit}>
-                <FormField name="name" label="Name" validate={required} />
-                <Spacer height={20} />
-                <FormField
-                  name="nounType"
-                  label="Type"
-                  component="select"
-                  validate={required}
-                >
-                  <option />
-                  <option value="PERSON">Person</option>
-                  <option value="PLACE">Place</option>
-                  <option value="THING">Thing</option>
-                </FormField>
-                <Spacer height={20} />
-                <FormField
-                  name="description"
-                  label="Description"
-                  component="textarea"
-                  validate={required}
-                />
-                <Spacer height={20} />
-                <ButtonsWrapper>
-                  <SecondaryButton
-                    onClick={e => {
-                      e.preventDefault()
-                      history.push(`/campaigns/${campaignId}`)
-                    }}
-                  >
-                    Cancel
-                  </SecondaryButton>
-                  <Spacer width={10} />
-                  <PrimaryButton type="submit">Save</PrimaryButton>
-                </ButtonsWrapper>
-              </form>
-            )}
-          />
-        </FormWrapper>
+        <NounForm
+          initialValues={{
+            name: '',
+            description: '',
+            nounType: '',
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            const { name, description, nounType } = values
+            createNoun({
+              name,
+              description,
+              noun_type: nounType,
+              campaign_id: campaign.id,
+            }).then(noun => {
+              setSubmitting(false)
+              history.push(`/campaigns/${campaign.id}`)
+            })
+          }}
+          onCancel={() => {
+            history.push(`/campaigns/${campaign.id}`)
+          }}
+        />
       </PageContent>
     </React.Fragment>
   )
@@ -100,7 +63,7 @@ function AddNoun({ campaignId, history, createNoun }: Props) {
 
 export default flowRight(
   withRouter,
-  withProps(({ match: { params } }) => ({ campaignId: +params.campaignId })),
+  withCampaign(({ match: { params } }) => +params.campaignId),
   connect({
     actionCreators: {
       createNoun,

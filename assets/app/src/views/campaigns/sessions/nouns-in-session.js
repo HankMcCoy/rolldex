@@ -16,14 +16,14 @@ import Spacer from 'r/components/spacer'
 const Root = styled.div`
   padding: 20px;
   & > *:not(:last-child) {
-    margin-bottom: 15px;
+    margin-bottom: 25px;
   }
 `
 const NounGroup = styled.div``
 
 const NounList = styled.ul`
   & > *:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 `
 
@@ -54,7 +54,7 @@ function NounsInSession({ nouns, session }: Props) {
       {people.length ? (
         <NounGroup>
           <H2>People</H2>
-          <Spacer height={10} />
+          <Spacer height={15} />
           <NounList>
             {people.map(noun => <NounLink noun={noun} session={session} />)}
           </NounList>
@@ -63,7 +63,7 @@ function NounsInSession({ nouns, session }: Props) {
       {places.length ? (
         <NounGroup>
           <H2>Places</H2>
-          <Spacer height={10} />
+          <Spacer height={15} />
           <NounList>
             {places.map(noun => <NounLink noun={noun} session={session} />)}
           </NounList>
@@ -72,7 +72,7 @@ function NounsInSession({ nouns, session }: Props) {
       {things.length ? (
         <NounGroup>
           <H2>Things</H2>
-          <Spacer height={10} />
+          <Spacer height={15} />
           <NounList>
             {things.map(noun => <NounLink noun={noun} session={session} />)}
           </NounList>

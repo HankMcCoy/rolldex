@@ -4,7 +4,10 @@
 - [x] FE: Load campaigns/systems after adding one
 - [x] FE & BE: Basic world entity CRUD
 - [x] FE: Rewrite in React/Redux, with basic system/campaign/session CRUD working
-- [ ] FE & BE: Naive entity extraction
+- [x] FE & BE: Naive noun extraction
+- [ ] FE & BE: Show related nouns/sessions on noun pages
 - [ ] FE: Expando sidebar nav
+- [ ] FE & BE: Support images for nouns
 - [ ] FE: Breadcrumbs in the header
+- [ ] FE: Support editing things
 - [ ] FE: Show validation error for required fields when creating systems/campaigns

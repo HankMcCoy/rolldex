@@ -8,6 +8,7 @@ const Root = styled('div')`
   padding-right: ${fromTheme('pageHzPadding')};
   padding-bottom: 20px;
   padding-left: ${fromTheme('pageHzPadding')};
+  flex: 1 0 0%;
 `
 
 type Props = {

@@ -8,8 +8,10 @@ const gray87 = '#ddd'
 const gray97 = '#F8F8F8'
 const white = '#fff'
 
-const campaignPurple = '#6C6EA0'
-const systemBlue = '#417F9C'
+const campaignColor = '#6C6EA0'
+const campaignText = '#696987'
+const campaignColorLight = '#E4E4ED'
+const systemColor = '#417F9C'
 const primaryGreen = '#3BA170'
 
 export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
@@ -23,8 +25,10 @@ const theme = {
   gray87,
   gray97,
   white,
-  campaignPurple,
-  systemBlue,
+  campaignColor,
+  campaignText,
+  campaignColorLight,
+  systemColor,
   primaryGreen,
   textColor: gray20,
 

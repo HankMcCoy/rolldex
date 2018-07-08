@@ -17,8 +17,8 @@ const getSubApp = (path: string): SubApp => {
 }
 
 const subAppColors: { [SubApp]: string } = {
-  campaigns: 'campaignPurple',
-  systems: 'systemBlue',
+  campaigns: 'campaignColor',
+  systems: 'systemColor',
 }
 export const getSubAppColor = ({
   match,

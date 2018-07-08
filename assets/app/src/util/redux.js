@@ -4,6 +4,7 @@ import { connect as reduxConnect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import mapValues from 'lodash-es/mapValues'
 import partial from 'lodash-es/partial'
+import { callApi } from './api'
 
 export type Action = {
   type: string,
@@ -53,35 +54,27 @@ export const actionXhr = ({
     payload: initialPayload,
   })
 
-  return window
-    .fetch(path, {
-      method,
-      body: requestBody !== undefined ? JSON.stringify(requestBody) : undefined,
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-      },
-    })
-    .then(resp => {
-      if (!resp.ok) throw new Error('Fetch failed')
-      return resp.json()
-    })
-    .then(
-      json => {
-        const payload = transformSuccessPayload(json.data)
-        dispatch({
-          type: success(actionType),
-          payload,
-        })
-        return payload
-      },
-      err => {
-        dispatch({
-          type: failure(actionType),
-          payload: transformFailurePayload(err),
-        })
-        throw err
-      },
-    )
+  return callApi({
+    path,
+    method,
+    body: requestBody,
+  }).then(
+    json => {
+      const payload = transformSuccessPayload(json.data)
+      dispatch({
+        type: success(actionType),
+        payload,
+      })
+      return payload
+    },
+    err => {
+      dispatch({
+        type: failure(actionType),
+        payload: transformFailurePayload(err),
+      })
+      throw err
+    },
+  )
 }
 
 function mapStateToSelectors(propToSelectorMap) {

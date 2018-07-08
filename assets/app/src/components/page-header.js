@@ -11,6 +11,7 @@ import { getSubAppColor } from 'r/util'
 const Root = styled('div')`
   background: ${getSubAppColor};
   height: ${fromTheme('topBarHeight')};
+  flex: 0 0 ${fromTheme('topBarHeight')};
   line-height: ${fromTheme('topBarHeight')};
   padding-left: ${fromTheme('pageHzPadding')};
   padding-right: ${fromTheme('pageHzPadding')};

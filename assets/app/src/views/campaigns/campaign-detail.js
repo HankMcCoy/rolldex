@@ -2,7 +2,7 @@
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
 
-import PageHeader from 'r/components/page-header'
+import PageHeader, { HeaderButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
@@ -33,6 +33,11 @@ function CampaignDetail({ campaign, sessions, nouns }: Props) {
       <PageHeader
         title={name}
         breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
+        controls={
+          <HeaderButton to={`/campaigns/${campaign.id}/edit`}>
+            Edit
+          </HeaderButton>
+        }
       />
       <PageContent>
         <ColumnView gutterWidth={40}>

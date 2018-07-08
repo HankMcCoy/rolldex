@@ -2,6 +2,7 @@
 import { actionXhr } from 'r/util/redux'
 import {
   CREATE_CAMPAIGN,
+  UPDATE_CAMPAIGN,
   FETCH_CAMPAIGN_LIST,
   FETCH_CAMPAIGN,
 } from './action-types'
@@ -27,4 +28,12 @@ export const createCampaign = (draftCampaign: DraftCampaign) =>
     method: 'POST',
     path: '/api/campaigns',
     requestBody: { campaign: draftCampaign },
+  })
+
+export const updateCampaign = (campaign: Campaign) =>
+  actionXhr({
+    actionType: UPDATE_CAMPAIGN,
+    method: 'PUT',
+    path: `/api/campaigns/${campaign.id}`,
+    requestBody: { campaign },
   })

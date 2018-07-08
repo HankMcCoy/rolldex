@@ -6,6 +6,7 @@ import type { Match } from 'react-router-dom'
 import CampaignDetail from './campaign-detail'
 import CampaignList from './campaign-list'
 import AddCampaign from './add-campaign'
+import EditCampaign from './edit-campaign'
 import Sessions from './sessions'
 import Nouns from './nouns'
 
@@ -18,6 +19,11 @@ export default function Campaigns({ match }: Props) {
       <Switch>
         <Route exact path={match.path} component={CampaignList} />
         <Route exact path={`${match.path}/add`} component={AddCampaign} />
+        <Route
+          exact
+          path={`${match.path}/:campaignId/edit`}
+          component={EditCampaign}
+        />
         <Route
           path={`${match.path}/:campaignId/sessions`}
           component={Sessions}

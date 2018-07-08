@@ -5,6 +5,7 @@ import { success, createReducer } from 'r/util/redux'
 
 import {
   CREATE_CAMPAIGN,
+  UPDATE_CAMPAIGN,
   FETCH_CAMPAIGN_LIST,
   FETCH_CAMPAIGN,
 } from './action-types'
@@ -27,17 +28,16 @@ type State = {
   [number]: Campaign,
 }
 const initialState: State = {}
+const updateOne = (state, campaign: Campaign) => ({
+  ...state,
+  [campaign.id]: campaign,
+})
 export default createReducer(initialState, {
   [success(FETCH_CAMPAIGN_LIST)]: (state, campaigns: Array<Campaign>) => ({
     ...state,
     ...keyBy(campaigns, 'id'),
   }),
-  [success(FETCH_CAMPAIGN)]: (state, campaign: Campaign) => ({
-    ...state,
-    [campaign.id]: campaign,
-  }),
-  [success(CREATE_CAMPAIGN)]: (state, campaign: Campaign) => ({
-    ...state,
-    [campaign.id]: campaign,
-  }),
+  [success(FETCH_CAMPAIGN)]: updateOne,
+  [success(CREATE_CAMPAIGN)]: updateOne,
+  [success(UPDATE_CAMPAIGN)]: updateOne,
 })

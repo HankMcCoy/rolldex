@@ -10,5 +10,6 @@
 - [x] FE: Crude icons for nouns
 - [ ] FE & BE: Show related nouns/sessions on noun pages
 - [ ] FE: Expando sidebar nav
+- [ ] FE & BE: Build a Cmd-K shortcut for going to any noun or session
 - [ ] FE & BE: Support images for nouns
 - [ ] FE: Show validation error for required fields when creating systems/campaigns

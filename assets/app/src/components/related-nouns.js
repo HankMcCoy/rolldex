@@ -13,6 +13,7 @@ import Spacer from 'r/components/spacer'
 
 const Root = styled.div`
   padding: 20px;
+  padding-bottom: 0;
   & > *:not(:last-child) {
     margin-bottom: 25px;
   }

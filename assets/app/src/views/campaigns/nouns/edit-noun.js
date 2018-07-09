@@ -45,6 +45,7 @@ function EditNoun({ campaign, noun, history, updateNoun }: Props) {
           }}
           onSubmit={(values, { setSubmitting }) => {
             const { name, description, nounType } = values
+            if (!nounType) throw new Error('Noun type required')
             updateNoun({
               ...noun,
               name,

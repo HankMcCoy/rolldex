@@ -22,6 +22,8 @@ import PersonSvg from 'r/svg/person'
 import PlaceSvg from 'r/svg/place'
 import ThingSvg from 'r/svg/thing'
 
+import RelatedSessions from './related-sessions'
+
 const nounTypeToSvg: { [NounType]: React.Node } = {
   PERSON: <PersonSvg />,
   PLACE: <PlaceSvg />,
@@ -72,7 +74,7 @@ function NounDetail({ noun, campaign }: Props) {
             <AvatarWrapper>{typeSvg}</AvatarWrapper>
 
             <RelatedNouns
-              key={noun.id}
+              key={`related-nouns-${noun.id}`}
               campaignId={campaign.id}
               getNouns={() =>
                 callApi({
@@ -82,6 +84,11 @@ function NounDetail({ noun, campaign }: Props) {
                   method: 'GET',
                 }).then(({ data: nouns }) => nouns)
               }
+            />
+            <RelatedSessions
+              key={`related-sessions-${noun.id}`}
+              noun={noun}
+              campaignId={campaign.id}
             />
           </React.Fragment>
         }

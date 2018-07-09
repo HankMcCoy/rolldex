@@ -15,10 +15,12 @@ defmodule RpgrWeb.SessionView do
       name: session.name,
       summary: session.summary,
       notes: session.notes,
-      campaign_id: session.campaign_id}
+      campaign_id: session.campaign_id,
+      inserted_at: session.inserted_at,
+      updated_at: session.updated_at}
   end
 
-  def render("nouns_in_session.json", %{nouns: nouns}) do
+  def render("related_nouns.json", %{nouns: nouns}) do
     %{data: render_many(nouns, RpgrWeb.NounView, "noun.json")}
   end
 end

@@ -44,4 +44,9 @@ defmodule RpgrWeb.NounController do
     nouns = CampaignContext.get_related_nouns_for_noun(id)
     render(conn, "index.json", nouns: nouns)
   end
+
+  def related_sessions(conn, %{"noun_id" => id}) do
+    sessions = CampaignContext.get_related_sessions_for_noun(id)
+    render(conn, "related_sessions.json", sessions: sessions)
+  end
 end

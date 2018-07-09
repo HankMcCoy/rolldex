@@ -22,6 +22,7 @@ defmodule RpgrWeb.Router do
       end
       resources "/nouns", NounController, except: [:new, :edit] do
         get "/related-nouns", NounController, :related_nouns
+        get "/related-sessions", NounController, :related_sessions
       end
     end
   end

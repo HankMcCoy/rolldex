@@ -96,7 +96,7 @@ defmodule Rpgr.CampaignContext do
     Noun.changeset(noun, %{})
   end
 
-  # NOUNS FOR THINGS
+  # RELATIONS
 
   def get_nouns_in_session(id) do
     session = Repo.get!(Session, id)
@@ -120,6 +120,16 @@ defmodule Rpgr.CampaignContext do
       candidateNoun.id != nounId and (
         candidateReferenceThisNoun or thisNounReferencesCandidate
       )
+    end)
+  end
+
+  def get_related_sessions_for_noun(nounId) do
+    srcNoun = Repo.get!(Noun, nounId)
+    nounName = String.downcase(srcNoun.name)
+    candidateSessions = list_sessions()
+    Enum.filter(candidateSessions, fn(session) ->
+      String.downcase(session.summary) =~ nounName or
+        String.downcase(session.notes) =~ nounName  
     end)
   end
 end

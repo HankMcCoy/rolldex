@@ -15,10 +15,16 @@ defmodule RpgrWeb.NounView do
       name: noun.name,
       noun_type: noun.noun_type,
       description: noun.description,
-      campaign_id: noun.campaign_id}
+      campaign_id: noun.campaign_id,
+      inserted_at: noun.inserted_at,
+      updated_at: noun.updated_at}
   end
 
   def render("related_nouns.json", %{nouns: nouns}) do
     %{data: render_many(nouns, NounView, "noun.json")}
+  end
+
+  def render("related_sessions.json", %{sessions: sessions}) do
+    %{data: render_many(sessions, RpgrWeb.SessionView, "session.json")}
   end
 end

@@ -8,7 +8,8 @@
 - [x] FE: Breadcrumbs in the header
 - [x] FE: Support editing things
 - [x] FE: Crude icons for nouns
-->[ ] FE & BE: Show related nouns/sessions on noun pages
+- [x] FE & BE: Show related nouns on noun pages
+- [ ] FE & BE: Show related sessions on noun pages
 - [ ] FE: Expando sidebar nav
 - [ ] FE & BE: Build a Cmd-K shortcut for going to any noun or session
 - [ ] FE & BE: Support images for nouns

@@ -15,9 +15,9 @@ const systemColor = '#417F9C'
 const primaryGreen = '#3BA170'
 
 export const fromTheme = (path: string): mixed => ({
-  theme,
+  theme
 }: {
-  theme: Object,
+  theme: Object
 }) => get(theme, path)
 
 const theme = {
@@ -40,6 +40,7 @@ const theme = {
   sidebarHzPadding: '20px',
   pageHzPadding: '30px',
   pageSidebarWidth: 300,
+  largeFormWidth: 600,
 
   // FONTS
   contentFont: {
@@ -48,15 +49,15 @@ const theme = {
       veryLight: 300,
       light: 400,
       medium: 500,
-      heavy: 700,
-    },
+      heavy: 700
+    }
   },
   titleFont: {
     family: 'Roboto Slab',
     weights: {
       veryLight: 300,
-      light: 400,
-    },
-  },
+      light: 400
+    }
+  }
 }
 export default theme

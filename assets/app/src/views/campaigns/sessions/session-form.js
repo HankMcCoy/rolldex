@@ -3,15 +3,23 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { Formik } from 'formik'
 
+import { fromTheme } from 'r/theme'
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
 
-const FormWrapper = styled('div')`
-  max-width: 500px;
+const FormWrapper = styled.div`
+  max-width: ${fromTheme('largeFormWidth')}px;
+  & input {
+    width: 100%;
+  }
+  & textarea {
+    min-width: 100%;
+    max-width: 100%;
+  }
 `
-const ButtonsWrapper = styled('div')`
+const ButtonsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `
@@ -19,17 +27,17 @@ const ButtonsWrapper = styled('div')`
 type Values = {|
   name: string,
   summary: string,
-  notes: string,
+  notes: string
 |}
 type Props = {
   initialValues: Values,
   onSubmit: (Values, *) => void,
-  onCancel: () => void,
+  onCancel: () => void
 }
 export default function SessionForm({
   initialValues,
   onSubmit,
-  onCancel,
+  onCancel
 }: Props) {
   return (
     <FormWrapper>
@@ -44,6 +52,7 @@ export default function SessionForm({
               name="summary"
               label="Summary"
               component="textarea"
+              rows={3}
               validate={required}
             />
             <Spacer height={20} />
@@ -51,6 +60,7 @@ export default function SessionForm({
               name="notes"
               label="Notes"
               component="textarea"
+              rows={15}
               validate={required}
             />
             <Spacer height={20} />

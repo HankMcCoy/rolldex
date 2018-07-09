@@ -68,7 +68,7 @@ function NounDetail({ noun, campaign }: Props) {
         }
       />
       <PageWithSidebar
-        content={<TextSection title="Description">{description}</TextSection>}
+        content={<TextSection title="Description" markdown>{description}</TextSection>}
         sidebar={
           <React.Fragment>
             <AvatarWrapper>{typeSvg}</AvatarWrapper>

@@ -1,35 +1,35 @@
 // @flow
-import * as React from 'react'
-import styled from 'react-emotion'
-import { Formik } from 'formik'
+import * as React from "react";
+import styled from "react-emotion";
+import { Formik } from "formik";
 
-import { required } from 'r/util/formik'
+import { required } from "r/util/formik";
 
-import type { NounType } from 'r/data/nouns'
+import type { NounType } from "r/data/nouns";
 
-import FormField from 'r/components/form-field'
-import { PrimaryButton, SecondaryButton } from 'r/components/button'
-import Spacer from 'r/components/spacer'
+import FormField from "r/components/form-field";
+import { PrimaryButton, SecondaryButton } from "r/components/button";
+import Spacer from "r/components/spacer";
 
-const FormWrapper = styled('div')`
+const FormWrapper = styled("div")`
   max-width: 500px;
-`
+`;
 
-const ButtonsWrapper = styled('div')`
+const ButtonsWrapper = styled("div")`
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 type Values = {|
   name: string,
   description: string,
-  nounType: NounType | '',
-|}
+  nounType: NounType | ""
+|};
 type Props = {|
   initialValues: Values,
   onSubmit: (Values, *) => void,
-  onCancel: () => void,
-|}
+  onCancel: () => void
+|};
 export default function NounForm({ initialValues, onSubmit, onCancel }: Props) {
   return (
     <FormWrapper>
@@ -56,14 +56,15 @@ export default function NounForm({ initialValues, onSubmit, onCancel }: Props) {
               name="description"
               label="Description"
               component="textarea"
+              rows={10}
               validate={required}
             />
             <Spacer height={20} />
             <ButtonsWrapper>
               <SecondaryButton
                 onClick={e => {
-                  e.preventDefault()
-                  onCancel()
+                  e.preventDefault();
+                  onCancel();
                 }}
               >
                 Cancel
@@ -75,5 +76,5 @@ export default function NounForm({ initialValues, onSubmit, onCancel }: Props) {
         )}
       />
     </FormWrapper>
-  )
+  );
 }

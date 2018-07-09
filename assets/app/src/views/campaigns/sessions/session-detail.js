@@ -46,7 +46,7 @@ function SessionDetail({ session, campaign }: Props) {
           <React.Fragment>
             <TextSection title="Summary">{summary}</TextSection>
             <Spacer height={20} />
-            <TextSection title="Notes" pre>
+            <TextSection title="Notes" markdown>
               {notes}
             </TextSection>
             <Spacer height={20} />

@@ -42,7 +42,7 @@ function CampaignDetail({ campaign, sessions, nouns }: Props) {
       <PageContent>
         <ColumnView gutterWidth={40}>
           <Column>
-            <TextSection title="Description">{description}</TextSection>
+            <TextSection title="Description" markdown>{description}</TextSection>
             <Spacer height={20} />
             <AddableList
               title="Sessions"

@@ -22,7 +22,7 @@ export function failure(actionType: string) {
 
 export function createReducer<State>(
   initialState: State,
-  handlers: { [string]: (State, any, Action) => void },
+  handlers: { [string]: (State, any, Action) => State },
 ) {
   return function reducer(state: State = initialState, action?: Action) {
     if (action === undefined) return state

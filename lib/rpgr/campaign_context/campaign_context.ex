@@ -129,7 +129,21 @@ defmodule Rpgr.CampaignContext do
     candidateSessions = list_sessions()
     Enum.filter(candidateSessions, fn(session) ->
       String.downcase(session.summary) =~ nounName or
-        String.downcase(session.notes) =~ nounName  
+        String.downcase(session.notes) =~ nounName
     end)
+  end
+
+  ### QUICK filter
+  def get_jump_to_results(search) do
+    res = Ecto.Adapters.SQL.query!(
+      Repo,
+      """
+      SELECT campaigns.name, 'SESSION' as source FROM campaigns WHERE campaigns.name LIKE '%$1%'
+      UNION ALL
+      SELECT nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name LIKE '%1%';
+      """,
+      [search]
+    )
+    IO.puts res.rows
   end
 end

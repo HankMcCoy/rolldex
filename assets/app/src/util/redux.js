@@ -6,10 +6,10 @@ import mapValues from 'lodash-es/mapValues'
 import partial from 'lodash-es/partial'
 import { callApi } from './api'
 
-export type Action = {
+export type Action<Payload, Metadata = void> = {
   type: string,
-  payload?: mixed,
-  metadata?: mixed,
+  payload?: Payload,
+  metadata?: Metadata,
 }
 
 export function success(actionType: string) {
@@ -22,9 +22,12 @@ export function failure(actionType: string) {
 
 export function createReducer<State>(
   initialState: State,
-  handlers: { [string]: (State, any, Action) => State },
+  handlers: { [string]: (State, any, Action<any, any>) => State },
 ) {
-  return function reducer(state: State = initialState, action?: Action) {
+  return function reducer(
+    state: State = initialState,
+    action?: Action<any, any>,
+  ) {
     if (action === undefined) return state
     const handler = handlers[action.type]
     return handler ? handler(state, action.payload, action) : state

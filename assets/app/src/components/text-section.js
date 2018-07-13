@@ -59,7 +59,7 @@ const MarkdownContainer = styled.div`
 type Props = {
   title: string,
   children: React.Node,
-  pre?: boolean
+  markdown?: boolean
 }
 export default function TextSection({
   title,

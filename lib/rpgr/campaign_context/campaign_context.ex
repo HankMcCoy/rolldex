@@ -101,25 +101,25 @@ defmodule Rpgr.CampaignContext do
   def get_nouns_in_session(id) do
     session = Repo.get!(Session, id)
     nouns = list_nouns()
-    Enum.filter(nouns, fn(noun) ->
+
+    Enum.filter(nouns, fn noun ->
       nounName = String.downcase(noun.name)
-      String.downcase(session.summary) =~ nounName or
-        String.downcase(session.notes) =~ nounName
+      String.downcase(session.summary) =~ nounName or String.downcase(session.notes) =~ nounName
     end)
   end
 
   def get_related_nouns_for_noun(nounId) do
     srcNoun = Repo.get!(Noun, nounId)
     candidateNouns = list_nouns()
-    Enum.filter(candidateNouns, fn(candidateNoun) ->
+
+    Enum.filter(candidateNouns, fn candidateNoun ->
       candidateReferenceThisNoun =
         String.downcase(candidateNoun.description) =~ String.downcase(srcNoun.name)
+
       thisNounReferencesCandidate =
         String.downcase(srcNoun.description) =~ String.downcase(candidateNoun.name)
 
-      candidateNoun.id != nounId and (
-        candidateReferenceThisNoun or thisNounReferencesCandidate
-      )
+      candidateNoun.id != nounId and (candidateReferenceThisNoun or thisNounReferencesCandidate)
     end)
   end
 
@@ -127,23 +127,25 @@ defmodule Rpgr.CampaignContext do
     srcNoun = Repo.get!(Noun, nounId)
     nounName = String.downcase(srcNoun.name)
     candidateSessions = list_sessions()
-    Enum.filter(candidateSessions, fn(session) ->
-      String.downcase(session.summary) =~ nounName or
-        String.downcase(session.notes) =~ nounName
+
+    Enum.filter(candidateSessions, fn session ->
+      String.downcase(session.summary) =~ nounName or String.downcase(session.notes) =~ nounName
     end)
   end
 
   ### QUICK filter
   def get_jump_to_results(search) do
-    res = Ecto.Adapters.SQL.query!(
-      Repo,
-      """
-      SELECT campaigns.name, 'SESSION' as source FROM campaigns WHERE campaigns.name LIKE '%$1%'
-      UNION ALL
-      SELECT nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name LIKE '%1%';
-      """,
-      [search]
-    )
-    IO.puts res.rows
+    res =
+      Ecto.Adapters.SQL.query!(
+        Repo,
+        """
+        SELECT campaigns.name, 'SESSION' as source FROM campaigns WHERE campaigns.name LIKE '%$1%'
+        UNION ALL
+        SELECT nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name LIKE '%$1%';
+        """,
+        [search]
+      )
+
+    IO.puts(res.rows)
   end
 end

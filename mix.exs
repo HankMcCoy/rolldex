@@ -42,7 +42,8 @@ defmodule Rpgr.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:cors_plug, "~> 1.5"},
-      {:plug_static_index_html, "~> 1.0"}
+      {:plug_static_index_html, "~> 1.0"},
+      {:ex_machina, "~> 2.2", only: :test}
     ]
   end
 

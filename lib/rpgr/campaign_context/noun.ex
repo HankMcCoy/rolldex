@@ -1,4 +1,5 @@
 defmodule Rpgr.CampaignContext.Noun do
+  alias Rpgr.CampaignContext.Campaign
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -7,7 +8,7 @@ defmodule Rpgr.CampaignContext.Noun do
     field :name, :string
     field :noun_type, :string
     field :description, :string
-    field :campaign_id, :id
+    belongs_to :campaign, Campaign
 
     timestamps()
   end

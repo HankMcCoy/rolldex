@@ -6,7 +6,7 @@ defmodule Rpgr.CampaignContext.Campaign do
   schema "campaigns" do
     field :description, :string
     field :name, :string
-    field :system_id, :id
+    belongs_to :system, Rpgr.SystemContext.System
 
     timestamps()
   end

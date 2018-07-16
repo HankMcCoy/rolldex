@@ -40,8 +40,8 @@ defmodule Rpgr.CampaignContext do
 
   alias Rpgr.CampaignContext.Session
 
-  def list_sessions do
-    Repo.all(Session)
+  def list_sessions(campaign_id) do
+    Repo.all(from(s in Session, where: s.campaign_id == ^campaign_id))
   end
 
   def get_session!(id), do: Repo.get!(Session, id)
@@ -70,8 +70,8 @@ defmodule Rpgr.CampaignContext do
 
   alias Rpgr.CampaignContext.Noun
 
-  def list_nouns do
-    Repo.all(Noun)
+  def list_nouns(campaign_id) do
+    Repo.all(from(n in Noun, where: n.campaign_id == ^campaign_id))
   end
 
   def get_noun!(id), do: Repo.get!(Noun, id)
@@ -100,7 +100,7 @@ defmodule Rpgr.CampaignContext do
 
   def get_nouns_in_session(id) do
     session = Repo.get!(Session, id)
-    nouns = list_nouns()
+    nouns = list_nouns(session.campaign_id)
 
     Enum.filter(nouns, fn noun ->
       nounName = String.downcase(noun.name)
@@ -109,26 +109,26 @@ defmodule Rpgr.CampaignContext do
   end
 
   def get_related_nouns_for_noun(nounId) do
-    srcNoun = Repo.get!(Noun, nounId)
-    candidateNouns = list_nouns()
+    src_noun = Repo.get!(Noun, nounId)
+    candidateNouns = list_nouns(src_noun.campaign_id)
 
     Enum.filter(candidateNouns, fn candidateNoun ->
       candidateReferenceThisNoun =
-        String.downcase(candidateNoun.description) =~ String.downcase(srcNoun.name)
+        String.downcase(candidateNoun.description) =~ String.downcase(src_noun.name)
 
       thisNounReferencesCandidate =
-        String.downcase(srcNoun.description) =~ String.downcase(candidateNoun.name)
+        String.downcase(src_noun.description) =~ String.downcase(candidateNoun.name)
 
       candidateNoun.id != nounId and (candidateReferenceThisNoun or thisNounReferencesCandidate)
     end)
   end
 
   def get_related_sessions_for_noun(nounId) do
-    srcNoun = Repo.get!(Noun, nounId)
-    nounName = String.downcase(srcNoun.name)
-    candidateSessions = list_sessions()
+    src_noun = Repo.get!(Noun, nounId)
+    nounName = String.downcase(src_noun.name)
+    candidate_sessions = list_sessions(src_noun.campaign_id)
 
-    Enum.filter(candidateSessions, fn session ->
+    Enum.filter(candidate_sessions, fn session ->
       String.downcase(session.summary) =~ nounName or String.downcase(session.notes) =~ nounName
     end)
   end

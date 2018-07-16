@@ -6,8 +6,8 @@ defmodule RpgrWeb.NounController do
 
   action_fallback(RpgrWeb.FallbackController)
 
-  def index(conn, _params) do
-    nouns = CampaignContext.list_nouns()
+  def index(conn, %{"campaign_id" => campaign_id}) do
+    nouns = CampaignContext.list_nouns(campaign_id)
     render(conn, "index.json", nouns: nouns)
   end
 

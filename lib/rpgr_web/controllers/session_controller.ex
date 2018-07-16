@@ -6,8 +6,8 @@ defmodule RpgrWeb.SessionController do
 
   action_fallback(RpgrWeb.FallbackController)
 
-  def index(conn, _params) do
-    sessions = CampaignContext.list_sessions()
+  def index(conn, %{"campaign_id" => campaign_id}) do
+    sessions = CampaignContext.list_sessions(campaign_id)
     render(conn, "index.json", sessions: sessions)
   end
 

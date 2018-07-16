@@ -134,18 +134,20 @@ defmodule Rpgr.CampaignContext do
   end
 
   ### QUICK filter
-  def get_jump_to_results(search) do
-    res =
+  def get_jump_to_results(search, campaign_id) do
+    %{rows: rows} =
       Ecto.Adapters.SQL.query!(
         Repo,
         """
-        SELECT campaigns.name, 'SESSION' as source FROM campaigns WHERE campaigns.name LIKE '%$1%'
+        SELECT sessions.name, 'SESSION' as source FROM sessions WHERE sessions.name LIKE $1
+          AND sessions.campaign_id = $2
         UNION ALL
-        SELECT nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name LIKE '%$1%';
+        SELECT nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name LIKE $1
+          AND nouns.campaign_id = $2;
         """,
-        [search]
+        ["%#{search}%", campaign_id]
       )
 
-    IO.puts(res.rows)
+    Enum.map(rows, fn [name, source] -> %{name: name, source: source} end)
   end
 end

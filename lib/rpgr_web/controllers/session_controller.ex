@@ -3,9 +3,8 @@ defmodule RpgrWeb.SessionController do
 
   alias Rpgr.CampaignContext
   alias Rpgr.CampaignContext.Session
-  alias Rpgr.CampaignContext.NounsInSession
 
-  action_fallback RpgrWeb.FallbackController
+  action_fallback(RpgrWeb.FallbackController)
 
   def index(conn, _params) do
     sessions = CampaignContext.list_sessions()
@@ -16,7 +15,10 @@ defmodule RpgrWeb.SessionController do
     with {:ok, %Session{} = session} <- CampaignContext.create_session(session_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", campaign_session_path(conn, :show, session.campaign_id, session.id))
+      |> put_resp_header(
+        "location",
+        campaign_session_path(conn, :show, session.campaign_id, session.id)
+      )
       |> render("show.json", session: session)
     end
   end
@@ -36,6 +38,7 @@ defmodule RpgrWeb.SessionController do
 
   def delete(conn, %{"id" => id}) do
     session = CampaignContext.get_session!(id)
+
     with {:ok, %Session{}} <- CampaignContext.delete_session(session) do
       send_resp(conn, :no_content, "")
     end

@@ -2,34 +2,39 @@ defmodule RpgrWeb.Router do
   use RpgrWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["html", "json"]
+    plug(:accepts, ["html", "json"])
   end
 
   scope "/api", RpgrWeb do
-    pipe_through :api
-    resources "/systems", SystemController
+    pipe_through(:api)
+    resources("/systems", SystemController)
+
     resources "/campaigns", CampaignController do
+      get("/quick-find", QuickFindController, :quick_find)
+
       resources "/sessions", SessionController, except: [:new, :edit] do
-        get "/related-nouns", SessionController, :related_nouns
+        get("/related-nouns", SessionController, :related_nouns)
       end
+
       resources "/nouns", NounController, except: [:new, :edit] do
-        get "/related-nouns", NounController, :related_nouns
-        get "/related-sessions", NounController, :related_sessions
+        get("/related-nouns", NounController, :related_nouns)
+        get("/related-sessions", NounController, :related_sessions)
       end
     end
   end
 
   scope "/", RpgrWeb do
-    pipe_through :browser # Use the default browser stack
+    # Use the default browser stack
+    pipe_through(:browser)
 
-    get "/*path", PageController, :index
+    get("/*path", PageController, :index)
   end
 end

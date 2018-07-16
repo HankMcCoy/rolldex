@@ -4,7 +4,7 @@ defmodule RpgrWeb.NounController do
   alias Rpgr.CampaignContext
   alias Rpgr.CampaignContext.Noun
 
-  action_fallback RpgrWeb.FallbackController
+  action_fallback(RpgrWeb.FallbackController)
 
   def index(conn, _params) do
     nouns = CampaignContext.list_nouns()
@@ -35,6 +35,7 @@ defmodule RpgrWeb.NounController do
 
   def delete(conn, %{"id" => id}) do
     noun = CampaignContext.get_noun!(id)
+
     with {:ok, %Noun{}} <- CampaignContext.delete_noun(noun) do
       send_resp(conn, :no_content, "")
     end

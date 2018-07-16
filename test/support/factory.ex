@@ -7,13 +7,15 @@ defmodule Rpgr.Factory do
 
   def system_factory do
     %System{
+      id: sequence(:id),
       name: sequence(:name, ["D&D 5", "13th Age", "Savage Worlds", "Dungeon World", "Fate Core"]),
-      description: "This is a great system",
+      description: "This is a great system"
     }
   end
 
   def campaign_factory do
     %Campaign{
+      id: sequence(:id),
       name: sequence(:name, &"Campaign #{&1}"),
       description: sequence(:description, &"Description of campaign #{&1}"),
       system: build(:system)

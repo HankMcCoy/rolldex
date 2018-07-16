@@ -141,15 +141,17 @@ defmodule Rpgr.CampaignContext do
       Ecto.Adapters.SQL.query!(
         Repo,
         """
-        SELECT sessions.name, 'SESSION' as source FROM sessions WHERE sessions.name ILIKE $1
+        SELECT sessions.id, sessions.name, 'SESSION' as source FROM sessions WHERE sessions.name ILIKE $1
           AND sessions.campaign_id = $2
         UNION ALL
-        SELECT nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name ILIKE $1
+        SELECT nouns.id, nouns.name, nouns.noun_type as source FROM nouns WHERE nouns.name ILIKE $1
           AND nouns.campaign_id = $2;
         """,
         ["%#{search}%", campaign_id]
       )
 
-    Enum.map(rows, fn [name, source] -> %{name: name, source: source} end)
+    Enum.map(rows, fn [id, name, source] ->
+      %{id: id, name: name, source: source, campaign_id: campaign_id}
+    end)
   end
 end

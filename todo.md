@@ -10,8 +10,8 @@
 - [x] FE: Crude icons for nouns
 - [x] FE & BE: Show related nouns on noun pages
 - [x] FE & BE: Show related sessions on noun pages
-->[ ] BE: Fix tests to better mock data
-- [ ] FE & BE: Build a Cmd-K shortcut for going to any noun or session
+- [x] BE: Fix tests to better mock data
+- [x] FE & BE: Build a Cmd-K shortcut for going to any noun or session
 - [ ] FE & BE: Switch everything to a summary + notes setup, w/ markdown support for notes
 - [ ] FE: Expando sidebar nav
 - [ ] FE: Make editing notes easier

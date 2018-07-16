@@ -8,6 +8,6 @@ defmodule RpgrWeb.QuickFindView do
   end
 
   def render("result.json", %{quick_find: result}) do
-    %{name: result.name, source: result.source}
+    %{id: result.id, campaign_id: result.campaign_id, name: result.name, source: result.source}
   end
 end

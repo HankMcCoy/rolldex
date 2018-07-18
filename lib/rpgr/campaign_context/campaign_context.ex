@@ -114,10 +114,10 @@ defmodule Rpgr.CampaignContext do
 
     Enum.filter(candidateNouns, fn candidateNoun ->
       candidateReferenceThisNoun =
-        String.downcase(candidateNoun.description) =~ String.downcase(src_noun.name)
+        String.downcase(candidateNoun.summary) =~ String.downcase(src_noun.name)
 
       thisNounReferencesCandidate =
-        String.downcase(src_noun.description) =~ String.downcase(candidateNoun.name)
+        String.downcase(src_noun.summary) =~ String.downcase(candidateNoun.name)
 
       candidateNoun.id != nounId and (candidateReferenceThisNoun or thisNounReferencesCandidate)
     end)

@@ -20,62 +20,64 @@ import LoadingPage from 'r/components/loading-page'
 import NounForm from './noun-form'
 
 type Props = {
-  campaign: Campaign,
-  noun: Noun,
-  history: History,
-  updateNoun: Noun => Promise<Noun>,
+	campaign: Campaign,
+	noun: Noun,
+	history: History,
+	updateNoun: Noun => Promise<Noun>
 }
 function EditNoun({ campaign, noun, history, updateNoun }: Props) {
-  if (!campaign || !noun) return <LoadingPage />
-  return (
-    <React.Fragment>
-      <PageHeader
-        title={`Edit ${noun.name}`}
-        breadcrumbs={[
-          { text: 'Campaigns', to: '/campaigns' },
-          { text: campaign.name, to: `/campaigns/${campaign.id}` },
-        ]}
-      />
-      <PageContent>
-        <NounForm
-          initialValues={{
-            name: noun.name,
-            description: noun.description,
-            nounType: noun.noun_type,
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            const { name, description, nounType } = values
-            if (!nounType) throw new Error('Noun type required')
-            updateNoun({
-              ...noun,
-              name,
-              description,
-              noun_type: nounType,
-            }).then(noun => {
-              setSubmitting(false)
-              history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
-            })
-          }}
-          onCancel={() => {
-            history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
-          }}
-        />
-      </PageContent>
-    </React.Fragment>
-  )
+	if (!campaign || !noun) return <LoadingPage />
+	return (
+		<React.Fragment>
+			<PageHeader
+				title={`Edit ${noun.name}`}
+				breadcrumbs={[
+					{ text: 'Campaigns', to: '/campaigns' },
+					{ text: campaign.name, to: `/campaigns/${campaign.id}` }
+				]}
+			/>
+			<PageContent>
+				<NounForm
+					initialValues={{
+						name: noun.name,
+						summary: noun.summary,
+						notes: noun.notes,
+						nounType: noun.noun_type
+					}}
+					onSubmit={(values, { setSubmitting }) => {
+						const { name, summary, notes, nounType } = values
+						if (!nounType) throw new Error('Noun type required')
+						updateNoun({
+							...noun,
+							name,
+							summary,
+							notes,
+							noun_type: nounType
+						}).then(noun => {
+							setSubmitting(false)
+							history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+						})
+					}}
+					onCancel={() => {
+						history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+					}}
+				/>
+			</PageContent>
+		</React.Fragment>
+	)
 }
 
 const getIds = ({ match: { params } }) => ({
-  campaignId: +params.campaignId,
-  nounId: +params.nounId,
+	campaignId: +params.campaignId,
+	nounId: +params.nounId
 })
 export default flowRight(
-  withRouter,
-  withCampaign(props => getIds(props).campaignId),
-  withNoun(getIds),
-  connect({
-    actionCreators: {
-      updateNoun,
-    },
-  }),
+	withRouter,
+	withCampaign(props => getIds(props).campaignId),
+	withNoun(getIds),
+	connect({
+		actionCreators: {
+			updateNoun
+		}
+	})
 )(EditNoun)

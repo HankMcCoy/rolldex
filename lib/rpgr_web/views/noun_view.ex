@@ -11,13 +11,16 @@ defmodule RpgrWeb.NounView do
   end
 
   def render("noun.json", %{noun: noun}) do
-    %{id: noun.id,
+    %{
+      id: noun.id,
       name: noun.name,
       noun_type: noun.noun_type,
-      description: noun.description,
+      summary: noun.summary,
+      notes: noun.notes,
       campaign_id: noun.campaign_id,
       inserted_at: noun.inserted_at,
-      updated_at: noun.updated_at}
+      updated_at: noun.updated_at
+    }
   end
 
   def render("related_nouns.json", %{nouns: nouns}) do

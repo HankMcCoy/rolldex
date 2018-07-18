@@ -13,7 +13,7 @@
 - [x] BE: Fix tests to better mock data
 - [x] FE & BE: Build a Cmd-K shortcut for going to any noun or session
 - [x] FE: Expando sidebar nav
-- [ ] FE & BE: Switch everything to a summary + notes setup, w/ markdown support for notes
+- [x] FE & BE: Switch notes to a summary + notes setup, w/ markdown support
 - [ ] FE & BE: Add super basic auth
 - [ ] BE: Host it somewhere
 - [ ] FE: Make editing notes easier

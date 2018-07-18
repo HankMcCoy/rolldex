@@ -14,50 +14,47 @@ const campaignColorLight = '#E4E4ED'
 const systemColor = '#417F9C'
 const primaryGreen = '#3BA170'
 
-export const fromTheme = (path: string): mixed => ({
-  theme
-}: {
-  theme: Object
-}) => get(theme, path)
+export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
+	get(theme, path)
 
 const theme = {
-  // COLORS
-  gray20,
-  gray30,
-  gray38,
-  gray87,
-  gray97,
-  white,
-  campaignColor,
-  campaignText,
-  campaignColorLight,
-  systemColor,
-  primaryGreen,
-  textColor: gray20,
+	// COLORS
+	gray20,
+	gray30,
+	gray38,
+	gray87,
+	gray97,
+	white,
+	campaignColor,
+	campaignText,
+	campaignColorLight,
+	systemColor,
+	primaryGreen,
+	textColor: gray20,
 
-  // SIZES
-  topBarHeight: '100px',
-  sidebarHzPadding: '20px',
-  pageHzPadding: '30px',
-  pageSidebarWidth: 300,
-  largeFormWidth: 600,
+	// SIZES
+	topBarHeight: '100px',
+	sidebarHzPadding: 20,
+	pageHzPadding: '30px',
+	pageSidebarWidth: 300,
+	largeFormWidth: 600,
 
-  // FONTS
-  contentFont: {
-    family: 'Roboto',
-    weights: {
-      veryLight: 300,
-      light: 400,
-      medium: 500,
-      heavy: 700
-    }
-  },
-  titleFont: {
-    family: 'Roboto Slab',
-    weights: {
-      veryLight: 300,
-      light: 400
-    }
-  }
+	// FONTS
+	contentFont: {
+		family: 'Roboto',
+		weights: {
+			veryLight: 300,
+			light: 400,
+			medium: 500,
+			heavy: 700
+		}
+	},
+	titleFont: {
+		family: 'Roboto Slab',
+		weights: {
+			veryLight: 300,
+			light: 400
+		}
+	}
 }
 export default theme

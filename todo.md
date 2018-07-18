@@ -12,10 +12,10 @@
 - [x] FE & BE: Show related sessions on noun pages
 - [x] BE: Fix tests to better mock data
 - [x] FE & BE: Build a Cmd-K shortcut for going to any noun or session
+- [x] FE: Expando sidebar nav
 - [ ] FE & BE: Switch everything to a summary + notes setup, w/ markdown support for notes
-- [ ] FE: Expando sidebar nav
-- [ ] FE: Make editing notes easier
 - [ ] FE & BE: Add super basic auth
 - [ ] BE: Host it somewhere
+- [ ] FE: Make editing notes easier
 - [ ] FE: Show validation error for required fields when creating systems/campaigns
 - [ ] FE & BE: Support images for nouns

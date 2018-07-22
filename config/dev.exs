@@ -39,6 +39,10 @@ config :rpgr, RpgrWeb.Endpoint,
     ]
   ]
 
+config :rpgr, Rpgr.Auth.Guardian,
+  issuer: "rpgr",
+  secret_key: System.get_env("GUARDIAN_ROLLDEX_SECRET_KEY")
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

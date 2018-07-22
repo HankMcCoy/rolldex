@@ -44,7 +44,10 @@ defmodule Rpgr.Mixfile do
       {:cors_plug, "~> 1.5"},
       {:plug_static_index_html, "~> 1.0"},
       {:ex_machina, "~> 2.2", only: :test},
-      {:mix_test_watch, "~> 0.6", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 0.6", only: :dev, runtime: false},
+      {:guardian, "~> 1.0"},
+      {:comeonin, "~> 4.0"},
+      {:bcrypt_elixir, "~> 0.12"}
     ]
   end
 

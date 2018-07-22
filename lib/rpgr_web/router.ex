@@ -11,6 +11,18 @@ defmodule RpgrWeb.Router do
 
   pipeline :api do
     plug(:accepts, ["html", "json"])
+    plug(:fetch_session)
+  end
+
+  pipeline :authorized do
+    plug(
+      Guardian.Plug.Pipeline,
+      module: Rpgr.Auth.Guardian,
+      error_handler: Rpgr.Auth.ErrorHandler
+    )
+
+    plug(Guardian.Plug.VerifySession)
+    plug(Guardian.Plug.LoadResource)
   end
 
   scope "/api", RpgrWeb do
@@ -29,12 +41,22 @@ defmodule RpgrWeb.Router do
         get("/related-sessions", NounController, :related_sessions)
       end
     end
+
+    scope "/users" do
+      scope "/" do
+        post("/sign-in", UserController, :sign_in)
+      end
+
+      scope "/" do
+        pipe_through(:authorized)
+
+        post("/sign-out", UserController, :sign_out)
+        get("/me", UserController, :show)
+      end
+    end
   end
 
   scope "/", RpgrWeb do
-    # Use the default browser stack
     pipe_through(:browser)
-
-    get("/*path", PageController, :index)
   end
 end

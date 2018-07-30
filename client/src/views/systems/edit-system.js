@@ -15,52 +15,50 @@ import LoadingPage from 'r/components/loading-page'
 import SystemForm from './system-form'
 
 type Props = {
-	history: History,
-	system: System,
-	updateSystem: System => Promise<System>
+  history: History,
+  system: System,
+  updateSystem: System => Promise<System>,
 }
 function EditSystem({ system, history, updateSystem }: Props) {
-	if (!system) return <LoadingPage />
-	return (
-		<React.Fragment>
-			<PageHeader
-				title={`Edit ${system.name}`}
-				breadcrumbs={[{ text: 'Systems', to: '/systems' }]}
-			/>
-			<PageContent>
-				<SystemForm
-					initialValues={{
-						name: system.name,
-						description: system.description
-					}}
-					onSubmit={(values, { setSubmitting }) => {
-						const { name, description } = values
-						const system_id = parseInt(values.system_id, 10)
-						updateSystem({
-							...system,
-							name,
-							system_id,
-							description
-						}).then(noun => {
-							setSubmitting(false)
-							history.push(`/systems/${system.id}`)
-						})
-					}}
-					onCancel={() => {
-						history.push(`/systems/${system.id}`)
-					}}
-				/>
-			</PageContent>
-		</React.Fragment>
-	)
+  if (!system) return <LoadingPage />
+  return (
+    <React.Fragment>
+      <PageHeader
+        title={`Edit ${system.name}`}
+        breadcrumbs={[{ text: 'Systems', to: '/systems' }]}
+      />
+      <PageContent>
+        <SystemForm
+          initialValues={{
+            name: system.name,
+            description: system.description,
+          }}
+          onSubmit={(values, { setSubmitting }) => {
+            const { name, description } = values
+            updateSystem({
+              ...system,
+              name,
+              description,
+            }).then(noun => {
+              setSubmitting(false)
+              history.push(`/systems/${system.id}`)
+            })
+          }}
+          onCancel={() => {
+            history.push(`/systems/${system.id}`)
+          }}
+        />
+      </PageContent>
+    </React.Fragment>
+  )
 }
 
 export default flowRight(
-	withSystem(({ match: { params } }) => +params.campaignId),
-	withRouter,
-	connect({
-		actionCreators: {
-			updateSystem
-		}
-	})
+  withSystem(({ match: { params } }) => +params.campaignId),
+  withRouter,
+  connect({
+    actionCreators: {
+      updateSystem,
+    },
+  }),
 )(EditSystem)

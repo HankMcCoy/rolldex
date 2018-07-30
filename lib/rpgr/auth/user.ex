@@ -6,15 +6,15 @@ defmodule Rpgr.Auth.User do
 
   schema "users" do
     field(:password, :string)
-    field(:username, :string)
+    field(:email, :string)
 
     timestamps()
   end
 
   def changeset(%User{} = user, attrs) do
     user
-    |> cast(attrs, [:username, :password])
-    |> validate_required([:username, :password])
+    |> cast(attrs, [:email, :password])
+    |> validate_required([:email, :password])
     |> put_pass_hash()
   end
 

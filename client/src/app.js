@@ -9,13 +9,16 @@ import {
   compose,
 } from 'redux'
 import thunk from 'redux-thunk'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { Router, Switch, Route, Redirect } from 'react-router-dom'
 import { ThemeProvider } from 'emotion-theming'
 
+import history from './history'
 import Layout from './layout'
 import theme from './theme'
 import Systems from './views/systems'
 import Campaigns from './views/campaigns'
+import Login from './views/auth/login'
+import Register from './views/auth/register'
 import reducer from './reducer'
 import ModalsPresenter from './modals/presenter'
 import { showModal, hideModal } from './modals/action-creators'
@@ -53,18 +56,28 @@ class App extends Component<{}> {
     return (
       <ReduxProvider store={store}>
         <ThemeProvider theme={theme}>
-          <Router>
+          <Router history={history}>
             <React.Fragment>
               <GlobalKeyListener />
-              <Layout>
+              <Switch>
                 <Route
                   exact
                   path="/"
                   render={() => <Redirect to="/campaigns" />}
                 />
-                <Route path="/systems" component={Systems} />
-                <Route path="/campaigns" component={Campaigns} />
-              </Layout>
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
+                <Route
+                  render={() => (
+                    <Layout>
+                      <Switch>
+                        <Route path="/systems" component={Systems} />
+                        <Route path="/campaigns" component={Campaigns} />
+                      </Switch>
+                    </Layout>
+                  )}
+                />
+              </Switch>
               <ModalsPresenter />
             </React.Fragment>
           </Router>

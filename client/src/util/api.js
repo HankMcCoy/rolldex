@@ -1,3 +1,4 @@
+// @flow
 type Args = {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   path: string,
@@ -11,9 +12,15 @@ export const callApi = ({ method, path, body }: Args) => {
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
       },
+      credentials: 'include',
     })
     .then(resp => {
+      if (resp.status === 401) {
+        window.location = '/login'
+        throw new Error('UNAUTHORIZED')
+      }
       if (!resp.ok) throw new Error('Fetch failed')
+      if (resp.status === 204) return undefined
       return resp.json()
     })
 }

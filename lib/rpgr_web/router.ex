@@ -27,24 +27,29 @@ defmodule RpgrWeb.Router do
 
   scope "/api", RpgrWeb do
     pipe_through(:api)
-    resources("/systems", SystemController)
 
-    resources "/campaigns", CampaignController do
-      get("/quick-find", QuickFindController, :quick_find)
+    scope "/" do
+      pipe_through(:authorized)
+      resources("/systems", SystemController)
 
-      resources "/sessions", SessionController, except: [:new, :edit] do
-        get("/related-nouns", SessionController, :related_nouns)
-      end
+      resources "/campaigns", CampaignController do
+        get("/quick-find", QuickFindController, :quick_find)
 
-      resources "/nouns", NounController, except: [:new, :edit] do
-        get("/related-nouns", NounController, :related_nouns)
-        get("/related-sessions", NounController, :related_sessions)
+        resources "/sessions", SessionController, except: [:new, :edit] do
+          get("/related-nouns", SessionController, :related_nouns)
+        end
+
+        resources "/nouns", NounController, except: [:new, :edit] do
+          get("/related-nouns", NounController, :related_nouns)
+          get("/related-sessions", NounController, :related_sessions)
+        end
       end
     end
 
     scope "/users" do
       scope "/" do
         post("/sign-in", UserController, :sign_in)
+        post("/register", UserController, :register)
       end
 
       scope "/" do

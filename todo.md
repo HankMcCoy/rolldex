@@ -19,3 +19,12 @@
 - [ ] FE: Make editing notes easier
 - [ ] FE: Show validation error for required fields when creating systems/campaigns
 - [ ] FE & BE: Support images for nouns
+
+# Auth plan
+
+- Add registration view
+- Add login view
+- Add ability to check for auth-ness on the client
+- If no auth, redirect to login
+- Add registration API endpoint
+- Rewire all endpoints/tables to use users

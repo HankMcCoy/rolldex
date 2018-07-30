@@ -4,7 +4,6 @@ defmodule RpgrWeb do
       use Phoenix.Controller, namespace: RpgrWeb
       import Plug.Conn
       import RpgrWeb.Router.Helpers
-      import RpgrWeb.Gettext
     end
   end
 
@@ -22,7 +21,6 @@ defmodule RpgrWeb do
 
       import RpgrWeb.Router.Helpers
       import RpgrWeb.ErrorHelpers
-      import RpgrWeb.Gettext
     end
   end
 
@@ -34,16 +32,6 @@ defmodule RpgrWeb do
     end
   end
 
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import RpgrWeb.Gettext
-    end
-  end
-
-  @doc """
-  When used, dispatch to the appropriate controller/view/etc.
-  """
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
   end

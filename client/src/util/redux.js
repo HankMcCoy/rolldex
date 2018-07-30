@@ -71,6 +71,9 @@ export const actionXhr = ({
       return payload
     },
     err => {
+      if (err.message === 'UNAUTHORIZED') {
+        return
+      }
       dispatch({
         type: failure(actionType),
         payload: transformFailurePayload(err),

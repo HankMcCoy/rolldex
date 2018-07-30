@@ -18,7 +18,7 @@ export const Button = styled('button')`
   cursor: pointer;
 `
 
-const UnstyledLink = styled(Link)`
+export const UnstyledLink = styled(Link)`
   text-decoration: none;
 `
 

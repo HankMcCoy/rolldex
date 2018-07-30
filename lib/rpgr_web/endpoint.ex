@@ -43,7 +43,7 @@ defmodule RpgrWeb.Endpoint do
     signing_salt: "bAV72NPe"
   )
 
-  plug(CORSPlug, origin: ["http://localhost:3000", "http://localhost:4000"])
+  plug(CORSPlug, origin: ["*"])
   plug(RpgrWeb.Router)
 
   def init(_key, config) do

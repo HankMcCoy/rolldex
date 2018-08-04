@@ -29,13 +29,22 @@ type Values = {
   email: string,
   password: string,
 }
+type FormErrors = {
+  badLogin: boolean,
+}
 class Login extends React.Component<Props, void> {
   render() {
     return (
       <Formik
         initialValues={{}}
         onSubmit={this.login}
-        render={({ handleSubmit }) => (
+        render={({
+          handleSubmit,
+          errors,
+        }: {
+          handleSubmit: Function,
+          errors: FormErrors,
+        }) => (
           <FormWrapper onSubmit={handleSubmit}>
             <H1>Rolldex</H1>
             <Spacer height={20} />
@@ -47,6 +56,7 @@ class Login extends React.Component<Props, void> {
               validate={required}
               type="password"
             />
+            {errors && errors.badLogin && <div>Bad login</div>}
             <Spacer height={10} />
             <ButtonWrapper>
               <UnstyledLink to="/register">Need an account?</UnstyledLink>
@@ -61,7 +71,10 @@ class Login extends React.Component<Props, void> {
 
   login = (
     values: Values,
-    { setSubmitting }: { setSubmitting: boolean => void },
+    {
+      setSubmitting,
+      setErrors,
+    }: { setSubmitting: boolean => void, setErrors: FormErrors => void }
   ) => {
     const { email, password } = values
 
@@ -72,10 +85,17 @@ class Login extends React.Component<Props, void> {
         email,
         password,
       },
-    }).then(() => {
-      setSubmitting(false)
-      this.props.history.push('/')
-    })
+    }).then(
+      () => {
+        setSubmitting(false)
+        this.props.history.push('/')
+      },
+      err => {
+        setSubmitting(false)
+        setErrors({ badLogin: true })
+        console.error(err)
+      }
+    )
   }
 }
 

@@ -1,24 +1,14 @@
 defmodule Rpgr.Factory do
   use ExMachina.Ecto, repo: Rpgr.Repo
-  alias Rpgr.SystemContext.System
   alias Rpgr.CampaignContext.Campaign
   alias Rpgr.CampaignContext.Session
   alias Rpgr.CampaignContext.Noun
-
-  def system_factory do
-    %System{
-      id: sequence(:id),
-      name: sequence(:name, ["D&D 5", "13th Age", "Savage Worlds", "Dungeon World", "Fate Core"]),
-      description: "This is a great system"
-    }
-  end
 
   def campaign_factory do
     %Campaign{
       id: sequence(:id),
       name: sequence(:name, &"Campaign #{&1}"),
-      description: sequence(:description, &"Description of campaign #{&1}"),
-      system: build(:system)
+      description: sequence(:description, &"Description of campaign #{&1}")
     }
   end
 
@@ -43,7 +33,8 @@ defmodule Rpgr.Factory do
     %Noun{
       name: sequence(:name, ["Rod of wonder", "Kulshedra", "Sturm"]),
       noun_type: sequence(:noun_type, ["THING", "PERSON", "PLACE"]),
-      description: "An interesting noun",
+      summary: "An interesting noun",
+      notes: "**Cool** _notes_",
       campaign: build(:campaign)
     }
   end

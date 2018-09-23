@@ -7,10 +7,7 @@ defmodule Rpgr.CampaignContextTest do
     alias Rpgr.CampaignContext.Campaign
 
     test "list_campaigns/0 returns all campaigns" do
-      system = insert(:system)
-
-      %Campaign{id: id, system_id: system_id} =
-        insert(:campaign, name: "first campaign", description: "this is first", system: system)
+      %Campaign{id: id} = insert(:campaign, name: "first campaign", description: "this is first")
 
       campaignList = CampaignContext.list_campaigns()
       assert length(campaignList) == 1
@@ -18,7 +15,6 @@ defmodule Rpgr.CampaignContextTest do
       assert [
                %Campaign{
                  id: ^id,
-                 system_id: ^system_id,
                  name: "first campaign",
                  description: "this is first"
                }
@@ -26,27 +22,22 @@ defmodule Rpgr.CampaignContextTest do
     end
 
     test "get_campaign!/1 returns the campaign with given id" do
-      system = insert(:system)
-      campaign = insert(:campaign, name: "a name", description: "a description", system: system)
+      campaign = insert(:campaign, name: "a name", description: "a description")
 
-      %Campaign{id: id, system_id: system_id} = campaign
+      %Campaign{id: id} = campaign
 
       assert %Campaign{
                id: ^id,
                name: "a name",
-               description: "a description",
-               system_id: ^system_id
+               description: "a description"
              } = CampaignContext.get_campaign!(id)
     end
 
     test "create_campaign/1 with valid data creates a campaign" do
-      system = insert(:system)
-
       assert {:ok, %Campaign{} = campaign} =
                CampaignContext.create_campaign(%{
                  name: "some name",
-                 description: "some description",
-                 system_id: system.id
+                 description: "some description"
                })
 
       assert campaign.description == "some description"
@@ -58,15 +49,13 @@ defmodule Rpgr.CampaignContextTest do
     end
 
     test "update_campaign/2 with valid data updates the campaign" do
-      system = insert(:system)
-      origCampaign = insert(:campaign, system: system)
+      origCampaign = insert(:campaign)
 
       assert {:ok, campaign} =
                CampaignContext.update_campaign(
                  origCampaign,
                  %{
                    id: origCampaign.id,
-                   system_id: origCampaign.system_id,
                    name: "some updated name",
                    description: "some updated description"
                  }
@@ -78,15 +67,13 @@ defmodule Rpgr.CampaignContextTest do
     end
 
     test "delete_campaign/1 deletes the campaign" do
-      system = insert(:system)
-      campaign = insert(:campaign, system: system)
+      campaign = insert(:campaign)
       assert {:ok, %Campaign{}} = CampaignContext.delete_campaign(campaign)
       assert_raise Ecto.NoResultsError, fn -> CampaignContext.get_campaign!(campaign.id) end
     end
 
     test "change_campaign/1 returns a campaign changeset" do
-      system = insert(:system)
-      campaign = insert(:campaign, system: system)
+      campaign = insert(:campaign)
       assert %Ecto.Changeset{} = CampaignContext.change_campaign(campaign)
     end
   end
@@ -95,8 +82,7 @@ defmodule Rpgr.CampaignContextTest do
     alias Rpgr.CampaignContext.Noun
 
     test "get_nouns_in_session/1 returns relevant nouns" do
-      system = insert(:system)
-      campaign = insert(:campaign, system: system)
+      campaign = insert(:campaign)
       insert(:noun, campaign: campaign, name: "Gillian", noun_type: "PERSON")
       insert(:noun, campaign: campaign, name: "Sturm", noun_type: "PLACE")
       insert(:noun, campaign: campaign, name: "Stretchy pants", noun_type: "THING")
@@ -121,9 +107,8 @@ defmodule Rpgr.CampaignContextTest do
     end
 
     test "get_jump_to_results/2 returns relevant objects" do
-      system = insert(:system)
-      campaign = insert(:campaign, system: system)
-      other_campaign = insert(:campaign, system: system)
+      campaign = insert(:campaign)
+      other_campaign = insert(:campaign)
 
       # Things that should match
       insert(:noun, campaign: campaign, name: "Sturm", noun_type: "PLACE")

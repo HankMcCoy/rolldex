@@ -10,11 +10,11 @@ defmodule Rpgr.CampaignContext do
 
   alias Rpgr.CampaignContext.Campaign
 
-  def list_campaigns do
-    Repo.all(Campaign)
+  def list_campaigns(user_id) do
+    Repo.all(from(c in Campaign, where: c.created_by_id == ^user_id))
   end
 
-  def get_campaign!(id), do: Repo.get!(Campaign, id)
+  def get_campaign!(id, user_id), do: Repo.get_by!(Campaign, id: id, created_by_id: user_id)
 
   def create_campaign(attrs \\ %{}) do
     %Campaign{}

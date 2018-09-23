@@ -7,12 +7,13 @@ defmodule RpgrWeb.CampaignController do
   action_fallback(RpgrWeb.FallbackController)
 
   def index(conn, _params) do
-    campaigns = CampaignContext.list_campaigns()
+    user = get_user(conn)
+    campaigns = CampaignContext.list_campaigns(user.id)
     render(conn, "index.json", campaigns: campaigns)
   end
 
   def create(conn, %{"campaign" => campaign_params}) do
-    user = Rpgr.Auth.Guardian.Plug.current_resource(conn)
+    user = get_user(conn)
     attrs = Map.put(campaign_params, "created_by_id", user.id)
 
     with {:ok, %Campaign{} = campaign} <- CampaignContext.create_campaign(attrs) do
@@ -24,7 +25,8 @@ defmodule RpgrWeb.CampaignController do
   end
 
   def show(conn, %{"id" => id}) do
-    campaign = CampaignContext.get_campaign!(id)
+    user = get_user(conn)
+    campaign = CampaignContext.get_campaign!(id, user.id)
     render(conn, "show.json", campaign: campaign)
   end
 

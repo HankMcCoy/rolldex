@@ -4,6 +4,10 @@ defmodule RpgrWeb do
       use Phoenix.Controller, namespace: RpgrWeb
       import Plug.Conn
       import RpgrWeb.Router.Helpers
+
+      defp get_user(conn) do
+        Rpgr.Auth.Guardian.Plug.current_resource(conn)
+      end
     end
   end
 
@@ -19,7 +23,6 @@ defmodule RpgrWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import RpgrWeb.Router.Helpers
       import RpgrWeb.ErrorHelpers
     end
   end

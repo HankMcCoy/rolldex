@@ -1,0 +1,7 @@
+pushd ./client
+npm run build
+popd
+
+rm -r ./priv/static/*
+cp -r ./client/build/* ./priv/static
+mix phx.digest

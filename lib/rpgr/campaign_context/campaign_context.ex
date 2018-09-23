@@ -103,33 +103,34 @@ defmodule Rpgr.CampaignContext do
     nouns = list_nouns(session.campaign_id)
 
     Enum.filter(nouns, fn noun ->
-      nounName = String.downcase(noun.name)
-      String.downcase(session.summary) =~ nounName or String.downcase(session.notes) =~ nounName
+      noun_name = String.downcase(noun.name)
+      String.downcase(session.summary) =~ noun_name or String.downcase(session.notes) =~ noun_name
     end)
   end
 
   def get_related_nouns_for_noun(nounId) do
     src_noun = Repo.get!(Noun, nounId)
-    candidateNouns = list_nouns(src_noun.campaign_id)
+    candidate_nouns = list_nouns(src_noun.campaign_id)
 
-    Enum.filter(candidateNouns, fn candidateNoun ->
-      candidateReferenceThisNoun =
-        String.downcase(candidateNoun.summary) =~ String.downcase(src_noun.name)
+    Enum.filter(candidate_nouns, fn candidate_noun ->
+      candidate_reference_this_noun =
+        String.downcase(candidate_noun.summary) =~ String.downcase(src_noun.name)
 
-      thisNounReferencesCandidate =
-        String.downcase(src_noun.summary) =~ String.downcase(candidateNoun.name)
+      this_noun_references_candidate =
+        String.downcase(src_noun.summary) =~ String.downcase(candidate_noun.name)
 
-      candidateNoun.id != nounId and (candidateReferenceThisNoun or thisNounReferencesCandidate)
+      candidate_noun.id != nounId and
+        (candidate_reference_this_noun or this_noun_references_candidate)
     end)
   end
 
   def get_related_sessions_for_noun(nounId) do
     src_noun = Repo.get!(Noun, nounId)
-    nounName = String.downcase(src_noun.name)
+    noun_name = String.downcase(src_noun.name)
     candidate_sessions = list_sessions(src_noun.campaign_id)
 
     Enum.filter(candidate_sessions, fn session ->
-      String.downcase(session.summary) =~ nounName or String.downcase(session.notes) =~ nounName
+      String.downcase(session.summary) =~ noun_name or String.downcase(session.notes) =~ noun_name
     end)
   end
 

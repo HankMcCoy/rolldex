@@ -35,7 +35,8 @@ defmodule Rpgr.Auth do
   def authenticate_user(email, plain_text_password) do
     query = from(u in User, where: u.email == ^email)
 
-    Repo.one(query)
+    query
+    |> Repo.one()
     |> check_password(plain_text_password)
   end
 

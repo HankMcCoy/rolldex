@@ -15,6 +15,7 @@ defmodule RpgrWeb.CampaignView do
       id: campaign.id,
       name: campaign.name,
       description: campaign.description,
+      created_by_id: campaign.created_by_id,
       inserted_at: campaign.inserted_at,
       updated_at: campaign.updated_at
     }

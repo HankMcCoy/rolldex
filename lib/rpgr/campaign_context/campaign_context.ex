@@ -18,22 +18,18 @@ defmodule Rpgr.CampaignContext do
 
   def create_campaign(attrs \\ %{}) do
     %Campaign{}
-    |> Campaign.changeset(attrs)
+    |> Campaign.create_changeset(attrs)
     |> Repo.insert()
   end
 
   def update_campaign(%Campaign{} = campaign, attrs) do
     campaign
-    |> Campaign.changeset(attrs)
+    |> Campaign.update_changeset(attrs)
     |> Repo.update()
   end
 
   def delete_campaign(%Campaign{} = campaign) do
     Repo.delete(campaign)
-  end
-
-  def change_campaign(%Campaign{} = campaign) do
-    Campaign.changeset(campaign, %{})
   end
 
   # SESSIONS
@@ -62,10 +58,6 @@ defmodule Rpgr.CampaignContext do
     Repo.delete(session)
   end
 
-  def change_session(%Session{} = session) do
-    Session.changeset(session, %{})
-  end
-
   # NOUNS
 
   alias Rpgr.CampaignContext.Noun
@@ -90,10 +82,6 @@ defmodule Rpgr.CampaignContext do
 
   def delete_noun(%Noun{} = noun) do
     Repo.delete(noun)
-  end
-
-  def change_noun(%Noun{} = noun) do
-    Noun.changeset(noun, %{})
   end
 
   # RELATIONS

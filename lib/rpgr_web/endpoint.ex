@@ -9,8 +9,8 @@ defmodule RpgrWeb.Endpoint do
   plug(
     Plug.Static,
     at: "/",
-    from: "client/build/",
-    gzip: false
+    from: "priv/static/",
+    gzip: true
   )
 
   # Code reloading can be explicitly enabled under the

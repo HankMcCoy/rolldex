@@ -5,7 +5,7 @@ defmodule Rpgr.CampaignContext.Campaign do
   schema "campaigns" do
     field(:description, :string)
     field(:name, :string)
-    belongs_to(:created_by, User)
+    belongs_to(:created_by, Rpgr.Auth.User)
 
     timestamps()
   end

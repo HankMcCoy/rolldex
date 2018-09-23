@@ -31,7 +31,8 @@ defmodule RpgrWeb.CampaignController do
   end
 
   def update(conn, %{"id" => id, "campaign" => campaign_params}) do
-    campaign = CampaignContext.get_campaign!(id)
+    user = get_user(conn)
+    campaign = CampaignContext.get_campaign!(id, user.id)
 
     with {:ok, %Campaign{} = campaign} <-
            CampaignContext.update_campaign(campaign, campaign_params) do
@@ -40,7 +41,8 @@ defmodule RpgrWeb.CampaignController do
   end
 
   def delete(conn, %{"id" => id}) do
-    campaign = CampaignContext.get_campaign!(id)
+    user = get_user(conn)
+    campaign = CampaignContext.get_campaign!(id, user.id)
 
     with {:ok, %Campaign{}} <- CampaignContext.delete_campaign(campaign) do
       send_resp(conn, :no_content, "")

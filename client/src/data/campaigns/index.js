@@ -13,7 +13,6 @@ import {
 export type Campaign = {|
   id: number,
   name: string,
-  system_id: number,
   description: string,
   inserted_at: string,
   updated_at: string,
@@ -21,7 +20,7 @@ export type Campaign = {|
 
 export type DraftCampaign = $Diff<
   Campaign,
-  {| id: number, inserted_at: string, updated_at: string |},
+  {| id: number, inserted_at: string, updated_at: string |}
 >
 
 type State = {

@@ -25,12 +25,10 @@ function AddCampaign({ history, createCampaign }: Props) {
           initialValues={{
             name: '',
             description: '',
-            system_id: '',
           }}
           onSubmit={(values, { setSubmitting }) => {
             const { name, description } = values
-            const system_id = parseInt(values.system_id, 10)
-            createCampaign({ name, description, system_id }).then(campaign => {
+            createCampaign({ name, description }).then(campaign => {
               setSubmitting(false)
               history.push(`/campaigns/${campaign.id}`)
             })
@@ -50,5 +48,5 @@ export default flowRight(
     actionCreators: {
       createCampaign,
     },
-  }),
+  })
 )(AddCampaign)

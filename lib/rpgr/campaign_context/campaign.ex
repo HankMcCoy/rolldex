@@ -2,11 +2,9 @@ defmodule Rpgr.CampaignContext.Campaign do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "campaigns" do
-    field :description, :string
-    field :name, :string
-    belongs_to :system, Rpgr.SystemContext.System
+    field(:description, :string)
+    field(:name, :string)
 
     timestamps()
   end
@@ -14,7 +12,7 @@ defmodule Rpgr.CampaignContext.Campaign do
   @doc false
   def changeset(campaign, attrs) do
     campaign
-    |> cast(attrs, [:name, :description, :system_id])
-    |> validate_required([:name, :description, :system_id])
+    |> cast(attrs, [:name, :description])
+    |> validate_required([:name, :description])
   end
 end

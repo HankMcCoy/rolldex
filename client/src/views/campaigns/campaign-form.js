@@ -1,13 +1,9 @@
 // @flow
 import * as React from 'react'
 import styled from 'react-emotion'
-import flowRight from 'lodash-es/flowRight'
 import { Formik } from 'formik'
 
 import { required } from 'r/util/formik'
-
-import type { System } from 'r/data/systems'
-import { withSystemList } from 'r/data/systems/connectors'
 
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
@@ -24,23 +20,14 @@ const ButtonsWrapper = styled('div')`
 
 type Values = {|
   name: string,
-  system_id: string,
   description: string,
 |}
-type ExternalProps = {|
+type Props = {|
   initialValues: Values,
   onSubmit: (Values, *) => void,
   onCancel: () => void,
 |}
-type BoundProps = {|
-  systems: Array<System> | void,
-|}
-function CampaignForm({
-  initialValues,
-  systems,
-  onSubmit,
-  onCancel,
-}: ExternalProps & BoundProps) {
+function CampaignForm({ initialValues, onSubmit, onCancel }: Props) {
   return (
     <FormWrapper>
       <Formik
@@ -49,21 +36,6 @@ function CampaignForm({
         render={({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <FormField name="name" label="Name" validate={required} />
-            <Spacer height={20} />
-            <FormField
-              name="system_id"
-              label="System"
-              component="select"
-              validate={required}
-            >
-              <option />
-              {systems &&
-                systems.map(s => (
-                  <option value={s.id} key={s.id}>
-                    {s.name}
-                  </option>
-                ))}
-            </FormField>
             <Spacer height={20} />
             <FormField
               name="description"
@@ -91,7 +63,4 @@ function CampaignForm({
   )
 }
 
-const ExportedCampaignForm: React.ComponentType<ExternalProps> = flowRight(
-  withSystemList,
-)(CampaignForm)
-export default ExportedCampaignForm
+export default CampaignForm

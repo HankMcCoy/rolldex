@@ -11,11 +11,12 @@ defmodule RpgrWeb.CampaignView do
   end
 
   def render("campaign.json", %{campaign: campaign}) do
-    %{id: campaign.id,
+    %{
+      id: campaign.id,
       name: campaign.name,
       description: campaign.description,
-      system_id: campaign.system_id,
       inserted_at: campaign.inserted_at,
-      updated_at: campaign.updated_at}
+      updated_at: campaign.updated_at
+    }
   end
 end

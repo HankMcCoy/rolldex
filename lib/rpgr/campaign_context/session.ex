@@ -3,12 +3,11 @@ defmodule Rpgr.CampaignContext.Session do
   use Ecto.Schema
   import Ecto.Changeset
 
-
   schema "sessions" do
-    field :name, :string
-    field :notes, :string
-    field :summary, :string
-    belongs_to :campaign, Campaign
+    field(:name, :string)
+    field(:notes, :string)
+    field(:summary, :string)
+    belongs_to(:campaign, Campaign)
 
     timestamps()
   end

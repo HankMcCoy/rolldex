@@ -31,16 +31,13 @@ function EditCampaign({ campaign, history, updateCampaign }: Props) {
         <CampaignForm
           initialValues={{
             name: campaign.name,
-            system_id: campaign.system_id.toString(),
             description: campaign.description,
           }}
           onSubmit={(values, { setSubmitting }) => {
             const { name, description } = values
-            const system_id = parseInt(values.system_id, 10)
             updateCampaign({
               ...campaign,
               name,
-              system_id,
               description,
             }).then(noun => {
               setSubmitting(false)
@@ -63,5 +60,5 @@ export default flowRight(
     actionCreators: {
       updateCampaign,
     },
-  }),
+  })
 )(EditCampaign)

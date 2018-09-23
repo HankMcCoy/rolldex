@@ -16,29 +16,24 @@ defmodule RpgrWeb.CampaignControllerTest do
 
   describe "create campaign" do
     test "renders campaign when data is valid", %{conn: conn} do
-      system = insert(:system)
-
       conn =
         post(
           conn,
           campaign_path(conn, :create),
           campaign: %{
             name: "some name",
-            description: "some description",
-            system_id: system.id
+            description: "some description"
           }
         )
 
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, campaign_path(conn, :show, id))
-      system_id = system.id
 
       assert %{
                "id" => ^id,
                "description" => "some description",
                "name" => "some name",
-               "system_id" => ^system_id,
                "inserted_at" => _,
                "updated_at" => _
              } = json_response(conn, 200)["data"]
@@ -55,7 +50,7 @@ defmodule RpgrWeb.CampaignControllerTest do
 
     test "renders campaign when data is valid", %{
       conn: conn,
-      campaign: %Campaign{id: id, system_id: system_id} = campaign
+      campaign: %Campaign{id: id} = campaign
     } do
       conn =
         put(
@@ -72,7 +67,6 @@ defmodule RpgrWeb.CampaignControllerTest do
                "id" => ^id,
                "description" => "updated description",
                "name" => "updated name",
-               "system_id" => ^system_id,
                "inserted_at" => _,
                "updated_at" => _
              } = json_response(conn, 200)["data"]
@@ -93,8 +87,7 @@ defmodule RpgrWeb.CampaignControllerTest do
   end
 
   defp create_campaign(_) do
-    system = insert(:system)
-    campaign = insert(:campaign, system: system)
+    campaign = insert(:campaign)
     {:ok, campaign: campaign}
   end
 end

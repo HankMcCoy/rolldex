@@ -15,7 +15,6 @@ import { ThemeProvider } from 'emotion-theming'
 import history from './history'
 import Layout from './layout'
 import theme from './theme'
-import Systems from './views/systems'
 import Campaigns from './views/campaigns'
 import Login from './views/auth/login'
 import Register from './views/auth/register'
@@ -26,7 +25,7 @@ import JumpTo from './modals/jump-to'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const storeEnhancer: StoreEnhancer<*, *, *> = composeEnhancers(
-  applyMiddleware(thunk),
+  applyMiddleware(thunk)
 )
 const store = createStore(reducer, storeEnhancer)
 
@@ -71,7 +70,6 @@ class App extends Component<{}> {
                   render={() => (
                     <Layout>
                       <Switch>
-                        <Route path="/systems" component={Systems} />
                         <Route path="/campaigns" component={Campaigns} />
                       </Switch>
                     </Layout>

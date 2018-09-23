@@ -1,5 +1,0 @@
-// @flow
-export const FETCH_SYSTEM_LIST = 'FETCH_SYSTEM_LIST'
-export const FETCH_SYSTEM = 'FETCH_SYSTEM'
-export const CREATE_SYSTEM = 'CREATE_SYSTEM'
-export const UPDATE_SYSTEM = 'UPDATE_SYSTEM'

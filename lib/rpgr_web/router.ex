@@ -30,7 +30,6 @@ defmodule RpgrWeb.Router do
 
     scope "/" do
       pipe_through(:authorized)
-      resources("/systems", SystemController)
 
       resources "/campaigns", CampaignController do
         get("/quick-find", QuickFindController, :quick_find)

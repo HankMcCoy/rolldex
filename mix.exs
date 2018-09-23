@@ -46,7 +46,8 @@ defmodule Rpgr.Mixfile do
       {:mix_test_watch, "~> 0.6", only: :dev, runtime: false},
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 0.12"}
+      {:bcrypt_elixir, "~> 0.12"},
+      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
     ]
   end
 

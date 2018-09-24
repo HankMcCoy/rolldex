@@ -1,6 +1,8 @@
 pushd $phoenix_dir
 npm --prefix ./priv/assets run build
-rm -r ./priv/static/*
+if [ -d "./priv/static" ]; then
+  rm -r ./priv/static/*
+fi
 cp -r ./client/build/* ./priv/static
 mix phx.digest
 popd

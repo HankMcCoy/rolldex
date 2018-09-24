@@ -1,8 +1,13 @@
 pushd $phoenix_dir
 npm --prefix ./priv/assets run build
+echo "CHECKING"
+echo "ROOT
+ls -la ./
+echo "PRIV"
+ls -la ./priv
 if [ -d "./priv/static" ]; then
   rm -r ./priv/static/*
 fi
-cp -r ./client/build/* ./priv/static
+cp -r ./priv/assets/build/* ./priv/static
 mix phx.digest
 popd

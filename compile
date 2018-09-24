@@ -1,7 +1,7 @@
 pushd $phoenix_dir
 npm --prefix ./priv/assets run build
 echo "CHECKING"
-echo "ROOT
+echo "ROOT"
 ls -la ./
 echo "PRIV"
 ls -la ./priv

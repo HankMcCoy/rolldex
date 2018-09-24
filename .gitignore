@@ -30,4 +30,3 @@ flow-typed
 
 *.swp
 .DS_Store
-rel/

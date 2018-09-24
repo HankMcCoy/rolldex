@@ -21,4 +21,4 @@ config :rpgr, Rpgr.Repo,
 
 config :rpgr, Rpgr.Auth.Guardian,
   issuer: "rpgr",
-  secret_key: System.get_env("GUARDIAN_ROLLDEX_SECRET_KEY")
+  secret_key: "${GUARDIAN_ROLLDEX_SECRET_KEY}"

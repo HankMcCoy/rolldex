@@ -62,5 +62,7 @@ defmodule RpgrWeb.Router do
 
   scope "/", RpgrWeb do
     pipe_through(:browser)
+
+    get("/*path", StaticController, :index)
   end
 end

@@ -2,11 +2,6 @@ defmodule RpgrWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :rpgr
 
   plug(
-    Plug.Static.IndexHtml,
-    at: "/"
-  )
-
-  plug(
     Plug.Static,
     at: "/",
     from: "priv/static/",

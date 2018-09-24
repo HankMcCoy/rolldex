@@ -1,7 +1,4 @@
-pushd ./client
-npm run build
-popd
-
+npm --prefix ./priv/assets run build
 rm -r ./priv/static/*
 cp -r ./client/build/* ./priv/static
 mix phx.digest

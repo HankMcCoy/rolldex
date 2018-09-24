@@ -4,7 +4,7 @@ defmodule RpgrWeb.Endpoint do
   plug(
     Plug.Static,
     at: "/",
-    from: "priv/static/",
+    from: {:rgpr, "priv/static"},
     gzip: true
   )
 

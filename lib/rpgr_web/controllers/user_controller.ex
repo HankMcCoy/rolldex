@@ -10,8 +10,6 @@ defmodule RpgrWeb.UserController do
   def register(conn, %{"email" => email, "password" => password}) do
     if MapSet.member?(@permitted_emails, email) do
       with {:ok, %User{} = user} <- Auth.create_user(%{"email" => email, "password" => password}) do
-        IO.puts(inspect(user))
-
         conn
         |> put_status(:created)
         |> Rpgr.Auth.Guardian.Plug.sign_in(user)

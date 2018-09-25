@@ -8,7 +8,11 @@ defmodule RpgrWeb.CampaignController do
 
   def index(conn, _params) do
     user = get_user(conn)
+    IO.puts("USER")
+    IO.inspect(user)
     campaigns = CampaignContext.list_campaigns(user.id)
+    IO.puts("CAMPAIGNS")
+    IO.inspect(campaigns)
     render(conn, "index.json", campaigns: campaigns)
   end
 

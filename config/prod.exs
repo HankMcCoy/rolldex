@@ -8,7 +8,7 @@ config :rpgr, RpgrWeb.Endpoint,
   # Without this line, your app will not start the web server!
   server: true,
   secret_key_base: "${SECRET_KEY_BASE}",
-  url: [host: "example.com", port: 80],
+  url: [host: "rolldex.app", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :rpgr, Rpgr.Repo,

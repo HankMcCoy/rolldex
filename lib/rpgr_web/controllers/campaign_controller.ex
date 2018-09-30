@@ -8,11 +8,8 @@ defmodule RpgrWeb.CampaignController do
   action_fallback(RpgrWeb.FallbackController)
 
   def index(conn, _params) do
-    Logger.debug("INDEX")
     user = get_user(conn)
-    Logger.debug("USER #{inspect(user)}")
     campaigns = CampaignContext.list_campaigns(user.id)
-    Logger.debug("CAMPAIGNS #{inspect(campaigns)}")
     render(conn, "index.json", campaigns: campaigns)
   end
 

@@ -83,4 +83,30 @@ defmodule Rpgr.CampaignContext do
   def delete_noun(%Noun{} = noun) do
     Repo.delete(noun)
   end
+
+  # Members
+
+  alias Rpgr.CampaignContext.Member
+
+  def list_members(campaign_id) do
+    Repo.all(
+      from(
+        m in Member,
+        where: m.campaign_id == ^campaign_id,
+        select: m
+      )
+    )
+  end
+
+  def get_member!(id), do: Repo.get!(Member, id)
+
+  def create_member(attrs \\ %{}) do
+    %Member{}
+    |> Member.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def delete_member(%Member{} = member) do
+    Repo.delete(member)
+  end
 end

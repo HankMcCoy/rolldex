@@ -34,6 +34,8 @@ defmodule RpgrWeb.Router do
       resources "/campaigns", CampaignController do
         get("/quick-find", QuickFindController, :quick_find)
 
+        resources("/members", CampaignMemberController, except: [:edit])
+
         resources "/sessions", SessionController, except: [:new, :edit] do
           get("/related-nouns", SessionController, :related_nouns)
         end

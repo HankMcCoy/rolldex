@@ -2,7 +2,11 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "proxy": {
+    "/api*": {
+      "target": "http://localhost:4000"
+    }
+  },
   "dependencies": {
     "emotion": "^9.2.4",
     "emotion-theming": "^9.2.4",

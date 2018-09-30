@@ -1,6 +1,7 @@
 defmodule RpgrWeb.NounController do
   use RpgrWeb, :controller
 
+  alias Rpgr.CampaignRelations
   alias Rpgr.CampaignContext
   alias Rpgr.CampaignContext.Noun
 
@@ -42,12 +43,12 @@ defmodule RpgrWeb.NounController do
   end
 
   def related_nouns(conn, %{"noun_id" => id}) do
-    nouns = CampaignContext.get_related_nouns_for_noun(id)
+    nouns = CampaignRelations.get_related_nouns_for_noun(id)
     render(conn, "index.json", nouns: nouns)
   end
 
   def related_sessions(conn, %{"noun_id" => id}) do
-    sessions = CampaignContext.get_related_sessions_for_noun(id)
+    sessions = CampaignRelations.get_related_sessions_for_noun(id)
     render(conn, "related_sessions.json", sessions: sessions)
   end
 end

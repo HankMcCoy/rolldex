@@ -1,7 +1,7 @@
 defmodule RpgrWeb.QuickFindController do
   use RpgrWeb, :controller
 
-  alias Rpgr.CampaignContext
+  alias Rpgr.CampaignRelations
 
   action_fallback(RpgrWeb.FallbackController)
 
@@ -9,7 +9,7 @@ defmodule RpgrWeb.QuickFindController do
     {campaign_id, _} = Integer.parse(campaign_id)
     conn = fetch_query_params(conn)
     %{"q" => search} = conn.query_params
-    results = CampaignContext.get_jump_to_results(search, campaign_id)
+    results = CampaignRelations.get_jump_to_results(search, campaign_id)
 
     conn
     |> put_status(:ok)

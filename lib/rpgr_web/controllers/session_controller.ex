@@ -1,6 +1,7 @@
 defmodule RpgrWeb.SessionController do
   use RpgrWeb, :controller
 
+  alias Rpgr.CampaignRelations
   alias Rpgr.CampaignContext
   alias Rpgr.CampaignContext.Session
 
@@ -45,7 +46,7 @@ defmodule RpgrWeb.SessionController do
   end
 
   def related_nouns(conn, %{"session_id" => id}) do
-    nouns = CampaignContext.get_nouns_in_session(id)
+    nouns = CampaignRelations.get_nouns_in_session(id)
     render(conn, "related_nouns.json", nouns: nouns)
   end
 end

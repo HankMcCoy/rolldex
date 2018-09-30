@@ -60,6 +60,8 @@ defmodule RpgrWeb.Router do
         get("/me", UserController, :show)
       end
     end
+
+    match(:*, "/*path", FallbackController, {:error, :not_found})
   end
 
   scope "/", RpgrWeb do

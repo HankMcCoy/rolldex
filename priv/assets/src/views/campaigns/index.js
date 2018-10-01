@@ -9,6 +9,7 @@ import AddCampaign from './add-campaign'
 import EditCampaign from './edit-campaign'
 import Sessions from './sessions'
 import Nouns from './nouns'
+import InviteMember from './members/invite'
 
 type Props = {
   match: Match,
@@ -29,6 +30,10 @@ export default function Campaigns({ match }: Props) {
           component={Sessions}
         />
         <Route path={`${match.path}/:campaignId/nouns`} component={Nouns} />
+        <Route
+          path={`${match.path}/:campaignId/members/invite`}
+          component={InviteMember}
+        />
         <Route path={`${match.path}/:campaignId`} component={CampaignDetail} />
       </Switch>
     </React.Fragment>

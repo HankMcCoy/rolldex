@@ -7,7 +7,7 @@ import { fromTheme } from 'r/theme'
 import H3 from './h3'
 import Spacer from './spacer'
 
-const StyledLink = styled(Link)`
+const Root = styled.div`
   background: ${fromTheme('gray97')};
   border: 1px solid ${fromTheme('gray87')};
   color: ${fromTheme('textColor')};
@@ -15,18 +15,26 @@ const StyledLink = styled(Link)`
   padding: 10px;
   text-decoration: none;
 `
+const StyledLink = Root.withComponent(Link)
 
 type Props = {
   title: string,
-  description: string,
-  to: string,
+  description?: string,
+  to?: string,
 }
 export default function ListCard({ title, description, to }: Props) {
-  return (
-    <StyledLink to={to}>
+  const content = description ? (
+    <React.Fragment>
       <H3>{title}</H3>
       <Spacer height={10} />
-      <div>{description}</div>
-    </StyledLink>
+    </React.Fragment>
+  ) : (
+    <H3>{title}</H3>
+  )
+
+  return to ? (
+    <StyledLink to={to}>{content}</StyledLink>
+  ) : (
+    <Root>{content}</Root>
   )
 }

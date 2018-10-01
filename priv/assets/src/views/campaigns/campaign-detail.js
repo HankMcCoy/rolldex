@@ -20,65 +20,76 @@ import { withSessionList } from 'r/data/sessions/connectors'
 import type { Noun } from 'r/data/nouns'
 import { withNounList } from 'r/data/nouns/connectors'
 
+import type { Member } from 'r/data/members'
+import { withMemberList } from 'r/data/members/connectors'
+
 type Props = {
-	campaign: Campaign | void,
-	sessions: Array<Session> | void,
-	nouns: Array<Noun> | void
+  campaign: Campaign | void,
+  sessions: Array<Session> | void,
+  members: Array<Member> | void,
+  nouns: Array<Noun> | void,
 }
-function CampaignDetail({ campaign, sessions, nouns }: Props) {
-	if (!campaign || !sessions || !nouns) return <LoadingPage />
-	const { name, description, id } = campaign
-	return (
-		<React.Fragment>
-			<PageHeader
-				title={name}
-				breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
-				controls={
-					<HeaderButton to={`/campaigns/${campaign.id}/edit`}>
-						Edit
-					</HeaderButton>
-				}
-			/>
-			<PageContent>
-				<ColumnView gutterWidth={40}>
-					<Column>
-						<TextSection title="Description" markdown>
-							{description}
-						</TextSection>
-						<Spacer height={20} />
-						<AddableList
-							title="Sessions"
-							addPath={`/campaigns/${id}/sessions/add`}
-						>
-							{sessions.map(s => (
-								<ListCard
-									title={s.name}
-									description={s.summary}
-									to={`/campaigns/${campaign.id}/sessions/${s.id}`}
-								/>
-							))}
-						</AddableList>
-					</Column>
-					<Column>
-						<AddableList title="World" addPath={`/campaigns/${id}/nouns/add`}>
-							{nouns.map(n => (
-								<ListCard
-									title={n.name}
-									description={n.summary}
-									to={`/campaigns/${campaign.id}/nouns/${n.id}`}
-								/>
-							))}
-						</AddableList>
-					</Column>
-				</ColumnView>
-			</PageContent>
-		</React.Fragment>
-	)
+function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
+  if (!campaign || !members || !sessions || !nouns) return <LoadingPage />
+  const { name, description, id } = campaign
+  return (
+    <React.Fragment>
+      <PageHeader
+        title={name}
+        breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
+        controls={
+          <HeaderButton to={`/campaigns/${campaign.id}/edit`}>
+            Edit
+          </HeaderButton>
+        }
+      />
+      <PageContent>
+        <ColumnView gutterWidth={40}>
+          <Column>
+            <TextSection title="Description" markdown>
+              {description}
+            </TextSection>
+            <Spacer height={20} />
+            <AddableList
+              title="Members"
+              addPath={`/campaigns/${id}/members/invite`}
+            >
+              {members.map(m => <ListCard title={m.user_id.toString()} />)}
+            </AddableList>
+            <AddableList
+              title="Sessions"
+              addPath={`/campaigns/${id}/sessions/add`}
+            >
+              {sessions.map(s => (
+                <ListCard
+                  title={s.name}
+                  description={s.summary}
+                  to={`/campaigns/${campaign.id}/sessions/${s.id}`}
+                />
+              ))}
+            </AddableList>
+          </Column>
+          <Column>
+            <AddableList title="World" addPath={`/campaigns/${id}/nouns/add`}>
+              {nouns.map(n => (
+                <ListCard
+                  title={n.name}
+                  description={n.summary}
+                  to={`/campaigns/${campaign.id}/nouns/${n.id}`}
+                />
+              ))}
+            </AddableList>
+          </Column>
+        </ColumnView>
+      </PageContent>
+    </React.Fragment>
+  )
 }
 
 const getCampaignId = ({ match: { params } }) => +params.campaignId
 export default flowRight(
-	withCampaign(getCampaignId),
-	withSessionList(getCampaignId),
-	withNounList(getCampaignId)
+  withCampaign(getCampaignId),
+  withSessionList(getCampaignId),
+  withNounList(getCampaignId),
+  withMemberList(getCampaignId)
 )(CampaignDetail)

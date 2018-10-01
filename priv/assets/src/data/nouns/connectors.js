@@ -10,7 +10,7 @@ import { selectNoun, selectNounList } from 'r/data/nouns/selectors'
 import { fetchNoun, fetchNounList } from 'r/data/nouns/action-creators'
 
 export const withNoun: <T>(
-  (T) => { campaignId: number, nounId: number },
+  (T) => { campaignId: number, nounId: number }
 ) => HOC<T, { noun: Noun }> = getIds =>
   flowRight(
     connect({
@@ -36,11 +36,11 @@ export const withNoun: <T>(
       selectors: {
         noun: selectNoun(props => getIds(props).nounId),
       },
-    }),
+    })
   )
 
 export const withNounList: <T>(
-  (T) => number,
+  (T) => number
 ) => HOC<T, { nouns: Array<Noun> | void }> = getCampaignId =>
   flowRight(
     connect({
@@ -58,5 +58,5 @@ export const withNounList: <T>(
       selectors: {
         nouns: selectNounList(getCampaignId),
       },
-    }),
+    })
   )

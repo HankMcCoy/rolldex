@@ -46,7 +46,8 @@ defmodule RpgrWeb.UserController do
 
   def show(conn, _params) do
     user = Rpgr.Auth.Guardian.Plug.current_resource(conn)
+    IO.inspect(user, label: "CUR USER")
 
-    send_resp(conn, 200, Poison.encode!(%{user: user}))
+    render(conn, "show.json", user: user)
   end
 end

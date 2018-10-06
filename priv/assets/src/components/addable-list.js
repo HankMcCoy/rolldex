@@ -20,14 +20,20 @@ const List = styled.div`
 type Props = {
   title: string,
   addPath: string,
+  canEdit: boolean,
   children: React.Node,
 }
-export default function AddableList({ title, addPath, children }: Props) {
+export default function AddableList({
+  title,
+  addPath,
+  canEdit,
+  children,
+}: Props) {
   return (
     <div>
       <Header>
         <H2>{title}</H2>
-        <AddBtn to={addPath} />
+        {canEdit ? <AddBtn to={addPath} /> : null}
       </Header>
       <Spacer height={10} />
       <List>{children}</List>

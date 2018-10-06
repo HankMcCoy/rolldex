@@ -16,6 +16,7 @@ export type Campaign = {|
   description: string,
   inserted_at: string,
   updated_at: string,
+  created_by_id: number,
 |}
 
 export type DraftCampaign = $Diff<

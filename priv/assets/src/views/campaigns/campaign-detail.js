@@ -2,6 +2,7 @@
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
 
+import { IsOwner } from 'r/contexts/auth'
 import PageHeader, { HeaderButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageContent from 'r/components/page-content'
@@ -33,57 +34,69 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
   if (!campaign || !members || !sessions || !nouns) return <LoadingPage />
   const { name, description, id } = campaign
   return (
-    <React.Fragment>
-      <PageHeader
-        title={name}
-        breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
-        controls={
-          <HeaderButton to={`/campaigns/${campaign.id}/edit`}>
-            Edit
-          </HeaderButton>
-        }
-      />
-      <PageContent>
-        <ColumnView gutterWidth={40}>
-          <Column>
-            <TextSection title="Description" markdown>
-              {description}
-            </TextSection>
-            <Spacer height={20} />
-            <AddableList
-              title="Members"
-              addPath={`/campaigns/${id}/members/invite`}
-            >
-              {members.map(m => <ListCard title={m.email} />)}
-            </AddableList>
-            <Spacer height={20} />
-            <AddableList
-              title="Sessions"
-              addPath={`/campaigns/${id}/sessions/add`}
-            >
-              {sessions.map(s => (
-                <ListCard
-                  title={s.name}
-                  description={s.summary}
-                  to={`/campaigns/${campaign.id}/sessions/${s.id}`}
-                />
-              ))}
-            </AddableList>
-          </Column>
-          <Column>
-            <AddableList title="World" addPath={`/campaigns/${id}/nouns/add`}>
-              {nouns.map(n => (
-                <ListCard
-                  title={n.name}
-                  description={n.summary}
-                  to={`/campaigns/${campaign.id}/nouns/${n.id}`}
-                />
-              ))}
-            </AddableList>
-          </Column>
-        </ColumnView>
-      </PageContent>
-    </React.Fragment>
+    <IsOwner campaign={campaign}>
+      {isOwner => (
+        <React.Fragment>
+          <PageHeader
+            title={name}
+            breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
+            controls={
+              isOwner ? (
+                <HeaderButton to={`/campaigns/${campaign.id}/edit`}>
+                  Edit
+                </HeaderButton>
+              ) : null
+            }
+          />
+          <PageContent>
+            <ColumnView gutterWidth={40}>
+              <Column>
+                <TextSection title="Description" markdown>
+                  {description}
+                </TextSection>
+                <Spacer height={20} />
+                <AddableList
+                  title="Members"
+                  addPath={`/campaigns/${id}/members/invite`}
+                  canEdit={isOwner}
+                >
+                  {members.map(m => <ListCard title={m.email} />)}
+                </AddableList>
+                <Spacer height={20} />
+                <AddableList
+                  title="Sessions"
+                  addPath={`/campaigns/${id}/sessions/add`}
+                  canEdit={isOwner}
+                >
+                  {sessions.map(s => (
+                    <ListCard
+                      title={s.name}
+                      description={s.summary}
+                      to={`/campaigns/${campaign.id}/sessions/${s.id}`}
+                    />
+                  ))}
+                </AddableList>
+              </Column>
+              <Column>
+                <AddableList
+                  title="World"
+                  addPath={`/campaigns/${id}/nouns/add`}
+                  canEdit={isOwner}
+                >
+                  {nouns.map(n => (
+                    <ListCard
+                      title={n.name}
+                      description={n.summary}
+                      to={`/campaigns/${campaign.id}/nouns/${n.id}`}
+                    />
+                  ))}
+                </AddableList>
+              </Column>
+            </ColumnView>
+          </PageContent>
+        </React.Fragment>
+      )}
+    </IsOwner>
   )
 }
 

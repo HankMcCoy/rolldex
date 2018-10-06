@@ -10,6 +10,13 @@ defmodule Rpgr.Auth do
 
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_email(email) do
+    query = from(u in User, where: u.email == ^email)
+
+    query
+    |> Repo.one()
+  end
+
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
@@ -33,10 +40,7 @@ defmodule Rpgr.Auth do
   alias Comeonin.Bcrypt
 
   def authenticate_user(email, plain_text_password) do
-    query = from(u in User, where: u.email == ^email)
-
-    query
-    |> Repo.one()
+    get_user_by_email(email)
     |> check_password(plain_text_password)
   end
 

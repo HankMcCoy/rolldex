@@ -6,6 +6,7 @@ defmodule Rpgr.CampaignContext.Campaign do
     field(:description, :string)
     field(:name, :string)
     belongs_to(:created_by, Rpgr.Auth.User)
+    has_many(:members, Rpgr.Campaign.Member)
 
     timestamps()
   end

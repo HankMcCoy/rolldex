@@ -54,8 +54,9 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
               title="Members"
               addPath={`/campaigns/${id}/members/invite`}
             >
-              {members.map(m => <ListCard title={m.user_id.toString()} />)}
+              {members.map(m => <ListCard title={m.email} />)}
             </AddableList>
+            <Spacer height={20} />
             <AddableList
               title="Sessions"
               addPath={`/campaigns/${id}/sessions/add`}

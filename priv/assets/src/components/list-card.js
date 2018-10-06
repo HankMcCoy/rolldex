@@ -27,6 +27,7 @@ export default function ListCard({ title, description, to }: Props) {
     <React.Fragment>
       <H3>{title}</H3>
       <Spacer height={10} />
+      {description}
     </React.Fragment>
   ) : (
     <H3>{title}</H3>

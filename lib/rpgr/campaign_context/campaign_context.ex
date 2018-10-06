@@ -9,12 +9,30 @@ defmodule Rpgr.CampaignContext do
   # CAMPAIGNS
 
   alias Rpgr.CampaignContext.Campaign
+  alias Rpgr.CampaignContext.Member
 
-  def list_campaigns(user_id) do
-    Repo.all(from(c in Campaign, where: c.created_by_id == ^user_id))
+  defp get_campaigns_for_user_query(user_id) do
+    from(
+      c in Campaign,
+      left_join: m in Member,
+      on: c.id == m.campaign_id,
+      where: c.created_by_id == ^user_id or m.user_id == ^user_id
+    )
   end
 
-  def get_campaign!(id, user_id), do: Repo.get_by!(Campaign, id: id, created_by_id: user_id)
+  def list_campaigns(user_id) do
+    # SELECT c.id
+    #   FROM public.campaigns AS c
+    #   LEFT JOIN public.campaign_members AS m
+    #     ON c.id = m.campaign_id
+    #   WHERE m.user_id = 8 OR c.created_by_id = 8;
+    Repo.all(get_campaigns_for_user_query(user_id))
+  end
+
+  def get_campaign!(id, user_id) do
+    campaigns_for_user = get_campaigns_for_user_query(user_id)
+    campaign = Repo.one!(from(c in campaigns_for_user, where: c.id == ^id))
+  end
 
   def create_campaign(attrs \\ %{}) do
     %Campaign{}
@@ -93,7 +111,8 @@ defmodule Rpgr.CampaignContext do
       from(
         m in Member,
         where: m.campaign_id == ^campaign_id,
-        select: m
+        select: m,
+        preload: [:user]
       )
     )
   end

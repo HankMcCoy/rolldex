@@ -14,8 +14,9 @@
 - [x] FE & BE: Build a Cmd-K shortcut for going to any noun or session
 - [x] FE: Expando sidebar nav
 - [x] FE & BE: Switch notes to a summary + notes setup, w/ markdown support
-- [ ] FE & BE: Add super basic auth
-- [ ] BE: Host it somewhere
+- [x] FE & BE: Add super basic auth
+- [x] BE: Host it somewhere
+- [x] BE & FE: Add super rough read-only member mode
 - [ ] FE: Make editing notes easier
 - [ ] FE: Show validation error for required fields when creating systems/campaigns
 - [ ] FE & BE: Support images for nouns

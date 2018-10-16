@@ -21,6 +21,13 @@
 - [ ] FE: Show validation error for required fields when creating systems/campaigns
 - [ ] FE & BE: Support images for nouns
 
+# Orcas Island Goals
+- [ ] Get the latest deployed
+- [ ] Allow removing members
+- [ ] Show the signed in user
+- [ ] Add logout link
+- [ ] Make existing features easy to use
+
 # Auth plan
 
 - Add registration view

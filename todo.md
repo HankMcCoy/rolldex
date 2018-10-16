@@ -25,6 +25,7 @@
 - [x] Get the latest deployed
 - [x] Sign up Al
 - [ ] Fix campaign creation
+- [ ] Fix warnings on the FE
 - [ ] Allow removing members
 - [ ] Show the signed in user
 - [ ] Add logout link

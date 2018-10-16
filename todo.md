@@ -22,7 +22,9 @@
 - [ ] FE & BE: Support images for nouns
 
 # Orcas Island Goals
-- [ ] Get the latest deployed
+- [x] Get the latest deployed
+- [x] Sign up Al
+- [ ] Fix campaign creation
 - [ ] Allow removing members
 - [ ] Show the signed in user
 - [ ] Add logout link

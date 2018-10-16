@@ -95,6 +95,10 @@ video {
   vertical-align: baseline;
 }
 
+strong {
+  font-weight: 400;
+}
+
 /* HTML5 display-role reset for older browsers */
 
 article,

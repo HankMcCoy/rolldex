@@ -38,7 +38,7 @@ const MarkdownContainer = styled.div`
     margin-top: 5px;
   }
   & p {
-    margin: 5px;
+    margin: 5px 0;
   }
   & ul {
     padding-left: 20px;
@@ -59,12 +59,12 @@ const MarkdownContainer = styled.div`
 type Props = {
   title: string,
   children: React.Node,
-  markdown?: boolean
+  markdown?: boolean,
 }
 export default function TextSection({
   title,
   children,
-  markdown = false
+  markdown = false,
 }: Props) {
   return (
     <div>

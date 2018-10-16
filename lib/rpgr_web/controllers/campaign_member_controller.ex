@@ -8,7 +8,7 @@ defmodule RpgrWeb.CampaignMemberController do
   alias Rpgr.CampaignContext.Member
   require Logger
 
-  #  action_fallback(RpgrWeb.FallbackController)
+  action_fallback(RpgrWeb.FallbackController)
 
   def index(conn, %{"campaign_id" => campaign_id}) do
     members = CampaignContext.list_members(campaign_id)

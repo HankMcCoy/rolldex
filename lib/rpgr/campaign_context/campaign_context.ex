@@ -123,6 +123,7 @@ defmodule Rpgr.CampaignContext do
     %Member{}
     |> Member.changeset(attrs)
     |> Repo.insert()
+    |> Repo.preload(:user)
   end
 
   def delete_member(%Member{} = member) do

@@ -56,7 +56,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
           <Spacer height={15} />
           <NounList>
             {people.map(noun => (
-              <NounLink noun={noun} campaignId={campaignId} />
+              <NounLink key={noun.id} noun={noun} campaignId={campaignId} />
             ))}
           </NounList>
         </NounGroup>
@@ -67,7 +67,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
           <Spacer height={15} />
           <NounList>
             {places.map(noun => (
-              <NounLink noun={noun} campaignId={campaignId} />
+              <NounLink key={noun.id} noun={noun} campaignId={campaignId} />
             ))}
           </NounList>
         </NounGroup>
@@ -78,7 +78,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
           <Spacer height={15} />
           <NounList>
             {things.map(noun => (
-              <NounLink noun={noun} campaignId={campaignId} />
+              <NounLink key={noun.id} noun={noun} campaignId={campaignId} />
             ))}
           </NounList>
         </NounGroup>
@@ -95,5 +95,5 @@ export default flowRight(
       getNouns().then(setNouns)
     },
   }),
-  mapProps(props => omit(props, ['setNouns'])),
+  mapProps(props => omit(props, ['setNouns']))
 )(NounsInSession)

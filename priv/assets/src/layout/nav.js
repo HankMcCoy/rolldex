@@ -58,7 +58,11 @@ function Nav({ systems, campaigns }: Props) {
             <SubAppLink to="/campaigns">Campaigns</SubAppLink>
             {campaigns &&
               campaigns.map(c => (
-                <ChildLink to={`/campaigns/${c.id}`} activeClassName={active}>
+                <ChildLink
+                  key={c.id}
+                  to={`/campaigns/${c.id}`}
+                  activeClassName={active}
+                >
                   {c.name}
                 </ChildLink>
               ))}

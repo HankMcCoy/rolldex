@@ -47,8 +47,8 @@ function RelatedSessions({ sessions, campaignId }: Props) {
           <H2>Sessions</H2>
           <Spacer height={15} />
           <SessionList>
-            {sessions.map(session => (
-              <SessionLink session={session} campaignId={campaignId} />
+            {sessions.map(s => (
+              <SessionLink key={s.id} session={s} campaignId={campaignId} />
             ))}
           </SessionList>
         </React.Fragment>
@@ -70,5 +70,5 @@ export default flowRight(
       })
     },
   }),
-  mapProps(props => omit(props, ['setSessions'])),
+  mapProps(props => omit(props, ['setSessions']))
 )(RelatedSessions)

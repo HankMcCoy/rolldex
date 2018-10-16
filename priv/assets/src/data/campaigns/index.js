@@ -21,7 +21,12 @@ export type Campaign = {|
 
 export type DraftCampaign = $Diff<
   Campaign,
-  {| id: number, inserted_at: string, updated_at: string |}
+  {|
+    id: number,
+    inserted_at: string,
+    updated_at: string,
+    created_by_id: number,
+  |}
 >
 
 type State = {

@@ -93,10 +93,12 @@ function PageHeader({
         {breadcrumbs && (
           <BreadcrumbsWrapper>
             {intersperse(
-              breadcrumbs.map(({ text, to }) => (
-                <Breadcrumb to={to}>{text}</Breadcrumb>
+              breadcrumbs.map(({ text, to }, i) => (
+                <Breadcrumb key={i} to={to}>
+                  {text}
+                </Breadcrumb>
               )),
-              i => <Separator key={`sep-${i}`} />,
+              i => <Separator key={`sep-${i}`} />
             )}
           </BreadcrumbsWrapper>
         )}
@@ -109,6 +111,6 @@ function PageHeader({
 }
 
 const PageHeaderExport: React$ComponentType<ExternalProps> = withRouter(
-  PageHeader,
+  PageHeader
 )
 export default PageHeaderExport

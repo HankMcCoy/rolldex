@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import styled from 'react-emotion'
+import isPropValid from '@emotion/is-prop-valid'
 import { type Match, Link, withRouter } from 'react-router-dom'
 
 import { getSubAppColor } from 'r/util'
@@ -15,15 +16,19 @@ const commonStyles = {
   fontSize: '24px',
   borderRadius: '3px',
 }
-const commonDynamicStyles = ({ inverted, match, theme }) => ({
-  background: inverted ? theme.white : getSubAppColor({ match, theme }),
-  color: inverted ? getSubAppColor({ match, theme }) : theme.white,
+const commonDynamicStyles = ({ invertedFoo, match, theme }) => ({
+  background: invertedFoo ? theme.white : getSubAppColor({ match, theme }),
+  color: invertedFoo ? getSubAppColor({ match, theme }) : theme.white,
 })
 const StyledButton = styled('button')(commonStyles, commonDynamicStyles)
 
-const StyledLink = styled(Link)(commonStyles, commonDynamicStyles, {
-  textDecoration: 'none',
-})
+const StyledLink = styled(Link, { shouldForwardProp: isPropValid })(
+  commonStyles,
+  commonDynamicStyles,
+  {
+    textDecoration: 'none',
+  }
+)
 
 type Props = {
   inverted?: boolean,
@@ -34,20 +39,20 @@ type Props = {
 function AddBtn({ inverted = false, onClick, to, match }: Props) {
   if (onClick) {
     return (
-      <StyledButton onClick={onClick} inverted={inverted} match={match}>
+      <StyledButton onClick={onClick} invertedFoo={inverted} match={match}>
         +
       </StyledButton>
     )
   }
   if (to) {
     return (
-      <StyledLink to={to} inverted={inverted} match={match}>
+      <StyledLink to={to} invertedFoo={inverted} match={match}>
         +
       </StyledLink>
     )
   }
   throw new Error(
-    'AddBtn requires either `onClick` or `to` to be provided as props',
+    'AddBtn requires either `onClick` or `to` to be provided as props'
   )
 }
 

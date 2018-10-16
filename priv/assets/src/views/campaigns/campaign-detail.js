@@ -60,7 +60,7 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
                   addPath={`/campaigns/${id}/members/invite`}
                   canEdit={isOwner}
                 >
-                  {members.map(m => <ListCard title={m.email} />)}
+                  {members.map(m => <ListCard key={m.id} title={m.email} />)}
                 </AddableList>
                 <Spacer height={20} />
                 <AddableList
@@ -70,6 +70,7 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
                 >
                   {sessions.map(s => (
                     <ListCard
+                      key={s.id}
                       title={s.name}
                       description={s.summary}
                       to={`/campaigns/${campaign.id}/sessions/${s.id}`}
@@ -85,6 +86,7 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
                 >
                   {nouns.map(n => (
                     <ListCard
+                      key={n.id}
                       title={n.name}
                       description={n.summary}
                       to={`/campaigns/${campaign.id}/nouns/${n.id}`}

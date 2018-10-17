@@ -6,7 +6,7 @@ import { type HOC, lifecycle, mapProps } from 'recompose'
 import { connect } from 'r/util/redux'
 import type { Member } from 'r/data/members'
 import { selectMemberList } from 'r/data/members/selectors'
-import { fetchMemberList } from 'r/data/members/action-creators'
+import { fetchMemberList, removeMember } from 'r/data/members/action-creators'
 
 export const withMemberList: <T>(
   (T) => number
@@ -26,6 +26,9 @@ export const withMemberList: <T>(
     connect({
       selectors: {
         members: selectMemberList(getCampaignId),
+      },
+      actionCreators: {
+        removeMember,
       },
     })
   )

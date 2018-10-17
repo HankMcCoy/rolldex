@@ -120,10 +120,12 @@ defmodule Rpgr.CampaignContext do
   def get_member!(id), do: Repo.get!(Member, id)
 
   def create_member(attrs \\ %{}) do
-    %Member{}
-    |> Member.changeset(attrs)
-    |> Repo.insert()
-    |> Repo.preload(:user)
+    with {:ok, %Member{} = member} <-
+           %Member{}
+           |> Member.changeset(attrs)
+           |> Repo.insert() do
+      {:ok, member |> Repo.preload([:user])}
+    end
   end
 
   def delete_member(%Member{} = member) do

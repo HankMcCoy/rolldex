@@ -22,11 +22,11 @@ export function failure(actionType: string) {
 
 export function createReducer<State>(
   initialState: State,
-  handlers: { [string]: (State, any, Action<any, any>) => State },
+  handlers: { [string]: (State, any, Action<any, any>) => State }
 ) {
   return function reducer(
     state: State = initialState,
-    action?: Action<any, any>,
+    action?: Action<any, any>
   ) {
     if (action === undefined) return state
     const handler = handlers[action.type]
@@ -49,7 +49,7 @@ export const actionXhr = ({
   actionType,
   requestBody,
   initialPayload,
-  transformSuccessPayload = p => p,
+  transformSuccessPayload = p => p && p.data,
   transformFailurePayload = p => p,
 }: ActionXhrParams) => (dispatch: any) => {
   dispatch({
@@ -63,7 +63,7 @@ export const actionXhr = ({
     body: requestBody,
   }).then(
     json => {
-      const payload = transformSuccessPayload(json.data)
+      const payload = transformSuccessPayload(json)
       dispatch({
         type: success(actionType),
         payload,
@@ -79,7 +79,7 @@ export const actionXhr = ({
         payload: transformFailurePayload(err),
       })
       throw err
-    },
+    }
   )
 }
 
@@ -95,5 +95,5 @@ type ConnectArgs = {
 export const connect = ({ selectors, actionCreators }: ConnectArgs) =>
   reduxConnect(
     selectors ? mapStateToSelectors(selectors) : null,
-    actionCreators ? partial(bindActionCreators, actionCreators) : null,
+    actionCreators ? partial(bindActionCreators, actionCreators) : null
   )

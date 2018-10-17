@@ -3,7 +3,7 @@ import keyBy from 'lodash-es/keyBy'
 
 import { success, createReducer } from 'r/util/redux'
 
-import { CREATE_MEMBER, FETCH_MEMBER_LIST } from './action-types'
+import { CREATE_MEMBER, FETCH_MEMBER_LIST, REMOVE_MEMBER } from './action-types'
 
 export type MemberType = 'READ_ONLY'
 export type Member = {|
@@ -36,4 +36,12 @@ export default createReducer(initialState, {
     ...keyBy(members, 'id'),
   }),
   [success(CREATE_MEMBER)]: updateOne,
+  [REMOVE_MEMBER]: (state: State, memberId: number) => ({
+    ...keyBy(
+      Object.keys(state)
+        .filter(curId => +curId !== memberId)
+        .map(id => state[+id]),
+      'id'
+    ),
+  }),
 })

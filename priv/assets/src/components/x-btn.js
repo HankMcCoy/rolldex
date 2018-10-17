@@ -5,16 +5,16 @@ import XSvg from 'r/svg/x'
 const XBtnRoot = styled.button`
   background: none;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   & svg {
     stroke: #ccc;
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
   }
   &:hover svg {
     stroke: #888;

@@ -79,7 +79,7 @@ function CampaignDetail({
                   canEdit={isOwner}
                 >
                   {members.map(m => (
-                    <ListCard key={m.id}>
+                    <ListCard key={m.id} paddingRight={0}>
                       <FlexBtwn>
                         <TitleNSummary title={m.email} />
                         <XBtn onClick={() => removeMember(id, m.id)} />

@@ -16,6 +16,6 @@ defmodule Rpgr.CampaignContext.Session do
   def changeset(session, attrs) do
     session
     |> cast(attrs, [:name, :summary, :notes, :campaign_id])
-    |> validate_required([:name, :summary, :notes, :campaign_id])
+    |> validate_required([:name, :summary, :campaign_id])
   end
 end

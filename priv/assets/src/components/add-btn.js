@@ -2,8 +2,9 @@
 import * as React from 'react'
 import styled from 'react-emotion'
 import isPropValid from '@emotion/is-prop-valid'
-import { type Match, Link, withRouter } from 'react-router-dom'
+import { type Match, withRouter } from 'react-router-dom'
 
+import PlainLink from 'r/components/plain-link'
 import { getSubAppColor } from 'r/util'
 
 const commonStyles = {
@@ -22,12 +23,9 @@ const commonDynamicStyles = ({ invertedFoo, match, theme }) => ({
 })
 const StyledButton = styled('button')(commonStyles, commonDynamicStyles)
 
-const StyledLink = styled(Link, { shouldForwardProp: isPropValid })(
+const StyledLink = styled(PlainLink, { shouldForwardProp: isPropValid })(
   commonStyles,
-  commonDynamicStyles,
-  {
-    textDecoration: 'none',
-  }
+  commonDynamicStyles
 )
 
 type Props = {

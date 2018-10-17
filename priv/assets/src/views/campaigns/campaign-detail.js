@@ -9,8 +9,10 @@ import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
 import Spacer from 'r/components/spacer'
 import ListCard from 'r/components/list-card'
+import TitleNSummary from 'r/components/title-n-summary'
 import AddableList from 'r/components/addable-list'
 import ColumnView, { Column } from 'r/components/column-view'
+import PlainLink from 'r/components/plain-link'
 
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaign } from 'r/data/campaigns/connectors'
@@ -60,7 +62,11 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
                   addPath={`/campaigns/${id}/members/invite`}
                   canEdit={isOwner}
                 >
-                  {members.map(m => <ListCard key={m.id} title={m.email} />)}
+                  {members.map(m => (
+                    <ListCard key={m.id}>
+                      <TitleNSummary title={m.email} />
+                    </ListCard>
+                  ))}
                 </AddableList>
                 <Spacer height={20} />
                 <AddableList
@@ -69,12 +75,14 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
                   canEdit={isOwner}
                 >
                   {sessions.map(s => (
-                    <ListCard
+                    <PlainLink
                       key={s.id}
-                      title={s.name}
-                      description={s.summary}
                       to={`/campaigns/${campaign.id}/sessions/${s.id}`}
-                    />
+                    >
+                      <ListCard>
+                        <TitleNSummary title={s.name} summary={s.summary} />
+                      </ListCard>
+                    </PlainLink>
                   ))}
                 </AddableList>
               </Column>
@@ -85,12 +93,14 @@ function CampaignDetail({ campaign, members, sessions, nouns }: Props) {
                   canEdit={isOwner}
                 >
                   {nouns.map(n => (
-                    <ListCard
+                    <PlainLink
                       key={n.id}
-                      title={n.name}
-                      description={n.summary}
                       to={`/campaigns/${campaign.id}/nouns/${n.id}`}
-                    />
+                    >
+                      <ListCard>
+                        <TitleNSummary title={n.name} summary={n.summary} />
+                      </ListCard>
+                    </PlainLink>
                   ))}
                 </AddableList>
               </Column>

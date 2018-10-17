@@ -97,6 +97,7 @@ function CampaignDetail({
                     <PlainLink
                       key={s.id}
                       to={`/campaigns/${campaign.id}/sessions/${s.id}`}
+                      display="block"
                     >
                       <ListCard>
                         <TitleNSummary title={s.name} summary={s.summary} />
@@ -115,6 +116,7 @@ function CampaignDetail({
                     <PlainLink
                       key={n.id}
                       to={`/campaigns/${campaign.id}/nouns/${n.id}`}
+                      display="block"
                     >
                       <ListCard>
                         <TitleNSummary title={n.name} summary={n.summary} />

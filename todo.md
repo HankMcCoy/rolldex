@@ -24,11 +24,14 @@
 # Orcas Island Goals
 - [x] Get the latest deployed
 - [x] Sign up Al
-- [ ] Fix campaign creation
-- [ ] Fix warnings on the FE
-- [ ] Allow removing members
+- [x] Fix campaign creation
+- [x] Allow removing members
+->[ ] Add private notes
 - [ ] Show the signed in user
 - [ ] Add logout link
+- [ ] Switch away from Redux?
+- [ ] Fix warnings on the FE
+- [ ] Make markdown render nicely
 - [ ] Make existing features easy to use
 
 # Auth plan

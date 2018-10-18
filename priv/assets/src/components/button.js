@@ -4,9 +4,14 @@ import { Link } from 'react-router-dom'
 
 import { fromTheme } from 'r/theme'
 
-export const Button = styled('button')`
+export const UnstyledButton = styled.button`
 	background: none;
 	border: none;
+	cursor: pointer;
+	text-align: left;
+`
+
+export const Button = styled(UnstyledButton)`
 	border-radius: 2px;
 	display: flex;
 	align-items: center;
@@ -15,7 +20,7 @@ export const Button = styled('button')`
 	font-family: Roboto;
 	height: 34px;
 	width: 100px;
-	cursor: pointer;
+	text-align: center;
 `
 
 export const UnstyledLink = styled(Link)`

@@ -8,14 +8,12 @@ import flowRight from 'lodash-es/flowRight'
 import { withCampaignList } from 'r/data/campaigns/connectors'
 import type { Campaign } from 'r/data/campaigns'
 import theme, { fromTheme } from 'r/theme'
-
-const StyledNav = styled.div`
-	display: flex;
-	flex-direction: column;
-`
+import { CurUser } from 'r/contexts/auth'
+import { UnstyledButton } from 'r/components/button'
+import { callApi } from 'r/util/api'
 
 const ActiveSection = styled.div`
-	background: ${fromTheme('gray30')};
+	background: ${theme.gray30};
 `
 
 const CommonLink = styled(NavLink)`
@@ -51,28 +49,83 @@ type Props = {
 }
 function Nav({ systems, campaigns }: Props) {
 	return (
-		<StyledNav>
-			<Switch>
-				<Route path="/campaigns">
-					<ActiveSection>
+		<div
+			css={`
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				height: 100%;
+			`}
+		>
+			<div
+				css={`
+					display: flex;
+					flex-direction: column;
+				`}
+			>
+				<Switch>
+					<Route path="/campaigns">
+						<ActiveSection>
+							<SubAppLink to="/campaigns">Campaigns</SubAppLink>
+							{campaigns &&
+								campaigns.map(c => (
+									<ChildLink
+										key={c.id}
+										to={`/campaigns/${c.id}`}
+										activeClassName={active}
+									>
+										{c.name}
+									</ChildLink>
+								))}
+						</ActiveSection>
+					</Route>
+					<Route>
 						<SubAppLink to="/campaigns">Campaigns</SubAppLink>
-						{campaigns &&
-							campaigns.map(c => (
-								<ChildLink
-									key={c.id}
-									to={`/campaigns/${c.id}`}
-									activeClassName={active}
-								>
-									{c.name}
-								</ChildLink>
-							))}
-					</ActiveSection>
-				</Route>
-				<Route>
-					<SubAppLink to="/campaigns">Campaigns</SubAppLink>
-				</Route>
-			</Switch>
-		</StyledNav>
+					</Route>
+				</Switch>
+			</div>
+			<div
+				css={`
+					display: flex;
+					justify-content: space-between;
+				`}
+			>
+				<div
+					css={`
+						padding: 5px 10px;
+						color: #b5b5b6;
+						font-size: 16px;
+						font-weight: 500;
+					`}
+				>
+					<CurUser>{curUser => curUser && curUser.email}</CurUser>
+				</div>
+				<UnstyledButton
+					css={`
+						padding: 5px 10px;
+						color: #b5b5b6;
+						font-size: 14px;
+						font-weight: 500;
+						transition: color 0.2s;
+						text-transform: uppercase;
+						letter-spacing: 0.5px;
+						&:hover {
+							color: #fff;
+						}
+					`}
+					onClick={() => {
+						callApi({
+							method: 'POST',
+							path: '/api/users/sign-out',
+						}).then(() => {
+							window.location = '/login'
+						})
+					}}
+				>
+					Log out
+				</UnstyledButton>
+			</div>
+		</div>
 	)
 }
 

@@ -10,6 +10,7 @@ type ProviderProps = {
 }
 type User = {
 	id: number,
+	email: string,
 }
 type ProviderState = {
 	curUser: ?User,
@@ -47,14 +48,20 @@ export const IsOwner = ({
 	children: boolean => React.Node,
 	campaign: Campaign,
 }) => (
-	<Consumer>
-		{(value: { curUser: ?User } | void) =>
-			children(
-				value && value.curUser && value.curUser.id === campaign.created_by_id
-					? true
-					: false
-			)
+	<CurUser>
+		{(curUser: ?User) =>
+			children(curUser && curUser.id === campaign.created_by_id ? true : false)
 		}
+	</CurUser>
+)
+
+export const CurUser = ({
+	children,
+}: {
+	children: (user: ?User) => React.Node,
+}) => (
+	<Consumer>
+		{(value: { curUser: ?User } | void) => children(value && value.curUser)}
 	</Consumer>
 )
 

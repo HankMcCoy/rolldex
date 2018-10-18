@@ -77,6 +77,7 @@ class JumpTo extends React.Component<Props, State> {
 						const isSelected = selectedMatchIdx === i
 						return (
 							<Link
+								key={i}
 								css={`
 									padding: 10px 32px;
 									background: ${isSelected ? theme.campaignColor : theme.white};
@@ -105,7 +106,13 @@ class JumpTo extends React.Component<Props, State> {
 				inputEl.focus()
 			}
 		}
-
+		document.addEventListener('keydown', this.handleKeydown)
+	}
+	componentWillUnmount() {
+		document.removeEventListener('keydown', this.handleKeydown)
+	}
+	handleKeydown = (e: KeyboardEvent) => {
+		const rootEl = ReactDOM.findDOMNode(this)
 		const wrapSelection = selectedIdx => {
 			const { searchMatches } = this.state
 			if (searchMatches.length === 0) {
@@ -119,33 +126,30 @@ class JumpTo extends React.Component<Props, State> {
 			}
 			return selectedIdx
 		}
-		document.addEventListener('keydown', (e: KeyboardEvent) => {
-			if (e.key === 'ArrowDown') {
-				this.setState(state => ({
-					selectedMatchIdx: wrapSelection(state.selectedMatchIdx + 1),
-				}))
+		if (e.key === 'ArrowDown') {
+			this.setState(state => ({
+				selectedMatchIdx: wrapSelection(state.selectedMatchIdx + 1),
+			}))
+		}
+		if (e.key === 'ArrowUp') {
+			this.setState(state => ({
+				selectedMatchIdx: wrapSelection(state.selectedMatchIdx - 1),
+			}))
+		}
+		if (e.key === 'Enter') {
+			const { searchMatches, selectedMatchIdx } = this.state
+			if (searchMatches.length && rootEl && rootEl instanceof Element) {
+				const linkEls = [...rootEl.querySelectorAll('a')]
+				linkEls[selectedMatchIdx].click()
+				this.props.close()
 			}
-			if (e.key === 'ArrowUp') {
-				this.setState(state => ({
-					selectedMatchIdx: wrapSelection(state.selectedMatchIdx - 1),
-				}))
-			}
-			if (e.key === 'Enter') {
-				const { searchMatches, selectedMatchIdx } = this.state
-				if (searchMatches.length && rootEl && rootEl instanceof Element) {
-					const linkEls = [...rootEl.querySelectorAll('a')]
-					linkEls[selectedMatchIdx].click()
-					this.props.close()
-				}
-			}
-		})
+		}
 	}
 	handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget
 		this.setState({
 			value,
 		})
-		console.log(this.props.location.pathname)
 		const idMatch = new RegExp('/campaigns/([0-9]+)(?:/|$)').exec(
 			this.props.location.pathname
 		)

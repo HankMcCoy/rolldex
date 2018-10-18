@@ -1,10 +1,10 @@
 // @flow
 import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
-import isEqual from 'lodash-es/isEqual'
 import { type HOC, lifecycle, mapProps } from 'recompose'
 
 import { connect } from 'r/util/redux'
+import { handleIdChange } from 'r/util/react'
 import type { Noun } from 'r/data/nouns'
 import { selectNoun, selectNounList } from 'r/data/nouns/selectors'
 import { fetchNoun, fetchNounList } from 'r/data/nouns/action-creators'
@@ -18,17 +18,13 @@ export const withNoun: <T>(
 				fetchNoun,
 			},
 		}),
-		lifecycle({
-			componentDidMount() {
-				const { campaignId, nounId } = getIds(this.props)
-				this.props.fetchNoun(campaignId, nounId)
-			},
-			componentDidUpdate(prevProps) {
-				const curIds = getIds(this.props)
-				const prevIds = getIds(prevProps)
-				if (!isEqual(curIds, prevIds)) {
-					this.props.fetchNoun(curIds.campaignId, curIds.nounId)
-				}
+		handleIdChange({
+			getId: getIds,
+			handleChange: props => {
+				console.log('Props', props)
+				console.log('Ids', getIds(props))
+				const { campaignId, nounId } = getIds(props)
+				props.fetchNoun(campaignId, nounId)
 			},
 		}),
 		mapProps(props => omit(props, ['fetchNoun', 'nounId'])),

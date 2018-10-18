@@ -3,6 +3,7 @@ import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
 import { type HOC, lifecycle, mapProps } from 'recompose'
 
+import { handleIdChange } from 'r/util/react'
 import { connect } from 'r/util/redux'
 import type { Session } from 'r/data/sessions'
 import { selectSession, selectSessionList } from 'r/data/sessions/selectors'
@@ -17,10 +18,11 @@ export const withSession: <T>(
 				fetchSession,
 			},
 		}),
-		lifecycle({
-			componentDidMount() {
-				const { campaignId, sessionId } = getIds(this.props)
-				this.props.fetchSession(campaignId, sessionId)
+		handleIdChange({
+			getId: getIds,
+			handleChange: props => {
+				const { campaignId, sessionId } = getIds(props)
+				props.fetchSession(campaignId, sessionId)
 			},
 		}),
 		mapProps(props => omit(props, ['fetchSession', 'sessionId'])),

@@ -4,43 +4,44 @@ import keyBy from 'lodash-es/keyBy'
 import { success, createReducer } from 'r/util/redux'
 
 import {
-	CREATE_NOUN,
-	UPDATE_NOUN,
-	FETCH_NOUN_LIST,
-	FETCH_NOUN
+  CREATE_NOUN,
+  UPDATE_NOUN,
+  FETCH_NOUN_LIST,
+  FETCH_NOUN,
 } from './action-types'
 
 export type NounType = 'PERSON' | 'PLACE' | 'THING'
 export type Noun = {|
-	id: number,
-	name: string,
-	campaign_id: number,
-	noun_type: NounType,
-	summary: string,
-	notes: string,
-	inserted_at: string,
-	updated_at: string
+  id: number,
+  name: string,
+  campaign_id: number,
+  noun_type: NounType,
+  summary: string,
+  notes: string,
+  private_notes: string,
+  inserted_at: string,
+  updated_at: string,
 |}
 
 export type DraftNoun = $Diff<
-	Noun,
-	{| id: number, inserted_at: string, updated_at: string |}
+  Noun,
+  {| id: number, inserted_at: string, updated_at: string |}
 >
 
 export type State = {
-	[number]: Noun
+  [number]: Noun,
 }
 const initialState: State = {}
 const updateOne = (state, noun: Noun) => ({
-	...state,
-	[noun.id]: noun
+  ...state,
+  [noun.id]: noun,
 })
 export default createReducer(initialState, {
-	[success(FETCH_NOUN_LIST)]: (state, nouns: Array<Noun>) => ({
-		...state,
-		...keyBy(nouns, 'id')
-	}),
-	[success(FETCH_NOUN)]: updateOne,
-	[success(CREATE_NOUN)]: updateOne,
-	[success(UPDATE_NOUN)]: updateOne
+  [success(FETCH_NOUN_LIST)]: (state, nouns: Array<Noun>) => ({
+    ...state,
+    ...keyBy(nouns, 'id'),
+  }),
+  [success(FETCH_NOUN)]: updateOne,
+  [success(CREATE_NOUN)]: updateOne,
+  [success(UPDATE_NOUN)]: updateOne,
 })

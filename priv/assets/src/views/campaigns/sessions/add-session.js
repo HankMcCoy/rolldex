@@ -68,5 +68,5 @@ export default flowRight(
     actionCreators: {
       createSession,
     },
-  }),
+  })
 )(AddSession)

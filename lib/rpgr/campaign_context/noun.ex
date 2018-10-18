@@ -7,8 +7,8 @@ defmodule Rpgr.CampaignContext.Noun do
     field(:name, :string)
     field(:noun_type, :string)
     field(:summary, :string)
-    field(:notes, :string)
-    field(:private_notes, :string)
+    field(:notes, :string, default: "")
+    field(:private_notes, :string, default: "")
     belongs_to(:campaign, Campaign)
 
     timestamps()

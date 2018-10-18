@@ -27,17 +27,17 @@ const ButtonsWrapper = styled.div`
 type Values = {|
   name: string,
   summary: string,
-  notes: string
+  notes: string,
 |}
 type Props = {
   initialValues: Values,
   onSubmit: (Values, *) => void,
-  onCancel: () => void
+  onCancel: () => void,
 }
 export default function SessionForm({
   initialValues,
   onSubmit,
-  onCancel
+  onCancel,
 }: Props) {
   return (
     <FormWrapper>
@@ -61,7 +61,6 @@ export default function SessionForm({
               label="Notes"
               component="textarea"
               rows={15}
-              validate={required}
             />
             <Spacer height={20} />
             <ButtonsWrapper>

@@ -17,6 +17,7 @@ defmodule RpgrWeb.NounView do
       noun_type: noun.noun_type,
       summary: noun.summary,
       notes: noun.notes,
+      private_notes: noun.private_notes,
       campaign_id: noun.campaign_id,
       inserted_at: noun.inserted_at,
       updated_at: noun.updated_at

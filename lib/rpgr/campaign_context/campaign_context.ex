@@ -149,7 +149,7 @@ defmodule Rpgr.CampaignContext do
   end
 
   def update_noun(user_id, %Noun{} = noun, attrs) do
-    with :ok <- validate_can_user_edit_campaign(user_id, attrs.campaign_id) do
+    with :ok <- validate_can_user_edit_campaign(user_id, attrs["campaign_id"]) do
       noun
       |> Noun.changeset(attrs)
       |> Repo.update()

@@ -53,7 +53,7 @@ type Props = {
 }
 function NounDetail({ noun, campaign }: Props) {
   if (!noun || !campaign) return <LoadingPage />
-  const { name, summary, notes, noun_type } = noun
+  const { name, summary, notes, private_notes, noun_type } = noun
   const typeSvg = nounTypeToSvg[noun_type]
   return (
     <IsOwner campaign={campaign}>
@@ -83,6 +83,14 @@ function NounDetail({ noun, campaign }: Props) {
                 <TextSection title="Notes" markdown>
                   {notes}
                 </TextSection>
+                {isOwner ? (
+                  <React.Fragment>
+                    <Spacer height={20} />
+                    <TextSection title="Private Notes" markdown>
+                      {private_notes}
+                    </TextSection>
+                  </React.Fragment>
+                ) : null}
               </React.Fragment>
             }
             sidebar={

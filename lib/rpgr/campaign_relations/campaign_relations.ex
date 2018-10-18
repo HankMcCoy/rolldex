@@ -7,13 +7,27 @@ defmodule Rpgr.CampaignRelations do
   alias Rpgr.CampaignContext
   import Ecto.Query, warn: false
 
+  defp candidate_references_this(user_id, candidate, text) do
+    search_text = String.downcase(text)
+
+    matches_public_fields =
+      String.downcase(candidate.summary) =~ search_text or
+        String.downcase(candidate.notes) =~ search_text
+
+    if CampaignContext.can_user_edit_campaign(user_id, candidate.campaign_id) do
+      matches_private_fields = String.downcase(candidate.private_notes) =~ search_text
+      matches_public_fields or matches_private_fields
+    else
+      matches_public_fields
+    end
+  end
+
   def get_nouns_in_session(user_id, session_id) do
     session = Repo.get!(CampaignContext.Session, session_id)
     nouns = CampaignContext.list_nouns(user_id, session.campaign_id)
 
     Enum.filter(nouns, fn noun ->
-      noun_name = String.downcase(noun.name)
-      String.downcase(session.summary) =~ noun_name or String.downcase(session.notes) =~ noun_name
+      candidate_references_this(user_id, session, noun.name)
     end)
   end
 
@@ -23,12 +37,10 @@ defmodule Rpgr.CampaignRelations do
 
     Enum.filter(candidate_nouns, fn candidate_noun ->
       candidate_reference_this_noun =
-        String.downcase(candidate_noun.summary) =~ String.downcase(src_noun.name) or
-          String.downcase(candidate_noun.notes) =~ String.downcase(src_noun.name)
+        candidate_references_this(user_id, candidate_noun, src_noun.name)
 
       this_noun_references_candidate =
-        String.downcase(src_noun.summary) =~ String.downcase(candidate_noun.name) or
-          String.downcase(src_noun.notes) =~ String.downcase(candidate_noun.name)
+        candidate_references_this(user_id, src_noun, candidate_noun.name)
 
       candidate_noun.id != noun_id and
         (candidate_reference_this_noun or this_noun_references_candidate)
@@ -37,11 +49,10 @@ defmodule Rpgr.CampaignRelations do
 
   def get_related_sessions_for_noun(user_id, noun_id) do
     src_noun = Repo.get!(CampaignContext.Noun, noun_id)
-    noun_name = String.downcase(src_noun.name)
     candidate_sessions = CampaignContext.list_sessions(user_id, src_noun.campaign_id)
 
     Enum.filter(candidate_sessions, fn session ->
-      String.downcase(session.summary) =~ noun_name or String.downcase(session.notes) =~ noun_name
+      candidate_references_this(user_id, session, src_noun.name)
     end)
   end
 

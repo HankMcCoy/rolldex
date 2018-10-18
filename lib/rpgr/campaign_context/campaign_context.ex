@@ -8,19 +8,27 @@ defmodule Rpgr.CampaignContext do
   alias Rpgr.CampaignContext.Campaign
   alias Rpgr.CampaignContext.Member
 
-  defp validate_can_user_edit_campaign(user_id, campaign_id) do
+  # AUTHORIZATION
+  def can_user_edit_campaign(user_id, campaign_id) do
     with %Campaign{} = campaign <- Repo.get(Campaign, campaign_id) do
       if campaign.created_by_id === user_id do
-        :ok
+        true
       else
-        {:error, :not_authorized}
+        false
       end
     end
   end
 
-  defp validate_can_user_view_campaign(user_id, campaign_id) do
+  def validate_can_user_edit_campaign(user_id, campaign_id) do
+    case can_user_edit_campaign(user_id, campaign_id) do
+      true -> :ok
+      false -> {:error, :not_authorized}
+    end
+  end
+
+  def can_user_view_campaign(user_id, campaign_id) do
     with :ok <- validate_can_user_edit_campaign(user_id, campaign_id) do
-      :ok
+      true
     else
       _ ->
         with %Member{} <-
@@ -30,11 +38,18 @@ defmodule Rpgr.CampaignContext do
                    where: m.campaign_id == ^campaign_id and m.user_id == ^user_id
                  )
                ) do
-          :ok
+          true
         else
           _ ->
-            {:error, :not_authorized}
+            false
         end
+    end
+  end
+
+  def validate_can_user_view_campaign(user_id, campaign_id) do
+    case can_user_view_campaign(user_id, campaign_id) do
+      true -> :ok
+      false -> {:error, :not_authorized}
     end
   end
 
@@ -59,7 +74,7 @@ defmodule Rpgr.CampaignContext do
     end
   end
 
-  def create_campaign(user_id, attrs \\ %{}) do
+  def create_campaign(attrs \\ %{}) do
     %Campaign{}
     |> Campaign.create_changeset(attrs)
     |> Repo.insert()

@@ -81,40 +81,65 @@ defmodule Rpgr.CampaignContext do
 
   # SESSIONS
 
+  defp mask_private_data(thing) do
+    %{
+      thing
+      | private_notes: ""
+    }
+  end
+
   alias Rpgr.CampaignContext.Session
 
   def list_sessions(user_id, campaign_id) do
-    Repo.all(from(s in Session, where: s.campaign_id == ^campaign_id))
+    with :ok <- validate_can_user_view_campaign(user_id, campaign_id),
+         sessions <- Repo.all(from(n in Session, where: n.campaign_id == ^campaign_id)) do
+      case validate_can_user_edit_campaign(user_id, campaign_id) do
+        :ok ->
+          sessions
+
+        {:error, :not_authorized} ->
+          sessions
+          |> Enum.map(&mask_private_data/1)
+      end
+    end
   end
 
-  def get_session(user_id, session_id), do: Repo.get(Session, session_id)
+  def get_session(user_id, session_id) do
+    with session when not is_nil(session) <- Repo.get(Session, session_id),
+         :ok <- validate_can_user_view_campaign(user_id, session.campaign_id) do
+      case validate_can_user_edit_campaign(user_id, session.campaign_id) do
+        :ok -> session
+        {:error, :not_authorized} -> mask_private_data(session)
+      end
+    end
+  end
 
   def create_session(user_id, attrs \\ %{}) do
-    %Session{}
-    |> Session.changeset(attrs)
-    |> Repo.insert()
+    with :ok <- validate_can_user_edit_campaign(user_id, attrs.campaign_id) do
+      %Session{}
+      |> Session.changeset(attrs)
+      |> Repo.insert()
+    end
   end
 
   def update_session(user_id, %Session{} = session, attrs) do
-    session
-    |> Session.changeset(attrs)
-    |> Repo.update()
+    with :ok <- validate_can_user_edit_campaign(user_id, attrs["campaign_id"]) do
+      session
+      |> Session.changeset(attrs)
+      |> Repo.update()
+    end
   end
 
-  def delete_session(user_id, %Session{} = session) do
-    Repo.delete(session)
+  def delete_session(user_id, session_id) do
+    with %Session{} = session <- Repo.get(Session, session_id),
+         :ok <- validate_can_user_edit_campaign(user_id, session.campaign_id) do
+      Repo.delete(session)
+    end
   end
 
   # NOUNS
 
   alias Rpgr.CampaignContext.Noun
-
-  defp get_read_only_noun(noun) do
-    %{
-      noun
-      | private_notes: ""
-    }
-  end
 
   def list_nouns(user_id, campaign_id) do
     with :ok <- validate_can_user_view_campaign(user_id, campaign_id),
@@ -125,7 +150,7 @@ defmodule Rpgr.CampaignContext do
 
         {:error, :not_authorized} ->
           nouns
-          |> Enum.map(&get_read_only_noun/1)
+          |> Enum.map(&mask_private_data/1)
       end
     end
   end
@@ -135,7 +160,7 @@ defmodule Rpgr.CampaignContext do
          :ok <- validate_can_user_view_campaign(user_id, noun.campaign_id) do
       case validate_can_user_edit_campaign(user_id, noun.campaign_id) do
         :ok -> noun
-        {:error, :not_authorized} -> get_read_only_noun(noun)
+        {:error, :not_authorized} -> mask_private_data(noun)
       end
     end
   end

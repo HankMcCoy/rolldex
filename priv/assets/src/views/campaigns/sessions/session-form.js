@@ -28,6 +28,7 @@ type Values = {|
 	name: string,
 	summary: string,
 	notes: string,
+	privateNotes: string,
 |}
 type Props = {
 	initialValues: Values,
@@ -59,6 +60,13 @@ export default function SessionForm({
 						<FormField
 							name="notes"
 							label="Notes"
+							component="textarea"
+							rows={15}
+						/>
+						<Spacer height={20} />
+						<FormField
+							name="privateNotes"
+							label="Private Notes"
 							component="textarea"
 							rows={15}
 						/>

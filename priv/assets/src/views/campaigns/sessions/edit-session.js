@@ -40,14 +40,16 @@ function EditSession({ campaign, session, history, updateSession }: Props) {
 						name: session.name,
 						summary: session.summary,
 						notes: session.notes,
+						privateNotes: session.private_notes,
 					}}
 					onSubmit={(values, { setSubmitting }) => {
-						const { name, summary, notes } = values
+						const { name, summary, notes, privateNotes } = values
 						updateSession({
 							...session,
 							name,
 							summary,
 							notes,
+							private_notes: privateNotes,
 						}).then(session => {
 							setSubmitting(false)
 							history.push(`/campaigns/${campaign.id}/sessions/${session.id}`)

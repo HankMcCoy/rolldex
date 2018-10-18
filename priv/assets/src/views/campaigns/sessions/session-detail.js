@@ -25,7 +25,7 @@ type Props = {
 }
 function SessionDetail({ session, campaign }: Props) {
 	if (!session || !campaign) return <LoadingPage />
-	const { name, summary, notes } = session
+	const { name, summary, notes, private_notes } = session
 	return (
 		<IsOwner campaign={campaign}>
 			{isOwner => (
@@ -55,6 +55,14 @@ function SessionDetail({ session, campaign }: Props) {
 									{notes}
 								</TextSection>
 								<Spacer height={20} />
+								{isOwner ? (
+									<React.Fragment>
+										<TextSection title="Private Notes" markdown>
+											{private_notes}
+										</TextSection>
+										<Spacer height={20} />{' '}
+									</React.Fragment>
+								) : null}
 							</React.Fragment>
 						}
 						sidebar={

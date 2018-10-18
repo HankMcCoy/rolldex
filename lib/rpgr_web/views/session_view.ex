@@ -11,13 +11,16 @@ defmodule RpgrWeb.SessionView do
   end
 
   def render("session.json", %{session: session}) do
-    %{id: session.id,
+    %{
+      id: session.id,
       name: session.name,
       summary: session.summary,
       notes: session.notes,
+      private_notes: session.private_notes,
       campaign_id: session.campaign_id,
       inserted_at: session.inserted_at,
-      updated_at: session.updated_at}
+      updated_at: session.updated_at
+    }
   end
 
   def render("related_nouns.json", %{nouns: nouns}) do

@@ -39,13 +39,15 @@ function AddSession({ campaign, history, createSession }: Props) {
 						name: '',
 						summary: '',
 						notes: '',
+						privateNotes: '',
 					}}
 					onSubmit={(values, { setSubmitting }) => {
-						const { name, summary, notes } = values
+						const { name, summary, notes, privateNotes } = values
 						createSession({
 							name,
 							summary,
 							notes,
+							private_notes: privateNotes,
 							campaign_id: campaign.id,
 						}).then(session => {
 							setSubmitting(false)

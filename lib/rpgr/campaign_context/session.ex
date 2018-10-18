@@ -5,7 +5,8 @@ defmodule Rpgr.CampaignContext.Session do
 
   schema "sessions" do
     field(:name, :string)
-    field(:notes, :string)
+    field(:notes, :string, default: "")
+    field(:private_notes, :string, default: "")
     field(:summary, :string)
     belongs_to(:campaign, Campaign)
 
@@ -15,7 +16,7 @@ defmodule Rpgr.CampaignContext.Session do
   @doc false
   def changeset(session, attrs) do
     session
-    |> cast(attrs, [:name, :summary, :notes, :campaign_id])
+    |> cast(attrs, [:name, :summary, :notes, :private_notes, :campaign_id])
     |> validate_required([:name, :summary, :campaign_id])
   end
 end

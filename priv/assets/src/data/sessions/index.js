@@ -16,6 +16,7 @@ export type Session = {|
 	campaign_id: number,
 	summary: string,
 	notes: string,
+	private_notes: string,
 	inserted_at: string,
 	updated_at: string,
 |}

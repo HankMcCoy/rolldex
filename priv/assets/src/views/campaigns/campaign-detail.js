@@ -72,7 +72,7 @@ function CampaignDetail({
 								<TextSection title="Description" markdown>
 									{description}
 								</TextSection>
-								<Spacer height={20} />
+								<Spacer height={25} />
 								<AddableList
 									title="Members"
 									addPath={`/campaigns/${id}/members/invite`}
@@ -87,7 +87,7 @@ function CampaignDetail({
 										</ListCard>
 									))}
 								</AddableList>
-								<Spacer height={20} />
+								<Spacer height={25} />
 								<AddableList
 									title="Sessions"
 									addPath={`/campaigns/${id}/sessions/add`}

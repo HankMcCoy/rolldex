@@ -50,19 +50,19 @@ function SessionDetail({ session, campaign }: Props) {
 						content={
 							<React.Fragment>
 								<TextSection title="Summary">{summary}</TextSection>
-								<Spacer height={20} />
+								<Spacer height={25} />
 								<TextSection title="Notes" markdown>
 									{notes}
 								</TextSection>
-								<Spacer height={20} />
 								{isOwner ? (
 									<React.Fragment>
+										<Spacer height={25} />
 										<TextSection title="Private Notes" markdown>
 											{private_notes}
 										</TextSection>
-										<Spacer height={20} />{' '}
 									</React.Fragment>
 								) : null}
+								<Spacer height={25} />
 							</React.Fragment>
 						}
 						sidebar={

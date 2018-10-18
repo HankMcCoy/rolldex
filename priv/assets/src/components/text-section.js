@@ -8,13 +8,22 @@ import Spacer from './spacer'
 import H2 from './h2'
 
 const MarkdownContainer = styled.div`
+	& > span > * {
+		margin: 10px 0;
+	}
+	& > span > *:first-child {
+		margin-top: 0;
+	}
+	& > span > *:last-child {
+		margin-bottom: 0;
+	}
 	& h1,
 	& h2,
 	& h3 {
 		font-family: Roboto Slab;
 	}
 	& h1 {
-		font-size: 16px;
+		font-size: 20px;
 		font-weight: 400;
 		margin-bottom: 10px;
 	}
@@ -22,24 +31,15 @@ const MarkdownContainer = styled.div`
 		margin-top: 20px;
 	}
 	& h2 {
-		font-size: 16px;
-		font-weight: 300;
-		margin-bottom: 5px;
+		font-size: 18px;
+		font-weight: 400;
 	}
 	& h2:not(:first-child) {
-		margin-top: 10px;
+		margin-top: 20px;
 	}
 	& h3 {
-		font-size: 14px;
-		font-weight: 300;
-		margin-bottom: 5px;
-	}
-	& h3:not(:first-child) {
-		margin-top: 5px;
-	}
-	& p {
-		margin: 5px 0;
-		white-space: pre;
+		font-size: 16px;
+		font-weight: 400;
 	}
 	& ul {
 		padding-left: 20px;
@@ -72,9 +72,12 @@ export default function TextSection({
 			<H2>{title}</H2>
 			<Spacer height={15} />
 			{markdown ? (
-				<MarkdownContainer>
-					<Markdown>{children}</Markdown>
-				</MarkdownContainer>
+				<Markdown
+					container={MarkdownContainer}
+					options={{ html: true, breaks: true, linkify: true }}
+				>
+					{children}
+				</Markdown>
 			) : (
 				<p>{children}</p>
 			)}

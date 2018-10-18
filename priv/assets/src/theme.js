@@ -40,6 +40,8 @@ const theme = {
 	largeFormWidth: 600,
 
 	// FONTS
+	baseFontSize: 18,
+	baseLineHeight: 24,
 	contentFont: {
 		family: 'Roboto',
 		weights: {

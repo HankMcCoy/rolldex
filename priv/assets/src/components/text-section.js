@@ -44,8 +44,14 @@ const MarkdownContainer = styled.div`
 	& ul {
 		padding-left: 20px;
 	}
-	& li {
+	& ul li {
 		list-style-type: disc;
+	}
+	& ul li ul li {
+		list-style-type: circle;
+	}
+	& ul li ul li ul li {
+		list-style-type: square;
 	}
 	& th {
 		font-weight: 400;

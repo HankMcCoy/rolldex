@@ -8,7 +8,7 @@ import PageContent from './page-content'
 
 const HorizLayout = styled.div`
 	display: flex;
-	flex: 1 0 0%;
+	flex: 1 0 auto;
 `
 
 const LeftColumn = styled.div`

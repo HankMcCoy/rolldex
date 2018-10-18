@@ -44,9 +44,10 @@ export const withNounList: <T>(
 				fetchNounList,
 			},
 		}),
-		lifecycle({
-			componentDidMount() {
-				this.props.fetchNounList(getCampaignId(this.props))
+		handleIdChange({
+			getId: getCampaignId,
+			handleChange: props => {
+				props.fetchNounList(getCampaignId(props))
 			},
 		}),
 		mapProps(props => omit(props, 'fetchNounList')),

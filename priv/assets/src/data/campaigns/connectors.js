@@ -4,6 +4,7 @@ import omit from 'lodash-es/omit'
 import { type HOC, lifecycle, mapProps } from 'recompose'
 
 import { connect } from 'r/util/redux'
+import { handleIdChange } from 'r/util/react'
 import type { Campaign } from 'r/data/campaigns'
 import { selectCampaign, selectCampaignList } from 'r/data/campaigns/selectors'
 import {
@@ -20,9 +21,10 @@ export const withCampaign: <T>(
 				fetchCampaign,
 			},
 		}),
-		lifecycle({
-			componentDidMount() {
-				this.props.fetchCampaign(getId(this.props))
+		handleIdChange({
+			getId,
+			handleChange: props => {
+				props.fetchCampaign(getId(props))
 			},
 		}),
 		mapProps(props => omit(props, ['fetchCampaign', 'campaignId'])),

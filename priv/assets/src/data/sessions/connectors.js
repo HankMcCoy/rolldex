@@ -42,9 +42,10 @@ export const withSessionList: <T>(
 				fetchSessionList,
 			},
 		}),
-		lifecycle({
-			componentDidMount() {
-				this.props.fetchSessionList(getCampaignId(this.props))
+		handleIdChange({
+			getId: getCampaignId,
+			handleChange: props => {
+				props.fetchSessionList(getCampaignId(props))
 			},
 		}),
 		mapProps(props => omit(props, 'fetchSessionList')),

@@ -47,6 +47,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
 	const people = nouns.filter(n => n.noun_type === 'PERSON')
 	const places = nouns.filter(n => n.noun_type === 'PLACE')
 	const things = nouns.filter(n => n.noun_type === 'THING')
+	const factions = nouns.filter(n => n.noun_type === 'FACTION')
 
 	return (
 		<Root>
@@ -56,6 +57,17 @@ function NounsInSession({ nouns, campaignId }: Props) {
 					<Spacer height={15} />
 					<NounList>
 						{people.map(noun => (
+							<NounLink key={noun.id} noun={noun} campaignId={campaignId} />
+						))}
+					</NounList>
+				</NounGroup>
+			) : null}
+			{factions.length ? (
+				<NounGroup>
+					<H2>Factions</H2>
+					<Spacer height={15} />
+					<NounList>
+						{factions.map(noun => (
 							<NounLink key={noun.id} noun={noun} campaignId={campaignId} />
 						))}
 					</NounList>

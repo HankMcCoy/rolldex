@@ -1,4 +1,4 @@
-defmodule Rpgr.CampaignContextTest do
+defmodule Rpgr.CampaignContextTest.CampaignsTest do
   use Rpgr.DataCase
 
   alias Rpgr.CampaignContext
@@ -8,7 +8,7 @@ defmodule Rpgr.CampaignContextTest do
     alias CampaignContext.Campaign
     alias Auth.User
 
-    test "list_campaigns/0 returns a campaigns" do
+    test "list_campaigns/1 returns a campaigns" do
       user = insert(:user)
 
       %Campaign{id: id} =
@@ -29,7 +29,7 @@ defmodule Rpgr.CampaignContextTest do
              ] = campaign_list
     end
 
-    test "list_campaigns/0 won't return campaigns unrelated to the calling user" do
+    test "list_campaigns/1 won't return campaigns unrelated to the calling user" do
       cur_user = insert(:user)
       other_user = insert(:user)
 
@@ -45,6 +45,26 @@ defmodule Rpgr.CampaignContextTest do
                  id: ^campaign_id_for_cur_user
                }
              ] = campaign_list
+    end
+
+    test "get_campaign/2 returns a campaign" do
+      %Campaign{id: campaign_id, created_by_id: user_id} = insert(:campaign)
+
+      campaign = CampaignContext.get_campaign(user_id, campaign_id)
+
+      assert %Campaign{
+               id: ^campaign_id,
+               created_by_id: ^user_id
+             } = campaign
+    end
+
+    test "get_campaign/2 won't return a campaign unrelated to the calling user" do
+      %Campaign{id: campaign_id} = insert(:campaign)
+      %User{id: different_user_id} = insert(:user)
+
+      result = CampaignContext.get_campaign(different_user_id, campaign_id)
+
+      assert {:error, :not_authorized} = result
     end
   end
 end

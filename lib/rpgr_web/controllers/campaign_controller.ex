@@ -25,27 +25,27 @@ defmodule RpgrWeb.CampaignController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => campaign_id}) do
     user = get_user(conn)
-    campaign = CampaignContext.get_campaign!(id, user.id)
+    campaign = CampaignContext.get_campaign(user.id, campaign_id)
     render(conn, "show.json", campaign: campaign)
   end
 
-  def update(conn, %{"id" => id, "campaign" => campaign_params}) do
+  def update(conn, %{"id" => campaign_id, "campaign" => campaign_params}) do
     user = get_user(conn)
-    campaign = CampaignContext.get_campaign!(id, user.id)
+    campaign = CampaignContext.get_campaign(user.id, campaign_id)
 
     with {:ok, %Campaign{} = campaign} <-
-           CampaignContext.update_campaign(campaign, campaign_params) do
+           CampaignContext.update_campaign(user.id, campaign, campaign_params) do
       render(conn, "show.json", campaign: campaign)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => campaign_id}) do
     user = get_user(conn)
-    campaign = CampaignContext.get_campaign!(id, user.id)
+    campaign = CampaignContext.get_campaign(user.id, campaign_id)
 
-    with {:ok, %Campaign{}} <- CampaignContext.delete_campaign(campaign) do
+    with {:ok, %Campaign{}} <- CampaignContext.delete_campaign(user.id, campaign) do
       send_resp(conn, :no_content, "")
     end
   end

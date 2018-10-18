@@ -7,9 +7,9 @@ defmodule Rpgr.CampaignRelations do
   alias Rpgr.CampaignContext
   import Ecto.Query, warn: false
 
-  def get_nouns_in_session(id) do
-    session = Repo.get!(CampaignContext.Session, id)
-    nouns = CampaignContext.list_nouns(session.campaign_id)
+  def get_nouns_in_session(user_id, session_id) do
+    session = Repo.get!(CampaignContext.Session, session_id)
+    nouns = CampaignContext.list_nouns(user_id, session.campaign_id)
 
     Enum.filter(nouns, fn noun ->
       noun_name = String.downcase(noun.name)
@@ -17,9 +17,9 @@ defmodule Rpgr.CampaignRelations do
     end)
   end
 
-  def get_related_nouns_for_noun(nounId) do
-    src_noun = Repo.get!(CampaignContext.Noun, nounId)
-    candidate_nouns = CampaignContext.list_nouns(src_noun.campaign_id)
+  def get_related_nouns_for_noun(user_id, noun_id) do
+    src_noun = Repo.get!(CampaignContext.Noun, noun_id)
+    candidate_nouns = CampaignContext.list_nouns(user_id, src_noun.campaign_id)
 
     Enum.filter(candidate_nouns, fn candidate_noun ->
       candidate_reference_this_noun =
@@ -30,15 +30,15 @@ defmodule Rpgr.CampaignRelations do
         String.downcase(src_noun.summary) =~ String.downcase(candidate_noun.name) or
           String.downcase(src_noun.notes) =~ String.downcase(candidate_noun.name)
 
-      candidate_noun.id != nounId and
+      candidate_noun.id != noun_id and
         (candidate_reference_this_noun or this_noun_references_candidate)
     end)
   end
 
-  def get_related_sessions_for_noun(nounId) do
-    src_noun = Repo.get!(CampaignContext.Noun, nounId)
+  def get_related_sessions_for_noun(user_id, noun_id) do
+    src_noun = Repo.get!(CampaignContext.Noun, noun_id)
     noun_name = String.downcase(src_noun.name)
-    candidate_sessions = CampaignContext.list_sessions(src_noun.campaign_id)
+    candidate_sessions = CampaignContext.list_sessions(user_id, src_noun.campaign_id)
 
     Enum.filter(candidate_sessions, fn session ->
       String.downcase(session.summary) =~ noun_name or String.downcase(session.notes) =~ noun_name
@@ -47,6 +47,7 @@ defmodule Rpgr.CampaignRelations do
 
   ### QUICK filter
   def get_jump_to_results(search, campaign_id) do
+    # TODO: https://trello.com/c/RL0RhuvF
     %{rows: rows} =
       Ecto.Adapters.SQL.query!(
         Repo,

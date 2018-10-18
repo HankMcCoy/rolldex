@@ -8,12 +8,15 @@ defmodule RpgrWeb.SessionController do
   action_fallback(RpgrWeb.FallbackController)
 
   def index(conn, %{"campaign_id" => campaign_id}) do
-    sessions = CampaignContext.list_sessions(campaign_id)
+    user = get_user(conn)
+    sessions = CampaignContext.list_sessions(user.id, campaign_id)
     render(conn, "index.json", sessions: sessions)
   end
 
   def create(conn, %{"session" => session_params}) do
-    with {:ok, %Session{} = session} <- CampaignContext.create_session(session_params) do
+    user = get_user(conn)
+
+    with {:ok, %Session{} = session} <- CampaignContext.create_session(user.id, session_params) do
       conn
       |> put_status(:created)
       |> put_resp_header(
@@ -24,29 +27,34 @@ defmodule RpgrWeb.SessionController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    session = CampaignContext.get_session!(id)
+  def show(conn, %{"id" => session_id}) do
+    user = get_user(conn)
+    session = CampaignContext.get_session(user.id, session_id)
     render(conn, "show.json", session: session)
   end
 
-  def update(conn, %{"id" => id, "session" => session_params}) do
-    session = CampaignContext.get_session!(id)
+  def update(conn, %{"id" => session_id, "session" => session_params}) do
+    user = get_user(conn)
+    session = CampaignContext.get_session(user.id, session_id)
 
-    with {:ok, %Session{} = session} <- CampaignContext.update_session(session, session_params) do
+    with {:ok, %Session{} = session} <-
+           CampaignContext.update_session(user.id, session, session_params) do
       render(conn, "show.json", session: session)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    session = CampaignContext.get_session!(id)
+  def delete(conn, %{"id" => session_id}) do
+    user = get_user(conn)
+    session = CampaignContext.get_session(user.id, session_id)
 
-    with {:ok, %Session{}} <- CampaignContext.delete_session(session) do
+    with {:ok, %Session{}} <- CampaignContext.delete_session(user.id, session) do
       send_resp(conn, :no_content, "")
     end
   end
 
-  def related_nouns(conn, %{"session_id" => id}) do
-    nouns = CampaignRelations.get_nouns_in_session(id)
+  def related_nouns(conn, %{"session_id" => session_id}) do
+    user = get_user(conn)
+    nouns = CampaignRelations.get_nouns_in_session(user.id, session_id)
     render(conn, "related_nouns.json", nouns: nouns)
   end
 end

@@ -8,6 +8,7 @@ defmodule Rpgr.CampaignContext.Noun do
     field(:noun_type, :string)
     field(:summary, :string)
     field(:notes, :string)
+    field(:private_notes, :string)
     belongs_to(:campaign, Campaign)
 
     timestamps()
@@ -16,7 +17,7 @@ defmodule Rpgr.CampaignContext.Noun do
   @doc false
   def changeset(session, attrs) do
     session
-    |> cast(attrs, [:name, :noun_type, :summary, :notes, :campaign_id])
+    |> cast(attrs, [:name, :noun_type, :summary, :notes, :private_notes, :campaign_id])
     |> validate_required([:name, :noun_type, :summary, :campaign_id])
     |> validate_inclusion(:noun_type, ["PERSON", "PLACE", "THING"])
   end

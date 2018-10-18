@@ -44,6 +44,7 @@ defmodule Rpgr.Factory do
       noun_type: sequence(:noun_type, ["THING", "PERSON", "PLACE"]),
       summary: "An interesting noun",
       notes: "**Cool** _notes_",
+      private_notes: "SECRET NOTES",
       campaign: build(:campaign)
     }
   end

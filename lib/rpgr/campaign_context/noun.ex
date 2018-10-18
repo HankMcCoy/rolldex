@@ -19,6 +19,6 @@ defmodule Rpgr.CampaignContext.Noun do
     session
     |> cast(attrs, [:name, :noun_type, :summary, :notes, :private_notes, :campaign_id])
     |> validate_required([:name, :noun_type, :summary, :campaign_id])
-    |> validate_inclusion(:noun_type, ["PERSON", "PLACE", "THING"])
+    |> validate_inclusion(:noun_type, ["PERSON", "PLACE", "THING", "FACTION"])
   end
 end

@@ -23,6 +23,7 @@ import { callApi } from 'r/util/api'
 import PersonSvg from 'r/svg/person'
 import PlaceSvg from 'r/svg/place'
 import ThingSvg from 'r/svg/thing'
+import FactionSvg from 'r/svg/faction'
 
 import RelatedSessions from './related-sessions'
 
@@ -30,6 +31,7 @@ const nounTypeToSvg: { [NounType]: React.Node } = {
 	PERSON: <PersonSvg />,
 	PLACE: <PlaceSvg />,
 	THING: <ThingSvg />,
+	FACTION: <FactionSvg />,
 }
 
 const AvatarWrapper = styled.div`

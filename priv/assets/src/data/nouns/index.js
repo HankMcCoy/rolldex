@@ -10,7 +10,7 @@ import {
 	FETCH_NOUN,
 } from './action-types'
 
-export type NounType = 'PERSON' | 'PLACE' | 'THING'
+export type NounType = 'PERSON' | 'PLACE' | 'THING' | 'FACTION'
 export type Noun = {|
 	id: number,
 	name: string,

@@ -52,6 +52,7 @@ export default function NounForm({ initialValues, onSubmit, onCancel }: Props) {
 							<option value="PERSON">Person</option>
 							<option value="PLACE">Place</option>
 							<option value="THING">Thing</option>
+							<option value="FACTION">Faction</option>
 						</FormField>
 						<Spacer height={20} />
 						<FormField

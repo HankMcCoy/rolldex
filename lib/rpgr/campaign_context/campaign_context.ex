@@ -115,7 +115,7 @@ defmodule Rpgr.CampaignContext do
   end
 
   def create_session(user_id, attrs \\ %{}) do
-    with :ok <- validate_can_user_edit_campaign(user_id, attrs.campaign_id) do
+    with :ok <- validate_can_user_edit_campaign(user_id, attrs["campaign_id"]) do
       %Session{}
       |> Session.changeset(attrs)
       |> Repo.insert()
@@ -166,7 +166,7 @@ defmodule Rpgr.CampaignContext do
   end
 
   def create_noun(user_id, attrs \\ %{}) do
-    with :ok <- validate_can_user_edit_campaign(user_id, attrs.campaign_id) do
+    with :ok <- validate_can_user_edit_campaign(user_id, attrs["campaign_id"]) do
       %Noun{}
       |> Noun.changeset(attrs)
       |> Repo.insert()

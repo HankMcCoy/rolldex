@@ -20,68 +20,68 @@ import PageWithSidebar from 'r/components/page-with-sidebar'
 import RelatedNouns from 'r/components/related-nouns'
 
 type Props = {
-  session: Session | void,
-  campaign: Campaign | void,
+	session: Session | void,
+	campaign: Campaign | void,
 }
 function SessionDetail({ session, campaign }: Props) {
-  if (!session || !campaign) return <LoadingPage />
-  const { name, summary, notes } = session
-  return (
-    <IsOwner campaign={campaign}>
-      {isOwner => (
-        <React.Fragment>
-          <PageHeader
-            title={name}
-            breadcrumbs={[
-              { text: 'Campaigns', to: '/campaigns' },
-              { text: campaign.name, to: `/campaigns/${campaign.id}` },
-            ]}
-            controls={
-              isOwner ? (
-                <HeaderButton
-                  to={`/campaigns/${campaign.id}/sessions/${session.id}/edit`}
-                >
-                  Edit
-                </HeaderButton>
-              ) : null
-            }
-          />
-          <PageWithSidebar
-            content={
-              <React.Fragment>
-                <TextSection title="Summary">{summary}</TextSection>
-                <Spacer height={20} />
-                <TextSection title="Notes" markdown>
-                  {notes}
-                </TextSection>
-                <Spacer height={20} />
-              </React.Fragment>
-            }
-            sidebar={
-              <RelatedNouns
-                campaignId={campaign.id}
-                getNouns={() =>
-                  callApi({
-                    path: `/api/campaigns/${campaign.id}/sessions/${
-                      session.id
-                    }/related-nouns`,
-                    method: 'GET',
-                  }).then(({ data: nouns }) => nouns)
-                }
-              />
-            }
-          />
-        </React.Fragment>
-      )}
-    </IsOwner>
-  )
+	if (!session || !campaign) return <LoadingPage />
+	const { name, summary, notes } = session
+	return (
+		<IsOwner campaign={campaign}>
+			{isOwner => (
+				<React.Fragment>
+					<PageHeader
+						title={name}
+						breadcrumbs={[
+							{ text: 'Campaigns', to: '/campaigns' },
+							{ text: campaign.name, to: `/campaigns/${campaign.id}` },
+						]}
+						controls={
+							isOwner ? (
+								<HeaderButton
+									to={`/campaigns/${campaign.id}/sessions/${session.id}/edit`}
+								>
+									Edit
+								</HeaderButton>
+							) : null
+						}
+					/>
+					<PageWithSidebar
+						content={
+							<React.Fragment>
+								<TextSection title="Summary">{summary}</TextSection>
+								<Spacer height={20} />
+								<TextSection title="Notes" markdown>
+									{notes}
+								</TextSection>
+								<Spacer height={20} />
+							</React.Fragment>
+						}
+						sidebar={
+							<RelatedNouns
+								campaignId={campaign.id}
+								getNouns={() =>
+									callApi({
+										path: `/api/campaigns/${campaign.id}/sessions/${
+											session.id
+										}/related-nouns`,
+										method: 'GET',
+									}).then(({ data: nouns }) => nouns)
+								}
+							/>
+						}
+					/>
+				</React.Fragment>
+			)}
+		</IsOwner>
+	)
 }
 
 const getIds = ({ match: { params } }) => ({
-  sessionId: +params.sessionId,
-  campaignId: +params.campaignId,
+	sessionId: +params.sessionId,
+	campaignId: +params.campaignId,
 })
 export default flowRight(
-  withSession(getIds),
-  withCampaign(props => getIds(props).campaignId)
+	withSession(getIds),
+	withCampaign(props => getIds(props).campaignId)
 )(SessionDetail)

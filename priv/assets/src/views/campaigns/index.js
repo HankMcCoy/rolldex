@@ -12,30 +12,30 @@ import Nouns from './nouns'
 import InviteMember from './members/invite'
 
 type Props = {
-  match: Match,
+	match: Match,
 }
 export default function Campaigns({ match }: Props) {
-  return (
-    <React.Fragment>
-      <Switch>
-        <Route exact path={match.path} component={CampaignList} />
-        <Route exact path={`${match.path}/add`} component={AddCampaign} />
-        <Route
-          exact
-          path={`${match.path}/:campaignId/edit`}
-          component={EditCampaign}
-        />
-        <Route
-          path={`${match.path}/:campaignId/sessions`}
-          component={Sessions}
-        />
-        <Route path={`${match.path}/:campaignId/nouns`} component={Nouns} />
-        <Route
-          path={`${match.path}/:campaignId/members/invite`}
-          component={InviteMember}
-        />
-        <Route path={`${match.path}/:campaignId`} component={CampaignDetail} />
-      </Switch>
-    </React.Fragment>
-  )
+	return (
+		<React.Fragment>
+			<Switch>
+				<Route exact path={match.path} component={CampaignList} />
+				<Route exact path={`${match.path}/add`} component={AddCampaign} />
+				<Route
+					exact
+					path={`${match.path}/:campaignId/edit`}
+					component={EditCampaign}
+				/>
+				<Route
+					path={`${match.path}/:campaignId/sessions`}
+					component={Sessions}
+				/>
+				<Route path={`${match.path}/:campaignId/nouns`} component={Nouns} />
+				<Route
+					path={`${match.path}/:campaignId/members/invite`}
+					component={InviteMember}
+				/>
+				<Route path={`${match.path}/:campaignId`} component={CampaignDetail} />
+			</Switch>
+		</React.Fragment>
+	)
 }

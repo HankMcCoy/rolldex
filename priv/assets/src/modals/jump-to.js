@@ -14,7 +14,7 @@ type SearchMatch = {|
 	name: string,
 	id: number,
 	campaign_id: number,
-	source: NounType | 'SESSION'
+	source: NounType | 'SESSION',
 |}
 
 const getPath = (searchMatch: SearchMatch): string => {
@@ -33,18 +33,18 @@ const getPath = (searchMatch: SearchMatch): string => {
 type Props = {
 	match: Match,
 	location: Location,
-	close: () => void
+	close: () => void,
 }
 type State = {|
 	value: string,
 	searchMatches: Array<SearchMatch>,
-	selectedMatchIdx: number
+	selectedMatchIdx: number,
 |}
 class JumpTo extends React.Component<Props, State> {
 	state = {
 		value: '',
 		searchMatches: [],
-		selectedMatchIdx: 0
+		selectedMatchIdx: 0,
 	}
 	render() {
 		const { searchMatches, value, selectedMatchIdx } = this.state
@@ -122,12 +122,12 @@ class JumpTo extends React.Component<Props, State> {
 		document.addEventListener('keydown', (e: KeyboardEvent) => {
 			if (e.key === 'ArrowDown') {
 				this.setState(state => ({
-					selectedMatchIdx: wrapSelection(state.selectedMatchIdx + 1)
+					selectedMatchIdx: wrapSelection(state.selectedMatchIdx + 1),
 				}))
 			}
 			if (e.key === 'ArrowUp') {
 				this.setState(state => ({
-					selectedMatchIdx: wrapSelection(state.selectedMatchIdx - 1)
+					selectedMatchIdx: wrapSelection(state.selectedMatchIdx - 1),
 				}))
 			}
 			if (e.key === 'Enter') {
@@ -143,7 +143,7 @@ class JumpTo extends React.Component<Props, State> {
 	handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget
 		this.setState({
-			value
+			value,
 		})
 		console.log(this.props.location.pathname)
 		const idMatch = new RegExp('/campaigns/([0-9]+)(?:/|$)').exec(
@@ -165,7 +165,7 @@ function getQuickSearchMatches(
 ): Promise<Array<SearchMatch>> {
 	return callApi({
 		method: 'GET',
-		path: `/api/campaigns/${campaign_id}/quick-find?q=${q}`
+		path: `/api/campaigns/${campaign_id}/quick-find?q=${q}`,
 	}).then(({ data }) => data)
 }
 

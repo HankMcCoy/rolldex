@@ -7,13 +7,13 @@ import { type ModalDesc } from './reducer'
 
 let modalIdx = 0
 export const showModal = (modal: React.Element<any>): Action<ModalDesc> => ({
-  type: SHOW_MODAL,
-  payload: {
-    id: modalIdx++,
-    modal,
-  },
+	type: SHOW_MODAL,
+	payload: {
+		id: modalIdx++,
+		modal,
+	},
 })
 
 export const hideModal = (): Action<void> => ({
-  type: HIDE_MODAL,
+	type: HIDE_MODAL,
 })

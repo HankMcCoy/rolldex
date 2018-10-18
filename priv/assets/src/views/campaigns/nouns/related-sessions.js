@@ -13,62 +13,62 @@ import Spacer from 'r/components/spacer'
 import { callApi } from 'r/util/api'
 
 const Root = styled.div`
-  padding: 20px;
+	padding: 20px;
 `
 const SessionList = styled.ul`
-  & > *:not(:last-child) {
-    margin-bottom: 15px;
-  }
+	& > *:not(:last-child) {
+		margin-bottom: 15px;
+	}
 `
 
 const UnstyledLink = styled(Link)`
-  text-decoration: none;
+	text-decoration: none;
 `
 
 const SessionLink = ({ session, campaignId }) => (
-  <li>
-    <UnstyledLink to={`/campaigns/${campaignId}/sessions/${session.id}`}>
-      - {session.name}
-    </UnstyledLink>
-  </li>
+	<li>
+		<UnstyledLink to={`/campaigns/${campaignId}/sessions/${session.id}`}>
+			- {session.name}
+		</UnstyledLink>
+	</li>
 )
 
 type Props = {
-  sessions: Array<Session> | void,
-  campaignId: number,
+	sessions: Array<Session> | void,
+	campaignId: number,
 }
 function RelatedSessions({ sessions, campaignId }: Props) {
-  if (!sessions) return null
+	if (!sessions) return null
 
-  return (
-    <Root>
-      {sessions.length ? (
-        <React.Fragment>
-          <H2>Sessions</H2>
-          <Spacer height={15} />
-          <SessionList>
-            {sessions.map(s => (
-              <SessionLink key={s.id} session={s} campaignId={campaignId} />
-            ))}
-          </SessionList>
-        </React.Fragment>
-      ) : null}
-    </Root>
-  )
+	return (
+		<Root>
+			{sessions.length ? (
+				<React.Fragment>
+					<H2>Sessions</H2>
+					<Spacer height={15} />
+					<SessionList>
+						{sessions.map(s => (
+							<SessionLink key={s.id} session={s} campaignId={campaignId} />
+						))}
+					</SessionList>
+				</React.Fragment>
+			) : null}
+		</Root>
+	)
 }
 
 export default flowRight(
-  withState('sessions', 'setSessions', []),
-  lifecycle({
-    componentDidMount() {
-      const { setSessions, campaignId, noun } = this.props
-      callApi({
-        path: `/api/campaigns/${campaignId}/nouns/${noun.id}/related-sessions`,
-        method: 'GET',
-      }).then(({ data: sessions }) => {
-        setSessions(sortBy(sessions, 'inserted_at'))
-      })
-    },
-  }),
-  mapProps(props => omit(props, ['setSessions']))
+	withState('sessions', 'setSessions', []),
+	lifecycle({
+		componentDidMount() {
+			const { setSessions, campaignId, noun } = this.props
+			callApi({
+				path: `/api/campaigns/${campaignId}/nouns/${noun.id}/related-sessions`,
+				method: 'GET',
+			}).then(({ data: sessions }) => {
+				setSessions(sortBy(sessions, 'inserted_at'))
+			})
+		},
+	}),
+	mapProps(props => omit(props, ['setSessions']))
 )(RelatedSessions)

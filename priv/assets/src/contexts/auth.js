@@ -6,56 +6,56 @@ import { callApi } from 'r/util/api'
 const { Provider, Consumer } = React.createContext()
 
 type ProviderProps = {
-  children: React.Node,
+	children: React.Node,
 }
 type User = {
-  id: number,
+	id: number,
 }
 type ProviderState = {
-  curUser: ?User,
+	curUser: ?User,
 }
 export class AuthProvider extends React.Component<
-  ProviderProps,
-  ProviderState
+	ProviderProps,
+	ProviderState
 > {
-  state = {
-    curUser: undefined,
-  }
+	state = {
+		curUser: undefined,
+	}
 
-  render() {
-    const { curUser } = this.state
-    return curUser ? (
-      <Provider value={this.state}>{this.props.children}</Provider>
-    ) : null
-  }
+	render() {
+		const { curUser } = this.state
+		return curUser ? (
+			<Provider value={this.state}>{this.props.children}</Provider>
+		) : null
+	}
 
-  componentDidMount() {
-    callApi({ method: 'GET', path: '/api/users/me' }).then(
-      ({ data: curUser }) => {
-        this.setState({
-          curUser,
-        })
-      }
-    )
-  }
+	componentDidMount() {
+		callApi({ method: 'GET', path: '/api/users/me' }).then(
+			({ data: curUser }) => {
+				this.setState({
+					curUser,
+				})
+			}
+		)
+	}
 }
 
 export const IsOwner = ({
-  children,
-  campaign,
+	children,
+	campaign,
 }: {
-  children: boolean => React.Node,
-  campaign: Campaign,
+	children: boolean => React.Node,
+	campaign: Campaign,
 }) => (
-  <Consumer>
-    {(value: { curUser: ?User } | void) =>
-      children(
-        value && value.curUser && value.curUser.id === campaign.created_by_id
-          ? true
-          : false
-      )
-    }
-  </Consumer>
+	<Consumer>
+		{(value: { curUser: ?User } | void) =>
+			children(
+				value && value.curUser && value.curUser.id === campaign.created_by_id
+					? true
+					: false
+			)
+		}
+	</Consumer>
 )
 
 export { Consumer as AuthConsumer }

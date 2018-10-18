@@ -9,26 +9,26 @@ import { selectMemberList } from 'r/data/members/selectors'
 import { fetchMemberList, removeMember } from 'r/data/members/action-creators'
 
 export const withMemberList: <T>(
-  (T) => number
+	(T) => number
 ) => HOC<T, { members: Array<Member> | void }> = getCampaignId =>
-  flowRight(
-    connect({
-      actionCreators: {
-        fetchMemberList,
-      },
-    }),
-    lifecycle({
-      componentDidMount() {
-        this.props.fetchMemberList(getCampaignId(this.props))
-      },
-    }),
-    mapProps(props => omit(props, 'fetchMemberList')),
-    connect({
-      selectors: {
-        members: selectMemberList(getCampaignId),
-      },
-      actionCreators: {
-        removeMember,
-      },
-    })
-  )
+	flowRight(
+		connect({
+			actionCreators: {
+				fetchMemberList,
+			},
+		}),
+		lifecycle({
+			componentDidMount() {
+				this.props.fetchMemberList(getCampaignId(this.props))
+			},
+		}),
+		mapProps(props => omit(props, 'fetchMemberList')),
+		connect({
+			selectors: {
+				members: selectMemberList(getCampaignId),
+			},
+			actionCreators: {
+				removeMember,
+			},
+		})
+	)

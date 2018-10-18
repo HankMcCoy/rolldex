@@ -10,53 +10,53 @@ import { selectNoun, selectNounList } from 'r/data/nouns/selectors'
 import { fetchNoun, fetchNounList } from 'r/data/nouns/action-creators'
 
 export const withNoun: <T>(
-  (T) => { campaignId: number, nounId: number }
+	(T) => { campaignId: number, nounId: number }
 ) => HOC<T, { noun: Noun }> = getIds =>
-  flowRight(
-    connect({
-      actionCreators: {
-        fetchNoun,
-      },
-    }),
-    lifecycle({
-      componentDidMount() {
-        const { campaignId, nounId } = getIds(this.props)
-        this.props.fetchNoun(campaignId, nounId)
-      },
-      componentDidUpdate(prevProps) {
-        const curIds = getIds(this.props)
-        const prevIds = getIds(prevProps)
-        if (!isEqual(curIds, prevIds)) {
-          this.props.fetchNoun(curIds.campaignId, curIds.nounId)
-        }
-      },
-    }),
-    mapProps(props => omit(props, ['fetchNoun', 'nounId'])),
-    connect({
-      selectors: {
-        noun: selectNoun(props => getIds(props).nounId),
-      },
-    })
-  )
+	flowRight(
+		connect({
+			actionCreators: {
+				fetchNoun,
+			},
+		}),
+		lifecycle({
+			componentDidMount() {
+				const { campaignId, nounId } = getIds(this.props)
+				this.props.fetchNoun(campaignId, nounId)
+			},
+			componentDidUpdate(prevProps) {
+				const curIds = getIds(this.props)
+				const prevIds = getIds(prevProps)
+				if (!isEqual(curIds, prevIds)) {
+					this.props.fetchNoun(curIds.campaignId, curIds.nounId)
+				}
+			},
+		}),
+		mapProps(props => omit(props, ['fetchNoun', 'nounId'])),
+		connect({
+			selectors: {
+				noun: selectNoun(props => getIds(props).nounId),
+			},
+		})
+	)
 
 export const withNounList: <T>(
-  (T) => number
+	(T) => number
 ) => HOC<T, { nouns: Array<Noun> | void }> = getCampaignId =>
-  flowRight(
-    connect({
-      actionCreators: {
-        fetchNounList,
-      },
-    }),
-    lifecycle({
-      componentDidMount() {
-        this.props.fetchNounList(getCampaignId(this.props))
-      },
-    }),
-    mapProps(props => omit(props, 'fetchNounList')),
-    connect({
-      selectors: {
-        nouns: selectNounList(getCampaignId),
-      },
-    })
-  )
+	flowRight(
+		connect({
+			actionCreators: {
+				fetchNounList,
+			},
+		}),
+		lifecycle({
+			componentDidMount() {
+				this.props.fetchNounList(getCampaignId(this.props))
+			},
+		}),
+		mapProps(props => omit(props, 'fetchNounList')),
+		connect({
+			selectors: {
+				nouns: selectNounList(getCampaignId),
+			},
+		})
+	)

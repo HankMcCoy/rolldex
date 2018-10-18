@@ -17,56 +17,56 @@ import { withCampaign } from 'r/data/campaigns/connectors'
 import SessionForm from './session-form'
 
 type Props = {
-  campaign: Campaign | void,
-  history: History,
-  createSession: DraftSession => Promise<Session>,
+	campaign: Campaign | void,
+	history: History,
+	createSession: DraftSession => Promise<Session>,
 }
 function AddSession({ campaign, history, createSession }: Props) {
-  if (!campaign) return <LoadingPage />
-  return (
-    <React.Fragment>
-      <PageHeader
-        title="New Session"
-        breadcrumbs={[
-          { text: 'Campaigns', to: '/campaigns' },
-          { text: campaign.name, to: `/campaigns/${campaign.id}` },
-          { text: 'Add Session', to: `/campaigns/${campaign.id}/add` },
-        ]}
-      />
-      <PageContent>
-        <SessionForm
-          initialValues={{
-            name: '',
-            summary: '',
-            notes: '',
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            const { name, summary, notes } = values
-            createSession({
-              name,
-              summary,
-              notes,
-              campaign_id: campaign.id,
-            }).then(session => {
-              setSubmitting(false)
-              history.push(`/campaigns/${campaign.id}`)
-            })
-          }}
-          onCancel={() => {
-            history.push(`/campaigns/${campaign.id}`)
-          }}
-        />
-      </PageContent>
-    </React.Fragment>
-  )
+	if (!campaign) return <LoadingPage />
+	return (
+		<React.Fragment>
+			<PageHeader
+				title="New Session"
+				breadcrumbs={[
+					{ text: 'Campaigns', to: '/campaigns' },
+					{ text: campaign.name, to: `/campaigns/${campaign.id}` },
+					{ text: 'Add Session', to: `/campaigns/${campaign.id}/add` },
+				]}
+			/>
+			<PageContent>
+				<SessionForm
+					initialValues={{
+						name: '',
+						summary: '',
+						notes: '',
+					}}
+					onSubmit={(values, { setSubmitting }) => {
+						const { name, summary, notes } = values
+						createSession({
+							name,
+							summary,
+							notes,
+							campaign_id: campaign.id,
+						}).then(session => {
+							setSubmitting(false)
+							history.push(`/campaigns/${campaign.id}`)
+						})
+					}}
+					onCancel={() => {
+						history.push(`/campaigns/${campaign.id}`)
+					}}
+				/>
+			</PageContent>
+		</React.Fragment>
+	)
 }
 
 export default flowRight(
-  withRouter,
-  withCampaign(({ match: { params } }) => +params.campaignId),
-  connect({
-    actionCreators: {
-      createSession,
-    },
-  })
+	withRouter,
+	withCampaign(({ match: { params } }) => +params.campaignId),
+	connect({
+		actionCreators: {
+			createSession,
+		},
+	})
 )(AddSession)

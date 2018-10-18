@@ -6,7 +6,7 @@ import App from './app'
 
 const rootEl = document.getElementById('root')
 if (rootEl) {
-  ReactDOM.render(<App />, rootEl)
+	ReactDOM.render(<App />, rootEl)
 } else {
-  throw new Error('Oops! No #root element found to render the app into.')
+	throw new Error('Oops! No #root element found to render the app into.')
 }

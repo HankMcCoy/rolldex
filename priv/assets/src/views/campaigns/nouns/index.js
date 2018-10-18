@@ -8,17 +8,17 @@ import AddNoun from './add-noun'
 import EditNoun from './edit-noun'
 
 type Props = {
-  match: Match,
+	match: Match,
 }
 export default function Nouns({ match }: Props) {
-  return (
-    <React.Fragment>
-      <Switch>
-        <Route exact path={match.path} render={() => <Redirect to="" />} />
-        <Route exact path={`${match.path}/add`} component={AddNoun} />
-        <Route exact path={`${match.path}/:nounId/edit`} component={EditNoun} />
-        <Route path={`${match.path}/:nounId`} component={NounDetail} />
-      </Switch>
-    </React.Fragment>
-  )
+	return (
+		<React.Fragment>
+			<Switch>
+				<Route exact path={match.path} render={() => <Redirect to="" />} />
+				<Route exact path={`${match.path}/add`} component={AddNoun} />
+				<Route exact path={`${match.path}/:nounId/edit`} component={EditNoun} />
+				<Route path={`${match.path}/:nounId`} component={NounDetail} />
+			</Switch>
+		</React.Fragment>
+	)
 }

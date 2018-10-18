@@ -13,40 +13,40 @@ import PageContent from 'r/components/page-content'
 import CampaignForm from './campaign-form'
 
 type Props = {
-  history: History,
-  createCampaign: DraftCampaign => Promise<Campaign>,
+	history: History,
+	createCampaign: DraftCampaign => Promise<Campaign>,
 }
 function AddCampaign({ history, createCampaign }: Props) {
-  return (
-    <React.Fragment>
-      <PageHeader title="New Campaign" />
-      <PageContent>
-        <CampaignForm
-          initialValues={{
-            name: '',
-            description: '',
-          }}
-          onSubmit={(values, { setSubmitting }) => {
-            const { name, description } = values
-            createCampaign({ name, description }).then(campaign => {
-              setSubmitting(false)
-              history.push(`/campaigns/${campaign.id}`)
-            })
-          }}
-          onCancel={() => {
-            history.push('/campaigns')
-          }}
-        />
-      </PageContent>
-    </React.Fragment>
-  )
+	return (
+		<React.Fragment>
+			<PageHeader title="New Campaign" />
+			<PageContent>
+				<CampaignForm
+					initialValues={{
+						name: '',
+						description: '',
+					}}
+					onSubmit={(values, { setSubmitting }) => {
+						const { name, description } = values
+						createCampaign({ name, description }).then(campaign => {
+							setSubmitting(false)
+							history.push(`/campaigns/${campaign.id}`)
+						})
+					}}
+					onCancel={() => {
+						history.push('/campaigns')
+					}}
+				/>
+			</PageContent>
+		</React.Fragment>
+	)
 }
 
 export default flowRight(
-  withRouter,
-  connect({
-    actionCreators: {
-      createCampaign,
-    },
-  })
+	withRouter,
+	connect({
+		actionCreators: {
+			createCampaign,
+		},
+	})
 )(AddCampaign)

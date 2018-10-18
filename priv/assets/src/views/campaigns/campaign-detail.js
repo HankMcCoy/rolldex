@@ -30,113 +30,113 @@ import type { Member } from 'r/data/members'
 import { withMemberList } from 'r/data/members/connectors'
 
 const FlexBtwn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 `
 
 type Props = {
-  campaign: Campaign | void,
-  sessions: Array<Session> | void,
-  members: Array<Member> | void,
-  nouns: Array<Noun> | void,
-  removeMember: (campaignId: number, memberId: number) => Promise<void>,
+	campaign: Campaign | void,
+	sessions: Array<Session> | void,
+	members: Array<Member> | void,
+	nouns: Array<Noun> | void,
+	removeMember: (campaignId: number, memberId: number) => Promise<void>,
 }
 function CampaignDetail({
-  campaign,
-  members,
-  sessions,
-  nouns,
-  removeMember,
+	campaign,
+	members,
+	sessions,
+	nouns,
+	removeMember,
 }: Props) {
-  if (!campaign || !members || !sessions || !nouns) return <LoadingPage />
-  const { name, description, id } = campaign
-  return (
-    <IsOwner campaign={campaign}>
-      {isOwner => (
-        <React.Fragment>
-          <PageHeader
-            title={name}
-            breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
-            controls={
-              isOwner ? (
-                <HeaderButton to={`/campaigns/${campaign.id}/edit`}>
-                  Edit
-                </HeaderButton>
-              ) : null
-            }
-          />
-          <PageContent>
-            <ColumnView gutterWidth={40}>
-              <Column>
-                <TextSection title="Description" markdown>
-                  {description}
-                </TextSection>
-                <Spacer height={20} />
-                <AddableList
-                  title="Members"
-                  addPath={`/campaigns/${id}/members/invite`}
-                  canEdit={isOwner}
-                >
-                  {members.map(m => (
-                    <ListCard key={m.id} paddingRight={0}>
-                      <FlexBtwn>
-                        <TitleNSummary title={m.email} />
-                        <XBtn onClick={() => removeMember(id, m.id)} />
-                      </FlexBtwn>
-                    </ListCard>
-                  ))}
-                </AddableList>
-                <Spacer height={20} />
-                <AddableList
-                  title="Sessions"
-                  addPath={`/campaigns/${id}/sessions/add`}
-                  canEdit={isOwner}
-                >
-                  {sessions.map(s => (
-                    <PlainLink
-                      key={s.id}
-                      to={`/campaigns/${campaign.id}/sessions/${s.id}`}
-                      display="block"
-                    >
-                      <ListCard>
-                        <TitleNSummary title={s.name} summary={s.summary} />
-                      </ListCard>
-                    </PlainLink>
-                  ))}
-                </AddableList>
-              </Column>
-              <Column>
-                <AddableList
-                  title="World"
-                  addPath={`/campaigns/${id}/nouns/add`}
-                  canEdit={isOwner}
-                >
-                  {nouns.map(n => (
-                    <PlainLink
-                      key={n.id}
-                      to={`/campaigns/${campaign.id}/nouns/${n.id}`}
-                      display="block"
-                    >
-                      <ListCard>
-                        <TitleNSummary title={n.name} summary={n.summary} />
-                      </ListCard>
-                    </PlainLink>
-                  ))}
-                </AddableList>
-              </Column>
-            </ColumnView>
-          </PageContent>
-        </React.Fragment>
-      )}
-    </IsOwner>
-  )
+	if (!campaign || !members || !sessions || !nouns) return <LoadingPage />
+	const { name, description, id } = campaign
+	return (
+		<IsOwner campaign={campaign}>
+			{isOwner => (
+				<React.Fragment>
+					<PageHeader
+						title={name}
+						breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
+						controls={
+							isOwner ? (
+								<HeaderButton to={`/campaigns/${campaign.id}/edit`}>
+									Edit
+								</HeaderButton>
+							) : null
+						}
+					/>
+					<PageContent>
+						<ColumnView gutterWidth={40}>
+							<Column>
+								<TextSection title="Description" markdown>
+									{description}
+								</TextSection>
+								<Spacer height={20} />
+								<AddableList
+									title="Members"
+									addPath={`/campaigns/${id}/members/invite`}
+									canEdit={isOwner}
+								>
+									{members.map(m => (
+										<ListCard key={m.id} paddingRight={0}>
+											<FlexBtwn>
+												<TitleNSummary title={m.email} />
+												<XBtn onClick={() => removeMember(id, m.id)} />
+											</FlexBtwn>
+										</ListCard>
+									))}
+								</AddableList>
+								<Spacer height={20} />
+								<AddableList
+									title="Sessions"
+									addPath={`/campaigns/${id}/sessions/add`}
+									canEdit={isOwner}
+								>
+									{sessions.map(s => (
+										<PlainLink
+											key={s.id}
+											to={`/campaigns/${campaign.id}/sessions/${s.id}`}
+											display="block"
+										>
+											<ListCard>
+												<TitleNSummary title={s.name} summary={s.summary} />
+											</ListCard>
+										</PlainLink>
+									))}
+								</AddableList>
+							</Column>
+							<Column>
+								<AddableList
+									title="World"
+									addPath={`/campaigns/${id}/nouns/add`}
+									canEdit={isOwner}
+								>
+									{nouns.map(n => (
+										<PlainLink
+											key={n.id}
+											to={`/campaigns/${campaign.id}/nouns/${n.id}`}
+											display="block"
+										>
+											<ListCard>
+												<TitleNSummary title={n.name} summary={n.summary} />
+											</ListCard>
+										</PlainLink>
+									))}
+								</AddableList>
+							</Column>
+						</ColumnView>
+					</PageContent>
+				</React.Fragment>
+			)}
+		</IsOwner>
+	)
 }
 
 const getCampaignId = ({ match: { params } }) => +params.campaignId
 export default flowRight(
-  withCampaign(getCampaignId),
-  withSessionList(getCampaignId),
-  withNounList(getCampaignId),
-  withMemberList(getCampaignId)
+	withCampaign(getCampaignId),
+	withSessionList(getCampaignId),
+	withNounList(getCampaignId),
+	withMemberList(getCampaignId)
 )(CampaignDetail)

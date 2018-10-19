@@ -85,7 +85,19 @@ function CampaignDetail({
 											<FlexBtwn>
 												<TitleNSummary title={m.email} />
 												{isOwner && (
-													<XBtn onClick={() => removeMember(id, m.id)} />
+													<XBtn
+														onClick={() => {
+															if (
+																window.confirm(
+																	`Are you sure you want to remove ${
+																		m.email
+																	} from this campaign?`
+																)
+															) {
+																removeMember(id, m.id)
+															}
+														}}
+													/>
 												)}
 											</FlexBtwn>
 										</ListCard>

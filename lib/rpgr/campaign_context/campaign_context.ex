@@ -207,21 +207,29 @@ defmodule Rpgr.CampaignContext do
 
   alias Rpgr.CampaignContext.Member
 
-  def list_members(campaign_id) do
-    Repo.all(
-      from(
-        m in Member,
-        where: m.campaign_id == ^campaign_id,
-        select: m,
-        preload: [:user]
+  def list_members(user_id, campaign_id) do
+    with :ok <- validate_can_user_view_campaign(user_id, campaign_id) do
+      Repo.all(
+        from(
+          m in Member,
+          where: m.campaign_id == ^campaign_id,
+          select: m,
+          preload: [:user]
+        )
       )
-    )
+    end
   end
 
-  def get_member!(id), do: Repo.get!(Member, id)
+  def get_member(user_id, member_id) do
+    with member when not is_nil(member) <- Repo.get(Member, member_id),
+         :ok <- validate_can_user_view_campaign(user_id, member.campaign_id) do
+      member
+    end
+  end
 
-  def create_member(attrs \\ %{}) do
-    with {:ok, %Member{} = member} <-
+  def create_member(user_id, attrs \\ %{}) do
+    with :ok <- validate_can_user_edit_campaign(user_id, attrs["campaign_id"]),
+         {:ok, %Member{} = member} <-
            %Member{}
            |> Member.changeset(attrs)
            |> Repo.insert() do
@@ -229,7 +237,9 @@ defmodule Rpgr.CampaignContext do
     end
   end
 
-  def delete_member(%Member{} = member) do
-    Repo.delete(member)
+  def delete_member(user_id, %Member{} = member) do
+    with :ok <- validate_can_user_edit_campaign(user_id, member.campaign_id) do
+      Repo.delete(member)
+    end
   end
 end

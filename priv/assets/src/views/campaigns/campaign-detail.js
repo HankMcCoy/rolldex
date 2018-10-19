@@ -84,7 +84,9 @@ function CampaignDetail({
 										<ListCard key={m.id} paddingRight={0}>
 											<FlexBtwn>
 												<TitleNSummary title={m.email} />
-												<XBtn onClick={() => removeMember(id, m.id)} />
+												{isOwner && (
+													<XBtn onClick={() => removeMember(id, m.id)} />
+												)}
 											</FlexBtwn>
 										</ListCard>
 									))}

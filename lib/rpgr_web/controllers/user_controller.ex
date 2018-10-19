@@ -5,7 +5,13 @@ defmodule RpgrWeb.UserController do
 
   action_fallback(RpgrWeb.FallbackController)
 
-  @permitted_emails MapSet.new(["thomas.beirne@gmail.com", "albert@wohletz.net"])
+  @permitted_emails MapSet.new([
+                      "thomas.beirne@gmail.com",
+                      "albert@wohletz.net",
+                      "brookecosta@gmail.com",
+                      "steven.purn@gmail.com",
+                      "benjamin.spoon@gmail.com"
+                    ])
 
   def register(conn, %{"email" => email, "password" => password}) do
     if MapSet.member?(@permitted_emails, email) do

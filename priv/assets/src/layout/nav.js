@@ -109,6 +109,7 @@ function Nav({ systems, campaigns }: Props) {
 						transition: color 0.2s;
 						text-transform: uppercase;
 						letter-spacing: 0.5px;
+						margin-top: 1px;
 						&:hover {
 							color: #fff;
 						}

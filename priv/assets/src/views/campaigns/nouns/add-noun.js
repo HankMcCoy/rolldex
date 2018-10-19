@@ -3,6 +3,7 @@ import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
 import { type History } from 'history'
 import { withRouter } from 'react-router-dom'
+import qs from 'query-string'
 
 import { connect } from 'r/util/redux'
 
@@ -25,6 +26,7 @@ type Props = {
 }
 function AddNoun({ campaign, history, createNoun }: Props) {
 	if (!campaign) return <LoadingPage />
+	const queryParams = qs.parse(history.location.search)
 	return (
 		<React.Fragment>
 			<PageHeader
@@ -41,7 +43,7 @@ function AddNoun({ campaign, history, createNoun }: Props) {
 						summary: '',
 						notes: '',
 						privateNotes: '',
-						nounType: '',
+						nounType: queryParams.nounType ? queryParams.nounType : '',
 					}}
 					onSubmit={(values, { setSubmitting }) => {
 						const { name, summary, notes, privateNotes, nounType } = values

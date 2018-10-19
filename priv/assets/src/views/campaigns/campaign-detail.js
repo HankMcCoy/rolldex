@@ -29,6 +29,8 @@ import { withNounList } from 'r/data/nouns/connectors'
 import type { Member } from 'r/data/members'
 import { withMemberList } from 'r/data/members/connectors'
 
+import NounList from './noun-list'
+
 const FlexBtwn = styled.div`
 	display: flex;
 	justify-content: space-between;
@@ -107,23 +109,33 @@ function CampaignDetail({
 								</AddableList>
 							</Column>
 							<Column>
-								<AddableList
-									title="World"
-									addPath={`/campaigns/${id}/nouns/add`}
-									canEdit={isOwner}
-								>
-									{nouns.map(n => (
-										<PlainLink
-											key={n.id}
-											to={`/campaigns/${campaign.id}/nouns/${n.id}`}
-											display="block"
-										>
-											<ListCard>
-												<TitleNSummary title={n.name} summary={n.summary} />
-											</ListCard>
-										</PlainLink>
-									))}
-								</AddableList>
+								<NounList
+									title="People"
+									nounType="PERSON"
+									campaign={campaign}
+									nouns={nouns}
+								/>
+								<Spacer height={25} />
+								<NounList
+									title="Factions"
+									nounType="FACTION"
+									campaign={campaign}
+									nouns={nouns}
+								/>
+								<Spacer height={25} />
+								<NounList
+									title="Places"
+									nounType="PLACE"
+									campaign={campaign}
+									nouns={nouns}
+								/>
+								<Spacer height={25} />
+								<NounList
+									title="Things"
+									nounType="THING"
+									campaign={campaign}
+									nouns={nouns}
+								/>
 							</Column>
 						</ColumnView>
 					</PageContent>

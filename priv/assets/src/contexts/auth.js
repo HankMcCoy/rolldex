@@ -44,10 +44,10 @@ export class AuthProvider extends React.Component<
 export const IsOwner = ({
 	children,
 	campaign,
-}: {
+}: {|
 	children: boolean => React.Node,
 	campaign: Campaign,
-}) => (
+|}) => (
 	<CurUser>
 		{(curUser: ?User) =>
 			children(curUser && curUser.id === campaign.created_by_id ? true : false)
@@ -57,9 +57,9 @@ export const IsOwner = ({
 
 export const CurUser = ({
 	children,
-}: {
+}: {|
 	children: (user: ?User) => React.Node,
-}) => (
+|}) => (
 	<Consumer>
 		{(value: { curUser: ?User } | void) => children(value && value.curUser)}
 	</Consumer>

@@ -20,6 +20,7 @@ type SearchMatch = {|
 const getPath = (searchMatch: SearchMatch): string => {
 	switch (searchMatch.source) {
 		case 'PERSON':
+		case 'FACTION':
 		case 'PLACE':
 		case 'THING':
 			return `/campaigns/${searchMatch.campaign_id}/nouns/${searchMatch.id}`

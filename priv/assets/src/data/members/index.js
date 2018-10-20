@@ -1,5 +1,6 @@
 // @flow
 import keyBy from 'lodash-es/keyBy'
+import omit from 'lodash-es/omit'
 
 import { success, createReducer } from 'r/util/redux'
 
@@ -36,12 +37,6 @@ export default createReducer(initialState, {
 		...keyBy(members, 'id'),
 	}),
 	[success(CREATE_MEMBER)]: updateOne,
-	[REMOVE_MEMBER]: (state: State, memberId: number) => ({
-		...keyBy(
-			Object.keys(state)
-				.filter(curId => +curId !== memberId)
-				.map(id => state[+id]),
-			'id'
-		),
-	}),
+	[REMOVE_MEMBER]: (state: State, memberId: number) =>
+		omit(state, memberId.toString()),
 })

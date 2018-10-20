@@ -9,11 +9,11 @@ type Props = {
 
 export default function TitleNSummary({ title, summary }: Props) {
 	return summary ? (
-		<React.Fragment>
+		<div>
 			<H3>{title}</H3>
 			<Spacer height={10} />
 			{summary}
-		</React.Fragment>
+		</div>
 	) : (
 		<H3>{title}</H3>
 	)

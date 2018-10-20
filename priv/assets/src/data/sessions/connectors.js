@@ -7,7 +7,11 @@ import { handleIdChange } from 'r/util/react'
 import { connect } from 'r/util/redux'
 import type { Session } from 'r/data/sessions'
 import { selectSession, selectSessionList } from 'r/data/sessions/selectors'
-import { fetchSession, fetchSessionList } from 'r/data/sessions/action-creators'
+import {
+	fetchSession,
+	fetchSessionList,
+	removeSession,
+} from 'r/data/sessions/action-creators'
 
 export const withSession: <T>(
 	(T) => { campaignId: number, sessionId: number }
@@ -52,6 +56,9 @@ export const withSessionList: <T>(
 		connect({
 			selectors: {
 				sessions: selectSessionList(getCampaignId),
+			},
+			actionCreators: {
+				removeSession,
 			},
 		})
 	)

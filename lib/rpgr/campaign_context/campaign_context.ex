@@ -145,9 +145,8 @@ defmodule Rpgr.CampaignContext do
     end
   end
 
-  def delete_session(user_id, session_id) do
-    with %Session{} = session <- Repo.get(Session, session_id),
-         :ok <- validate_can_user_edit_campaign(user_id, session.campaign_id) do
+  def delete_session(user_id, %Session{} = session) do
+    with :ok <- validate_can_user_edit_campaign(user_id, session.campaign_id) do
       Repo.delete(session)
     end
   end
@@ -196,9 +195,8 @@ defmodule Rpgr.CampaignContext do
     end
   end
 
-  def delete_noun(user_id, noun_id) do
-    with %Noun{} = noun <- Repo.get(Noun, noun_id),
-         :ok <- validate_can_user_edit_campaign(user_id, noun.campaign_id) do
+  def delete_noun(user_id, %Noun{} = noun) do
+    with :ok <- validate_can_user_edit_campaign(user_id, noun.campaign_id) do
       Repo.delete(noun)
     end
   end

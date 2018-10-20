@@ -1,5 +1,6 @@
 // @flow
 import keyBy from 'lodash-es/keyBy'
+import omit from 'lodash-es/omit'
 
 import { success, createReducer } from 'r/util/redux'
 
@@ -8,6 +9,7 @@ import {
 	UPDATE_NOUN,
 	FETCH_NOUN_LIST,
 	FETCH_NOUN,
+	REMOVE_NOUN,
 } from './action-types'
 
 export type NounType = 'PERSON' | 'PLACE' | 'THING' | 'FACTION'
@@ -44,4 +46,6 @@ export default createReducer(initialState, {
 	[success(FETCH_NOUN)]: updateOne,
 	[success(CREATE_NOUN)]: updateOne,
 	[success(UPDATE_NOUN)]: updateOne,
+	[REMOVE_NOUN]: (state: State, nounId: number) =>
+		omit(state, nounId.toString()),
 })

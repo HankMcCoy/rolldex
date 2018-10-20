@@ -5,6 +5,7 @@ import {
 	UPDATE_NOUN,
 	FETCH_NOUN_LIST,
 	FETCH_NOUN,
+	REMOVE_NOUN,
 } from './action-types'
 import type { Noun, DraftNoun } from './index'
 
@@ -36,4 +37,12 @@ export const updateNoun = (noun: Noun) =>
 		method: 'PUT',
 		path: `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}`,
 		requestBody: { noun },
+	})
+
+export const removeNoun = (campaignId: number, nounId: number) =>
+	actionXhr({
+		actionType: REMOVE_NOUN,
+		method: 'DELETE',
+		path: `/api/campaigns/${campaignId}/nouns/${nounId}`,
+		initialPayload: nounId,
 	})

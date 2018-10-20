@@ -47,7 +47,7 @@ export default function SessionForm({
 				onSubmit={onSubmit}
 				render={({ handleSubmit }) => (
 					<form onSubmit={handleSubmit}>
-						<FormField name="name" label="Name" validate={required} />
+						<FormField name="name" label="Name" validate={required} autoFocus />
 						<Spacer height={20} />
 						<FormField
 							name="summary"

@@ -2,7 +2,6 @@
 
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
-import styled from 'react-emotion'
 
 import { IsOwner } from 'r/contexts/auth'
 import PageHeader, { HeaderButton } from 'r/components/page-header'
@@ -10,12 +9,10 @@ import LoadingPage from 'r/components/loading-page'
 import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
 import Spacer from 'r/components/spacer'
-import ListCard from 'r/components/list-card'
-import TitleNSummary from 'r/components/title-n-summary'
 import AddableList from 'r/components/addable-list'
 import ColumnView, { Column } from 'r/components/column-view'
 import PlainLink from 'r/components/plain-link'
-import XBtn from 'r/components/x-btn'
+import NotableCard from 'r/components/notable-card'
 
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaign } from 'r/data/campaigns/connectors'
@@ -31,18 +28,14 @@ import { withMemberList } from 'r/data/members/connectors'
 
 import NounList from './noun-list'
 
-const FlexBtwn = styled.div`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-`
-
 type Props = {
 	campaign: Campaign | void,
 	sessions: Array<Session> | void,
 	members: Array<Member> | void,
 	nouns: Array<Noun> | void,
 	removeMember: (campaignId: number, memberId: number) => Promise<void>,
+	removeNoun: (campaignId: number, nounId: number) => Promise<void>,
+	removeSession: (campaignId: number, sessionId: number) => Promise<void>,
 }
 function CampaignDetail({
 	campaign,
@@ -50,6 +43,8 @@ function CampaignDetail({
 	sessions,
 	nouns,
 	removeMember,
+	removeNoun,
+	removeSession,
 }: Props) {
 	if (!campaign || !members || !sessions || !nouns) return <LoadingPage />
 	const { name, description, id } = campaign
@@ -81,12 +76,12 @@ function CampaignDetail({
 									canEdit={isOwner}
 								>
 									{members.map(m => (
-										<ListCard key={m.id} paddingRight={0}>
-											<FlexBtwn>
-												<TitleNSummary title={m.email} />
-												{isOwner && (
-													<XBtn
-														onClick={() => {
+										<NotableCard
+											key={m.id}
+											title={m.email}
+											onRemove={
+												isOwner
+													? () => {
 															if (
 																window.confirm(
 																	`Are you sure you want to remove ${
@@ -96,11 +91,10 @@ function CampaignDetail({
 															) {
 																removeMember(id, m.id)
 															}
-														}}
-													/>
-												)}
-											</FlexBtwn>
-										</ListCard>
+													  }
+													: undefined
+											}
+										/>
 									))}
 								</AddableList>
 								<Spacer height={25} />
@@ -115,9 +109,26 @@ function CampaignDetail({
 											to={`/campaigns/${campaign.id}/sessions/${s.id}`}
 											display="block"
 										>
-											<ListCard>
-												<TitleNSummary title={s.name} summary={s.summary} />
-											</ListCard>
+											<NotableCard
+												title={s.name}
+												summary={s.summary}
+												onRemove={
+													isOwner
+														? ({ clickEvent }) => {
+																clickEvent.preventDefault()
+																if (
+																	window.confirm(
+																		`Are you sure you want to remove "${
+																			s.name
+																		}"? This is not reversable.`
+																	)
+																) {
+																	removeSession(id, s.id)
+																}
+														  }
+														: undefined
+												}
+											/>
 										</PlainLink>
 									))}
 								</AddableList>
@@ -128,6 +139,7 @@ function CampaignDetail({
 									nounType="PERSON"
 									campaign={campaign}
 									nouns={nouns}
+									removeNoun={removeNoun}
 								/>
 								<Spacer height={25} />
 								<NounList
@@ -135,6 +147,7 @@ function CampaignDetail({
 									nounType="FACTION"
 									campaign={campaign}
 									nouns={nouns}
+									removeNoun={removeNoun}
 								/>
 								<Spacer height={25} />
 								<NounList
@@ -142,6 +155,7 @@ function CampaignDetail({
 									nounType="PLACE"
 									campaign={campaign}
 									nouns={nouns}
+									removeNoun={removeNoun}
 								/>
 								<Spacer height={25} />
 								<NounList
@@ -149,6 +163,7 @@ function CampaignDetail({
 									nounType="THING"
 									campaign={campaign}
 									nouns={nouns}
+									removeNoun={removeNoun}
 								/>
 							</Column>
 						</ColumnView>

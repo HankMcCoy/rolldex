@@ -6,8 +6,7 @@ import { IsOwner } from 'r/contexts/auth'
 
 import AddableList from 'r/components/addable-list'
 import PlainLink from 'r/components/plain-link'
-import ListCard from 'r/components/list-card'
-import TitleNSummary from 'r/components/title-n-summary'
+import NotableCard from 'r/components/notable-card'
 
 import { type Campaign } from 'r/data/campaigns'
 import { type Noun, type NounType } from 'r/data/nouns'
@@ -17,11 +16,13 @@ export default function NounList({
 	nouns,
 	nounType,
 	title,
+	removeNoun,
 }: {
 	campaign: Campaign,
 	nouns: Array<Noun>,
 	nounType: NounType,
 	title: string,
+	removeNoun: (campaignId: number, nounId: number) => Promise<void>,
 }) {
 	return (
 		<IsOwner campaign={campaign}>
@@ -37,9 +38,26 @@ export default function NounList({
 							to={`/campaigns/${campaign.id}/nouns/${n.id}`}
 							display="block"
 						>
-							<ListCard>
-								<TitleNSummary title={n.name} summary={n.summary} />
-							</ListCard>
+							<NotableCard
+								title={n.name}
+								summary={n.summary}
+								onRemove={
+									isOwner
+										? ({ clickEvent }) => {
+												clickEvent.preventDefault()
+												if (
+													window.confirm(
+														`Are you sure you want to remove "${
+															n.name
+														}"? This is not reversible.`
+													)
+												) {
+													removeNoun(campaign.id, n.id)
+												}
+										  }
+										: undefined
+								}
+							/>
 						</PlainLink>
 					))}
 				</AddableList>

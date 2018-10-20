@@ -5,6 +5,7 @@ import {
 	UPDATE_SESSION,
 	FETCH_SESSION_LIST,
 	FETCH_SESSION,
+	REMOVE_SESSION,
 } from './action-types'
 import type { Session, DraftSession } from './index'
 
@@ -36,4 +37,12 @@ export const updateSession = (session: Session) =>
 		method: 'PUT',
 		path: `/api/campaigns/${session.campaign_id}/sessions/${session.id}`,
 		requestBody: { session },
+	})
+
+export const removeSession = (campaignId: number, sessionId: number) =>
+	actionXhr({
+		actionType: REMOVE_SESSION,
+		method: 'DELETE',
+		path: `/api/campaigns/${campaignId}/sessions/${sessionId}`,
+		initialPayload: sessionId,
 	})

@@ -7,7 +7,11 @@ import { connect } from 'r/util/redux'
 import { handleIdChange } from 'r/util/react'
 import type { Noun } from 'r/data/nouns'
 import { selectNoun, selectNounList } from 'r/data/nouns/selectors'
-import { fetchNoun, fetchNounList } from 'r/data/nouns/action-creators'
+import {
+	fetchNoun,
+	fetchNounList,
+	removeNoun,
+} from 'r/data/nouns/action-creators'
 
 export const withNoun: <T>(
 	(T) => { campaignId: number, nounId: number }
@@ -54,6 +58,9 @@ export const withNounList: <T>(
 		connect({
 			selectors: {
 				nouns: selectNounList(getCampaignId),
+			},
+			actionCreators: {
+				removeNoun,
 			},
 		})
 	)

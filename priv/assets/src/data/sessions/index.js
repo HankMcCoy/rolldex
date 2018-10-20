@@ -1,5 +1,6 @@
 // @flow
 import keyBy from 'lodash-es/keyBy'
+import omit from 'lodash-es/omit'
 
 import { success, createReducer } from 'r/util/redux'
 
@@ -8,6 +9,7 @@ import {
 	UPDATE_SESSION,
 	FETCH_SESSION_LIST,
 	FETCH_SESSION,
+	REMOVE_SESSION,
 } from './action-types'
 
 export type Session = {|
@@ -42,4 +44,6 @@ export default createReducer(initialState, {
 	[success(FETCH_SESSION)]: updateOne,
 	[success(CREATE_SESSION)]: updateOne,
 	[success(UPDATE_SESSION)]: updateOne,
+	[REMOVE_SESSION]: (state: State, sessionId: number) =>
+		omit(state, sessionId.toString()),
 })

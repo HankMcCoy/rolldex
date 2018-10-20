@@ -2,11 +2,14 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import XSvg from 'r/svg/x'
 
+const size = 34
+
 const XBtnRoot = styled.button`
 	background: none;
 	border: none;
-	width: 34px;
-	height: 34px;
+	width: ${size}px;
+	height: ${size}px;
+	flex: 0 0 ${size}px;
 	display: flex;
 	align-items: center;
 	justify-content: center;

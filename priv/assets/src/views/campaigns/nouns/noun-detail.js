@@ -26,6 +26,7 @@ import ThingSvg from 'r/svg/thing'
 import FactionSvg from 'r/svg/faction'
 
 import RelatedSessions from './related-sessions'
+import { getNounTypeTitle, getNounTypePathToken } from './util'
 
 const nounTypeToSvg: { [NounType]: React.Node } = {
 	PERSON: <PersonSvg />,
@@ -57,6 +58,7 @@ function NounDetail({ noun, campaign }: Props) {
 	if (!noun || !campaign) return <LoadingPage />
 	const { name, summary, notes, private_notes, noun_type } = noun
 	const typeSvg = nounTypeToSvg[noun_type]
+	const nounTypeTitle = getNounTypeTitle(noun_type)
 	return (
 		<IsOwner campaign={campaign}>
 			{isOwner => (
@@ -66,6 +68,12 @@ function NounDetail({ noun, campaign }: Props) {
 						breadcrumbs={[
 							{ text: 'Campaigns', to: '/campaigns' },
 							{ text: campaign.name, to: `/campaigns/${campaign.id}` },
+							{
+								text: nounTypeTitle,
+								to: `/campaigns/${campaign.id}/nouns/${getNounTypePathToken(
+									noun_type
+								)}`,
+							},
 						]}
 						controls={
 							isOwner ? (

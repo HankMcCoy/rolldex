@@ -5,16 +5,11 @@ import styled from 'react-emotion'
 import H2 from './h2'
 import Spacer from './spacer'
 import AddBtn from './add-btn'
+import { List } from './lists'
 
 const Header = styled.div`
 	display: flex;
 	justify-content: space-between;
-`
-
-const List = styled.div`
-	& > *:not(:last-child) {
-		margin-bottom: 10px;
-	}
 `
 
 type Props = {

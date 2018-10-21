@@ -2,7 +2,7 @@
 import styled from 'react-emotion'
 import { Link } from 'react-router-dom'
 
-import { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 
 export const UnstyledButton = styled.button`
 	background: none;
@@ -30,13 +30,22 @@ export const UnstyledLink = styled(Link)`
 export const LinkButton = Button.withComponent(UnstyledLink)
 
 export const PrimaryButton = styled(Button)`
-	background: ${fromTheme('primaryGreen')};
-	color: ${fromTheme('white')};
+	background: ${theme.primaryGreen};
+	color: ${theme.white};
+	&:hover {
+		background: ${theme.primaryGreenLight};
+	}
 `
 
 export const SecondaryButton = styled(Button)`
-	border: 1px solid ${fromTheme('gray20')};
-	color: ${fromTheme('gray20')};
+	border: 1px solid ${theme.gray87};
+	color: ${theme.gray38};
+	&:hover {
+		border-color: ${theme.gray38};
+		color: ${theme.gray20};
+	}
 `
+
+export const SecondaryLinkButton = SecondaryButton.withComponent(UnstyledLink)
 
 export default Button

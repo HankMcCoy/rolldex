@@ -4,6 +4,7 @@ import get from 'lodash-es/get'
 const gray20 = '#333333'
 const gray30 = '#484D4B'
 const gray38 = '#5A605E'
+const gray50 = '#888'
 const gray87 = '#ddd'
 const gray97 = '#F8F8F8'
 const white = '#fff'
@@ -13,6 +14,7 @@ const campaignText = '#696987'
 const campaignColorLight = '#E4E4ED'
 const systemColor = '#417F9C'
 const primaryGreen = '#3BA170'
+const primaryGreenLight = '#44BA81'
 
 export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
 	get(theme, path)
@@ -22,6 +24,7 @@ const theme = {
 	gray20,
 	gray30,
 	gray38,
+	gray50,
 	gray87,
 	gray97,
 	white,
@@ -30,6 +33,7 @@ const theme = {
 	campaignColorLight,
 	systemColor,
 	primaryGreen,
+	primaryGreenLight,
 	textColor: gray20,
 
 	// SIZES

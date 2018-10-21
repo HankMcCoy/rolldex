@@ -32,3 +32,13 @@ export const getSubAppColor = ({
 	const subApp = getSubApp(match.path)
 	return theme[subAppColors[subApp]]
 }
+
+export const getFirstNByDateUpdated = <T: { updated_at: string }>(
+	arr: Array<T>,
+	n: number
+): Array<T> => {
+	return arr
+		.slice()
+		.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+		.slice(0, n)
+}

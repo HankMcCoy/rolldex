@@ -3,6 +3,8 @@
 import * as React from 'react'
 import styled from 'react-emotion'
 
+import ScrollToTop from 'r/components/scroll-to-top'
+
 import Sidebar from './sidebar'
 
 const Root = styled('div')`
@@ -32,7 +34,9 @@ export default function Layout({ children }: Props) {
 			<SidebarContainer>
 				<Sidebar />
 			</SidebarContainer>
-			<ContentContainer>{children}</ContentContainer>
+			<ScrollToTop>
+				<ContentContainer>{children}</ContentContainer>
+			</ScrollToTop>
 		</Root>
 	)
 }

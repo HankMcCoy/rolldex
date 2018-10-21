@@ -7,7 +7,8 @@ import { type Match, withRouter, Link } from 'react-router-dom'
 import H1 from 'r/components/h1'
 import Spacer from 'r/components/spacer'
 import { LinkButton } from 'r/components/button'
-import { fromTheme } from 'r/theme'
+import theme, { fromTheme } from 'r/theme'
+import ArrowSvg from 'r/svg/arrow'
 import { getSubAppColor, intersperse } from 'r/util'
 
 const Root = styled('div')`
@@ -48,17 +49,25 @@ const Breadcrumb = styled(Link)`
 	color: ${fromTheme('white')};
 `
 
-const Separator = styled.div`
-	display: flex;
-	color: ${fromTheme('white')};
-	&::before {
-		content: '>';
-		display: block;
-		text-align: center;
-		line-height: 40px;
-		width: 15px;
-	}
-`
+const Separator = () => (
+	<div
+		css={`
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 40px;
+			width: 15px;
+			stroke: ${theme.white};
+			position: relative;
+			top: 1px;
+			& > svg {
+				width: 50%;
+			}
+		`}
+	>
+		<ArrowSvg />
+	</div>
+)
 
 export const HeaderButton = styled(LinkButton)`
 	width: auto;
@@ -98,9 +107,7 @@ function PageHeader({
 									{text}
 								</Breadcrumb>
 							)),
-							i => (
-								<Separator key={`sep-${i}`} />
-							)
+							i => <Separator key={`sep-${i}`} />
 						)}
 					</BreadcrumbsWrapper>
 				)}

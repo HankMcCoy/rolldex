@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { type Match } from 'react-router-dom'
 import flowRight from 'lodash-es/flowRight'
+import sortBy from 'lodash-es/sortBy'
 
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
@@ -26,7 +27,10 @@ type Props = {|
 function NounTypeList({ campaign, nouns: allNouns, removeNoun, match }: Props) {
 	const nounType = getNounTypeFromPathToken(match.params.nounType)
 	if (!campaign || !allNouns) return <LoadingPage />
-	const relevantNouns = allNouns.filter((n: Noun) => n.noun_type === nounType)
+	const relevantNouns = sortBy(
+		allNouns.filter((n: Noun) => n.noun_type === nounType),
+		'name'
+	)
 	return (
 		<React.Fragment>
 			<PageHeader

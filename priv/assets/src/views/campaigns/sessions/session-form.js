@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react'
 import styled from 'react-emotion'
-import { Formik } from 'formik'
 
 import { fromTheme } from 'r/theme'
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
+
+import { type DraftSession } from 'r/data/sessions'
 
 const FormWrapper = styled.div`
 	max-width: ${fromTheme('largeFormWidth')}px;
@@ -24,68 +25,65 @@ const ButtonsWrapper = styled.div`
 	justify-content: flex-end;
 `
 
-type Values = {|
+export type Values = {|
 	name: string,
 	summary: string,
 	notes: string,
 	privateNotes: string,
 |}
+
+export const convertValuesToDraftSession = (
+	values: Values
+): $Diff<DraftSession, { campaign_id: number }> => {
+	const { name, summary, notes, privateNotes } = values
+	return {
+		name,
+		summary,
+		notes,
+		private_notes: privateNotes,
+	}
+}
+
 type Props = {
-	initialValues: Values,
-	onSubmit: (Values, *) => void,
+	handleSubmit: (event: any) => void,
 	onCancel: () => void,
 }
-export default function SessionForm({
-	initialValues,
-	onSubmit,
-	onCancel,
-}: Props) {
+export default function SessionForm({ handleSubmit, onCancel }: Props) {
 	return (
 		<FormWrapper>
-			<Formik
-				initialValues={initialValues}
-				onSubmit={onSubmit}
-				render={({ handleSubmit }) => (
-					<form onSubmit={handleSubmit}>
-						<FormField name="name" label="Name" validate={required} autoFocus />
-						<Spacer height={20} />
-						<FormField
-							name="summary"
-							label="Summary"
-							component="textarea"
-							rows={3}
-							validate={required}
-						/>
-						<Spacer height={20} />
-						<FormField
-							name="notes"
-							label="Notes"
-							component="textarea"
-							rows={15}
-						/>
-						<Spacer height={20} />
-						<FormField
-							name="privateNotes"
-							label="Private Notes"
-							component="textarea"
-							rows={15}
-						/>
-						<Spacer height={20} />
-						<ButtonsWrapper>
-							<SecondaryButton
-								onClick={e => {
-									e.preventDefault()
-									onCancel()
-								}}
-							>
-								Cancel
-							</SecondaryButton>
-							<Spacer width={10} />
-							<PrimaryButton type="submit">Save</PrimaryButton>
-						</ButtonsWrapper>
-					</form>
-				)}
-			/>
+			<form onSubmit={handleSubmit}>
+				<FormField name="name" label="Name" validate={required} autoFocus />
+				<Spacer height={20} />
+				<FormField
+					name="summary"
+					label="Summary"
+					component="textarea"
+					rows={3}
+					validate={required}
+				/>
+				<Spacer height={20} />
+				<FormField name="notes" label="Notes" component="textarea" rows={15} />
+				<Spacer height={20} />
+				<FormField
+					name="privateNotes"
+					label="Private Notes"
+					component="textarea"
+					rows={15}
+				/>
+				<Spacer height={20} />
+				<ButtonsWrapper>
+					<SecondaryButton
+						onClick={e => {
+							e.preventDefault()
+							onCancel()
+						}}
+					>
+						Cancel
+					</SecondaryButton>
+					<Spacer width={10} />
+					<PrimaryButton type="submit">Save</PrimaryButton>
+				</ButtonsWrapper>
+			</form>
 		</FormWrapper>
 	)
 }

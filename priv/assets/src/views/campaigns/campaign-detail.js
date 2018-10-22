@@ -6,7 +6,7 @@ import flowRight from 'lodash-es/flowRight'
 import { IsOwner } from 'r/contexts/auth'
 import { getFirstNByDateUpdated } from 'r/util'
 
-import PageHeader, { HeaderButton } from 'r/components/page-header'
+import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
@@ -59,9 +59,9 @@ function CampaignDetail({
 						breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
 						controls={
 							isOwner ? (
-								<HeaderButton to={`/campaigns/${campaign.id}/edit`}>
+								<HeaderLinkButton to={`/campaigns/${campaign.id}/edit`}>
 									Edit
-								</HeaderButton>
+								</HeaderLinkButton>
 							) : null
 						}
 					/>

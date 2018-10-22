@@ -6,7 +6,7 @@ import { type Match, withRouter, Link } from 'react-router-dom'
 
 import H1 from 'r/components/h1'
 import Spacer from 'r/components/spacer'
-import { LinkButton } from 'r/components/button'
+import { Button, LinkButton } from 'r/components/button'
 import theme, { fromTheme } from 'r/theme'
 import ArrowSvg from 'r/svg/arrow'
 import { getSubAppColor, intersperse } from 'r/util'
@@ -69,12 +69,31 @@ const Separator = () => (
 	</div>
 )
 
-export const HeaderButton = styled(LinkButton)`
+export const HeaderButton = styled(Button)`
 	width: auto;
 	height: 45px;
 	padding: 0 15px;
 	border: 1px solid ${fromTheme('white')};
 	color: ${fromTheme('white')};
+	&:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
+`
+
+export const SecondaryHeaderButton = styled(HeaderButton)`
+	border: none;
+`
+
+export const HeaderLinkButton = HeaderButton.withComponent(LinkButton)
+export const SecondaryHeaderLinkButton = SecondaryHeaderButton.withComponent(
+	LinkButton
+)
+
+export const ControlsWrapper = styled.div`
+	display: flex;
+	& > *:not(:first-child) {
+		margin-left: 10px;
+	}
 `
 
 type BreadcrumbDesc = {

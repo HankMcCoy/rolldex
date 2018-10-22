@@ -3,6 +3,7 @@ import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
 import { withRouter } from 'react-router-dom'
 import { type History } from 'history'
+import { Formik } from 'formik'
 
 import { connect } from 'r/util/redux'
 
@@ -13,11 +14,15 @@ import { withNoun } from 'r/data/nouns/connectors'
 import type { Campaign } from 'r/data/campaigns'
 import { withCampaign } from 'r/data/campaigns/connectors'
 
-import PageHeader from 'r/components/page-header'
+import PageHeader, {
+	HeaderButton,
+	SecondaryHeaderButton,
+	ControlsWrapper,
+} from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
-import NounForm from './noun-form'
+import NounForm, { type Values, convertValuesToDraftNoun } from './noun-form'
 
 type Props = {
 	campaign: Campaign,
@@ -25,47 +30,60 @@ type Props = {
 	history: History,
 	updateNoun: Noun => Promise<Noun>,
 }
+
 function EditNoun({ campaign, noun, history, updateNoun }: Props) {
 	if (!campaign || !noun) return <LoadingPage />
+	const onCancel = () => {
+		history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+	}
 	return (
-		<React.Fragment>
-			<PageHeader
-				title={`Edit ${noun.name}`}
-				breadcrumbs={[
-					{ text: 'Campaigns', to: '/campaigns' },
-					{ text: campaign.name, to: `/campaigns/${campaign.id}` },
-				]}
-			/>
-			<PageContent>
-				<NounForm
-					initialValues={{
-						name: noun.name,
-						summary: noun.summary,
-						notes: noun.notes,
-						privateNotes: noun.private_notes,
-						nounType: noun.noun_type,
-					}}
-					onSubmit={(values, { setSubmitting }) => {
-						const { name, summary, notes, privateNotes, nounType } = values
-						if (!nounType) throw new Error('Noun type required')
-						updateNoun({
-							...noun,
-							name,
-							summary,
-							notes,
-							private_notes: privateNotes,
-							noun_type: nounType,
-						}).then(noun => {
-							setSubmitting(false)
-							history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
-						})
-					}}
-					onCancel={() => {
-						history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
-					}}
-				/>
-			</PageContent>
-		</React.Fragment>
+		<Formik
+			initialValues={{
+				name: noun.name,
+				summary: noun.summary,
+				notes: noun.notes,
+				privateNotes: noun.private_notes,
+				nounType: noun.noun_type,
+			}}
+			onSubmit={(values: Values, { setSubmitting }) => {
+				const draftNoun = convertValuesToDraftNoun(values)
+				updateNoun({
+					...noun,
+					...draftNoun,
+				}).then(noun => {
+					setSubmitting(false)
+					history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+				})
+			}}
+			render={({ handleSubmit }) => (
+				<React.Fragment>
+					<PageHeader
+						title={`Edit ${noun.name}`}
+						breadcrumbs={[
+							{ text: 'Campaigns', to: '/campaigns' },
+							{ text: campaign.name, to: `/campaigns/${campaign.id}` },
+						]}
+						controls={
+							<ControlsWrapper>
+								<SecondaryHeaderButton
+									onClick={e => {
+										onCancel()
+									}}
+								>
+									Cancel
+								</SecondaryHeaderButton>
+								<HeaderButton type="submit" onClick={() => handleSubmit()}>
+									Save
+								</HeaderButton>
+							</ControlsWrapper>
+						}
+					/>
+					<PageContent>
+						<NounForm handleSubmit={handleSubmit} onCancel={onCancel} />
+					</PageContent>
+				</React.Fragment>
+			)}
+		/>
 	)
 }
 

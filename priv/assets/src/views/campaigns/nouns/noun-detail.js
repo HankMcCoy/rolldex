@@ -4,7 +4,7 @@ import flowRight from 'lodash-es/flowRight'
 import styled from 'react-emotion'
 
 import { fromTheme } from 'r/theme'
-import PageHeader, { HeaderButton } from 'r/components/page-header'
+import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageWithSidebar from 'r/components/page-with-sidebar'
 import TextSection from 'r/components/text-section'
@@ -77,11 +77,11 @@ function NounDetail({ noun, campaign }: Props) {
 						]}
 						controls={
 							isOwner ? (
-								<HeaderButton
+								<HeaderLinkButton
 									to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}
 								>
 									Edit
-								</HeaderButton>
+								</HeaderLinkButton>
 							) : null
 						}
 					/>

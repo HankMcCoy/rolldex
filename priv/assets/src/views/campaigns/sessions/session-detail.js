@@ -2,7 +2,7 @@
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
 
-import PageHeader, { HeaderButton } from 'r/components/page-header'
+import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import TextSection from 'r/components/text-section'
 import Spacer from 'r/components/spacer'
@@ -38,11 +38,11 @@ function SessionDetail({ session, campaign }: Props) {
 						]}
 						controls={
 							isOwner ? (
-								<HeaderButton
+								<HeaderLinkButton
 									to={`/campaigns/${campaign.id}/sessions/${session.id}/edit`}
 								>
 									Edit
-								</HeaderButton>
+								</HeaderLinkButton>
 							) : null
 						}
 					/>

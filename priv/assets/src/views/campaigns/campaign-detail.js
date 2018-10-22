@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import flowRight from 'lodash-es/flowRight'
+import sortBy from 'lodash-es/sortBy'
 
 import { IsOwner } from 'r/contexts/auth'
 import { getFirstNByDateUpdated } from 'r/util'
@@ -105,34 +106,36 @@ function CampaignDetail({
 									addPath={`/campaigns/${id}/sessions/add`}
 									canEdit={isOwner}
 								>
-									{getFirstNByDateUpdated(sessions, 3).map(s => (
-										<PlainLink
-											key={s.id}
-											to={`/campaigns/${campaign.id}/sessions/${s.id}`}
-											display="block"
-										>
-											<NotableCard
-												title={s.name}
-												summary={s.summary}
-												onRemove={
-													isOwner
-														? ({ clickEvent }) => {
-																clickEvent.preventDefault()
-																if (
-																	window.confirm(
-																		`Are you sure you want to remove "${
-																			s.name
-																		}"? This is not reversable.`
-																	)
-																) {
-																	removeSession(id, s.id)
-																}
-														  }
-														: undefined
-												}
-											/>
-										</PlainLink>
-									))}
+									{sortBy(sessions, 'inserted_at')
+										.reverse()
+										.map(s => (
+											<PlainLink
+												key={s.id}
+												to={`/campaigns/${campaign.id}/sessions/${s.id}`}
+												display="block"
+											>
+												<NotableCard
+													title={s.name}
+													summary={s.summary}
+													onRemove={
+														isOwner
+															? ({ clickEvent }) => {
+																	clickEvent.preventDefault()
+																	if (
+																		window.confirm(
+																			`Are you sure you want to remove "${
+																				s.name
+																			}"? This is not reversable.`
+																		)
+																	) {
+																		removeSession(id, s.id)
+																	}
+															  }
+															: undefined
+													}
+												/>
+											</PlainLink>
+										))}
 								</AddableList>
 							</Column>
 							<Column>

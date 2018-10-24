@@ -5,7 +5,6 @@ import flowRight from 'lodash-es/flowRight'
 import sortBy from 'lodash-es/sortBy'
 
 import { IsOwner } from 'r/contexts/auth'
-import { getFirstNByDateUpdated } from 'r/util'
 
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'

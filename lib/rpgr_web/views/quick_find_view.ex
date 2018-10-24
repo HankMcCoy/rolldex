@@ -3,7 +3,6 @@ defmodule RpgrWeb.QuickFindView do
   alias RpgrWeb.QuickFindView
 
   def render("index.json", %{results: results}) do
-    IO.puts(inspect(results))
     %{data: render_many(results, QuickFindView, "result.json")}
   end
 

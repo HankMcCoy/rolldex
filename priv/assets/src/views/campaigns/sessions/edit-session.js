@@ -6,7 +6,7 @@ import { type History } from 'history'
 import { Formik } from 'formik'
 
 import { connect } from 'r/util/redux'
-import { type Session, type DraftSession } from 'r/data/sessions'
+import { type Session } from 'r/data/sessions'
 import { withSession } from 'r/data/sessions/connectors'
 import { updateSession } from 'r/data/sessions/action-creators'
 import type { Campaign } from 'r/data/campaigns'

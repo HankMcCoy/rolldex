@@ -2,9 +2,7 @@ defmodule RpgrWeb.CampaignMemberController do
   use RpgrWeb, :controller
 
   alias Rpgr.Auth
-  alias Rpgr.Auth.User
   alias Rpgr.CampaignContext
-  alias Rpgr.CampaignContext.Campaign
   alias Rpgr.CampaignContext.Member
   require Logger
 

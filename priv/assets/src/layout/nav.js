@@ -5,10 +5,9 @@ import styled from 'react-emotion'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import flowRight from 'lodash-es/flowRight'
 
-import { withCampaignList } from 'r/data/campaigns/connectors'
-import type { Campaign } from 'r/data/campaigns'
+import { useCampaignList } from 'r/domains/campaigns'
 import theme, { fromTheme } from 'r/theme'
-import { CurUser } from 'r/contexts/auth'
+import { useCurUser } from 'r/domains/auth'
 import { UnstyledButton } from 'r/components/button'
 import { callApi } from 'r/util/api'
 
@@ -44,10 +43,9 @@ const ChildLink = styled(CommonLink)`
   }
 `
 
-type Props = {
-	campaigns: Array<Campaign> | void,
-}
-function Nav({ systems, campaigns }: Props) {
+function Nav() {
+	const { list: campaigns } = useCampaignList(['name'])
+	const curUser = useCurUser()
 	return (
 		<div
 			css={`
@@ -98,7 +96,7 @@ function Nav({ systems, campaigns }: Props) {
 						font-weight: 500;
 					`}
 				>
-					<CurUser>{curUser => curUser && curUser.email}</CurUser>
+					{curUser.email}
 				</div>
 				<UnstyledButton
 					css={`
@@ -132,6 +130,5 @@ function Nav({ systems, campaigns }: Props) {
 
 export default flowRight(
 	// Including withRouter to force a rerender when the location updates
-	withRouter,
-	withCampaignList
+	withRouter
 )(Nav)

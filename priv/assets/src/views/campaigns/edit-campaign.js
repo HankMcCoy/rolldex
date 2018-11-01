@@ -1,27 +1,25 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
-import { withRouter } from 'react-router-dom'
-import { type History } from 'history'
 
-import { connect } from 'r/util/redux'
-import type { Campaign } from 'r/data/campaigns'
-import { updateCampaign } from 'r/data/campaigns/action-creators'
-import { withCampaign } from 'r/data/campaigns/connectors'
+import {
+	useCampaign,
+	useCampaignId,
+	useCampaignMutations,
+} from 'r/domains/campaigns'
+import { useHistory } from 'r/util/router'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
 import CampaignForm from './campaign-form'
 
-type Props = {
-	history: History,
-	campaign: Campaign,
-	updateCampaign: Campaign => Promise<Campaign>,
-}
-function EditCampaign({ campaign, history, updateCampaign }: Props) {
-	if (!campaign) return <LoadingPage />
-	return (
+export default function EditCampaign() {
+	const campaignId = useCampaignId()
+	const { datum: campaign } = useCampaign(campaignId)
+	const { update } = useCampaignMutations()
+	const history = useHistory()
+
+	return campaign ? (
 		<React.Fragment>
 			<PageHeader
 				title={`Edit ${campaign.name}`}
@@ -35,11 +33,11 @@ function EditCampaign({ campaign, history, updateCampaign }: Props) {
 					}}
 					onSubmit={(values, { setSubmitting }) => {
 						const { name, description } = values
-						updateCampaign({
+						update({
 							...campaign,
 							name,
 							description,
-						}).then(noun => {
+						}).then(() => {
 							setSubmitting(false)
 							history.push(`/campaigns/${campaign.id}`)
 						})
@@ -50,15 +48,7 @@ function EditCampaign({ campaign, history, updateCampaign }: Props) {
 				/>
 			</PageContent>
 		</React.Fragment>
+	) : (
+		<LoadingPage />
 	)
 }
-
-export default flowRight(
-	withCampaign(({ match: { params } }) => +params.campaignId),
-	withRouter,
-	connect({
-		actionCreators: {
-			updateCampaign,
-		},
-	})
-)(EditCampaign)

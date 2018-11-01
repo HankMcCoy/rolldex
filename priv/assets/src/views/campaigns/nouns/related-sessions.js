@@ -2,15 +2,13 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'react-emotion'
-import flowRight from 'lodash-es/flowRight'
-import omit from 'lodash-es/omit'
 import sortBy from 'lodash-es/sortBy'
-import { withState, lifecycle, mapProps } from 'recompose'
 
-import type { Session } from 'r/data/sessions'
+import type { Noun } from 'r/domains/nouns'
 import H2 from 'r/components/h2'
 import Spacer from 'r/components/spacer'
 import { callApi } from 'r/util/api'
+import { useState, useEffect } from 'r/util/react-hooks'
 
 const Root = styled.div`
 	padding: 20px;
@@ -33,11 +31,23 @@ const SessionLink = ({ session, campaignId }) => (
 	</li>
 )
 
-type Props = {
-	sessions: Array<Session> | void,
+type Props = {|
 	campaignId: number,
-}
-function RelatedSessions({ sessions, campaignId }: Props) {
+	noun: Noun,
+|}
+export default function RelatedSessions({ campaignId, noun }: Props) {
+	const [sessions, setSessions] = useState([])
+	useEffect(
+		() => {
+			callApi({
+				path: `/api/campaigns/${campaignId}/nouns/${noun.id}/related-sessions`,
+				method: 'GET',
+			}).then(({ data: sessions }) => {
+				setSessions(sortBy(sessions, 'inserted_at'))
+			})
+		},
+		[campaignId, noun.id]
+	)
 	if (!sessions) return null
 
 	return (
@@ -56,19 +66,3 @@ function RelatedSessions({ sessions, campaignId }: Props) {
 		</Root>
 	)
 }
-
-export default flowRight(
-	withState('sessions', 'setSessions', []),
-	lifecycle({
-		componentDidMount() {
-			const { setSessions, campaignId, noun } = this.props
-			callApi({
-				path: `/api/campaigns/${campaignId}/nouns/${noun.id}/related-sessions`,
-				method: 'GET',
-			}).then(({ data: sessions }) => {
-				setSessions(sortBy(sessions, 'inserted_at'))
-			})
-		},
-	}),
-	mapProps(props => omit(props, ['setSessions']))
-)(RelatedSessions)

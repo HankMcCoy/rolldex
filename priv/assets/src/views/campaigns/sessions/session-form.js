@@ -8,7 +8,7 @@ import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
 
-import { type DraftSession } from 'r/data/sessions'
+import { type DraftSession } from 'r/domains/sessions'
 
 const FormWrapper = styled.div`
 	max-width: ${fromTheme('largeFormWidth')}px;

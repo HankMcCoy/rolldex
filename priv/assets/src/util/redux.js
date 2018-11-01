@@ -1,9 +1,10 @@
 // @flow
 
 import { connect as reduxConnect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { combineReducers as combineReducersImpl, bindActionCreators } from 'redux'
 import mapValues from 'lodash-es/mapValues'
 import partial from 'lodash-es/partial'
+
 import { callApi } from './api'
 
 export type Action<Payload, Metadata = void> = {
@@ -97,3 +98,8 @@ export const connect = ({ selectors, actionCreators }: ConnectArgs) =>
 		selectors ? mapStateToSelectors(selectors) : null,
 		actionCreators ? partial(bindActionCreators, actionCreators) : null
 	)
+
+export const combineReducers = <T: {}>(reducerMap: T) => {
+	const result = combineReducersImpl(reducerMap)
+	return result
+}

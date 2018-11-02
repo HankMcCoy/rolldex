@@ -11,6 +11,8 @@ import {
 	useReducer as useReducerImpl,
 	// $FlowFixMe
 	useMemo as useMemoImpl,
+	// $FlowFixMe
+	useRef as useRefImpl,
 } from 'react'
 import { type Reducer } from 'redux'
 
@@ -32,3 +34,6 @@ export const useReducer: UseReducer = useReducerImpl
 
 type UseMemo = <T>(() => T, ?Array<any>) => T
 export const useMemo: UseMemo = useMemoImpl
+
+type UseRef = <T>(?T) => { (): void, current: T }
+export const useRef: UseRef = useRefImpl

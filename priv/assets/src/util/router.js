@@ -1,4 +1,5 @@
 import { __RouterContext } from 'react-router'
+import { type Location } from 'react-router-dom'
 import { type History } from 'history'
 import { useContext } from 'r/util/react-hooks'
 
@@ -15,4 +16,8 @@ export const useRouteId = (paramName: string): ?number => {
 export const useHistory = (): History => {
 	const { history }: { history: History } = useContext(__RouterContext)
 	return history
+}
+export const useLocation = (): Location => {
+	const { location }: { location: Location } = useContext(__RouterContext)
+	return location
 }

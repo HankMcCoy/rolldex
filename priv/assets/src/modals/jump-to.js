@@ -1,10 +1,11 @@
 // @flow
 import * as React from 'react'
-import ReactDOM from 'react-dom'
 import theme from 'r/theme'
-import { type Match, type Location, withRouter, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { callApi } from 'r/util/api'
+import { useState, useMemo, useEffect, useRef } from 'r/util/react-hooks'
+import { useLocation } from 'r/util/router'
 import { type NounType } from 'r/domains/nouns'
 
 const w = 580
@@ -31,147 +32,129 @@ const getPath = (searchMatch: SearchMatch): string => {
 	}
 }
 
-type Props = {
-	match: Match,
-	location: Location,
-	close: () => void,
-}
-type State = {|
-	value: string,
-	searchMatches: Array<SearchMatch>,
-	selectedMatchIdx: number,
-|}
-class JumpTo extends React.Component<Props, State> {
-	state = {
-		value: '',
-		searchMatches: [],
-		selectedMatchIdx: 0,
-	}
-	render() {
-		const { searchMatches, value, selectedMatchIdx } = this.state
-		const { close } = this.props
-		return (
-			<div
-				css={`
-					position: absolute;
-					top: 20vh;
-					left: calc(50% - ${w / 2}px);
-				`}
-			>
-				<input
-					css={`
-						width: ${w}px;
-						height: ${h}px;
-						padding: 20px 32px;
-						border: 1px solid ${theme.gray87};
-						border-radius: 2px;
-						&:focus {
-							outline: none;
-						}
-					`}
-					placeholder="Jump to..."
-					onChange={this.handleChange}
-					value={value}
-				/>
-				<div>
-					{searchMatches.map((m, i) => {
-						const isSelected = selectedMatchIdx === i
-						return (
-							<Link
-								key={i}
-								css={`
-									padding: 10px 32px;
-									background: ${isSelected ? theme.campaignColor : theme.white};
-									color: ${isSelected ? theme.white : theme.textColor};
-									text-decoration: none;
-									display: block;
-								`}
-								to={getPath(m)}
-								onClick={() => {
-									close()
-								}}
-							>
-								{m.name}
-							</Link>
-						)
-					})}
-				</div>
-			</div>
-		)
-	}
-	componentDidMount() {
-		const rootEl = ReactDOM.findDOMNode(this)
-		if (rootEl && rootEl instanceof Element) {
-			const inputEl = rootEl.querySelector('input')
-			if (inputEl) {
-				inputEl.focus()
-			}
-		}
-		document.addEventListener('keydown', this.handleKeydown)
-	}
-	componentWillUnmount() {
-		document.removeEventListener('keydown', this.handleKeydown)
-	}
-	handleKeydown = (e: KeyboardEvent) => {
-		const rootEl = ReactDOM.findDOMNode(this)
-		const wrapSelection = selectedIdx => {
-			const { searchMatches } = this.state
-			if (searchMatches.length === 0) {
-				return 0
-			}
-			if (selectedIdx === -1) {
-				return searchMatches.length - 1
-			}
-			if (selectedIdx === searchMatches.length) {
-				return 0
-			}
-			return selectedIdx
-		}
-		if (e.key === 'ArrowDown') {
-			this.setState(state => ({
-				selectedMatchIdx: wrapSelection(state.selectedMatchIdx + 1),
-			}))
-		}
-		if (e.key === 'ArrowUp') {
-			this.setState(state => ({
-				selectedMatchIdx: wrapSelection(state.selectedMatchIdx - 1),
-			}))
-		}
-		if (e.key === 'Enter') {
-			const { searchMatches, selectedMatchIdx } = this.state
-			if (searchMatches.length && rootEl && rootEl instanceof Element) {
-				const linkEls = [...rootEl.querySelectorAll('a')]
-				linkEls[selectedMatchIdx].click()
-				this.props.close()
-			}
-		}
-	}
-	handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
-		const { value } = e.currentTarget
-		this.setState({
-			value,
-		})
-		const idMatch = new RegExp('/campaigns/([0-9]+)(?:/|$)').exec(
-			this.props.location.pathname
-		)
-		if (idMatch) {
-			const campaign_id = parseInt(idMatch[1], 10)
-
-			getQuickSearchMatches(value, campaign_id).then(searchMatches => {
-				this.setState({ searchMatches })
-			})
-		}
-	}
-}
-
-function getQuickSearchMatches(
+const getQuickSearchMatches = (
 	q: string,
 	campaign_id: number
-): Promise<Array<SearchMatch>> {
+): Promise<Array<SearchMatch>> => {
 	return callApi({
 		method: 'GET',
 		path: `/api/campaigns/${campaign_id}/quick-find?q=${q}`,
 	}).then(({ data }) => data)
 }
 
-export default withRouter(JumpTo)
+const wrapSelection = (idx, count) => {
+	if (count === 0) return 0
+	if (idx === -1) return count - 1
+	if (idx === count) return 0
+	return idx
+}
+
+export default function JumpTo({ close }: { close: () => void }) {
+	const [searchMatches, setSearchMatches] = useState<Array<SearchMatch>>([])
+	const [value, setValue] = useState('')
+	const [selectedMatchIdx, setSelectedMatchIdx] = useState(0)
+	const location = useLocation()
+	const rootElRef = useRef()
+
+	const handleKeydown = (e: KeyboardEvent) => {
+		const rootEl = rootElRef.current
+
+		if (e.key === 'ArrowDown') {
+			setSelectedMatchIdx(idx => wrapSelection(idx + 1, searchMatches.length))
+		}
+		if (e.key === 'ArrowUp') {
+			setSelectedMatchIdx(idx => wrapSelection(idx - 1, searchMatches.length))
+		}
+		if (e.key === 'Enter') {
+			if (searchMatches.length && rootEl && rootEl instanceof Element) {
+				const linkEls = [...rootEl.querySelectorAll('a')]
+				const linkEl = linkEls[selectedMatchIdx]
+				if (e.ctrlKey || e.metaKey) {
+					window.open(linkEl.getAttribute('href'), '_blank')
+				} else {
+					linkEl.click()
+				}
+				close()
+			}
+		}
+	}
+
+	const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
+		const { value } = e.currentTarget
+		setValue(value)
+		const idMatch = new RegExp('/campaigns/([0-9]+)(?:/|$)').exec(
+			location.pathname
+		)
+		if (idMatch) {
+			const campaign_id = parseInt(idMatch[1], 10)
+
+			getQuickSearchMatches(value, campaign_id).then(searchMatches => {
+				setSearchMatches(searchMatches)
+			})
+		}
+	}
+
+	useEffect(() => {
+		const rootEl = rootElRef.current
+		if (rootEl) {
+			const inputEl = rootEl.querySelector('input')
+			if (inputEl) {
+				inputEl.focus()
+			}
+		}
+		document.addEventListener('keydown', handleKeydown)
+		return () => {
+			document.removeEventListener('keydown', handleKeydown)
+		}
+	})
+
+	return (
+		<div
+			css={`
+				position: absolute;
+				top: 20vh;
+				left: calc(50% - ${w / 2}px);
+			`}
+			ref={rootElRef}
+		>
+			<input
+				css={`
+					width: ${w}px;
+					height: ${h}px;
+					padding: 20px 32px;
+					border: 1px solid ${theme.gray87};
+					border-radius: 2px;
+					&:focus {
+						outline: none;
+					}
+				`}
+				placeholder="Jump to..."
+				onChange={handleChange}
+				value={value}
+			/>
+			<div>
+				{searchMatches.map((m, i) => {
+					const isSelected = selectedMatchIdx === i
+					return (
+						<Link
+							key={i}
+							css={`
+								padding: 10px 32px;
+								background: ${isSelected ? theme.campaignColor : theme.white};
+								color: ${isSelected ? theme.white : theme.textColor};
+								text-decoration: none;
+								display: block;
+							`}
+							to={getPath(m)}
+							onClick={() => {
+								close()
+							}}
+						>
+							{m.name}
+						</Link>
+					)
+				})}
+			</div>
+		</div>
+	)
+}

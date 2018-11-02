@@ -1,22 +1,16 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
-import { withRouter } from 'react-router-dom'
-import { type History } from 'history'
 
-import { connect } from 'r/util/redux'
-import type { Campaign, DraftCampaign } from 'r/data/campaigns'
-import { createCampaign } from 'r/data/campaigns/action-creators'
+import { useCampaignMutations } from 'r/domains/campaigns'
+import { useHistory } from 'r/util/router'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 
 import CampaignForm from './campaign-form'
 
-type Props = {
-	history: History,
-	createCampaign: DraftCampaign => Promise<Campaign>,
-}
-function AddCampaign({ history, createCampaign }: Props) {
+export default function AddCampaign() {
+	const { create: createCampaign } = useCampaignMutations()
+	const history = useHistory()
 	return (
 		<React.Fragment>
 			<PageHeader title="New Campaign" />
@@ -41,12 +35,3 @@ function AddCampaign({ history, createCampaign }: Props) {
 		</React.Fragment>
 	)
 }
-
-export default flowRight(
-	withRouter,
-	connect({
-		actionCreators: {
-			createCampaign,
-		},
-	})
-)(AddCampaign)

@@ -21,8 +21,9 @@ import Register from './views/auth/register'
 import reducer from './reducer'
 import ModalsPresenter from './modals/presenter'
 import { showModal, hideModal } from './modals/action-creators'
-import { AuthProvider } from './contexts/auth'
+import { AuthProvider } from './domains/auth'
 import JumpTo from './modals/jump-to'
+import { CampaignProvider } from 'r/domains/campaigns'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const storeEnhancer: StoreEnhancer<*, *, *> = composeEnhancers(
@@ -56,32 +57,34 @@ class App extends Component<{}> {
 		return (
 			<ReduxProvider store={store}>
 				<ThemeProvider theme={theme}>
-					<Router history={history}>
-						<React.Fragment>
-							<GlobalKeyListener />
-							<Switch>
-								<Route
-									exact
-									path="/"
-									render={() => <Redirect to="/campaigns" />}
-								/>
-								<Route exact path="/login" component={Login} />
-								<Route exact path="/register" component={Register} />
-								<Route
-									render={() => (
-										<AuthProvider>
-											<Layout>
-												<Switch>
-													<Route path="/campaigns" component={Campaigns} />
-												</Switch>
-											</Layout>
-										</AuthProvider>
-									)}
-								/>
-							</Switch>
-							<ModalsPresenter />
-						</React.Fragment>
-					</Router>
+					<CampaignProvider>
+						<Router history={history}>
+							<React.Fragment>
+								<GlobalKeyListener />
+								<Switch>
+									<Route
+										exact
+										path="/"
+										render={() => <Redirect to="/campaigns" />}
+									/>
+									<Route exact path="/login" component={Login} />
+									<Route exact path="/register" component={Register} />
+									<Route
+										render={() => (
+											<AuthProvider>
+												<Layout>
+													<Switch>
+														<Route path="/campaigns" component={Campaigns} />
+													</Switch>
+												</Layout>
+											</AuthProvider>
+										)}
+									/>
+								</Switch>
+								<ModalsPresenter />
+							</React.Fragment>
+						</Router>
+					</CampaignProvider>
 				</ThemeProvider>
 			</ReduxProvider>
 		)

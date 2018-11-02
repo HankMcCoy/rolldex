@@ -1,16 +1,9 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
-import { type History } from 'history'
-import { withRouter } from 'react-router-dom'
 
-import { connect } from 'r/util/redux'
-
-import type { Member, DraftMember } from 'r/data/members'
-import { createMember } from 'r/data/members/action-creators'
-
-import type { Campaign } from 'r/data/campaigns'
-import { withCampaign } from 'r/data/campaigns/connectors'
+import { useMemberMutations } from 'r/domains/members'
+import { useCurCampaign } from 'r/domains/campaigns'
+import { useHistory } from 'r/util/router'
 
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
@@ -18,12 +11,10 @@ import LoadingPage from 'r/components/loading-page'
 
 import MemberForm from './member-form'
 
-type Props = {
-	campaign: Campaign,
-	history: History,
-	createMember: DraftMember => Promise<Member>,
-}
-function AddNoun({ campaign, history, createMember }: Props) {
+export default function AddNoun() {
+	const history = useHistory()
+	const { datum: campaign } = useCurCampaign()
+	const { create: createMember } = useMemberMutations()
 	if (!campaign) return <LoadingPage />
 	return (
 		<React.Fragment>
@@ -58,13 +49,3 @@ function AddNoun({ campaign, history, createMember }: Props) {
 		</React.Fragment>
 	)
 }
-
-export default flowRight(
-	withRouter,
-	withCampaign(({ match: { params } }) => +params.campaignId),
-	connect({
-		actionCreators: {
-			createMember,
-		},
-	})
-)(AddNoun)

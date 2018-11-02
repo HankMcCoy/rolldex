@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { required } from 'r/util/formik'
 
-import type { NounType, DraftNoun } from 'r/data/nouns'
+import type { NounType, DraftNoun } from 'r/domains/nouns'
 
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'

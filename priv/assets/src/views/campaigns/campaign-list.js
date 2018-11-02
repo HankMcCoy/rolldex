@@ -9,8 +9,7 @@ import AddBtn from 'r/components/add-btn'
 import ListCard from 'r/components/list-card'
 import PlainLink from 'r/components/plain-link'
 import TitleNSummary from 'r/components/title-n-summary'
-import type { Campaign } from 'r/data/campaigns'
-import { withCampaignList } from 'r/data/campaigns/connectors'
+import { useCampaignList, type Campaign } from 'r/domains/campaigns'
 
 function CampaignCard({ campaign }: { campaign: Campaign }) {
 	return (
@@ -26,21 +25,23 @@ type Props = {
 	campaigns: Array<Campaign> | void,
 }
 function CampaignList({ campaigns }: Props) {
-	const content = campaigns
-		? intersperse(
-				campaigns.map(c => <CampaignCard campaign={c} key={c.id} />),
-				i => <Spacer height={10} key={`spacer-${i}`} />
-		  )
-		: 'Loading...'
+	const { list: campaignList, hasLoadedAll } = useCampaignList(['inserted_at'])
 	return (
 		<React.Fragment>
 			<PageHeader
 				title="Campaigns"
 				controls={<AddBtn to="/campaigns/add" inverted />}
 			/>
-			<PageContent>{content}</PageContent>
+			<PageContent>
+				{hasLoadedAll
+					? intersperse(
+							campaignList.map(c => <CampaignCard campaign={c} key={c.id} />),
+							i => <Spacer height={10} key={`spacer-${i}`} />
+					  )
+					: 'Loading...'}
+			</PageContent>
 		</React.Fragment>
 	)
 }
 
-export default withCampaignList(CampaignList)
+export default CampaignList

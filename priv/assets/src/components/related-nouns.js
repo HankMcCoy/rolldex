@@ -6,7 +6,7 @@ import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
 import { withState, lifecycle, mapProps } from 'recompose'
 
-import type { Noun } from 'r/data/nouns'
+import type { Noun } from 'r/domains/nouns'
 
 import H2 from 'r/components/h2'
 import Spacer from 'r/components/spacer'

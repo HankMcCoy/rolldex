@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
 import styled from 'react-emotion'
 
 import { fromTheme } from 'r/theme'
@@ -11,14 +10,11 @@ import TextSection from 'r/components/text-section'
 import RelatedNouns from 'r/components/related-nouns'
 import Spacer from 'r/components/spacer'
 
-import { IsOwner } from 'r/contexts/auth'
-import type { Noun, NounType } from 'r/data/nouns'
-import { withNoun } from 'r/data/nouns/connectors'
-
-import type { Campaign } from 'r/data/campaigns'
-import { withCampaign } from 'r/data/campaigns/connectors'
+import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
+import { type NounType, useNoun } from 'r/domains/nouns'
 
 import { callApi } from 'r/util/api'
+import { useRouteId } from 'r/util/router'
 
 import PersonSvg from 'r/svg/person'
 import PlaceSvg from 'r/svg/place'
@@ -50,95 +46,83 @@ const AvatarWrapper = styled.div`
 	}
 `
 
-type Props = {
-	noun: Noun | void,
-	campaign: Campaign | void,
-}
-function NounDetail({ noun, campaign }: Props) {
+export default function NounDetail() {
+	const { datum: campaign } = useCurCampaign()
+	const { datum: noun } = useNoun(useRouteId('nounId'))
+	const isOwner = useIsOwner(campaign)
 	if (!noun || !campaign) return <LoadingPage />
+
 	const { name, summary, notes, private_notes, noun_type } = noun
 	const typeSvg = nounTypeToSvg[noun_type]
 	const nounTypeTitle = getNounTypeTitle(noun_type)
-	return (
-		<IsOwner campaign={campaign}>
-			{isOwner => (
-				<React.Fragment>
-					<PageHeader
-						title={name}
-						breadcrumbs={[
-							{ text: 'Campaigns', to: '/campaigns' },
-							{ text: campaign.name, to: `/campaigns/${campaign.id}` },
-							{
-								text: nounTypeTitle,
-								to: `/campaigns/${campaign.id}/nouns/${getNounTypePathToken(
-									noun_type
-								)}`,
-							},
-						]}
-						controls={
-							isOwner ? (
-								<HeaderLinkButton
-									to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}
-								>
-									Edit
-								</HeaderLinkButton>
-							) : null
-						}
-					/>
-					<PageWithSidebar
-						content={
-							<React.Fragment>
-								<TextSection title="Summary">{summary}</TextSection>
-								<Spacer height={25} />
-								<TextSection title="Notes" markdown>
-									{notes}
-								</TextSection>
-								{isOwner ? (
-									<React.Fragment>
-										<Spacer height={25} />
-										<TextSection title="Private Notes" markdown>
-											{private_notes}
-										</TextSection>
-									</React.Fragment>
-								) : null}
-								<Spacer height={25} />
-							</React.Fragment>
-						}
-						sidebar={
-							<React.Fragment>
-								<AvatarWrapper>{typeSvg}</AvatarWrapper>
 
-								<RelatedNouns
-									key={`related-nouns-${noun.id}`}
-									campaignId={campaign.id}
-									getNouns={() =>
-										callApi({
-											path: `/api/campaigns/${campaign.id}/nouns/${
-												noun.id
-											}/related-nouns`,
-											method: 'GET',
-										}).then(({ data: nouns }) => nouns)
-									}
-								/>
-								<RelatedSessions
-									key={`related-sessions-${noun.id}`}
-									noun={noun}
-									campaignId={campaign.id}
-								/>
+	return (
+		<React.Fragment>
+			<PageHeader
+				title={name}
+				breadcrumbs={[
+					{ text: 'Campaigns', to: '/campaigns' },
+					{ text: campaign.name, to: `/campaigns/${campaign.id}` },
+					{
+						text: nounTypeTitle,
+						to: `/campaigns/${campaign.id}/nouns/${getNounTypePathToken(
+							noun_type
+						)}`,
+					},
+				]}
+				controls={
+					isOwner ? (
+						<HeaderLinkButton
+							to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}
+						>
+							Edit
+						</HeaderLinkButton>
+					) : null
+				}
+			/>
+			<PageWithSidebar
+				content={
+					<React.Fragment>
+						<TextSection title="Summary">{summary}</TextSection>
+						<Spacer height={25} />
+						<TextSection title="Notes" markdown>
+							{notes}
+						</TextSection>
+						{isOwner ? (
+							<React.Fragment>
+								<Spacer height={25} />
+								<TextSection title="Private Notes" markdown>
+									{private_notes}
+								</TextSection>
 							</React.Fragment>
-						}
-					/>
-				</React.Fragment>
-			)}
-		</IsOwner>
+						) : null}
+						<Spacer height={25} />
+					</React.Fragment>
+				}
+				sidebar={
+					<React.Fragment>
+						<AvatarWrapper>{typeSvg}</AvatarWrapper>
+
+						<RelatedNouns
+							key={`related-nouns-${noun.id}`}
+							campaignId={campaign.id}
+							getNouns={() =>
+								callApi({
+									path: `/api/campaigns/${campaign.id}/nouns/${
+										noun.id
+									}/related-nouns`,
+									method: 'GET',
+								}).then(({ data: nouns }) => nouns)
+							}
+						/>
+						<RelatedSessions
+							key={`related-sessions-${noun.id}`}
+							noun={noun}
+							campaignId={campaign.id}
+						/>
+					</React.Fragment>
+				}
+			/>
+		</React.Fragment>
 	)
 }
-
-const getIds = ({ match: { params } }) => ({
-	nounId: +params.nounId,
-	campaignId: +params.campaignId,
-})
-export default flowRight(
-	withNoun(getIds),
-	withCampaign(props => getIds(props).campaignId)
-)(NounDetail)

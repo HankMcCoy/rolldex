@@ -1,16 +1,10 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
-import { withRouter } from 'react-router-dom'
-import { type History } from 'history'
 import { Formik } from 'formik'
 
-import { connect } from 'r/util/redux'
-import { type Session } from 'r/data/sessions'
-import { withSession } from 'r/data/sessions/connectors'
-import { updateSession } from 'r/data/sessions/action-creators'
-import type { Campaign } from 'r/data/campaigns'
-import { withCampaign } from 'r/data/campaigns/connectors'
+import { useSession, useSessionMutations } from 'r/domains/sessions'
+import { useCurCampaign } from 'r/domains/campaigns'
+import { useRouteId, useHistory } from 'r/util/router'
 
 import PageHeader, {
 	HeaderButton,
@@ -22,14 +16,13 @@ import LoadingPage from 'r/components/loading-page'
 
 import SessionForm, { convertValuesToDraftSession } from './session-form'
 
-type Props = {
-	campaign: Campaign | void,
-	session: Session | void,
-	history: History,
-	updateSession: Session => Promise<Session>,
-}
-function EditSession({ campaign, session, history, updateSession }: Props) {
+export default function EditSession() {
+	const { datum: campaign } = useCurCampaign()
+	const { datum: session } = useSession(useRouteId('sessionId'))
+	const history = useHistory()
+	const { update: updateSession } = useSessionMutations()
 	if (!campaign || !session) return <LoadingPage />
+
 	const onCancel = () => {
 		history.push(`/campaigns/${campaign.id}`)
 	}
@@ -82,19 +75,3 @@ function EditSession({ campaign, session, history, updateSession }: Props) {
 		/>
 	)
 }
-
-const getIds = ({ match: { params } }) => ({
-	campaignId: +params.campaignId,
-	sessionId: +params.sessionId,
-})
-
-export default flowRight(
-	withRouter,
-	withCampaign(({ match: { params } }) => +params.campaignId),
-	withSession(getIds),
-	connect({
-		actionCreators: {
-			updateSession,
-		},
-	})
-)(EditSession)

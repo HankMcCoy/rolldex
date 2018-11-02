@@ -5,7 +5,7 @@ import theme from 'r/theme'
 import { type Match, type Location, withRouter, Link } from 'react-router-dom'
 
 import { callApi } from 'r/util/api'
-import { type NounType } from 'r/data/nouns'
+import { type NounType } from 'r/domains/nouns'
 
 const w = 580
 const h = 75

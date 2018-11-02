@@ -1,18 +1,10 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
-import { withRouter } from 'react-router-dom'
-import { type History } from 'history'
 import { Formik } from 'formik'
 
-import { connect } from 'r/util/redux'
-
-import type { Noun } from 'r/data/nouns'
-import { updateNoun } from 'r/data/nouns/action-creators'
-import { withNoun } from 'r/data/nouns/connectors'
-
-import type { Campaign } from 'r/data/campaigns'
-import { withCampaign } from 'r/data/campaigns/connectors'
+import { useNoun, useNounMutations } from 'r/domains/nouns'
+import { useCurCampaign } from 'r/domains/campaigns'
+import { useHistory, useRouteId } from 'r/util/router'
 
 import PageHeader, {
 	HeaderButton,
@@ -24,15 +16,14 @@ import LoadingPage from 'r/components/loading-page'
 
 import NounForm, { type Values, convertValuesToDraftNoun } from './noun-form'
 
-type Props = {
-	campaign: Campaign,
-	noun: Noun,
-	history: History,
-	updateNoun: Noun => Promise<Noun>,
-}
+export default function EditNoun() {
+	const history = useHistory()
+	const { datum: campaign } = useCurCampaign()
+	const { datum: noun } = useNoun(useRouteId('nounId'))
+	const { update: updateNoun } = useNounMutations()
 
-function EditNoun({ campaign, noun, history, updateNoun }: Props) {
 	if (!campaign || !noun) return <LoadingPage />
+
 	const onCancel = () => {
 		history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
 	}
@@ -86,18 +77,3 @@ function EditNoun({ campaign, noun, history, updateNoun }: Props) {
 		/>
 	)
 }
-
-const getIds = ({ match: { params } }) => ({
-	campaignId: +params.campaignId,
-	nounId: +params.nounId,
-})
-export default flowRight(
-	withRouter,
-	withCampaign(props => getIds(props).campaignId),
-	withNoun(getIds),
-	connect({
-		actionCreators: {
-			updateNoun,
-		},
-	})
-)(EditNoun)

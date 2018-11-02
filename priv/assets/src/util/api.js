@@ -4,7 +4,7 @@ type Args = {
 	path: string,
 	body?: any,
 }
-export const callApi = ({ method, path, body }: Args) => {
+export const callApi = ({ method, path, body }: Args): Promise<any> => {
 	return window
 		.fetch(path, {
 			method,

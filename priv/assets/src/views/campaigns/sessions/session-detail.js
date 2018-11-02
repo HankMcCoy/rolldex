@@ -18,7 +18,7 @@ import PageWithSidebar from 'r/components/page-with-sidebar'
 import RelatedNouns from 'r/components/related-nouns'
 
 export default function SessionDetail() {
-	const { datum: session } = useSession(useRouteId('sessionid'))
+	const { datum: session } = useSession(useRouteId('sessionId'))
 	const { datum: campaign } = useCurCampaign()
 	const isOwner = useIsOwner(campaign)
 	if (!session || !campaign) return <LoadingPage />

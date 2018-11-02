@@ -12,7 +12,7 @@ import ColumnView, { Column } from 'r/components/column-view'
 import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 
-import { useCampaign, useCampaignId, useIsOwner } from 'r/domains/campaigns'
+import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
 import { useSessionList } from 'r/domains/sessions'
 import { useNounList } from 'r/domains/nouns'
 import { useMemberList } from 'r/domains/members'
@@ -25,12 +25,11 @@ type Props = {
 	removeSession: (campaignId: number, sessionId: number) => Promise<void>,
 }
 function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
-	const campaignId = useCampaignId()
-	const { datum: campaign } = useCampaign(campaignId)
+	const { datum: campaign } = useCurCampaign()
 	const { list: sessionList } = useSessionList(['inserted_at'], 'DESC')
 	const { list: memberList } = useMemberList(['email'])
 	const { list: nounList } = useNounList(['name'])
-	const isOwner = useIsOwner()
+	const isOwner = useIsOwner(campaign)
 	if (!campaign || !sessionList || !memberList || !nounList)
 		return <LoadingPage />
 	const { name, description, id } = campaign
@@ -56,7 +55,7 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 						<Spacer height={25} />
 						<AddableList
 							title="Members"
-							addPath={`/campaigns/${id}/members/invite`}
+							addPath={`/campaigns/${campaign.id}/members/invite`}
 							canEdit={isOwner}
 						>
 							{memberList.map(m => (
@@ -84,7 +83,7 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 						<Spacer height={25} />
 						<AddableList
 							title="Sessions"
-							addPath={`/campaigns/${id}/sessions/add`}
+							addPath={`/campaigns/${campaign.id}/sessions/add`}
 							canEdit={isOwner}
 						>
 							{sessionList.map(s => (

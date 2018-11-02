@@ -6,10 +6,13 @@ import { Field } from 'formik'
 import H2 from 'r/components/h2'
 import Spacer from 'r/components/spacer'
 
-const Label = styled('label')`
+export const FieldLabel = styled('label')`
 	display: flex;
 	flex-direction: column;
 `
+
+export const FieldHeading = H2
+export const FieldSpacer = () => <Spacer height={10} />
 
 type Props = {
 	label: React.Node,
@@ -17,10 +20,10 @@ type Props = {
 }
 export default function FormField({ label, name, ...rest }: Props) {
 	return (
-		<Label>
-			<H2>{label}</H2>
-			<Spacer height={10} />
+		<FieldLabel>
+			<FieldHeading>{label}</FieldHeading>
+			<FieldSpacer />
 			<Field name={name} {...rest} />
-		</Label>
+		</FieldLabel>
 	)
 }

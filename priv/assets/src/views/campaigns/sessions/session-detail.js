@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import flowRight from 'lodash-es/flowRight'
 
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'

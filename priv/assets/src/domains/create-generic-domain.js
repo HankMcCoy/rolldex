@@ -216,7 +216,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 				dispatch({ type: 'UPDATE_START', payload: t })
 				return callApi({
 					method: 'PUT',
-					path: rootPath,
+					path: `${rootPath}/${t.id}`,
 					body: wrapPut(t),
 				}).then(json => {
 					const payload: T = json.data

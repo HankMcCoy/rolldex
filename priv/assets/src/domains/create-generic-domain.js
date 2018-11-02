@@ -205,7 +205,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 				return callApi({
 					method: 'POST',
 					path: rootPath,
-					requestBody: wrapPost(draft),
+					body: wrapPost(draft),
 				}).then(json => {
 					const payload: T = json.data
 					dispatch({ type: 'CREATE_RESOLVED', payload })
@@ -217,7 +217,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 				return callApi({
 					method: 'PUT',
 					path: rootPath,
-					requestBody: wrapPut(t),
+					body: wrapPut(t),
 				}).then(json => {
 					const payload: T = json.data
 					dispatch({ type: 'UPDATE_RESOLVED', payload })

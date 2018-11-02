@@ -48,14 +48,16 @@ defmodule RpgrWeb.NounController do
     end
   end
 
-  def related_nouns(conn, %{"noun_id" => noun_id}) do
+  def related_nouns(conn, %{"noun_id" => noun_id_param}) do
     user = get_user(conn)
+    {noun_id, _} = Integer.parse(noun_id_param)
     nouns = CampaignRelations.get_related_nouns_for_noun(user.id, noun_id)
     render(conn, "index.json", nouns: nouns)
   end
 
-  def related_sessions(conn, %{"noun_id" => noun_id}) do
+  def related_sessions(conn, %{"noun_id" => noun_id_param}) do
     user = get_user(conn)
+    {noun_id, _} = Integer.parse(noun_id_param)
     sessions = CampaignRelations.get_related_sessions_for_noun(user.id, noun_id)
     render(conn, "related_sessions.json", sessions: sessions)
   end

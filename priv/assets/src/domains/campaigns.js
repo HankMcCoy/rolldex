@@ -38,9 +38,9 @@ export {
 	useMutations as useCampaignMutations,
 }
 
-export const useCampaignId = () => {
+export const useCampaignId = (): number => {
 	const campaignId = useRouteId('campaignId')
-	if (campaignId == undefined) {
+	if (campaignId === undefined) {
 		throw new Error('Could not find campaignId in route match')
 	}
 	return campaignId

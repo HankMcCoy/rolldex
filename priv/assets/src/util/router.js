@@ -8,7 +8,7 @@ export const useRouteParam = (paramName: string): string => {
 	return match.params[paramName]
 }
 
-export const useRouteId = (paramName: string): ?number => {
+export const useRouteId = (paramName: string): number | void => {
 	const param = useRouteParam(paramName)
 	return param ? +param : undefined
 }

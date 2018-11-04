@@ -4,7 +4,7 @@ import theme from 'r/theme'
 import { Link } from 'react-router-dom'
 
 import { callApi } from 'r/util/api'
-import { useState, useMemo, useEffect, useRef } from 'r/util/react-hooks'
+import { useState, useEffect, useRef } from 'r/util/react-hooks'
 import { useLocation } from 'r/util/router'
 import { type NounType } from 'r/domains/nouns'
 

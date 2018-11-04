@@ -3,7 +3,6 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { Field } from 'formik'
 
-import theme from 'r/theme'
 import { required } from 'r/util/formik'
 import FormField, {
 	FieldLabel,

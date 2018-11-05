@@ -22,7 +22,7 @@ function getNumAutoRows(el: HTMLElement, minRows: number) {
 
 type Props = {
 	minRows: number | void,
-	className: string,
+	className?: string,
 }
 export default function ResizableTextarea({
 	minRows = 4,

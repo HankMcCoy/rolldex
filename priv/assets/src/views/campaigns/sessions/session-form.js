@@ -3,12 +3,9 @@ import * as React from 'react'
 import styled from 'react-emotion'
 import { Field } from 'formik'
 
+import theme from 'r/theme'
 import { required } from 'r/util/formik'
-import FormField, {
-	FieldLabel,
-	FieldHeading,
-	FieldSpacer,
-} from 'r/components/form-field'
+import { FieldLabel, FieldHeading, FieldSpacer } from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
 import Markdown from 'r/components/markdown'
@@ -53,6 +50,44 @@ export const convertValuesToDraftSession = (
 	}
 }
 
+const FieldWithPreview = ({
+	heading,
+	name,
+	renderField,
+	renderPreview,
+	validate,
+}: {
+	heading: string,
+	name: string,
+	renderField: ({ field: { value: string } }) => React.Node,
+	renderPreview: ({ field: { value: string } }) => React.Node,
+	validate?: string => string | void,
+}) => {
+	return (
+		<FieldLabel>
+			<FieldHeading>{heading}</FieldHeading>
+			<FieldSpacer />
+			<div
+				css={`
+					display: flex;
+				`}
+			>
+				<Column>
+					<Field name={name} render={renderField} validate={validate} />
+				</Column>
+				<Spacer width={80} />
+				<Column
+					css={`
+						background: ${theme.campaignColorLight};
+					`}
+				>
+					<Field name={name} render={renderPreview} />
+				</Column>
+			</div>
+		</FieldLabel>
+	)
+}
+
 type Props = {
 	handleSubmit: (event: any) => void,
 	onCancel: () => void,
@@ -61,65 +96,46 @@ export default function SessionForm({ handleSubmit, onCancel }: Props) {
 	return (
 		<FormWrapper>
 			<form onSubmit={handleSubmit}>
-				<Column>
-					<FormField name="name" label="Name" validate={required} autoFocus />
-					<Spacer height={20} />
-					<FormField
-						name="summary"
-						label="Summary"
-						component="textarea"
-						rows={3}
-						validate={required}
-					/>
-					<Spacer height={20} />
-				</Column>
-				<FieldLabel>
-					<FieldHeading>Notes</FieldHeading>
-					<FieldSpacer />
-					<div
-						css={`
-							display: flex;
-						`}
+				<FieldWithPreview
+					heading="Summary"
+					name="summary"
+					renderField={({ field }) => (
+						<ResizableTextarea minRows={4} {...field} />
+					)}
+					renderPreview={({ field }) => <Markdown>{field.value}</Markdown>}
+					validate={required}
+				/>
+				<Spacer height={20} />
+				<FieldWithPreview
+					heading="Notes"
+					name="notes"
+					renderField={({ field }) => (
+						<ResizableTextarea minRows={10} {...field} />
+					)}
+					renderPreview={({ field }) => <Markdown>{field.value}</Markdown>}
+				/>
+				<Spacer height={20} />
+				<FieldWithPreview
+					heading="Private Notes"
+					name="privateNotes"
+					renderField={({ field }) => (
+						<ResizableTextarea minRows={10} {...field} />
+					)}
+					renderPreview={({ field }) => <Markdown>{field.value}</Markdown>}
+				/>
+				<Spacer height={20} />
+				<ButtonsWrapper>
+					<SecondaryButton
+						onClick={e => {
+							e.preventDefault()
+							onCancel()
+						}}
 					>
-						<Column>
-							<Field
-								name="notes"
-								render={({ field }) => (
-									<ResizableTextarea minRows={1} {...field} />
-								)}
-							/>
-						</Column>
-						<Spacer width={40} />
-						<Column>
-							<Field
-								name="notes"
-								render={({ field }) => <Markdown>{field.value}</Markdown>}
-							/>
-						</Column>
-					</div>
-				</FieldLabel>
-				<Column>
-					<Spacer height={20} />
-					<FormField
-						name="privateNotes"
-						label="Private Notes"
-						component="textarea"
-						rows={15}
-					/>
-					<Spacer height={20} />
-					<ButtonsWrapper>
-						<SecondaryButton
-							onClick={e => {
-								e.preventDefault()
-								onCancel()
-							}}
-						>
-							Cancel
-						</SecondaryButton>
-						<Spacer width={10} />
-						<PrimaryButton type="submit">Save</PrimaryButton>
-					</ButtonsWrapper>
-				</Column>
+						Cancel
+					</SecondaryButton>
+					<Spacer width={10} />
+					<PrimaryButton type="submit">Save</PrimaryButton>
+				</ButtonsWrapper>
 			</form>
 		</FormWrapper>
 	)

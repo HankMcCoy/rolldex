@@ -8,6 +8,8 @@ import {
 	// $FlowFixMe
 	useEffect as useEffectImpl,
 	// $FlowFixMe
+	useLayoutEffect as useLayoutEffectImpl,
+	// $FlowFixMe
 	useReducer as useReducerImpl,
 	// $FlowFixMe
 	useMemo as useMemoImpl,
@@ -24,6 +26,7 @@ export const useContext: UseContext = useContextImpl
 
 type UseEffect = (() => void | (() => void), ?Array<any>) => void
 export const useEffect: UseEffect = useEffectImpl
+export const useLayoutEffect: UseEffect = useLayoutEffectImpl
 
 type UseReducer = <State, Action>(
 	Reducer<State, Action>,

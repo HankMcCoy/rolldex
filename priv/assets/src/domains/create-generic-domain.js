@@ -4,7 +4,13 @@ import sortBy from 'lodash-es/sortBy'
 import { type Reducer, combineReducers } from 'redux'
 
 import { setAdd, setDelete, mapSet, mapDelete } from 'r/util/imm'
-import { useContext, useEffect, useReducer, useMemo } from 'r/util/react-hooks'
+import {
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useReducer,
+	useMemo,
+} from 'r/util/react-hooks'
 import { callApi } from 'r/util/api'
 
 export default function createGenericDomain<DraftT, T: { id: number }>({
@@ -240,7 +246,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 		const dispatch = useContext(DispatchCtx)
 		const rootPath = useRootPath()
 
-		useEffect(
+		useLayoutEffect(
 			() => {
 				if (!isLoadingAll) {
 					dispatch({ type: 'FETCH_ALL_START' })

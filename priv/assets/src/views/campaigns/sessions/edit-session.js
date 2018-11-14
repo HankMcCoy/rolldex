@@ -24,7 +24,7 @@ export default function EditSession() {
 	if (!campaign || !session) return <LoadingPage />
 
 	const onCancel = () => {
-		history.push(`/campaigns/${campaign.id}`)
+		history.goBack()
 	}
 	return (
 		<Formik
@@ -41,7 +41,7 @@ export default function EditSession() {
 					...draftSession,
 				}).then(session => {
 					setSubmitting(false)
-					history.push(`/campaigns/${campaign.id}`)
+					history.push(`/campaigns/${campaign.id}/sessions/${session.id}`)
 				})
 			}}
 			render={({ handleSubmit }) => (

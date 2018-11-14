@@ -43,7 +43,7 @@ export default function EditCampaign() {
 						})
 					}}
 					onCancel={() => {
-						history.push(`/campaigns/${campaign.id}`)
+						history.goBack()
 					}}
 				/>
 			</PageContent>

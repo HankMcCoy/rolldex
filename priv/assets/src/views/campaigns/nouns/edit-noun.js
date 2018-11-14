@@ -25,7 +25,7 @@ export default function EditNoun() {
 	if (!campaign || !noun) return <LoadingPage />
 
 	const onCancel = () => {
-		history.push(`/campaigns/${campaign.id}/nouns/${noun.id}`)
+		history.goBack()
 	}
 	return (
 		<Formik

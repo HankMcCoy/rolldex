@@ -1,7 +1,10 @@
 // @flow
 import * as React from 'react'
 
-import PageHeader from 'r/components/page-header'
+import PageHeader, {
+	ControlsWrapper,
+	HeaderLinkButton,
+} from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 import PlainLink from 'r/components/plain-link'
@@ -36,6 +39,15 @@ export default function NounTypeList() {
 					{ text: 'Campaigns', to: '/campaigns' },
 					{ text: campaign.name, to: `/campaigns/${campaign.id}` },
 				]}
+				controls={
+					<ControlsWrapper>
+						<HeaderLinkButton
+							to={`/campaigns/${campaign.id}/nouns/add?nounType=${nounType}`}
+						>
+							Add
+						</HeaderLinkButton>
+					</ControlsWrapper>
+				}
 			/>
 			<PageContent>
 				<List>

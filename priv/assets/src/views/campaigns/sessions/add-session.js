@@ -24,7 +24,7 @@ export default function AddSession() {
 	if (!campaign) return <LoadingPage />
 
 	const onCancel = () => {
-		history.push(`/campaigns/${campaign.id}`)
+		history.goBack()
 	}
 	return (
 		<Formik

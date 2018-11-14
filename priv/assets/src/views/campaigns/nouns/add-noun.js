@@ -25,7 +25,7 @@ function AddNoun() {
 	if (!campaign) return <LoadingPage />
 	const queryParams = qs.parse(history.location.search)
 	const onCancel = () => {
-		history.push(`/campaigns/${campaign.id}`)
+		history.goBack()
 	}
 	return (
 		<Formik

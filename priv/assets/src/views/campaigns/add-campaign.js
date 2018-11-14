@@ -28,7 +28,7 @@ export default function AddCampaign() {
 						})
 					}}
 					onCancel={() => {
-						history.push('/campaigns')
+						history.goBack()
 					}}
 				/>
 			</PageContent>

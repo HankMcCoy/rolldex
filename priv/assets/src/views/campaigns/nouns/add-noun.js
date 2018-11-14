@@ -30,7 +30,7 @@ function AddNoun() {
 	return (
 		<Formik
 			initialValues={{
-				name: '',
+				name: queryParams.name ? queryParams.name : '',
 				summary: '',
 				notes: '',
 				privateNotes: '',
@@ -63,7 +63,12 @@ function AddNoun() {
 								>
 									Cancel
 								</SecondaryHeaderButton>
-								<HeaderButton type="submit" onClick={() => handleSubmit()}>
+								<HeaderButton
+									type="submit"
+									onClick={() => {
+										handleSubmit()
+									}}
+								>
 									Create
 								</HeaderButton>
 							</ControlsWrapper>

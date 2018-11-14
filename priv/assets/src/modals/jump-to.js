@@ -49,30 +49,53 @@ const wrapSelection = (idx, count) => {
 	return idx
 }
 
+const campaignIdRegExp = new RegExp('/campaigns/([0-9]+)(?:/|$)')
+const getCampaignId = (location: { pathname: string }): number => {
+	let campaignId: ?number = undefined
+	const idMatch = campaignIdRegExp.exec(location.pathname)
+	if (idMatch) {
+		campaignId = parseInt(idMatch[1], 10)
+	}
+
+	if (!campaignId) {
+		throw new Error(`Could not find campaignId in URL, ${location.pathname}`)
+	}
+	return campaignId
+}
+
 export default function JumpTo({ close }: { close: () => void }) {
 	const [searchMatches, setSearchMatches] = useState<Array<SearchMatch>>([])
 	const [value, setValue] = useState('')
 	const [selectedMatchIdx, setSelectedMatchIdx] = useState(0)
 	const location = useLocation()
 	const rootElRef = useRef()
+	const campaignId = getCampaignId(location)
 
 	const handleKeydown = (e: KeyboardEvent) => {
 		const rootEl = rootElRef.current
 
 		if (e.key === 'ArrowDown') {
-			setSelectedMatchIdx(idx => wrapSelection(idx + 1, searchMatches.length))
+			setSelectedMatchIdx(idx =>
+				wrapSelection(idx + 1, searchMatches.length + 1)
+			)
 		}
 		if (e.key === 'ArrowUp') {
-			setSelectedMatchIdx(idx => wrapSelection(idx - 1, searchMatches.length))
+			setSelectedMatchIdx(idx =>
+				wrapSelection(idx - 1, searchMatches.length + 1)
+			)
 		}
 		if (e.key === 'Enter') {
-			if (searchMatches.length && rootEl && rootEl instanceof Element) {
+			if (rootEl && rootEl instanceof Element) {
 				const linkEls = [...rootEl.querySelectorAll('a')]
 				const linkEl = linkEls[selectedMatchIdx]
-				if (e.ctrlKey || e.metaKey) {
-					window.open(linkEl.getAttribute('href'), '_blank')
-				} else {
-					linkEl.click()
+				if (linkEl) {
+					if (e.ctrlKey || e.metaKey) {
+						window.open(linkEl.getAttribute('href'), '_blank')
+					} else {
+						linkEl.click()
+					}
+					// Prevent default, to avoid it triggering form submissions
+					e.preventDefault()
 				}
 				close()
 			}
@@ -82,16 +105,10 @@ export default function JumpTo({ close }: { close: () => void }) {
 	const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget
 		setValue(value)
-		const idMatch = new RegExp('/campaigns/([0-9]+)(?:/|$)').exec(
-			location.pathname
-		)
-		if (idMatch) {
-			const campaign_id = parseInt(idMatch[1], 10)
 
-			getQuickSearchMatches(value, campaign_id).then(searchMatches => {
-				setSearchMatches(searchMatches)
-			})
-		}
+		getQuickSearchMatches(value, campaignId).then(searchMatches => {
+			setSearchMatches(searchMatches)
+		})
 	}
 
 	useEffect(() => {
@@ -107,6 +124,7 @@ export default function JumpTo({ close }: { close: () => void }) {
 			document.removeEventListener('keydown', handleKeydown)
 		}
 	})
+	const hasSelectedAddItem = selectedMatchIdx === searchMatches.length
 
 	return (
 		<div
@@ -154,6 +172,25 @@ export default function JumpTo({ close }: { close: () => void }) {
 						</Link>
 					)
 				})}
+				{value && (
+					<Link
+						css={`
+							padding: 10px 32px;
+							background: ${hasSelectedAddItem
+								? theme.campaignColor
+								: theme.white};
+							color: ${hasSelectedAddItem ? theme.white : theme.textColor};
+							text-decoration: none;
+							display: block;
+						`}
+						to={`/campaigns/${campaignId}/nouns/add?name=${value}`}
+						onClick={() => {
+							close()
+						}}
+					>
+						Add '{value}'
+					</Link>
+				)}
 			</div>
 		</div>
 	)

@@ -55,6 +55,7 @@ export default function NounForm({ handleSubmit, onCancel }: Props) {
 					component="select"
 					validate={required}
 				>
+					<option value="" />
 					<option value="PERSON">Person</option>
 					<option value="PLACE">Place</option>
 					<option value="THING">Thing</option>

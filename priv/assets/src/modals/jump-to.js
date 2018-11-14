@@ -73,16 +73,15 @@ export default function JumpTo({ close }: { close: () => void }) {
 
 	const handleKeydown = (e: KeyboardEvent) => {
 		const rootEl = rootElRef.current
+		const numResults = searchMatches.length + (value ? 1 : 0)
 
 		if (e.key === 'ArrowDown') {
-			setSelectedMatchIdx(idx =>
-				wrapSelection(idx + 1, searchMatches.length + 1)
-			)
+			setSelectedMatchIdx(idx => wrapSelection(idx + 1, numResults))
+			e.preventDefault()
 		}
 		if (e.key === 'ArrowUp') {
-			setSelectedMatchIdx(idx =>
-				wrapSelection(idx - 1, searchMatches.length + 1)
-			)
+			setSelectedMatchIdx(idx => wrapSelection(idx - 1, numResults))
+			e.preventDefault()
 		}
 		if (e.key === 'Enter') {
 			if (rootEl && rootEl instanceof Element) {

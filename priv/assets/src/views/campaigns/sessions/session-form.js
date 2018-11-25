@@ -5,6 +5,7 @@ import styled from 'react-emotion'
 import { fromTheme } from 'r/theme'
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
+import MdEditor from 'r/components/md-editor'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
 
@@ -62,13 +63,16 @@ export default function SessionForm({ handleSubmit, onCancel }: Props) {
 					validate={required}
 				/>
 				<Spacer height={20} />
-				<FormField name="notes" label="Notes" component="textarea" rows={15} />
+				<FormField
+					name="notes"
+					label="Notes"
+					render={({ field }) => <MdEditor {...field} />}
+				/>
 				<Spacer height={20} />
 				<FormField
 					name="privateNotes"
 					label="Private Notes"
-					component="textarea"
-					rows={15}
+					render={({ field }) => <MdEditor {...field} />}
 				/>
 				<Spacer height={20} />
 				<ButtonsWrapper>

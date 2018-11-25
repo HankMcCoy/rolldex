@@ -5,6 +5,7 @@ import { required } from 'r/util/formik'
 
 import type { NounType, DraftNoun } from 'r/domains/nouns'
 
+import MdEditor from 'r/components/md-editor'
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
@@ -70,12 +71,18 @@ export default function NounForm({ handleSubmit, onCancel }: Props) {
 					validate={required}
 				/>
 				<Spacer height={20} />
-				<FormField name="notes" label="Notes" component="textarea" rows={20} />
+				<FormField
+					name="notes"
+					label="Notes"
+					component="textarea"
+					rows={20}
+					render={({ field }) => <MdEditor {...field} />}
+				/>
 				<Spacer height={20} />
 				<FormField
 					name="privateNotes"
 					label="Private Notes"
-					component="textarea"
+					render={({ field }) => <MdEditor {...field} />}
 					rows={20}
 				/>
 				<Spacer height={20} />

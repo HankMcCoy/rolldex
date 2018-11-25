@@ -97,10 +97,20 @@ table {
 input,
 select,
 textarea {
-	padding: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
 	border: 1px solid #484d4b;
 	border-radius: 2px;
 	background: #fff;
+}
+input,
+select {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+textarea {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 textarea {

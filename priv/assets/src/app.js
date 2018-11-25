@@ -40,7 +40,11 @@ class GlobalKeyListener extends Component<{}> {
 			if (event.key === 'Escape') {
 				store.dispatch(hideModal())
 			}
-			if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
+			if (
+				event.key === 'k' &&
+				(event.metaKey || event.ctrlKey) &&
+				!event.shiftKey
+			) {
 				event.preventDefault()
 				this.showModal(<JumpTo close={() => store.dispatch(hideModal())} />)
 			}

@@ -57,6 +57,9 @@ export default class MdEditor extends React.Component<Props, void> {
 			element: this.textareaRef.current,
 			toolbar: false,
 			status: false,
+			shortcuts: {
+				drawLink: 'Shift-Cmd-K',
+			},
 		})
 
 		this.simpleMde.value(value)

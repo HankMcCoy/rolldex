@@ -3,10 +3,33 @@
         License: none (public domain)
       */
 
-html * {
+* {
 	margin: 0;
 	padding: 0;
 	border: 0;
+	font-family: unset;
+	font-size: unset;
+	font-weight: unset;
+	line-height: unset;
+	color: unset;
+	vertical-align: baseline;
+}
+
+base,
+basefont,
+datalist,
+head,
+meta,
+script,
+style,
+title,
+noembed,
+param,
+template {
+	display: none;
+}
+
+body {
 	font-family: Roboto, sans-serif;
 	font-size: 18px;
 	font-weight: 300;

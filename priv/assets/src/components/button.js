@@ -19,6 +19,7 @@ export const Button = styled(UnstyledButton)`
 	font-size: 18px;
 	font-family: Roboto;
 	height: 34px;
+	line-height: 1;
 	width: 100px;
 	text-align: center;
 `

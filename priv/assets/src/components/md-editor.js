@@ -5,7 +5,11 @@ import * as React from 'react'
 import styled from 'react-emotion'
 
 const MdEditorRoot = styled.div`
-	& > .CodeMirror {
+	& .CodeMirror,
+	& .CodeMirror-scroll {
+		min-height: ${props => props.minHeight}px;
+	}
+	& .CodeMirror {
 		border: 1px solid #484d4b;
 		border-radius: 2px;
 		padding: 10px 6px;
@@ -28,16 +32,20 @@ const MdEditorRoot = styled.div`
 type Props = {
 	name: string,
 	value?: string,
-	onChange: string => void,
+	onChange?: string => void,
+	minHeight?: number,
 }
 export default class MdEditor extends React.Component<Props, void> {
+	static defaultProps = {
+		minHeight: 100,
+	}
 	constructor() {
 		super()
 		this.textareaRef = React.createRef()
 	}
 	render() {
 		return (
-			<MdEditorRoot>
+			<MdEditorRoot minHeight={this.props.minHeight}>
 				<textarea ref={this.textareaRef} />
 			</MdEditorRoot>
 		)
@@ -53,7 +61,9 @@ export default class MdEditor extends React.Component<Props, void> {
 
 		this.simpleMde.value(value)
 		this.simpleMde.codemirror.on('change', () => {
-			onChange({ target: { name, value: this.simpleMde.value() } })
+			if (onChange) {
+				onChange({ target: { name, value: this.simpleMde.value() } })
+			}
 		})
 	}
 	shouldComponentUpdate() {

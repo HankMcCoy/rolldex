@@ -67,15 +67,13 @@ export default function NounForm({ handleSubmit, onCancel }: Props) {
 					name="summary"
 					label="Summary"
 					component="textarea"
-					rows={10}
+					rows={3}
 					validate={required}
 				/>
 				<Spacer height={20} />
 				<FormField
 					name="notes"
 					label="Notes"
-					component="textarea"
-					rows={20}
 					render={({ field }) => <MdEditor {...field} />}
 				/>
 				<Spacer height={20} />
@@ -83,7 +81,6 @@ export default function NounForm({ handleSubmit, onCancel }: Props) {
 					name="privateNotes"
 					label="Private Notes"
 					render={({ field }) => <MdEditor {...field} />}
-					rows={20}
 				/>
 				<Spacer height={20} />
 				<ButtonsWrapper>

@@ -9,9 +9,10 @@ import MdEditor from 'r/components/md-editor'
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
+import theme from 'r/theme'
 
 const FormWrapper = styled('div')`
-	max-width: 500px;
+	max-width: ${theme.largeFormWidth}px;
 `
 
 const ButtonsWrapper = styled('div')`

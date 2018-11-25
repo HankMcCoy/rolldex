@@ -41,7 +41,7 @@ const theme = {
 	sidebarHzPadding: 20,
 	pageHzPadding: '30px',
 	pageSidebarWidth: 300,
-	largeFormWidth: 600,
+	largeFormWidth: 580,
 
 	// FONTS
 	baseFontSize: 18,

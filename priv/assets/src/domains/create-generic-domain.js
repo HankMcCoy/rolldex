@@ -8,11 +8,13 @@ import {
 	useMemo,
 } from 'react'
 import sortBy from 'lodash-es/sortBy'
-import { type Reducer, combineReducers } from 'redux'
+import { combineReducers } from 'redux'
 
 import { setAdd, setDelete, mapSet, mapDelete } from 'r/util/imm'
 
 import { callApi } from 'r/util/api'
+
+type Reducer<S, A> = (S, A) => S
 
 export default function createGenericDomain<DraftT, T: { id: number }>({
 	name,
@@ -215,7 +217,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 					method: 'POST',
 					path: rootPath,
 					body: wrapPost(draft),
-				}).then(json => {
+				}).then((json: { data: T }) => {
 					const payload: T = json.data
 					dispatch({ type: 'CREATE_RESOLVED', payload })
 					return payload
@@ -254,8 +256,8 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 					callApi({
 						method: 'GET',
 						path: rootPath,
-					}).then(json => {
-						const payload: Array<T> = json.data
+					}).then((json: { data: Array<T> }) => {
+						const payload = json.data
 						dispatch({ type: 'FETCH_ALL_RESOLVED', payload })
 					})
 				}
@@ -290,8 +292,8 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 					callApi({
 						method: 'GET',
 						path: `${rootPath}/${id}`,
-					}).then(json => {
-						const payload: T = json.data
+					}).then((json: { data: T }) => {
+						const payload = json.data
 						dispatch({ type: 'FETCH_ONE_RESOLVED', payload })
 					})
 				}

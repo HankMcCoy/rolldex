@@ -1,16 +1,17 @@
 // @flow
 import * as React from 'react'
-import sortBy from 'lodash-es/sortBy'
-import { type Reducer, combineReducers } from 'redux'
-
-import { setAdd, setDelete, mapSet, mapDelete } from 'r/util/imm'
 import {
 	useContext,
 	useEffect,
 	useLayoutEffect,
 	useReducer,
 	useMemo,
-} from 'r/util/react-hooks'
+} from 'react'
+import sortBy from 'lodash-es/sortBy'
+import { type Reducer, combineReducers } from 'redux'
+
+import { setAdd, setDelete, mapSet, mapDelete } from 'r/util/imm'
+
 import { callApi } from 'r/util/api'
 
 export default function createGenericDomain<DraftT, T: { id: number }>({

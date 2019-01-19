@@ -32,16 +32,14 @@ const MdEditorRoot = styled.div`
 type Props = {
 	name: string,
 	value?: string,
-	onChange?: string => void,
+	onChange?: ({ target: { name: string, value: string } }) => void,
 	minHeight?: number,
 }
 export default class MdEditor extends React.Component<Props, void> {
+	textareaRef: { current: null | HTMLTextAreaElement } = React.createRef()
+	simpleMde: SimpleMdeImpl
 	static defaultProps = {
 		minHeight: 100,
-	}
-	constructor() {
-		super()
-		this.textareaRef = React.createRef()
 	}
 	render() {
 		return (

@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'react-emotion'
 import sortBy from 'lodash-es/sortBy'
@@ -8,7 +9,6 @@ import type { Noun } from 'r/domains/nouns'
 import H2 from 'r/components/h2'
 import Spacer from 'r/components/spacer'
 import { callApi } from 'r/util/api'
-import { useState, useEffect } from 'r/util/react-hooks'
 
 const Root = styled.div`
 	padding: 20px;

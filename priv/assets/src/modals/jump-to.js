@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
+import { useState, useEffect, useRef } from 'react'
 import theme from 'r/theme'
 import { Link } from 'react-router-dom'
 
 import { callApi } from 'r/util/api'
-import { useState, useEffect, useRef } from 'r/util/react-hooks'
 import { useLocation } from 'r/util/router'
 import { type NounType } from 'r/domains/nouns'
 
@@ -101,6 +101,12 @@ export default function JumpTo({ close }: { close: () => void }) {
 		}
 	}
 
+	const handleClick = (e: MouseEvent) => {
+		const rootEl = rootElRef.current
+		if (rootEl) {
+		}
+	}
+
 	const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget
 		setValue(value)
@@ -118,9 +124,11 @@ export default function JumpTo({ close }: { close: () => void }) {
 				inputEl.focus()
 			}
 		}
+		document.addEventListener('click', handleClick)
 		document.addEventListener('keydown', handleKeydown)
 		return () => {
 			document.removeEventListener('keydown', handleKeydown)
+			document.removeEventListener('click', handleClick)
 		}
 	})
 	const hasSelectedAddItem = selectedMatchIdx === searchMatches.length

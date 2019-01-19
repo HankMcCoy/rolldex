@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { callApi } from 'r/util/api'
-import { useEffect, useState, useContext } from 'r/util/react-hooks'
 
 type User = {
 	id: number,

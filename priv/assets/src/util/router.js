@@ -1,7 +1,7 @@
+import { useContext } from 'react'
 import { __RouterContext } from 'react-router'
 import { type Location } from 'react-router-dom'
 import { type History } from 'history'
-import { useContext } from 'r/util/react-hooks'
 
 export const useRouteParam = (paramName: string): string => {
 	const { match }: { match: Match } = useContext(__RouterContext)

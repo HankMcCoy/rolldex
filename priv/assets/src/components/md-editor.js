@@ -4,7 +4,10 @@ import 'simplemde/dist/simplemde.min.css'
 import * as React from 'react'
 import styled from 'react-emotion'
 
-const MdEditorRoot = styled.div`
+const MdEditorRoot: React.ComponentType<{
+	minHeight: number,
+	children: React.Node,
+}> = styled.div`
 	& .CodeMirror,
 	& .CodeMirror-scroll {
 		min-height: ${props => props.minHeight}px;
@@ -33,7 +36,7 @@ type Props = {
 	name: string,
 	value?: string,
 	onChange?: ({ target: { name: string, value: string } }) => void,
-	minHeight?: number,
+	minHeight: number,
 }
 export default class MdEditor extends React.Component<Props, void> {
 	textareaRef: { current: null | HTMLTextAreaElement } = React.createRef()
@@ -66,6 +69,9 @@ export default class MdEditor extends React.Component<Props, void> {
 				onChange({ target: { name, value: this.simpleMde.value() } })
 			}
 		})
+
+		this.simpleMde.codemirror.options.extraKeys['Tab'] = false
+		this.simpleMde.codemirror.options.extraKeys['Shift-Tab'] = false
 	}
 	shouldComponentUpdate() {
 		return false

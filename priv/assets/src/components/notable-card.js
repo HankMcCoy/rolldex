@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { css } from '@emotion/core'
 
 import ListCard from './list-card'
 import TitleNSummary from './title-n-summary'
@@ -14,7 +15,7 @@ export default function NotableCard({ title, summary, onRemove }: Props) {
 	return (
 		<ListCard paddingRight={onRemove ? 0 : undefined}>
 			<div
-				css={`
+				css={css`
 					display: flex;
 					justify-content: space-between;
 					align-items: center;

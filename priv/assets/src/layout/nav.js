@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
-import { css } from 'emotion'
-import styled from 'react-emotion'
+import { css } from '@emotion/core'
+import styled from '@emotion/styled/macro'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import flowRight from 'lodash-es/flowRight'
 
@@ -29,18 +29,12 @@ const SubAppLink = styled(CommonLink)`
 	padding-left: ${fromTheme('sidebarHzPadding')}px;
 `
 
-const active = css`
-	font-weight: ${theme.contentFont.weights.medium};
-`
-
 const ChildLink = styled(CommonLink)`
   display: block;
   color: ${fromTheme('white')}
   font-size: 18px;
 	padding-left: calc(${fromTheme('sidebarHzPadding')}px + 20px);
-  &:not(${active}) {
-    font-weight: ${fromTheme('contentFont.weights.light')};
-  }
+  font-weight: ${fromTheme('contentFont.weights.light')};
 `
 
 function Nav() {
@@ -48,7 +42,7 @@ function Nav() {
 	const curUser = useCurUser()
 	return (
 		<div
-			css={`
+			css={css`
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
@@ -56,7 +50,7 @@ function Nav() {
 			`}
 		>
 			<div
-				css={`
+				css={css`
 					display: flex;
 					flex-direction: column;
 				`}
@@ -70,7 +64,9 @@ function Nav() {
 									<ChildLink
 										key={c.id}
 										to={`/campaigns/${c.id}`}
-										activeClassName={active}
+										activeStyle={{
+											fontWeight: theme.contentFont.weights.medium,
+										}}
 									>
 										{c.name}
 									</ChildLink>
@@ -83,13 +79,13 @@ function Nav() {
 				</Switch>
 			</div>
 			<div
-				css={`
+				css={css`
 					display: flex;
 					justify-content: space-between;
 				`}
 			>
 				<div
-					css={`
+					css={css`
 						padding: 5px 10px;
 						color: #b5b5b6;
 						font-size: 16px;
@@ -99,7 +95,7 @@ function Nav() {
 					{curUser.email}
 				</div>
 				<UnstyledButton
-					css={`
+					css={css`
 						padding: 5px 10px;
 						color: #b5b5b6;
 						font-size: 14px;

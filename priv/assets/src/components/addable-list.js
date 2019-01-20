@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 
 import H2 from './h2'
 import Spacer from './spacer'

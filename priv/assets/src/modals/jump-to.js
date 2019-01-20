@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import { useState, useEffect, useRef } from 'react'
+import { css } from '@emotion/core'
 import theme from 'r/theme'
 import { Link } from 'react-router-dom'
 
@@ -135,7 +136,7 @@ export default function JumpTo({ close }: { close: () => void }) {
 
 	return (
 		<div
-			css={`
+			css={css`
 				position: absolute;
 				top: 20vh;
 				left: calc(50% - ${w / 2}px);
@@ -143,7 +144,7 @@ export default function JumpTo({ close }: { close: () => void }) {
 			ref={rootElRef}
 		>
 			<input
-				css={`
+				css={css`
 					width: ${w}px;
 					height: ${h}px;
 					padding: 20px 32px;
@@ -163,7 +164,7 @@ export default function JumpTo({ close }: { close: () => void }) {
 					return (
 						<Link
 							key={i}
-							css={`
+							css={css`
 								padding: 10px 32px;
 								background: ${isSelected ? theme.campaignColor : theme.white};
 								color: ${isSelected ? theme.white : theme.textColor};
@@ -181,7 +182,7 @@ export default function JumpTo({ close }: { close: () => void }) {
 				})}
 				{value && (
 					<Link
-						css={`
+						css={css`
 							padding: 10px 32px;
 							background: ${hasSelectedAddItem
 								? theme.campaignColor

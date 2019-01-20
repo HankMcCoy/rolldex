@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react'
+import { css } from '@emotion/core'
 
 import { getFirstNByDateUpdated } from 'r/util'
 
@@ -66,7 +67,7 @@ export default function NounList({
 			))}
 			<SecondaryLinkButton
 				to={`/campaigns/${campaign.id}/nouns/${getNounTypePathToken(nounType)}`}
-				css={`
+				css={css`
 					width: 100%;
 				`}
 			>

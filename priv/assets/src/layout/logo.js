@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import { Link } from 'react-router-dom'
 
 import { fromTheme } from 'r/theme'

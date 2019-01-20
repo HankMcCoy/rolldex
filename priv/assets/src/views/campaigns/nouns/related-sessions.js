@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import sortBy from 'lodash-es/sortBy'
 
 import type { Noun } from 'r/domains/nouns'

@@ -2,7 +2,7 @@
 import SimpleMdeImpl from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 
 const MdEditorRoot: React.ComponentType<{
 	minHeight: number,

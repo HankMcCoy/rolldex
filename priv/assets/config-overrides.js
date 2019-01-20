@@ -1,5 +1,3 @@
-const { rewireEmotion } = require('react-app-rewire-emotion');
+const { override, addBabelPreset } = require('customize-cra')
 
-module.exports = function override(config, env) {
-  return rewireEmotion(config, env, { inline: true });
-}
+module.exports = override(addBabelPreset('@emotion/babel-preset-css-prop'))

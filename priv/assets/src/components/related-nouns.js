@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
 import { withState, lifecycle, mapProps } from 'recompose'

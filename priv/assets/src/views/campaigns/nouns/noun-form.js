@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import { required } from 'r/util/formik'
 
 import type { NounType, DraftNoun } from 'r/domains/nouns'

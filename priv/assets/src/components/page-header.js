@@ -1,7 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import styled from 'react-emotion'
+import { css } from '@emotion/core'
+import styled from '@emotion/styled/macro'
 import { type Match, withRouter, Link } from 'react-router-dom'
 
 import H1 from 'r/components/h1'
@@ -51,7 +52,7 @@ const Breadcrumb = styled(Link)`
 
 const Separator = () => (
 	<div
-		css={`
+		css={css`
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -126,7 +127,9 @@ function PageHeader({
 									{text}
 								</Breadcrumb>
 							)),
-							i => <Separator key={`sep-${i}`} />
+							i => (
+								<Separator key={`sep-${i}`} />
+							)
 						)}
 					</BreadcrumbsWrapper>
 				)}

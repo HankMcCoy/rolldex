@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import { Field } from 'formik'
 
 import H2 from 'r/components/h2'

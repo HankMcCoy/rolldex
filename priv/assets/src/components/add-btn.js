@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import isPropValid from '@emotion/is-prop-valid'
 import { type Match, withRouter } from 'react-router-dom'
 

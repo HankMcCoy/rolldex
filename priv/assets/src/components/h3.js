@@ -1,6 +1,6 @@
 // @flow
 
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 
 export default styled('h3')`
 	font-family: ${({ theme }) => theme.titleFont.family};

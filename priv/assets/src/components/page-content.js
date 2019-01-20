@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 import { fromTheme } from 'r/theme'
 
 const Root = styled('div')`

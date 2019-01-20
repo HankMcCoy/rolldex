@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 
 const SSpacer = styled('div')`
 	flex: 0 0 auto;

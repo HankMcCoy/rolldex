@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import Markdown from 'react-remarkable'
-import styled from 'react-emotion'
+import styled from '@emotion/styled/macro'
 
 import { fromTheme } from 'r/theme'
 import Spacer from './spacer'

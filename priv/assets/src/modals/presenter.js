@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import { useEffect, useReducer, useRef } from 'react'
+import { css } from '@emotion/core'
 
 import JumpTo from './jump-to'
 
@@ -77,7 +78,7 @@ export default function ModalsPresenter() {
 	return (
 		<div
 			ref={rootRef}
-			css={`
+			css={css`
 				position: fixed;
 				top: 0;
 				right: 0;

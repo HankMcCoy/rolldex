@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import type { Match } from 'react-router-dom'
 
 import { SessionProvider } from 'r/domains/sessions'
 import { MemberProvider } from 'r/domains/members'
@@ -14,43 +13,34 @@ import Sessions from './sessions'
 import Nouns from './nouns'
 import InviteMember from './members/invite'
 
-type Props = {
-	match: Match,
-}
-export default function Campaigns({ match }: Props) {
+function Campaign({ match }) {
+	const { campaignId } = match.params
 	return (
-		<SessionProvider>
-			<MemberProvider>
-				<NounProvider>
-					<React.Fragment>
-						<Switch>
-							<Route exact path={match.path} component={CampaignList} />
-							<Route exact path={`${match.path}/add`} component={AddCampaign} />
-							<Route
-								exact
-								path={`${match.path}/:campaignId/edit`}
-								component={EditCampaign}
-							/>
-							<Route
-								path={`${match.path}/:campaignId/sessions`}
-								component={Sessions}
-							/>
-							<Route
-								path={`${match.path}/:campaignId/nouns`}
-								component={Nouns}
-							/>
-							<Route
-								path={`${match.path}/:campaignId/members/invite`}
-								component={InviteMember}
-							/>
-							<Route
-								path={`${match.path}/:campaignId`}
-								component={CampaignDetail}
-							/>
-						</Switch>
-					</React.Fragment>
+		<SessionProvider key={campaignId}>
+			<MemberProvider key={campaignId}>
+				<NounProvider key={campaignId}>
+					<Switch>
+						<Route exact path={`${match.path}/edit`} component={EditCampaign} />
+						<Route path={`${match.path}/sessions`} component={Sessions} />
+						<Route path={`${match.path}/nouns`} component={Nouns} />
+						<Route
+							path={`${match.path}/members/invite`}
+							component={InviteMember}
+						/>
+						<Route exact path={match.path} component={CampaignDetail} />
+					</Switch>
 				</NounProvider>
 			</MemberProvider>
 		</SessionProvider>
+	)
+}
+
+export default function Campaigns({ match }: { match: any }) {
+	return (
+		<Switch>
+			<Route exact path={match.path} component={CampaignList} />
+			<Route exact path={`${match.path}/add`} component={AddCampaign} />
+			<Route path={`${match.path}/:campaignId`} component={Campaign} />
+		</Switch>
 	)
 }

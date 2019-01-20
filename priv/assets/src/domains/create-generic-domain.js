@@ -111,8 +111,6 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 		action
 	) => {
 		switch (action.type) {
-			case 'FETCH_ALL_START':
-				return new Map()
 			case 'FETCH_ALL_RESOLVED':
 				return new Map(action.payload.map(m => [m.id, m]))
 			case 'REMOVE_START':

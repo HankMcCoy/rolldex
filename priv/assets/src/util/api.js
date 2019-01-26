@@ -1,4 +1,6 @@
 // @flow
+const errorSubscribers: Array<() => void> = []
+
 type Args = {
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE',
 	path: string,
@@ -19,8 +21,15 @@ export const callApi = ({ method, path, body }: Args): Promise<any> => {
 				window.location = '/login'
 				throw new Error('UNAUTHORIZED')
 			}
-			if (!resp.ok) throw new Error('Fetch failed')
+			if (!resp.ok) {
+				errorSubscribers.forEach(subscriber => subscriber())
+				throw new Error('Fetch failed')
+			}
 			if (resp.status === 204) return undefined
 			return resp.json()
 		})
+}
+
+export const subscribeToErrors = (callback: () => void) => {
+	errorSubscribers.push(callback)
 }

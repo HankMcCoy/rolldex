@@ -3,29 +3,10 @@ import * as React from 'react'
 import { useEffect, useReducer, useRef } from 'react'
 import { css } from '@emotion/core'
 
+import { useClick, useKeydown } from 'r/util/hooks'
+import { subscribeToErrors } from 'r/util/api'
 import JumpTo from './jump-to'
-
-const useClick = (
-	el: HTMLElement | Document,
-	listener: MouseEvent => void,
-	deps: ?$ReadOnlyArray<mixed>
-) => {
-	return useEffect(() => {
-		el.addEventListener('click', listener)
-		return () => el.removeEventListener('click', listener)
-	}, deps)
-}
-
-const useKeydown = (
-	el: HTMLElement | Document,
-	listener: KeyboardEvent => void,
-	deps: ?$ReadOnlyArray<mixed>
-) => {
-	return useEffect(() => {
-		el.addEventListener('keydown', listener)
-		return () => el.removeEventListener('keydown', listener)
-	}, deps)
-}
+import NetworkError from './network-error'
 
 type Modal = React.Element<*>
 type State = Array<Modal>
@@ -51,27 +32,22 @@ function modalsReducer(state: State, action: Action) {
 
 type ContextType = {
 	modals: State,
-	dispatch: Action => void,
+	showModal: Modal => void,
+	closeModal: () => void,
 }
 // $FlowFixMe
 const ModalContext = React.createContext<ContextType>()
+export const ModalsConsumer = ModalContext.Consumer
 
-function Presenter({ modals, dispatch }: ContextType) {
+function Presenter({ modals, showModal, closeModal }: ContextType) {
 	const rootRef = useRef<HTMLDivElement>(null)
 
-	const handleClick = (event: MouseEvent) => {
-		if (rootRef && rootRef.current && rootRef.current === event.target) {
-			dispatch({
-				type: 'HIDE_MODAL',
-			})
+	const handleHidingModalOnEsc = (event: KeyboardEvent) => {
+		if (event.key === 'Escape') {
+			closeModal()
 		}
 	}
-	const handleKeydown = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			dispatch({
-				type: 'HIDE_MODAL',
-			})
-		}
+	const handleShowingJumpTo = (event: KeyboardEvent) => {
 		if (
 			event.key === 'k' &&
 			(event.metaKey || event.ctrlKey) &&
@@ -79,24 +55,34 @@ function Presenter({ modals, dispatch }: ContextType) {
 		) {
 			event.preventDefault()
 			if (!modals.length || modals[modals.length - 1].type !== JumpTo) {
-				dispatch({
-					type: 'SHOW_MODAL',
-					payload: (
-						<JumpTo
-							close={() =>
-								dispatch({
-									type: 'HIDE_MODAL',
-								})
-							}
-						/>
-					),
-				})
+				showModal(<JumpTo close={closeModal} />)
 			}
 		}
 	}
 
-	useClick(document, handleClick, [])
-	useKeydown(document, handleKeydown, [modals])
+	useClick(
+		document,
+		(event: MouseEvent) => {
+			if (rootRef && rootRef.current && rootRef.current === event.target) {
+				closeModal()
+			}
+		},
+		[]
+	)
+	useKeydown(
+		document,
+		(event: KeyboardEvent) => {
+			handleHidingModalOnEsc(event)
+			handleShowingJumpTo(event)
+		},
+		[modals]
+	)
+
+	useEffect(() => {
+		subscribeToErrors(() => {
+			showModal(<NetworkError close={closeModal} />)
+		})
+	}, [])
 
 	if (!modals.length) {
 		return null
@@ -134,11 +120,11 @@ export default function ModalsPresenter({
 	const modalContextValue = React.useMemo(
 		() => ({
 			modals,
-			dispatch,
+			showModal: modal => dispatch({ type: 'SHOW_MODAL', payload: modal }),
+			closeModal: () => dispatch({ type: 'HIDE_MODAL' }),
 		}),
-		[modals]
+		[modals, dispatch]
 	)
-
 	return (
 		<ModalContext.Provider value={modalContextValue}>
 			{children}

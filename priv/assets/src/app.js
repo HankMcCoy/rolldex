@@ -21,29 +21,30 @@ class App extends Component<{}> {
 			<ThemeProvider theme={theme}>
 				<CampaignProvider>
 					<Router history={history}>
-						<React.Fragment>
-							<Switch>
-								<Route
-									exact
-									path="/"
-									render={() => <Redirect to="/campaigns" />}
-								/>
-								<Route exact path="/login" component={Login} />
-								<Route exact path="/register" component={Register} />
-								<Route
-									render={() => (
-										<AuthProvider>
-											<Layout>
-												<Switch>
-													<Route path="/campaigns" component={Campaigns} />
-												</Switch>
-											</Layout>
-										</AuthProvider>
-									)}
-								/>
-							</Switch>
-							<ModalsPresenter />
-						</React.Fragment>
+						<ModalsPresenter>
+							<React.Fragment>
+								<Switch>
+									<Route
+										exact
+										path="/"
+										render={() => <Redirect to="/campaigns" />}
+									/>
+									<Route exact path="/login" component={Login} />
+									<Route exact path="/register" component={Register} />
+									<Route
+										render={() => (
+											<AuthProvider>
+												<Layout>
+													<Switch>
+														<Route path="/campaigns" component={Campaigns} />
+													</Switch>
+												</Layout>
+											</AuthProvider>
+										)}
+									/>
+								</Switch>
+							</React.Fragment>
+						</ModalsPresenter>
 					</Router>
 				</CampaignProvider>
 			</ThemeProvider>

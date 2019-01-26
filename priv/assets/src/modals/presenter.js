@@ -29,7 +29,15 @@ const useKeydown = (
 
 type Modal = React.Element<*>
 type State = Array<Modal>
-type Action = { type: 'SHOW_MODAL', payload: Modal } | { type: 'HIDE_MODAL' }
+type Action =
+	| {
+			type: 'SHOW_MODAL',
+			payload: Modal,
+	  }
+	| {
+			type: 'HIDE_MODAL',
+	  }
+
 function modalsReducer(state: State, action: Action) {
 	switch (action.type) {
 		case 'SHOW_MODAL':
@@ -40,18 +48,29 @@ function modalsReducer(state: State, action: Action) {
 			throw new Error(`Invalid modals action ${action.type}`)
 	}
 }
-export default function ModalsPresenter() {
+
+type ContextType = {
+	modals: State,
+	dispatch: Action => void,
+}
+// $FlowFixMe
+const ModalContext = React.createContext<ContextType>()
+
+function Presenter({ modals, dispatch }: ContextType) {
 	const rootRef = useRef<HTMLDivElement>(null)
-	const [modals, dispatch] = useReducer<State, Action>(modalsReducer, [])
 
 	const handleClick = (event: MouseEvent) => {
 		if (rootRef && rootRef.current && rootRef.current === event.target) {
-			dispatch({ type: 'HIDE_MODAL' })
+			dispatch({
+				type: 'HIDE_MODAL',
+			})
 		}
 	}
 	const handleKeydown = (event: KeyboardEvent) => {
 		if (event.key === 'Escape') {
-			dispatch({ type: 'HIDE_MODAL' })
+			dispatch({
+				type: 'HIDE_MODAL',
+			})
 		}
 		if (
 			event.key === 'k' &&
@@ -62,7 +81,15 @@ export default function ModalsPresenter() {
 			if (!modals.length || modals[modals.length - 1].type !== JumpTo) {
 				dispatch({
 					type: 'SHOW_MODAL',
-					payload: <JumpTo close={() => dispatch({ type: 'HIDE_MODAL' })} />,
+					payload: (
+						<JumpTo
+							close={() =>
+								dispatch({
+									type: 'HIDE_MODAL',
+								})
+							}
+						/>
+					),
 				})
 			}
 		}
@@ -88,7 +115,34 @@ export default function ModalsPresenter() {
 				z-index: 1000;
 			`}
 		>
-			{modals.map((modal, idx) => React.cloneElement(modal, { key: idx }))}
+			{modals.map((modal, idx) =>
+				React.cloneElement(modal, {
+					key: idx,
+				})
+			)}
 		</div>
+	)
+}
+
+export default function ModalsPresenter({
+	children,
+}: {
+	children: React.Node,
+}) {
+	const [modals, dispatch] = useReducer<State, Action>(modalsReducer, [])
+
+	const modalContextValue = React.useMemo(
+		() => ({
+			modals,
+			dispatch,
+		}),
+		[modals]
+	)
+
+	return (
+		<ModalContext.Provider value={modalContextValue}>
+			{children}
+			<Presenter {...modalContextValue} />
+		</ModalContext.Provider>
 	)
 }

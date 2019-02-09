@@ -130,7 +130,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 		isLoadingAll: false,
 		isLoadingById: new Set(),
 	}
-	const metaReducer: Reducer<MetaState, Action> = (
+	const metaReducer: Reducer<MetaState | void, Action> = (
 		state = initialMetaState,
 		action
 	) => {
@@ -158,6 +158,7 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 		}
 	}
 
+	// $FlowFixMe
 	const reducer: Reducer<State, Action> = combineReducers({
 		data: dataReducer,
 		meta: metaReducer,
@@ -247,21 +248,18 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 		const dispatch = useContext(DispatchCtx)
 		const rootPath = useRootPath()
 
-		useLayoutEffect(
-			() => {
-				if (!isLoadingAll) {
-					dispatch({ type: 'FETCH_ALL_START' })
-					callApi({
-						method: 'GET',
-						path: rootPath,
-					}).then((json: { data: Array<T> }) => {
-						const payload = json.data
-						dispatch({ type: 'FETCH_ALL_RESOLVED', payload })
-					})
-				}
-			},
-			[rootPath]
-		)
+		useLayoutEffect(() => {
+			if (!isLoadingAll) {
+				dispatch({ type: 'FETCH_ALL_START' })
+				callApi({
+					method: 'GET',
+					path: rootPath,
+				}).then((json: { data: Array<T> }) => {
+					const payload = json.data
+					dispatch({ type: 'FETCH_ALL_RESOLVED', payload })
+				})
+			}
+		}, [rootPath])
 
 		const list: Array<T> = sortBy([...byId.values()], sortKeys)
 		if (sortOrder === 'DESC') {
@@ -283,21 +281,18 @@ export default function createGenericDomain<DraftT, T: { id: number }>({
 		const dispatch = useContext(DispatchCtx)
 		const rootPath = useRootPath()
 
-		useEffect(
-			() => {
-				if (!isLoadingById.has(id)) {
-					dispatch({ type: 'FETCH_ONE_START', payload: id })
-					callApi({
-						method: 'GET',
-						path: `${rootPath}/${id}`,
-					}).then((json: { data: T }) => {
-						const payload = json.data
-						dispatch({ type: 'FETCH_ONE_RESOLVED', payload })
-					})
-				}
-			},
-			[id]
-		)
+		useEffect(() => {
+			if (!isLoadingById.has(id)) {
+				dispatch({ type: 'FETCH_ONE_START', payload: id })
+				callApi({
+					method: 'GET',
+					path: `${rootPath}/${id}`,
+				}).then((json: { data: T }) => {
+					const payload = json.data
+					dispatch({ type: 'FETCH_ONE_RESOLVED', payload })
+				})
+			}
+		}, [id])
 
 		const t = byId.get(id)
 

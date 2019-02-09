@@ -55,8 +55,6 @@ export default function FormField({
 			name={name}
 			validate={validate}
 			render={({ field, form }: FieldProps) => {
-				console.log('FIELD', field)
-				console.log('REST', rest)
 				let content
 				if (render) {
 					content = render({ field, form })

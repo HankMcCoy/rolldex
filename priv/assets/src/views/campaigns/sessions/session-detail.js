@@ -34,6 +34,8 @@ export default function SessionDetail() {
 					isOwner ? (
 						<HeaderLinkButton
 							to={`/campaigns/${campaign.id}/sessions/${session.id}/edit`}
+							data-id="edit"
+							title="Edit (Ctrl/Cmd-E)"
 						>
 							Edit
 						</HeaderLinkButton>

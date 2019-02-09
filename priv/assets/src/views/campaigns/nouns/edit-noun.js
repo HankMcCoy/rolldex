@@ -57,13 +57,20 @@ export default function EditNoun() {
 						controls={
 							<ControlsWrapper>
 								<SecondaryHeaderButton
+									data-id="cancel"
 									onClick={e => {
 										onCancel()
 									}}
+									title="Cancel (Ctrl/Cmd-E)"
 								>
 									Cancel
 								</SecondaryHeaderButton>
-								<HeaderButton type="submit" onClick={() => handleSubmit()}>
+								<HeaderButton
+									type="submit"
+									data-id="save"
+									onClick={() => handleSubmit()}
+									title="Save (Ctrl/Cmd-S)"
+								>
 									Save
 								</HeaderButton>
 							</ControlsWrapper>

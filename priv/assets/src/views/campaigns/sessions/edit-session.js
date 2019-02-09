@@ -58,10 +58,17 @@ export default function EditSession() {
 									onClick={e => {
 										onCancel()
 									}}
+									data-id="cancel"
+									title="Cancel (Ctrl/Cmd-E)"
 								>
 									Cancel
 								</SecondaryHeaderButton>
-								<HeaderButton type="submit" onClick={() => handleSubmit()}>
+								<HeaderButton
+									type="submit"
+									onClick={() => handleSubmit()}
+									data-id="save"
+									title="Save (Ctrl/Cmd-S)"
+								>
 									Save
 								</HeaderButton>
 							</ControlsWrapper>

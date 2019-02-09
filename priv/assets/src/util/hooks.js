@@ -23,7 +23,7 @@ export const useKeydown = (
 	}, deps)
 }
 
-export const usePrevious = value => {
+export const usePrevious = <T>(value: T): T | null => {
 	const ref = useRef()
 	useEffect(() => {
 		ref.current = value

@@ -74,6 +74,8 @@ export default function NounDetail() {
 					isOwner ? (
 						<HeaderLinkButton
 							to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}
+							data-id="edit"
+							title="Edit (Ctrl/Cmd-E)"
 						>
 							Edit
 						</HeaderLinkButton>

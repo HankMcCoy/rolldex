@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react'
+import { useRef } from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 import { type Match, withRouter, Link } from 'react-router-dom'
@@ -11,6 +12,7 @@ import { Button, LinkButton } from 'r/components/button'
 import theme, { fromTheme } from 'r/theme'
 import ArrowSvg from 'r/svg/arrow'
 import { getSubAppColor, intersperse } from 'r/util'
+import { useKeydown } from 'r/util/hooks'
 
 const Root = styled('div')`
 	background: ${getSubAppColor};
@@ -97,6 +99,39 @@ export const ControlsWrapper = styled.div`
 	}
 `
 
+function useEditShortcuts(controls, controlsRef) {
+	const getChild = (selector: string): HTMLElement | null =>
+		controlsRef.current && controlsRef.current.querySelector(selector)
+	useKeydown(
+		document,
+		(event: KeyboardEvent) => {
+			if (controlsRef.current === null) {
+				return
+			}
+			const ctrlPressed = (event.metaKey || event.ctrlKey) && !event.shiftKey
+			const { key } = event
+			if (key === 'e' && ctrlPressed) {
+				event.preventDefault()
+				const editBtn = getChild('[data-id="edit"]')
+				const cancelBtn = getChild('[data-id="cancel"]')
+				if (editBtn) {
+					editBtn.click()
+				} else if (cancelBtn) {
+					cancelBtn.click()
+				}
+			}
+			if (key === 's' && ctrlPressed) {
+				event.preventDefault()
+				const saveBtn = getChild('[data-id="save"]')
+				if (saveBtn) {
+					saveBtn.click()
+				}
+			}
+		},
+		[controls]
+	)
+}
+
 type BreadcrumbDesc = {
 	text: string,
 	to: string,
@@ -115,6 +150,8 @@ function PageHeader({
 	breadcrumbs,
 	controls,
 }: ExternalProps & RouterProps) {
+	const controlsRef = useRef()
+	useEditShortcuts(controls, controlsRef)
 	return (
 		<Root match={match}>
 			<Left>
@@ -136,7 +173,7 @@ function PageHeader({
 				<Heading>{title}</Heading>
 				<Spacer height={10} />
 			</Left>
-			<Right>{controls}</Right>
+			<Right ref={controlsRef}>{controls}</Right>
 		</Root>
 	)
 }

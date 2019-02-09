@@ -1,5 +1,5 @@
 // @flow
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 export const useClick = (
 	el: HTMLElement | Document,
@@ -21,4 +21,12 @@ export const useKeydown = (
 		el.addEventListener('keydown', listener)
 		return () => el.removeEventListener('keydown', listener)
 	}, deps)
+}
+
+export const usePrevious = value => {
+	const ref = useRef()
+	useEffect(() => {
+		ref.current = value
+	})
+	return ref.current
 }

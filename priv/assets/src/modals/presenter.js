@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { useEffect, useReducer, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useReducer, useRef } from 'react'
 import { css } from '@emotion/core'
 
 import { useClick, useKeydown } from 'r/util/hooks'
@@ -28,6 +28,18 @@ function modalsReducer(state: State, action: Action) {
 		default:
 			throw new Error(`Invalid modals action ${action.type}`)
 	}
+}
+
+function usePreserveFocus(modals) {
+	// Restore the focus wherever it was previously, upon hiding the last modal.
+	const [prevFocusedEl, setPrevFocusedEl] = useState()
+	useLayoutEffect(() => {
+		if (modals.length) {
+			setPrevFocusedEl(document.activeElement)
+		} else if (prevFocusedEl) {
+			prevFocusedEl.focus()
+		}
+	}, [modals.length > 0])
 }
 
 type ContextType = {
@@ -77,6 +89,8 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 		},
 		[modals]
 	)
+
+	usePreserveFocus(modals)
 
 	useEffect(() => {
 		subscribeToErrors(() => {

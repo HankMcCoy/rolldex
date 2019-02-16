@@ -102,12 +102,6 @@ export default function JumpTo({ close }: { close: () => void }) {
 		}
 	}
 
-	const handleClick = (e: MouseEvent) => {
-		const rootEl = rootElRef.current
-		if (rootEl) {
-		}
-	}
-
 	const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget
 		setValue(value)
@@ -125,12 +119,8 @@ export default function JumpTo({ close }: { close: () => void }) {
 				inputEl.focus()
 			}
 		}
-		document.addEventListener('click', handleClick)
 		document.addEventListener('keydown', handleKeydown)
-		return () => {
-			document.removeEventListener('keydown', handleKeydown)
-			document.removeEventListener('click', handleClick)
-		}
+		return () => document.removeEventListener('keydown', handleKeydown)
 	})
 	const hasSelectedAddItem = selectedMatchIdx === searchMatches.length
 
@@ -139,7 +129,6 @@ export default function JumpTo({ close }: { close: () => void }) {
 			css={css`
 				position: absolute;
 				top: 20vh;
-				left: calc(50% - ${w / 2}px);
 			`}
 			ref={rootElRef}
 		>

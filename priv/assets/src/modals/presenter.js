@@ -2,10 +2,12 @@
 import * as React from 'react'
 import { useState, useEffect, useLayoutEffect, useReducer, useRef } from 'react'
 import { css } from '@emotion/core'
+import isHotkey from 'is-hotkey'
 
 import { useClick, useKeydown } from 'r/util/hooks'
 import { subscribeToErrors } from 'r/util/api'
 import JumpTo from './jump-to'
+import Help from './help'
 import NetworkError from './network-error'
 
 type Modal = React.Element<*>
@@ -33,13 +35,16 @@ function modalsReducer(state: State, action: Action) {
 function usePreserveFocus(modals) {
 	// Restore the focus wherever it was previously, upon hiding the last modal.
 	const [prevFocusedEl, setPrevFocusedEl] = useState()
-	useLayoutEffect(() => {
-		if (modals.length) {
-			setPrevFocusedEl(document.activeElement)
-		} else if (prevFocusedEl) {
-			prevFocusedEl.focus()
-		}
-	}, [modals.length > 0])
+	useLayoutEffect(
+		() => {
+			if (modals.length) {
+				setPrevFocusedEl(document.activeElement)
+			} else if (prevFocusedEl) {
+				prevFocusedEl.focus()
+			}
+		},
+		[modals.length > 0]
+	)
 }
 
 type ContextType = {
@@ -51,25 +56,29 @@ type ContextType = {
 const ModalContext = React.createContext<ContextType>()
 export const ModalsConsumer = ModalContext.Consumer
 
-function Presenter({ modals, showModal, closeModal }: ContextType) {
-	const rootRef = useRef<HTMLDivElement>(null)
-
-	const handleHidingModalOnEsc = (event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			closeModal()
-		}
-	}
-	const handleShowingJumpTo = (event: KeyboardEvent) => {
-		if (
-			event.key === 'k' &&
-			(event.metaKey || event.ctrlKey) &&
-			!event.shiftKey
-		) {
-			event.preventDefault()
-			if (!modals.length || modals[modals.length - 1].type !== JumpTo) {
-				showModal(<JumpTo close={closeModal} />)
+type KeyHandler = (e: KeyboardEvent) => void
+function useKeyBindings(
+	el: HTMLElement | Document,
+	keyHandlerMap: Map<string, KeyHandler>,
+	deps: $ReadOnlyArray<mixed>
+) {
+	const conditionalHandlers = Array.from(keyHandlerMap).map(
+		([keyDesc, handler]) => {
+			const matches: KeyboardEvent => boolean = isHotkey(keyDesc)
+			return (e: KeyboardEvent) => {
+				if (matches(e)) {
+					handler(e)
+				}
 			}
 		}
+	)
+	useKeydown(el, e => conditionalHandlers.forEach(h => h(e)), deps)
+}
+
+function Presenter({ modals, showModal, closeModal }: ContextType) {
+	const rootRef = useRef<HTMLDivElement>(null)
+	const showHelp = () => {
+		showModal(<Help />)
 	}
 
 	useClick(
@@ -81,12 +90,22 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 		},
 		[]
 	)
-	useKeydown(
+	useKeyBindings(
 		document,
-		(event: KeyboardEvent) => {
-			handleHidingModalOnEsc(event)
-			handleShowingJumpTo(event)
-		},
+		new Map([
+			['Escape', () => closeModal()],
+			[
+				'mod+k',
+				(event: KeyboardEvent) => {
+					event.preventDefault()
+					if (!modals.length || modals[modals.length - 1].type !== JumpTo) {
+						showModal(<JumpTo close={closeModal} />)
+					}
+				},
+			],
+			['mod+/', showHelp],
+			['shift+/', showHelp],
+		]),
 		[modals]
 	)
 
@@ -113,6 +132,8 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 				left: 0;
 				background: rgba(0, 0, 0, 0.3);
 				z-index: 1000;
+				display: flex;
+				justify-content: center;
 			`}
 		>
 			{modals.map((modal, idx) =>

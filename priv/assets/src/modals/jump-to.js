@@ -145,6 +145,7 @@ export default function JumpTo({ close }: { close: () => void }) {
 		>
 			<input
 				css={css`
+					font: unset;
 					width: ${w}px;
 					height: ${h}px;
 					padding: 20px 32px;

@@ -6,6 +6,9 @@ const commonStyle = css`
 	border-radius: 2px;
 	background: #fff;
 	font: unset;
+	width: 100%;
+	max-width: 100%;
+	min-width: 100%;
 `
 
 const singleLineStyle = css`

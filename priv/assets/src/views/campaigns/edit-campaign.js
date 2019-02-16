@@ -42,9 +42,6 @@ export default function EditCampaign() {
 							history.push(`/campaigns/${campaign.id}`)
 						})
 					}}
-					onCancel={() => {
-						history.goBack()
-					}}
 				/>
 			</PageContent>
 		</React.Fragment>

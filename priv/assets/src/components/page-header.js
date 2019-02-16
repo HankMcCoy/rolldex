@@ -13,6 +13,7 @@ import theme, { fromTheme } from 'r/theme'
 import ArrowSvg from 'r/svg/arrow'
 import { getSubAppColor, intersperse } from 'r/util'
 import { useKeydown } from 'r/util/hooks'
+import { useHistory } from 'r/util/router'
 
 const Root = styled('div')`
 	background: ${getSubAppColor};
@@ -182,3 +183,32 @@ const PageHeaderExport: React$ComponentType<ExternalProps> = withRouter(
 	PageHeader
 )
 export default PageHeaderExport
+
+export const SaveControls = ({
+	onSubmit,
+	onCancel,
+}: {
+	onSubmit: () => void,
+	onCancel?: () => void,
+}) => {
+	const history = useHistory()
+	return (
+		<ControlsWrapper>
+			<SecondaryHeaderButton
+				data-id="cancel"
+				onClick={onCancel || (() => history.goBack())}
+				title="Cancel (Ctrl/Cmd-E)"
+			>
+				Cancel
+			</SecondaryHeaderButton>
+			<HeaderButton
+				type="submit"
+				data-id="save"
+				onClick={() => onSubmit()}
+				title="Save (Ctrl/Cmd-S)"
+			>
+				Save
+			</HeaderButton>
+		</ControlsWrapper>
+	)
+}

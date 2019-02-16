@@ -6,11 +6,7 @@ import { useSession, useSessionMutations } from 'r/domains/sessions'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useRouteId, useHistory } from 'r/util/router'
 
-import PageHeader, {
-	HeaderButton,
-	SecondaryHeaderButton,
-	ControlsWrapper,
-} from 'r/components/page-header'
+import PageHeader, { SaveControls } from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
@@ -23,9 +19,6 @@ export default function EditSession() {
 	const { update: updateSession } = useSessionMutations()
 	if (!campaign || !session) return <LoadingPage />
 
-	const onCancel = () => {
-		history.goBack()
-	}
 	return (
 		<Formik
 			initialValues={{
@@ -52,30 +45,10 @@ export default function EditSession() {
 							{ text: 'Campaigns', to: '/campaigns' },
 							{ text: campaign.name, to: `/campaigns/${campaign.id}` },
 						]}
-						controls={
-							<ControlsWrapper>
-								<SecondaryHeaderButton
-									onClick={e => {
-										onCancel()
-									}}
-									data-id="cancel"
-									title="Cancel (Ctrl/Cmd-E)"
-								>
-									Cancel
-								</SecondaryHeaderButton>
-								<HeaderButton
-									type="submit"
-									onClick={() => handleSubmit()}
-									data-id="save"
-									title="Save (Ctrl/Cmd-S)"
-								>
-									Save
-								</HeaderButton>
-							</ControlsWrapper>
-						}
+						controls={<SaveControls onSubmit={handleSubmit} />}
 					/>
 					<PageContent>
-						<SessionForm handleSubmit={handleSubmit} onCancel={onCancel} />
+						<SessionForm handleSubmit={handleSubmit} />
 					</PageContent>
 				</React.Fragment>
 			)}

@@ -7,11 +7,7 @@ import { useNounMutations } from 'r/domains/nouns'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 
-import PageHeader, {
-	HeaderButton,
-	SecondaryHeaderButton,
-	ControlsWrapper,
-} from 'r/components/page-header'
+import PageHeader, { SaveControls } from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
@@ -24,9 +20,6 @@ function AddNoun() {
 
 	if (!campaign) return <LoadingPage />
 	const queryParams = qs.parse(history.location.search)
-	const onCancel = () => {
-		history.goBack()
-	}
 	return (
 		<Formik
 			initialValues={{
@@ -54,28 +47,10 @@ function AddNoun() {
 							{ text: 'Campaigns', to: '/campaigns' },
 							{ text: campaign.name, to: `/campaigns/${campaign.id}` },
 						]}
-						controls={
-							<ControlsWrapper>
-								<SecondaryHeaderButton
-									onClick={e => {
-										onCancel()
-									}}
-								>
-									Cancel
-								</SecondaryHeaderButton>
-								<HeaderButton
-									type="submit"
-									onClick={() => {
-										handleSubmit()
-									}}
-								>
-									Create
-								</HeaderButton>
-							</ControlsWrapper>
-						}
+						controls={<SaveControls onSubmit={handleSubmit} />}
 					/>
 					<PageContent>
-						<NounForm handleSubmit={handleSubmit} onCancel={onCancel} />
+						<NounForm handleSubmit={handleSubmit} />
 					</PageContent>
 				</React.Fragment>
 			)}

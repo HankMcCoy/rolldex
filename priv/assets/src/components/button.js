@@ -26,6 +26,7 @@ export const Button = styled(UnstyledButton)`
 `
 
 export const UnstyledLink = styled(Link)`
+	color: unset;
 	text-decoration: none;
 `
 

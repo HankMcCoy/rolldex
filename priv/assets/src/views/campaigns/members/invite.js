@@ -41,9 +41,6 @@ export default function AddNoun() {
 							history.push(`/campaigns/${campaign.id}`)
 						})
 					}}
-					onCancel={() => {
-						history.push(`/campaigns/${campaign.id}`)
-					}}
 				/>
 			</PageContent>
 		</React.Fragment>

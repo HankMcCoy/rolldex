@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { Link } from 'react-router-dom'
 import styled from '@emotion/styled/macro'
 import flowRight from 'lodash-es/flowRight'
 import omit from 'lodash-es/omit'
@@ -8,8 +7,9 @@ import { withState, lifecycle, mapProps } from 'recompose'
 
 import type { Noun } from 'r/domains/nouns'
 
-import H2 from 'r/components/h2'
+import { H2 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
+import PlainLink from 'r/components/plain-link'
 
 const Root = styled.div`
 	padding: 20px;
@@ -21,20 +21,19 @@ const Root = styled.div`
 const NounGroup = styled.div``
 
 const NounList = styled.ul`
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	& > *:not(:last-child) {
 		margin-bottom: 15px;
 	}
 `
 
-const UnstyledLink = styled(Link)`
-	text-decoration: none;
-`
-
 const NounLink = ({ noun, campaignId }) => (
 	<li>
-		<UnstyledLink to={`/campaigns/${campaignId}/nouns/${noun.id}`}>
+		<PlainLink to={`/campaigns/${campaignId}/nouns/${noun.id}`}>
 			- {noun.name}
-		</UnstyledLink>
+		</PlainLink>
 	</li>
 )
 

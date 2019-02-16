@@ -1,5 +1,5 @@
 import * as React from 'react'
-import H3 from 'r/components/h3'
+import { H3 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
 
 type Props = {

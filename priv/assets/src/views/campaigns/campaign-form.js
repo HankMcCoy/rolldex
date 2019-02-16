@@ -7,6 +7,7 @@ import { required } from 'r/util/formik'
 
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
+import { Textarea } from 'r/components/input'
 import Spacer from 'r/components/spacer'
 
 const FormWrapper = styled('div')`
@@ -40,7 +41,7 @@ function CampaignForm({ initialValues, onSubmit, onCancel }: Props) {
 						<FormField
 							name="description"
 							label="Description"
-							component="textarea"
+							component={Textarea}
 							validate={required}
 						/>
 						<Spacer height={20} />

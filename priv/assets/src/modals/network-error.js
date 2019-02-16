@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
 import { PrimaryButton } from 'r/components/button'
-import H1 from 'r/components/h1'
+import { H1 } from 'r/components/heading'
 
 const Modal = styled.div`
 	position: fixed;

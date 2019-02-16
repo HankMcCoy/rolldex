@@ -7,6 +7,7 @@ import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
 import MdEditor from 'r/components/md-editor'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
+import { Textarea } from 'r/components/input'
 import Spacer from 'r/components/spacer'
 
 import { type DraftSession } from 'r/domains/sessions'
@@ -58,7 +59,7 @@ export default function SessionForm({ handleSubmit, onCancel }: Props) {
 				<FormField
 					name="summary"
 					label="Summary"
-					component="textarea"
+					component={Textarea}
 					rows={3}
 					validate={required}
 				/>

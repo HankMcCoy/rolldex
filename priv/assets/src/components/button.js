@@ -9,6 +9,7 @@ export const UnstyledButton = styled.button`
 	border: none;
 	cursor: pointer;
 	text-align: left;
+	font: unset;
 `
 
 export const Button = styled(UnstyledButton)`

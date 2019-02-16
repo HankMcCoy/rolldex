@@ -9,7 +9,7 @@ import styled from '@emotion/styled/macro'
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
 import Spacer from 'r/components/spacer'
-import H1 from 'r/components/h1'
+import { H1 } from 'r/components/heading'
 import { PrimaryButton, UnstyledLink } from 'r/components/button'
 
 const FormWrapper = styled.form`

@@ -5,7 +5,8 @@ import styled from '@emotion/styled/macro'
 
 import { fromTheme } from 'r/theme'
 import Spacer from './spacer'
-import H2 from './h2'
+import { H2 } from './heading'
+import { P } from './text'
 
 const MarkdownContainer = styled.div`
 	& > span > * {
@@ -85,7 +86,7 @@ export default function TextSection({
 					{children}
 				</Markdown>
 			) : (
-				<p>{children}</p>
+				<P>{children}</P>
 			)}
 		</div>
 	)

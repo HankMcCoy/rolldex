@@ -6,7 +6,7 @@ import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 import { type Match, withRouter, Link } from 'react-router-dom'
 
-import H1 from 'r/components/h1'
+import { H1 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
 import { Button, LinkButton } from 'r/components/button'
 import theme, { fromTheme } from 'r/theme'

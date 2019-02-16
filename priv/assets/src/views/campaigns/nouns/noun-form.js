@@ -7,6 +7,7 @@ import type { NounType, DraftNoun } from 'r/domains/nouns'
 
 import MdEditor from 'r/components/md-editor'
 import FormField from 'r/components/form-field'
+import { Textarea, Select } from 'r/components/input'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import Spacer from 'r/components/spacer'
 import theme from 'r/theme'
@@ -54,7 +55,7 @@ export default function NounForm({ handleSubmit, onCancel }: Props) {
 				<FormField
 					name="nounType"
 					label="Type"
-					component="select"
+					component={Select}
 					validate={required}
 				>
 					<option value="" />
@@ -67,21 +68,17 @@ export default function NounForm({ handleSubmit, onCancel }: Props) {
 				<FormField
 					name="summary"
 					label="Summary"
-					component="textarea"
+					component={Textarea}
 					rows={3}
 					validate={required}
 				/>
 				<Spacer height={20} />
-				<FormField
-					name="notes"
-					label="Notes"
-					render={({ field }) => <MdEditor {...field} />}
-				/>
+				<FormField name="notes" label="Notes" component={MdEditor} />
 				<Spacer height={20} />
 				<FormField
 					name="privateNotes"
 					label="Private Notes"
-					render={({ field }) => <MdEditor {...field} />}
+					component={MdEditor}
 				/>
 				<Spacer height={20} />
 				<ButtonsWrapper>

@@ -2,6 +2,7 @@
 import * as React from 'react'
 import Markdown from 'react-remarkable'
 import styled from '@emotion/styled/macro'
+import { css } from '@emotion/core'
 
 import { fromTheme } from 'r/theme'
 import Spacer from './spacer'
@@ -75,7 +76,11 @@ export default function TextSection({
 	markdown = false,
 }: Props) {
 	return (
-		<div>
+		<div
+			css={css`
+				max-width: 700px;
+			`}
+		>
 			<H2>{title}</H2>
 			<Spacer height={15} />
 			{markdown ? (

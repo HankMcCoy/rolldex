@@ -15,6 +15,7 @@ const campaignColorLight = '#E4E4ED'
 const systemColor = '#417F9C'
 const primaryGreen = '#3BA170'
 const primaryGreenLight = '#44BA81'
+const dangerRed = '#b81422'
 
 export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
 	get(theme, path)
@@ -34,6 +35,7 @@ const theme = {
 	systemColor,
 	primaryGreen,
 	primaryGreenLight,
+	dangerRed,
 	textColor: gray20,
 
 	// SIZES

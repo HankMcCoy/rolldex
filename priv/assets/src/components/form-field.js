@@ -7,6 +7,7 @@ import { type ErrCode, getValidationMessage } from 'r/util/formik'
 import { H2 } from 'r/components/heading'
 import { Input } from 'r/components/input'
 import Spacer from 'r/components/spacer'
+import theme from 'r/theme'
 
 const Label = styled.label`
 	display: flex;
@@ -15,7 +16,7 @@ const Label = styled.label`
 
 const Error = styled.div`
 	margin-top: 5px;
-	color: #b81422;
+	color: ${theme.dangerRed};
 `
 
 type FieldInfo = {
@@ -59,17 +60,16 @@ export default function FormField<
 			name={name}
 			validate={validate}
 			render={({ field, form }: FieldProps) => {
+				const error: ErrCode = form.errors[name]
+				const isTouched = form.touched[name]
 				let content
 				if (render) {
 					content = render({ field, form })
 				} else if (Component) {
-					content = <Component {...rest} {...field} />
+					content = <Component {...rest} {...field} error={error} />
 				} else {
-					content = <Input {...rest} {...field} />
+					content = <Input {...rest} {...field} error={error} />
 				}
-
-				const error: ErrCode = form.errors[name]
-				const isTouched = form.touched[name]
 
 				return (
 					<Label>

@@ -1,8 +1,11 @@
 import styled from '@emotion/styled/macro'
 import { css } from '@emotion/core'
+import theme from 'r/theme'
 
-const commonStyle = css`
-	border: 1px solid #484d4b;
+const commonStyle = props => css`
+	border-width: 1px;
+	border-style: solid;
+	border-color: ${props.error ? theme.dangerRed : theme.gray30};
 	border-radius: 2px;
 	background: #fff;
 	font: unset;

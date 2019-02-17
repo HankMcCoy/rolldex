@@ -64,5 +64,10 @@ const theme = {
 			light: 400,
 		},
 	},
+
+	breakpoints: {
+		tablet: 1100,
+		phone: 800,
+	},
 }
 export default theme

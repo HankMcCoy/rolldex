@@ -4,6 +4,7 @@ import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
 import ScrollToTop from 'r/components/scroll-to-top'
+import theme from 'r/theme'
 
 import Sidebar from './sidebar'
 
@@ -16,6 +17,9 @@ const SidebarContainer = styled('div')`
 	flex: 0 0 300px;
 	overflow-y: auto;
 	display: flex;
+	@media (max-width: ${theme.breakpoints.tablet}px) {
+		flex: 0;
+	}
 `
 
 const ContentContainer = styled('div')`

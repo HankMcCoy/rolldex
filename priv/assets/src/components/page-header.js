@@ -17,9 +17,7 @@ import { useHistory } from 'r/util/router'
 
 const Root = styled('div')`
 	background: ${getSubAppColor};
-	height: ${fromTheme('topBarHeight')};
-	flex: 0 0 ${fromTheme('topBarHeight')};
-	line-height: ${fromTheme('topBarHeight')};
+	flex: 0 0 auto;
 	padding-left: ${fromTheme('pageHzPadding')};
 	padding-right: ${fromTheme('pageHzPadding')};
 	display: flex;
@@ -28,7 +26,8 @@ const Root = styled('div')`
 `
 
 const Left = styled('div')`
-	flex: 0 0 auto;
+	flex: 0 1 auto;
+	min-width: 0;
 `
 
 const Right = styled('div')`
@@ -36,14 +35,9 @@ const Right = styled('div')`
 `
 
 const Heading = styled(H1)`
-	height: 40px;
-	line-height: 30px;
+	line-height: 1;
+	padding-right: 10px;
 	color: ${fromTheme('white')};
-`
-
-const BreadcrumbsWrapper = styled.div`
-	display: flex;
-	opacity: 0.85;
 `
 
 const Breadcrumb = styled(Link)`
@@ -133,6 +127,27 @@ function useEditShortcuts(controls, controlsRef) {
 	)
 }
 
+function Breadcrumbs({ breadcrumbs }: { breadcrumbs: Array<BreadcrumbDesc> }) {
+	return (
+		<div
+			css={css`
+				display: flex;
+			`}
+		>
+			{intersperse(
+				breadcrumbs.map(({ text, to }, i) => (
+					<Breadcrumb key={i} to={to}>
+						{text}
+					</Breadcrumb>
+				)),
+				i => (
+					<Separator key={`sep-${i}`} />
+				)
+			)}
+		</div>
+	)
+}
+
 type BreadcrumbDesc = {
 	text: string,
 	to: string,
@@ -156,23 +171,20 @@ function PageHeader({
 	return (
 		<Root match={match}>
 			<Left>
-				<Spacer height={10} />
-				{breadcrumbs && (
-					<BreadcrumbsWrapper>
-						{intersperse(
-							breadcrumbs.map(({ text, to }, i) => (
-								<Breadcrumb key={i} to={to}>
-									{text}
-								</Breadcrumb>
-							)),
-							i => (
-								<Separator key={`sep-${i}`} />
-							)
-						)}
-					</BreadcrumbsWrapper>
+				{breadcrumbs ? (
+					<>
+						<Spacer height={10} />
+						<Breadcrumbs breadcrumbs={breadcrumbs} />
+						<Heading>{title}</Heading>
+						<Spacer height={14} />
+					</>
+				) : (
+					<>
+						<Spacer height={32} />
+						<Heading>{title}</Heading>
+						<Spacer height={32} />
+					</>
 				)}
-				<Heading>{title}</Heading>
-				<Spacer height={10} />
 			</Left>
 			<Right ref={controlsRef}>{controls}</Right>
 		</Root>

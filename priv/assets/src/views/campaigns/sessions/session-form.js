@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
 
 import { required } from 'r/util/formik'
 import { StandardForm } from 'r/components/form'

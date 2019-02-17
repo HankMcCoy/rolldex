@@ -2,7 +2,7 @@
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
-import { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageWithSidebar from 'r/components/page-with-sidebar'
@@ -32,17 +32,23 @@ const nounTypeToSvg: { [NounType]: React.Node } = {
 }
 
 const AvatarWrapper = styled.div`
-	width: ${fromTheme('pageSidebarWidth')}px;
-	height: ${fromTheme('pageSidebarWidth')}px;
+	width: ${theme.pageSidebarWidth}px;
+	height: ${theme.pageSidebarWidth}px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	background: #9c9dc9;
-	border-bottom: 1px solid ${fromTheme('gray87')};
+	border-bottom: 1px solid ${theme.gray87};
+
+	@media (max-width: ${theme.breakpoints.phone}px) {
+		width: 100%;
+		height: 200px;
+	}
+
 	& > svg {
 		width: 60%;
 		height: 60%;
-		stroke: ${fromTheme('white')};
+		stroke: ${theme.white};
 	}
 `
 

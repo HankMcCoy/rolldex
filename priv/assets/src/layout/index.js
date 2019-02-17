@@ -10,7 +10,9 @@ import Sidebar from './sidebar'
 
 const Root = styled('div')`
 	display: flex;
-	height: 100vh;
+	@media (min-width: ${theme.breakpoints.tablet + 1}px) {
+		height: 100vh;
+	}
 `
 
 const SidebarContainer = styled('div')`
@@ -24,10 +26,11 @@ const SidebarContainer = styled('div')`
 
 const ContentContainer = styled('div')`
 	flex: 1 0 0%;
-	overflow-y: auto;
-	-webkit-overflow-scroll: touch;
 	display: flex;
 	flex-direction: column;
+	@media (min-width: ${theme.breakpoints.tablet + 1}px) {
+		overflow-y: auto;
+	}
 `
 
 type Props = {

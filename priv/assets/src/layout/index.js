@@ -25,6 +25,7 @@ const SidebarContainer = styled('div')`
 const ContentContainer = styled('div')`
 	flex: 1 0 0%;
 	overflow-y: auto;
+	-webkit-overflow-scroll: touch;
 	display: flex;
 	flex-direction: column;
 `

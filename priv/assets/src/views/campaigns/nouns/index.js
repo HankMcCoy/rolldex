@@ -20,22 +20,7 @@ export default function Nouns({ match }: Props) {
 				<Route exact path={`${match.path}/:nounId/edit`} component={EditNoun} />
 				<Route
 					exact
-					path={`${match.path}/:nounType(people)`}
-					component={NounTypeList}
-				/>
-				<Route
-					exact
-					path={`${match.path}/:nounType(factions)`}
-					component={NounTypeList}
-				/>
-				<Route
-					exact
-					path={`${match.path}/:nounType(places)`}
-					component={NounTypeList}
-				/>
-				<Route
-					exact
-					path={`${match.path}/:nounType(things)`}
+					path={`${match.path}/:nounType(people|places|things|factions)`}
 					component={NounTypeList}
 				/>
 				<Route path={`${match.path}/:nounId`} component={NounDetail} />

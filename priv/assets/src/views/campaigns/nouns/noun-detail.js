@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
 import theme from 'r/theme'
-import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
+import PageHeader, { EditControls } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageWithSidebar from 'r/components/page-with-sidebar'
 import TextSection from 'r/components/text-section'
@@ -22,7 +22,7 @@ import ThingSvg from 'r/svg/thing'
 import FactionSvg from 'r/svg/faction'
 
 import RelatedSessions from './related-sessions'
-import { getNounTypeTitle, getNounTypePathToken } from './util'
+import { getNounTypeTitle, getNounTypePathToken } from '../util/noun-util'
 
 const nounTypeToSvg: { [NounType]: React.Node } = {
 	PERSON: <PersonSvg />,
@@ -77,15 +77,10 @@ export default function NounDetail() {
 					},
 				]}
 				controls={
-					isOwner ? (
-						<HeaderLinkButton
-							to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}
-							data-id="edit"
-							title="Edit (Ctrl/Cmd-E)"
-						>
-							Edit
-						</HeaderLinkButton>
-					) : null
+					<EditControls
+						to={`/campaigns/${campaign.id}/nouns/${noun.id}/edit`}
+						isOwner={isOwner}
+					/>
 				}
 			/>
 			<PageWithSidebar

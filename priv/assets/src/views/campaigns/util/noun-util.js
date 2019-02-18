@@ -1,7 +1,16 @@
 // @flow
 import { type NounType } from 'r/domains/nouns'
 
-type NounTypePathToken = 'people' | 'factions' | 'places' | 'things'
+const nounTypePathTokensObj = {
+	people: null,
+	places: null,
+	things: null,
+	factions: null,
+}
+type NounTypePathToken = $Keys<typeof nounTypePathTokensObj>
+export const nounTypePathTokens: Array<NounTypePathToken> = Object.keys(
+	nounTypePathTokensObj
+)
 
 export const getNounTypePathToken = (nounType: NounType): NounTypePathToken => {
 	switch (nounType) {
@@ -49,3 +58,6 @@ export const getNounTypeTitle = (nounType: NounType) => {
 			throw new Error(`Unknown NounType: ${nounType}`)
 	}
 }
+
+export const getNounTypeTitleFromPathToken = (token: NounTypePathToken) =>
+	getNounTypeTitle(getNounTypeFromPathToken(token))

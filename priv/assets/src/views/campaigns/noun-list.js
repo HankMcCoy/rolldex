@@ -13,7 +13,7 @@ import { SecondaryLinkButton } from 'r/components/button'
 import { type Campaign, useIsOwner } from 'r/domains/campaigns'
 import { type Noun, type NounType } from 'r/domains/nouns'
 
-import { getNounTypePathToken } from './nouns/util'
+import { getNounTypePathToken } from './util/noun-util'
 
 type Props = {|
 	campaign: Campaign,

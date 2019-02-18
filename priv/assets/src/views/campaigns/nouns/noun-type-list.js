@@ -17,7 +17,7 @@ import { useCurCampaign } from 'r/domains/campaigns'
 import { useNounList, useNounMutations } from 'r/domains/nouns'
 import { useRouteParam } from 'r/util/router'
 
-import { getNounTypeFromPathToken, getNounTypeTitle } from './util'
+import { getNounTypeFromPathToken, getNounTypeTitle } from '../util/noun-util'
 
 export default function NounTypeList() {
 	const { datum: campaign } = useCurCampaign()

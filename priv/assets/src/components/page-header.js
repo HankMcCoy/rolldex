@@ -224,3 +224,17 @@ export const SaveControls = ({
 		</ControlsWrapper>
 	)
 }
+
+export const EditControls = ({
+	to,
+	isOwner,
+}: {
+	to: string,
+	isOwner: boolean,
+}) => {
+	return isOwner ? (
+		<HeaderLinkButton to={to} data-id="edit" title="Edit (Ctrl/Cmd-E)">
+			Edit
+		</HeaderLinkButton>
+	) : null
+}

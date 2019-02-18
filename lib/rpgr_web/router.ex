@@ -44,6 +44,8 @@ defmodule RpgrWeb.Router do
           get("/related-nouns", NounController, :related_nouns)
           get("/related-sessions", NounController, :related_sessions)
         end
+
+        resources("/noun-templates", NounTemplateController, only: [:index, :update, :show])
       end
     end
 

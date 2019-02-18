@@ -11,6 +11,7 @@ import AddCampaign from './add-campaign'
 import EditCampaign from './edit-campaign'
 import Sessions from './sessions'
 import Nouns from './nouns'
+import NounTemplates from './noun-templates'
 import InviteMember from './members/invite'
 
 function Campaign({ match }) {
@@ -23,6 +24,10 @@ function Campaign({ match }) {
 						<Route exact path={`${match.path}/edit`} component={EditCampaign} />
 						<Route path={`${match.path}/sessions`} component={Sessions} />
 						<Route path={`${match.path}/nouns`} component={Nouns} />
+						<Route
+							path={`${match.path}/noun-templates`}
+							component={NounTemplates}
+						/>
 						<Route
 							path={`${match.path}/members/invite`}
 							component={InviteMember}

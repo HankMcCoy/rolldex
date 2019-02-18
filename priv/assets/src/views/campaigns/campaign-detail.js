@@ -6,11 +6,14 @@ import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageContent from 'r/components/page-content'
 import TextSection from 'r/components/text-section'
+import AddBtn from 'r/components/add-btn'
 import Spacer from 'r/components/spacer'
 import AddableList from 'r/components/addable-list'
 import ColumnView, { Column } from 'r/components/column-view'
 import PlainLink from 'r/components/plain-link'
+import { IconButton } from 'r/components/button'
 import NotableCard from 'r/components/notable-card'
+import Stamp from 'r/svg/stamp'
 
 import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
 import { useSessionList } from 'r/domains/sessions'
@@ -55,8 +58,11 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 						<Spacer height={25} />
 						<AddableList
 							title="Members"
-							addPath={`/campaigns/${campaign.id}/members/invite`}
-							canEdit={isOwner}
+							controls={
+								isOwner ? (
+									<AddBtn to={`/campaigns/${campaign.id}/members/invite`} />
+								) : null
+							}
 						>
 							{memberList.map(m => (
 								<NotableCard
@@ -83,8 +89,11 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 						<Spacer height={25} />
 						<AddableList
 							title="Sessions"
-							addPath={`/campaigns/${campaign.id}/sessions/add`}
-							canEdit={isOwner}
+							controls={
+								isOwner ? (
+									<AddBtn to={`/campaigns/${campaign.id}/sessions/add`} />
+								) : null
+							}
 						>
 							{sessionList.map(s => (
 								<PlainLink

@@ -1,5 +1,7 @@
 // @flow
+import * as React from 'react'
 import styled from '@emotion/styled/macro'
+import { css } from '@emotion/core'
 import { Link } from 'react-router-dom'
 
 import theme from 'r/theme'
@@ -50,5 +52,39 @@ export const SecondaryButton = styled(Button)`
 `
 
 export const SecondaryLinkButton = SecondaryButton.withComponent(UnstyledLink)
+
+export const IconButton = ({
+	Icon,
+	...props
+}: {
+	Icon: React.ComponentType<{}>,
+}) => {
+	return (
+		<SecondaryLinkButton
+			css={css`
+				width: 34px;
+				height: 34px;
+				padding: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				path {
+					stroke: ${theme.gray38};
+				}
+				&:hover path {
+					stroke: ${theme.gray20};
+				}
+			`}
+			{...props}
+		>
+			<Icon
+				css={css`
+					width: 16px;
+					height: 16px;
+				`}
+			/>
+		</SecondaryLinkButton>
+	)
+}
 
 export default Button

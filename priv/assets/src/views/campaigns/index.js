@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import { SessionProvider } from 'r/domains/sessions'
 import { MemberProvider } from 'r/domains/members'
 import { NounProvider } from 'r/domains/nouns'
+import { NounTemplateProvider } from 'r/domains/noun-templates'
 import CampaignDetail from './campaign-detail'
 import CampaignList from './campaign-list'
 import AddCampaign from './add-campaign'
@@ -20,20 +21,26 @@ function Campaign({ match }) {
 		<SessionProvider key={campaignId}>
 			<MemberProvider key={campaignId}>
 				<NounProvider key={campaignId}>
-					<Switch>
-						<Route exact path={`${match.path}/edit`} component={EditCampaign} />
-						<Route path={`${match.path}/sessions`} component={Sessions} />
-						<Route path={`${match.path}/nouns`} component={Nouns} />
-						<Route
-							path={`${match.path}/noun-templates`}
-							component={NounTemplates}
-						/>
-						<Route
-							path={`${match.path}/members/invite`}
-							component={InviteMember}
-						/>
-						<Route exact path={match.path} component={CampaignDetail} />
-					</Switch>
+					<NounTemplateProvider key={campaignId}>
+						<Switch>
+							<Route
+								exact
+								path={`${match.path}/edit`}
+								component={EditCampaign}
+							/>
+							<Route path={`${match.path}/sessions`} component={Sessions} />
+							<Route path={`${match.path}/nouns`} component={Nouns} />
+							<Route
+								path={`${match.path}/noun-templates`}
+								component={NounTemplates}
+							/>
+							<Route
+								path={`${match.path}/members/invite`}
+								component={InviteMember}
+							/>
+							<Route exact path={match.path} component={CampaignDetail} />
+						</Switch>
+					</NounTemplateProvider>
 				</NounProvider>
 			</MemberProvider>
 		</SessionProvider>

@@ -8,10 +8,14 @@ import { getFirstNByDateUpdated } from 'r/util'
 import AddableList from 'r/components/addable-list'
 import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
-import { SecondaryLinkButton } from 'r/components/button'
+import { IconButton, SecondaryLinkButton } from 'r/components/button'
+import AddBtn from 'r/components/add-btn'
+import Stamp from 'r/svg/stamp'
+import Spacer from 'r/components/spacer'
 
 import { type Campaign, useIsOwner } from 'r/domains/campaigns'
 import { type Noun, type NounType } from 'r/domains/nouns'
+import { useNounTemplateIdByType } from 'r/domains/noun-templates'
 
 import { getNounTypePathToken } from './util/noun-util'
 
@@ -31,11 +35,28 @@ export default function NounList({
 }: Props) {
 	const isOwner = useIsOwner(campaign)
 	const relevantNouns = allNouns.filter(n => n.noun_type === nounType)
+	const nounTemplateId = useNounTemplateIdByType(nounType)
 	return (
 		<AddableList
 			title={`${title} (${relevantNouns.length})`}
-			addPath={`/campaigns/${campaign.id}/nouns/add?nounType=${nounType}`}
-			canEdit={isOwner}
+			controls={
+				isOwner ? (
+					<div
+						css={css`
+							display: flex;
+						`}
+					>
+						<IconButton
+							Icon={Stamp}
+							to={`/campaigns/${campaign.id}/noun-templates/${nounTemplateId}`}
+						/>
+						<Spacer width={10} />
+						<AddBtn
+							to={`/campaigns/${campaign.id}/nouns/add?nounType=${nounType}`}
+						/>
+					</div>
+				) : null
+			}
 		>
 			{getFirstNByDateUpdated(relevantNouns, 3).map(n => (
 				<PlainLink

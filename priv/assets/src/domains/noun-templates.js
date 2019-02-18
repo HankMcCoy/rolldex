@@ -28,7 +28,7 @@ const { Provider, useList, useOne, useMutations } = createGenericDomain<
 	name: 'NounTemplates',
 	useRootPath: () => {
 		const campaignId = useCampaignId()
-		return `/api/campaigns/${campaignId}/nouns-templates`
+		return `/api/campaigns/${campaignId}/noun-templates`
 	},
 	wrapPost: data => ({ noun_template: data }),
 	wrapPut: data => ({ noun_template: data }),
@@ -38,11 +38,13 @@ const { Provider, useList, useOne, useMutations } = createGenericDomain<
  * We need to look up the ID for specific noun types in order to render links.
  */
 const useNounTemplateIdByType = (nounType: NounType) => {
-	const { list } = useList(['id'])
-	if (list) {
+	const { list, hasLoadedAll } = useList(['id'])
+	if (hasLoadedAll) {
 		const nounTemplate = list.find(nt => nt.noun_type === nounType)
 		if (!nounTemplate) {
-			throw new Error(`Could not find a matching template for type ${nounType}`)
+			console.log('BAD', { list, nounType })
+			return undefined
+			//throw new Error(`Could not find a matching template for type ${nounType}`)
 		}
 		return nounTemplate.id
 	}
@@ -59,7 +61,7 @@ const useNounTemplateMutations = () => {
 }
 
 export {
-	Provider as NounProvider,
+	Provider as NounTemplateProvider,
 	useList as useNounTemplateList,
 	useOne as useNounTemplate,
 	useNounTemplateIdByType,

@@ -4,7 +4,6 @@ import styled from '@emotion/styled/macro'
 
 import { H2 } from './heading'
 import Spacer from './spacer'
-import AddBtn from './add-btn'
 import { List } from './lists'
 
 const Header = styled.div`
@@ -14,21 +13,15 @@ const Header = styled.div`
 
 type Props = {
 	title: string,
-	addPath: string,
-	canEdit: boolean,
+	controls: React.Node,
 	children: React.Node,
 }
-export default function AddableList({
-	title,
-	addPath,
-	canEdit,
-	children,
-}: Props) {
+export default function AddableList({ title, controls, children }: Props) {
 	return (
 		<div>
 			<Header>
 				<H2>{title}</H2>
-				{canEdit ? <AddBtn to={addPath} /> : null}
+				{controls}
 			</Header>
 			<Spacer height={10} />
 			<List>{children}</List>

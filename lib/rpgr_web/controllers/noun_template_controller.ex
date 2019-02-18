@@ -40,7 +40,7 @@ defmodule RpgrWeb.NounTemplateController do
       updated_at: DateTime.to_iso8601(DateTime.utc_now())
     },
     %{
-      id: 14,
+      id: 15,
       name: "Add faction name here",
       noun_type: "FACTION",
       campaign_id: 3,

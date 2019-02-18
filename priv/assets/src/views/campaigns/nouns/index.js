@@ -7,6 +7,7 @@ import NounDetail from './noun-detail'
 import AddNoun from './add-noun'
 import EditNoun from './edit-noun'
 import NounTypeList from './noun-type-list'
+import { nounTypePathTokens } from '../util/noun-util'
 
 type Props = {
 	match: Match,
@@ -20,7 +21,7 @@ export default function Nouns({ match }: Props) {
 				<Route exact path={`${match.path}/:nounId/edit`} component={EditNoun} />
 				<Route
 					exact
-					path={`${match.path}/:nounType(people|places|things|factions)`}
+					path={`${match.path}/:nounType(${nounTypePathTokens.join('|')})`}
 					component={NounTypeList}
 				/>
 				<Route path={`${match.path}/:nounId`} component={NounDetail} />

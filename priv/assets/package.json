@@ -34,7 +34,7 @@
 	"scripts": {
 		"start": "react-app-rewired start",
 		"flow": "flow",
-		"build": "npm install && react-app-rewired build",
+		"build": "yarn && react-app-rewired build",
 		"test": "react-app-rewired test --env=jsdom",
 		"eject": "react-app-rewired eject"
 	},

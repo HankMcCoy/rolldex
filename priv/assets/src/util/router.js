@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { __RouterContext } from 'react-router'
 import { type Location } from 'react-router-dom'
 import { type History } from 'history'
@@ -20,4 +20,10 @@ export const useHistory = (): History => {
 export const useLocation = (): Location => {
 	const { location }: { location: Location } = useContext(__RouterContext)
 	return location
+}
+
+export const useTitle = (title: string) => {
+	useEffect(() => {
+		document.title = title
+	})
 }

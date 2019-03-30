@@ -13,7 +13,7 @@ import theme, { fromTheme } from 'r/theme'
 import ArrowSvg from 'r/svg/arrow'
 import { getSubAppColor, intersperse } from 'r/util'
 import { useKeydown } from 'r/util/hooks'
-import { useHistory } from 'r/util/router'
+import { useHistory, useTitle } from 'r/util/router'
 
 const Root = styled('div')`
 	background: ${getSubAppColor};
@@ -168,6 +168,7 @@ function PageHeader({
 }: ExternalProps & RouterProps) {
 	const controlsRef = useRef()
 	useEditShortcuts(controls, controlsRef)
+	useTitle(title)
 	return (
 		<Root match={match}>
 			<Left>

@@ -51,26 +51,28 @@ const wrapSelection = (idx, count) => {
 }
 
 const campaignIdRegExp = new RegExp('/campaigns/([0-9]+)(?:/|$)')
-const getCampaignId = (location: { pathname: string }): number => {
+export const useCampaignId = (): ?number => {
+	const location = useLocation()
 	let campaignId: ?number = undefined
 	const idMatch = campaignIdRegExp.exec(location.pathname)
 	if (idMatch) {
 		campaignId = parseInt(idMatch[1], 10)
 	}
 
-	if (!campaignId) {
-		throw new Error(`Could not find campaignId in URL, ${location.pathname}`)
-	}
 	return campaignId
 }
 
-export default function JumpTo({ close }: { close: () => void }) {
+export default function JumpTo({
+	close,
+	campaignId,
+}: {
+	close: () => void,
+	campaignId: number,
+}) {
 	const [searchMatches, setSearchMatches] = useState<Array<SearchMatch>>([])
 	const [value, setValue] = useState('')
 	const [selectedMatchIdx, setSelectedMatchIdx] = useState(0)
-	const location = useLocation()
 	const rootElRef = useRef()
-	const campaignId = getCampaignId(location)
 
 	const handleKeydown = (e: KeyboardEvent) => {
 		const rootEl = rootElRef.current

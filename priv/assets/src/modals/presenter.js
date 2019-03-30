@@ -3,10 +3,12 @@ import * as React from 'react'
 import { useState, useEffect, useLayoutEffect, useReducer, useRef } from 'react'
 import { css } from '@emotion/core'
 import isHotkey from 'is-hotkey'
+import last from 'lodash-es/last'
+import get from 'lodash-es/get'
 
 import { useClick, useKeydown } from 'r/util/hooks'
 import { subscribeToErrors } from 'r/util/api'
-import JumpTo from './jump-to'
+import JumpTo, { useCampaignId } from './jump-to'
 import Help from './help'
 import NetworkError from './network-error'
 
@@ -35,16 +37,13 @@ function modalsReducer(state: State, action: Action) {
 function usePreserveFocus(modals) {
 	// Restore the focus wherever it was previously, upon hiding the last modal.
 	const [prevFocusedEl, setPrevFocusedEl] = useState()
-	useLayoutEffect(
-		() => {
-			if (modals.length) {
-				setPrevFocusedEl(document.activeElement)
-			} else if (prevFocusedEl) {
-				prevFocusedEl.focus()
-			}
-		},
-		[modals.length > 0]
-	)
+	useLayoutEffect(() => {
+		if (modals.length) {
+			setPrevFocusedEl(document.activeElement)
+		} else if (prevFocusedEl) {
+			prevFocusedEl.focus()
+		}
+	}, [modals.length > 0])
 }
 
 type ContextType = {
@@ -81,6 +80,7 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 		showModal(<Help />)
 	}
 
+	const campaignId = useCampaignId()
 	useClick(
 		document,
 		(event: MouseEvent) => {
@@ -98,15 +98,17 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 				'mod+k',
 				(event: KeyboardEvent) => {
 					event.preventDefault()
-					if (!modals.length || modals[modals.length - 1].type !== JumpTo) {
-						showModal(<JumpTo close={closeModal} />)
+
+					const jumpToAlreadyShown = get(last(modals), 'type') === JumpTo
+					if (campaignId && !jumpToAlreadyShown) {
+						showModal(<JumpTo close={closeModal} campaignId={campaignId} />)
 					}
 				},
 			],
 			['mod+/', showHelp],
 			['shift+/', showHelp],
 		]),
-		[modals]
+		[modals, campaignId]
 	)
 
 	usePreserveFocus(modals)

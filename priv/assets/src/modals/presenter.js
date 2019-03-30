@@ -76,7 +76,9 @@ function useKeyBindings(
 
 function Presenter({ modals, showModal, closeModal }: ContextType) {
 	const rootRef = useRef<HTMLDivElement>(null)
-	const showHelp = () => {
+	const showHelp = (event: KeyboardEvent) => {
+		// Ctrl-/ seems to select all text on the page unless prevented.
+		event.preventDefault()
 		showModal(<Help />)
 	}
 
@@ -106,7 +108,16 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 				},
 			],
 			['mod+/', showHelp],
-			['shift+/', showHelp],
+			[
+				'shift+/',
+				(event: KeyboardEvent) => {
+					// We don't want to show the help modal every time someone enters a
+					// '?' character into an input
+					if (document.activeElement && !('value' in document.activeElement)) {
+						showHelp(event)
+					}
+				},
+			],
 		]),
 		[modals, campaignId]
 	)

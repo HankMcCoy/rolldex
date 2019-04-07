@@ -20,8 +20,14 @@ export type DraftSession = $Diff<
 
 export const useSessionList = () =>
 	useFetch<Array<Session>>(`/api/campaigns/${useCampaignId()}/sessions`)
-export const useSession = (id: number) =>
-	useFetch<Session>(`/api/campaigns/${useCampaignId()}/sessions/${id}`)
+
+export const useSession = (id: number): [?Session, any] => {
+	const [sessions, err] = useSessionList()
+	if (sessions) {
+		return [sessions.find(n => n.id === id), err]
+	}
+	return [undefined, err]
+}
 
 export const createSession = (draft: DraftSession) =>
 	post({

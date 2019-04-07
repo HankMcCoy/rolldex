@@ -22,8 +22,13 @@ export type DraftNoun = $Diff<
 
 export const useNounList = () =>
 	useFetch<Array<Noun>>(`/api/campaigns/${useCampaignId()}/nouns`)
-export const useNoun = (id: number) =>
-	useFetch<Noun>(`/api/campaigns/${useCampaignId()}/nouns/${id}`)
+export const useNoun = (id: number): [?Noun, any] => {
+	const [nouns, err] = useNounList()
+	if (nouns) {
+		return [nouns.find(n => n.id === id), err]
+	}
+	return [undefined, err]
+}
 
 export const createNoun = (draft: DraftNoun) =>
 	post({

@@ -14,22 +14,22 @@ import ColumnView, { Column } from 'r/components/column-view'
 import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 
-import { type Campaign, useCampaignId, useIsOwner } from 'r/domains/campaigns'
+import { useCampaignId, useCurCampaign, useIsOwner } from 'r/domains/campaigns'
 import { type Session, deleteSession } from 'r/domains/sessions'
-import { type Noun } from 'r/domains/nouns'
-import type { Member } from 'r/domains/members'
+import { useNounList } from 'r/domains/nouns'
+import { useMemberList } from 'r/domains/members'
 import { useFetch, remove } from 'r/util/use-fetch'
 
 import NounList from './noun-list'
 
 function CampaignDetail() {
 	const id = useCampaignId()
-	const [campaign] = useFetch<Campaign>(`/api/campaigns/${id}`)
+	const [campaign] = useCurCampaign()
 	const [sessionList] = useFetch<Array<Session>>(
 		`/api/campaigns/${id}/sessions`
 	)
-	const [memberList] = useFetch<Array<Member>>(`/api/campaigns/${id}/members`)
-	const [nounList] = useFetch<Array<Noun>>(`/api/campaigns/${id}/nouns`)
+	const [memberList] = useMemberList()
+	const [nounList] = useNounList()
 	const isOwner = useIsOwner(campaign)
 	if (!campaign || !sessionList || !memberList || !nounList)
 		return <LoadingPage />

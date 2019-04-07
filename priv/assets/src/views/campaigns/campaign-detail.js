@@ -35,7 +35,7 @@ function CampaignDetail() {
 		return <LoadingPage />
 	const { name, description } = campaign
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={name}
 				breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
@@ -150,7 +150,7 @@ function CampaignDetail() {
 					</Column>
 				</ColumnView>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }
 

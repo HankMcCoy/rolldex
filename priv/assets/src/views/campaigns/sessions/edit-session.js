@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Formik } from 'formik'
 
-import { useSession, useSessionMutations } from 'r/domains/sessions'
+import { useSession, updateSession } from 'r/domains/sessions'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useRouteId, useHistory } from 'r/util/router'
 
@@ -13,10 +13,9 @@ import LoadingPage from 'r/components/loading-page'
 import SessionForm, { convertValuesToDraftSession } from './session-form'
 
 export default function EditSession() {
-	const { datum: campaign } = useCurCampaign()
-	const { datum: session } = useSession(useRouteId('sessionId'))
+	const [campaign] = useCurCampaign()
+	const [session] = useSession(useRouteId('sessionId'))
 	const history = useHistory()
-	const { update: updateSession } = useSessionMutations()
 	if (!campaign || !session) return <LoadingPage />
 
 	return (
@@ -33,6 +32,7 @@ export default function EditSession() {
 					...session,
 					...draftSession,
 				}).then(session => {
+					console.log('UPDATED SESSION', session)
 					setSubmitting(false)
 					history.push(`/campaigns/${campaign.id}/sessions/${session.id}`)
 				})

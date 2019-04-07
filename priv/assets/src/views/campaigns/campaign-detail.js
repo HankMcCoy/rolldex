@@ -15,19 +15,14 @@ import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 
 import { type Campaign, useCampaignId, useIsOwner } from 'r/domains/campaigns'
-import { type Session } from 'r/domains/sessions'
+import { type Session, deleteSession } from 'r/domains/sessions'
 import { type Noun } from 'r/domains/nouns'
 import type { Member } from 'r/domains/members'
-import { useFetch, mutate } from 'r/util/use-fetch'
+import { useFetch, remove } from 'r/util/use-fetch'
 
 import NounList from './noun-list'
 
-type Props = {
-	removeMember: (campaignId: number, memberId: number) => Promise<void>,
-	removeNoun: (campaignId: number, nounId: number) => Promise<void>,
-	removeSession: (campaignId: number, sessionId: number) => Promise<void>,
-}
-function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
+function CampaignDetail() {
 	const id = useCampaignId()
 	const [campaign] = useFetch<Campaign>(`/api/campaigns/${id}`)
 	const [sessionList] = useFetch<Array<Session>>(
@@ -78,10 +73,9 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 															} from this campaign?`
 														)
 													) {
-														mutate(
-															'DELETE',
-															`/api/campaigns/${id}/members/${m.id}`
-														)
+														remove({
+															path: `/api/campaigns/${id}/members/${m.id}`,
+														})
 													}
 											  }
 											: undefined
@@ -115,7 +109,7 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 																}"? This is not reversable.`
 															)
 														) {
-															removeSession(id, s.id)
+															deleteSession(s)
 														}
 												  }
 												: undefined
@@ -131,7 +125,6 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 							nounType="PERSON"
 							campaign={campaign}
 							nouns={nounList}
-							removeNoun={removeNoun}
 						/>
 						<Spacer height={25} />
 						<NounList
@@ -139,7 +132,6 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 							nounType="FACTION"
 							campaign={campaign}
 							nouns={nounList}
-							removeNoun={removeNoun}
 						/>
 						<Spacer height={25} />
 						<NounList
@@ -147,7 +139,6 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 							nounType="PLACE"
 							campaign={campaign}
 							nouns={nounList}
-							removeNoun={removeNoun}
 						/>
 						<Spacer height={25} />
 						<NounList
@@ -155,7 +146,6 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 							nounType="THING"
 							campaign={campaign}
 							nouns={nounList}
-							removeNoun={removeNoun}
 						/>
 					</Column>
 				</ColumnView>

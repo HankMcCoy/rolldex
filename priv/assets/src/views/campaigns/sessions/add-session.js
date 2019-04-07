@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Formik } from 'formik'
 
-import { useSessionMutations } from 'r/domains/sessions'
+import { createSession } from 'r/domains/sessions'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 
@@ -13,8 +13,7 @@ import LoadingPage from 'r/components/loading-page'
 import SessionForm, { convertValuesToDraftSession } from './session-form'
 
 export default function AddSession() {
-	const { datum: campaign } = useCurCampaign()
-	const { create: createSession } = useSessionMutations()
+	const [campaign] = useCurCampaign()
 	const history = useHistory()
 
 	if (!campaign) return <LoadingPage />

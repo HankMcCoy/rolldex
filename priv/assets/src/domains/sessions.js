@@ -1,6 +1,6 @@
 // @flow
+import { useFetch, post, put, remove } from 'r/util/use-fetch'
 import { useCampaignId } from './campaigns'
-import createGenericDomain from './create-generic-domain'
 
 export type Session = {|
 	id: number,
@@ -18,22 +18,26 @@ export type DraftSession = $Diff<
 	{| id: number, inserted_at: string, updated_at: string |}
 >
 
-const { Provider, useList, useOne, useMutations } = createGenericDomain<
-	DraftSession,
-	Session
->({
-	name: 'Sessions',
-	useRootPath: () => {
-		const campaignId = useCampaignId()
-		return `/api/campaigns/${campaignId}/sessions`
-	},
-	wrapPost: data => ({ session: data }),
-	wrapPut: data => ({ session: data }),
-})
+export const useSessionList = () =>
+	useFetch<Array<Session>>(`/api/campaigns/${useCampaignId()}/sessions`)
+export const useSession = (id: number) =>
+	useFetch<Session>(`/api/campaigns/${useCampaignId()}/sessions/${id}`)
 
-export {
-	Provider as SessionProvider,
-	useList as useSessionList,
-	useOne as useSession,
-	useMutations as useSessionMutations,
-}
+export const createSession = (draft: DraftSession) =>
+	post({
+		path: `/api/campaigns/${draft.campaign_id}/sessions`,
+		body: {
+			session: draft,
+		},
+	})
+export const updateSession = (session: Session) =>
+	put({
+		path: `/api/campaigns/${session.campaign_id}/sessions/${session.id}`,
+		body: {
+			session,
+		},
+	})
+export const deleteSession = (session: Session) =>
+	remove({
+		path: `/api/campaigns/${session.campaign_id}/sessions/${session.id}`,
+	})

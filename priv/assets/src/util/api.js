@@ -4,6 +4,7 @@ const errorSubscribers: Array<() => void> = []
 type Response = {
 	status: number,
 	ok: boolean,
+	json: () => Promise<{}>,
 }
 type Args = {
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE',

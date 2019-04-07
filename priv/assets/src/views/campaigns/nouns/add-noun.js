@@ -3,7 +3,7 @@ import * as React from 'react'
 import qs from 'query-string'
 import { Formik } from 'formik'
 
-import { useNounMutations } from 'r/domains/nouns'
+import { createNoun } from 'r/domains/nouns'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 
@@ -15,8 +15,7 @@ import NounForm, { convertValuesToDraftNoun } from './noun-form'
 
 function AddNoun() {
 	const history = useHistory()
-	const { datum: campaign } = useCurCampaign()
-	const { create: createNoun } = useNounMutations()
+	const [campaign] = useCurCampaign()
 
 	if (!campaign) return <LoadingPage />
 	const queryParams = qs.parse(history.location.search)
@@ -34,7 +33,7 @@ function AddNoun() {
 				createNoun({
 					...draftNoun,
 					campaign_id: campaign.id,
-				}).then(noun => {
+				}).then(() => {
 					setSubmitting(false)
 					history.push(`/campaigns/${campaign.id}`)
 				})

@@ -4,6 +4,7 @@ import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import flowRight from 'lodash-es/flowRight'
+import sortBy from 'lodash-es/sortBy'
 
 import { useCampaignList } from 'r/domains/campaigns'
 import theme, { fromTheme } from 'r/theme'
@@ -38,7 +39,7 @@ const ChildLink = styled(CommonLink)`
 `
 
 function Nav() {
-	const { list: campaigns } = useCampaignList(['name'])
+	const [campaigns] = useCampaignList()
 	const curUser = useCurUser()
 	return (
 		<div
@@ -60,7 +61,7 @@ function Nav() {
 						<ActiveSection>
 							<SubAppLink to="/campaigns">Campaigns</SubAppLink>
 							{campaigns &&
-								campaigns.map(c => (
+								sortBy(campaigns, 'name').map(c => (
 									<ChildLink
 										key={c.id}
 										to={`/campaigns/${c.id}`}

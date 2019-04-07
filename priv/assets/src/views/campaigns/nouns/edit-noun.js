@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Formik } from 'formik'
 
-import { useNoun, useNounMutations } from 'r/domains/nouns'
+import { useNoun, updateNoun } from 'r/domains/nouns'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory, useRouteId } from 'r/util/router'
 
@@ -14,9 +14,8 @@ import NounForm, { type Values, convertValuesToDraftNoun } from './noun-form'
 
 export default function EditNoun() {
 	const history = useHistory()
-	const { datum: campaign } = useCurCampaign()
-	const { datum: noun } = useNoun(useRouteId('nounId'))
-	const { update: updateNoun } = useNounMutations()
+	const [campaign] = useCurCampaign()
+	const [noun] = useNoun(useRouteId('nounId'))
 
 	if (!campaign || !noun) return <LoadingPage />
 

@@ -91,12 +91,51 @@ export const useFetch = <T>(
 	return [data, error]
 }
 
-export const mutate = async (method: MutateMethod, path: string, body?: {}) => {
-	await window.fetch(path, {
+const mutate = async ({
+	method,
+	path,
+	body,
+}: {
+	method: MutateMethod,
+	path: string,
+	body?: {},
+}) => {
+	const resp = await window.fetch(path, {
 		...DEFAULT_OPTIONS,
 		method,
 		body: JSON.stringify(body),
 	})
+
+	invalidationManager.invalidate(path)
+
+	return resp
+}
+export const post = async <T>({
+	path,
+	body,
+}: {
+	path: string,
+	body?: {},
+}): Promise<T> => {
+	const resp = await mutate({ method: 'POST', path, body })
+
+	const { data } = await resp.json()
+	return data
+}
+export const put = async <T>({
+	path,
+	body,
+}: {
+	path: string,
+	body?: {},
+}): Promise<T> => {
+	const resp = await mutate({ method: 'PUT', path, body })
+
+	const { data } = await resp.json()
+	return data
+}
+export const remove = async ({ path }: { path: string }): Promise<void> => {
+	await mutate({ method: 'DELETE', path })
 
 	invalidationManager.invalidate(path)
 }

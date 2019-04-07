@@ -1,6 +1,6 @@
 // @flow
+import { useFetch, post, put, remove } from 'r/util/use-fetch'
 import { useCampaignId } from './campaigns'
-import createGenericDomain from './create-generic-domain'
 
 export type NounType = 'PERSON' | 'PLACE' | 'THING' | 'FACTION'
 export type Noun = {|
@@ -20,22 +20,24 @@ export type DraftNoun = $Diff<
 	{| id: number, inserted_at: string, updated_at: string |}
 >
 
-const { Provider, useList, useOne, useMutations } = createGenericDomain<
-	DraftNoun,
-	Noun
->({
-	name: 'Nouns',
-	useRootPath: () => {
-		const campaignId = useCampaignId()
-		return `/api/campaigns/${campaignId}/nouns`
-	},
-	wrapPost: data => ({ noun: data }),
-	wrapPut: data => ({ noun: data }),
-})
+export const useNounList = () =>
+	useFetch<Array<Noun>>(`/api/campaigns/${useCampaignId()}/nouns`)
+export const useNoun = (id: number) =>
+	useFetch<Noun>(`/api/campaigns/${useCampaignId()}/nouns/${id}`)
 
-export {
-	Provider as NounProvider,
-	useList as useNounList,
-	useOne as useNoun,
-	useMutations as useNounMutations,
-}
+export const createNoun = (draft: DraftNoun) =>
+	post({
+		path: `/api/campaigns/${draft.campaign_id}/nouns`,
+		body: {
+			noun: draft,
+		},
+	})
+export const updateNoun = (noun: Noun) =>
+	put({
+		path: `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}`,
+		body: {
+			noun,
+		},
+	})
+export const deleteNoun = (noun: Noun) =>
+	remove({ path: `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}` })

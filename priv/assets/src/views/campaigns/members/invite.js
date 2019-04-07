@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 
-import { useMemberMutations } from 'r/domains/members'
+import { createMember } from 'r/domains/members'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 
@@ -13,8 +13,7 @@ import MemberForm from './member-form'
 
 export default function AddNoun() {
 	const history = useHistory()
-	const { datum: campaign } = useCurCampaign()
-	const { create: createMember } = useMemberMutations()
+	const [campaign] = useCurCampaign()
 	if (!campaign) return <LoadingPage />
 	return (
 		<React.Fragment>

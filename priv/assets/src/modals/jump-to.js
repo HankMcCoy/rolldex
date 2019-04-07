@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from 'react'
 import { css } from '@emotion/core'
 import theme from 'r/theme'
 import { Link } from 'react-router-dom'
+import { useDebounce } from 'use-debounce'
 
-import { callApi } from 'r/util/api'
+import { callApi, ignoreAborts } from 'r/util/api'
 import { useLocation } from 'r/util/router'
 import { type NounType } from 'r/domains/nouns'
 
@@ -31,16 +32,6 @@ const getPath = (searchMatch: SearchMatch): string => {
 		default:
 			throw new Error('Unrecognized match type')
 	}
-}
-
-const getQuickSearchMatches = (
-	q: string,
-	campaign_id: number
-): Promise<Array<SearchMatch>> => {
-	return callApi({
-		method: 'GET',
-		path: `/api/campaigns/${campaign_id}/quick-find?q=${q}`,
-	}).then(({ data }) => data)
 }
 
 const wrapSelection = (idx, count) => {
@@ -71,6 +62,7 @@ export default function JumpTo({
 }) {
 	const [searchMatches, setSearchMatches] = useState<Array<SearchMatch>>([])
 	const [value, setValue] = useState('')
+	const [searchValue] = (useDebounce(value, 100): [string])
 	const [selectedMatchIdx, setSelectedMatchIdx] = useState(0)
 	const rootElRef = useRef()
 
@@ -104,14 +96,19 @@ export default function JumpTo({
 		}
 	}
 
-	const handleChange = (e: SyntheticEvent<HTMLInputElement>) => {
-		const { value } = e.currentTarget
-		setValue(value)
-
-		getQuickSearchMatches(value, campaignId).then(searchMatches => {
+	useEffect(() => {
+		const aborter = new AbortController()
+		callApi({
+			method: 'GET',
+			path: `/api/campaigns/${campaignId}/quick-find?q=${searchValue}`,
+			signal: aborter.signal,
+		}).then(({ data: searchMatches }) => {
 			setSearchMatches(searchMatches)
-		})
-	}
+		}, ignoreAborts)
+		return () => {
+			aborter.abort()
+		}
+	}, [searchValue])
 
 	useEffect(() => {
 		const rootEl = rootElRef.current
@@ -147,7 +144,9 @@ export default function JumpTo({
 					}
 				`}
 				placeholder="Jump to..."
-				onChange={handleChange}
+				onChange={(e: SyntheticEvent<HTMLInputElement>) =>
+					setValue(e.currentTarget.value)
+				}
 				value={value}
 			/>
 			<div>

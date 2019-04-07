@@ -11,12 +11,14 @@ type Args = {
 	path: string,
 	body?: any,
 	handleError?: (resp: Response) => boolean,
+	signal?: AbortSignal,
 }
 export const callApi = ({
 	method,
 	path,
 	body,
 	handleError,
+	signal,
 }: Args): Promise<any> => {
 	return window
 		.fetch(path, {
@@ -26,6 +28,7 @@ export const callApi = ({
 				'Content-Type': 'application/json; charset=utf-8',
 			},
 			credentials: 'include',
+			signal,
 		})
 		.then((resp: Response) => {
 			if (!resp.ok && (!handleError || handleError(resp))) {
@@ -43,4 +46,11 @@ export const callApi = ({
 
 export const subscribeToErrors = (callback: () => void) => {
 	errorSubscribers.push(callback)
+}
+
+export const ignoreAborts = e => {
+	if (e instanceof DOMException && e.name === 'AbortError') {
+		return
+	}
+	throw e
 }

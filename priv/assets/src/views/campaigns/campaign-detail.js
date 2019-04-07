@@ -1,6 +1,8 @@
 // @flow
 
 import * as React from 'react'
+import sortBy from 'lodash-es/sortBy'
+import reverse from 'lodash-es/reverse'
 
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
@@ -12,10 +14,11 @@ import ColumnView, { Column } from 'r/components/column-view'
 import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 
-import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
-import { useSessionList } from 'r/domains/sessions'
-import { useNounList } from 'r/domains/nouns'
-import { useMemberList } from 'r/domains/members'
+import { type Campaign, useCampaignId, useIsOwner } from 'r/domains/campaigns'
+import { type Session } from 'r/domains/sessions'
+import { type Noun } from 'r/domains/nouns'
+import type { Member } from 'r/domains/members'
+import { useFetch, mutate } from 'r/util/use-fetch'
 
 import NounList from './noun-list'
 
@@ -25,14 +28,17 @@ type Props = {
 	removeSession: (campaignId: number, sessionId: number) => Promise<void>,
 }
 function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
-	const { datum: campaign } = useCurCampaign()
-	const { list: sessionList } = useSessionList(['inserted_at'], 'DESC')
-	const { list: memberList } = useMemberList(['email'])
-	const { list: nounList } = useNounList(['name'])
+	const id = useCampaignId()
+	const [campaign] = useFetch<Campaign>(`/api/campaigns/${id}`)
+	const [sessionList] = useFetch<Array<Session>>(
+		`/api/campaigns/${id}/sessions`
+	)
+	const [memberList] = useFetch<Array<Member>>(`/api/campaigns/${id}/members`)
+	const [nounList] = useFetch<Array<Noun>>(`/api/campaigns/${id}/nouns`)
 	const isOwner = useIsOwner(campaign)
 	if (!campaign || !sessionList || !memberList || !nounList)
 		return <LoadingPage />
-	const { name, description, id } = campaign
+	const { name, description } = campaign
 	return (
 		<React.Fragment>
 			<PageHeader
@@ -55,7 +61,7 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 						<Spacer height={25} />
 						<AddableList
 							title="Members"
-							addPath={`/campaigns/${campaign.id}/members/invite`}
+							addPath={`/campaigns/${id}/members/invite`}
 							canEdit={isOwner}
 						>
 							{memberList.map(m => (
@@ -72,7 +78,10 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 															} from this campaign?`
 														)
 													) {
-														removeMember(id, m.id)
+														mutate(
+															'DELETE',
+															`/api/campaigns/${id}/members/${m.id}`
+														)
 													}
 											  }
 											: undefined
@@ -86,7 +95,7 @@ function CampaignDetail({ removeMember, removeNoun, removeSession }: Props) {
 							addPath={`/campaigns/${campaign.id}/sessions/add`}
 							canEdit={isOwner}
 						>
-							{sessionList.map(s => (
+							{reverse(sortBy(sessionList, 'inserted_at')).map(s => (
 								<PlainLink
 									key={s.id}
 									to={`/campaigns/${campaign.id}/sessions/${s.id}`}

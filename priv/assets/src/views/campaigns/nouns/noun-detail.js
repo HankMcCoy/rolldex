@@ -10,8 +10,9 @@ import TextSection from 'r/components/text-section'
 import RelatedNouns from 'r/components/related-nouns'
 import Spacer from 'r/components/spacer'
 
-import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
-import { type NounType, useNoun } from 'r/domains/nouns'
+import { type Campaign, useIsOwner, useCampaignId } from 'r/domains/campaigns'
+import { type Noun, type NounType } from 'r/domains/nouns'
+import { useFetch } from 'r/util/use-fetch'
 
 import { callApi } from 'r/util/api'
 import { useRouteId } from 'r/util/router'
@@ -53,8 +54,11 @@ const AvatarWrapper = styled.div`
 `
 
 export default function NounDetail() {
-	const { datum: campaign } = useCurCampaign()
-	const { datum: noun } = useNoun(useRouteId('nounId'))
+	const campaignId = useCampaignId()
+	const [campaign] = useFetch<Campaign>(`/api/campaigns/${campaignId}`)
+	const [noun] = useFetch<Noun>(
+		`/api/campaigns/${campaignId}/nouns/${useRouteId('nounId')}`
+	)
 	const isOwner = useIsOwner(campaign)
 	if (!noun || !campaign) return <LoadingPage />
 

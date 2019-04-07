@@ -1,12 +1,22 @@
 // @flow
 const errorSubscribers: Array<() => void> = []
 
+type Response = {
+	status: number,
+	ok: boolean,
+}
 type Args = {
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE',
 	path: string,
 	body?: any,
+	handleError?: (resp: Response) => boolean,
 }
-export const callApi = ({ method, path, body }: Args): Promise<any> => {
+export const callApi = ({
+	method,
+	path,
+	body,
+	handleError,
+}: Args): Promise<any> => {
 	return window
 		.fetch(path, {
 			method,
@@ -16,12 +26,12 @@ export const callApi = ({ method, path, body }: Args): Promise<any> => {
 			},
 			credentials: 'include',
 		})
-		.then(resp => {
-			if (resp.status === 401) {
-				window.location = '/login'
-				throw new Error('UNAUTHORIZED')
-			}
-			if (!resp.ok) {
+		.then((resp: Response) => {
+			if (!resp.ok && (!handleError || handleError(resp))) {
+				if (resp.status === 401) {
+					window.location = '/login'
+					throw new Error('UNAUTHORIZED')
+				}
 				errorSubscribers.forEach(subscriber => subscriber())
 				throw new Error('Fetch failed')
 			}

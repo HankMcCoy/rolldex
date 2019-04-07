@@ -30,16 +30,21 @@ export default function AddNoun() {
 					initialValues={{
 						email: '',
 					}}
-					onSubmit={(values, { setSubmitting }) => {
+					onSubmit={(values, { setSubmitting, setFieldError }) => {
 						const { email } = values
 						createMember({
 							email,
 							campaign_id: campaign.id,
 							member_type: 'READ_ONLY',
-						}).then(() => {
-							setSubmitting(false)
-							history.push(`/campaigns/${campaign.id}`)
-						})
+						}).then(
+							() => {
+								setSubmitting(false)
+								history.push(`/campaigns/${campaign.id}`)
+							},
+							error => {
+								setFieldError('email', 'Bad email')
+							}
+						)
 					}}
 				/>
 			</PageContent>

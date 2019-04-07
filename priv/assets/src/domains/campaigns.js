@@ -39,7 +39,7 @@ export {
 }
 
 export const useCampaignId = (): number => {
-	const campaignId = useRouteId('campaignId')
+	const campaignId: number = useRouteId('campaignId')
 	if (campaignId === undefined) {
 		throw new Error('Could not find campaignId in route match')
 	}

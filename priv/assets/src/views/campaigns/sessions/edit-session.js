@@ -38,7 +38,7 @@ export default function EditSession() {
 				})
 			}}
 			render={({ handleSubmit }) => (
-				<React.Fragment>
+				<>
 					<PageHeader
 						title="Edit Session"
 						breadcrumbs={[
@@ -50,7 +50,7 @@ export default function EditSession() {
 					<PageContent>
 						<SessionForm handleSubmit={handleSubmit} />
 					</PageContent>
-				</React.Fragment>
+				</>
 			)}
 		/>
 	)

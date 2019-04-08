@@ -39,7 +39,7 @@ function AddNoun() {
 				})
 			}}
 			render={({ handleSubmit }) => (
-				<React.Fragment>
+				<>
 					<PageHeader
 						title="New Noun"
 						breadcrumbs={[
@@ -51,7 +51,7 @@ function AddNoun() {
 					<PageContent>
 						<NounForm handleSubmit={handleSubmit} />
 					</PageContent>
-				</React.Fragment>
+				</>
 			)}
 		/>
 	)

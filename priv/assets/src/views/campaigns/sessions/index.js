@@ -12,7 +12,7 @@ type Props = {
 }
 export default function Sessions({ match }: Props) {
 	return (
-		<React.Fragment>
+		<>
 			<Switch>
 				<Route exact path={match.path} render={() => <Redirect to="" />} />
 				<Route exact path={`${match.path}/add`} component={AddSession} />
@@ -23,6 +23,6 @@ export default function Sessions({ match }: Props) {
 				/>
 				<Route path={`${match.path}/:sessionId`} component={SessionDetail} />
 			</Switch>
-		</React.Fragment>
+		</>
 	)
 }

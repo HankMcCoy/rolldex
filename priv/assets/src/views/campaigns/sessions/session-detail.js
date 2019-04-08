@@ -23,7 +23,7 @@ export default function SessionDetail() {
 	if (!session || !campaign) return <LoadingPage />
 	const { name, summary, notes, private_notes } = session
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={name}
 				breadcrumbs={[
@@ -44,22 +44,22 @@ export default function SessionDetail() {
 			/>
 			<PageWithSidebar
 				content={
-					<React.Fragment>
+					<>
 						<TextSection title="Summary">{summary}</TextSection>
 						<Spacer height={25} />
 						<TextSection title="Notes" markdown>
 							{notes}
 						</TextSection>
 						{isOwner ? (
-							<React.Fragment>
+							<>
 								<Spacer height={25} />
 								<TextSection title="Private Notes" markdown>
 									{private_notes}
 								</TextSection>
-							</React.Fragment>
+							</>
 						) : null}
 						<Spacer height={25} />
-					</React.Fragment>
+					</>
 				}
 				sidebar={
 					<RelatedNouns
@@ -75,6 +75,6 @@ export default function SessionDetail() {
 					/>
 				}
 			/>
-		</React.Fragment>
+		</>
 	)
 }

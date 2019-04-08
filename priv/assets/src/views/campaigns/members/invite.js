@@ -16,7 +16,7 @@ export default function AddNoun() {
 	const [campaign] = useCurCampaign()
 	if (!campaign) return <LoadingPage />
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title="New Member"
 				breadcrumbs={[
@@ -47,6 +47,6 @@ export default function AddNoun() {
 					}}
 				/>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }

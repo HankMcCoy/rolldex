@@ -49,7 +49,7 @@ export default function RelatedSessions({ campaignId, noun }: Props) {
 	return (
 		<Root>
 			{sessions.length ? (
-				<React.Fragment>
+				<>
 					<H2>Sessions</H2>
 					<Spacer height={15} />
 					<SessionList>
@@ -57,7 +57,7 @@ export default function RelatedSessions({ campaignId, noun }: Props) {
 							<SessionLink key={s.id} session={s} campaignId={campaignId} />
 						))}
 					</SessionList>
-				</React.Fragment>
+				</>
 			) : null}
 		</Root>
 	)

@@ -32,7 +32,7 @@ export default function NounTypeList() {
 	const relevantNouns = allNouns.filter((n: Noun) => n.noun_type === nounType)
 
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={getNounTypeTitle(nounType)}
 				breadcrumbs={[
@@ -81,6 +81,6 @@ export default function NounTypeList() {
 					))}
 				</List>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }

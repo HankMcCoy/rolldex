@@ -11,7 +11,7 @@ import CampaignForm from './campaign-form'
 export default function AddCampaign() {
 	const history = useHistory()
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader title="New Campaign" />
 			<PageContent>
 				<CampaignForm
@@ -28,6 +28,6 @@ export default function AddCampaign() {
 					}}
 				/>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }

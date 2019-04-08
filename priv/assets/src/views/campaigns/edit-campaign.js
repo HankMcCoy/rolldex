@@ -15,7 +15,7 @@ export default function EditCampaign() {
 	const history = useHistory()
 
 	return campaign ? (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={`Edit ${campaign.name}`}
 				breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
@@ -39,7 +39,7 @@ export default function EditCampaign() {
 					}}
 				/>
 			</PageContent>
-		</React.Fragment>
+		</>
 	) : (
 		<LoadingPage />
 	)

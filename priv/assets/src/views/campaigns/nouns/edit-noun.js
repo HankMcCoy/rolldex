@@ -39,7 +39,7 @@ export default function EditNoun() {
 				})
 			}}
 			render={({ handleSubmit }) => (
-				<React.Fragment>
+				<>
 					<PageHeader
 						title={`Edit ${noun.name}`}
 						breadcrumbs={[
@@ -51,7 +51,7 @@ export default function EditNoun() {
 					<PageContent>
 						<NounForm handleSubmit={handleSubmit} />
 					</PageContent>
-				</React.Fragment>
+				</>
 			)}
 		/>
 	)

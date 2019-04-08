@@ -27,7 +27,7 @@ type Props = {
 function CampaignList({ campaigns }: Props) {
 	const [campaignList] = useCampaignList()
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title="Campaigns"
 				controls={<AddBtn to="/campaigns/add" inverted />}
@@ -40,7 +40,7 @@ function CampaignList({ campaigns }: Props) {
 					  )
 					: 'Loading...'}
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }
 

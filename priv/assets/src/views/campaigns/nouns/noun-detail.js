@@ -63,7 +63,7 @@ export default function NounDetail() {
 	const nounTypeTitle = getNounTypeTitle(noun_type)
 
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={name}
 				breadcrumbs={[
@@ -90,25 +90,25 @@ export default function NounDetail() {
 			/>
 			<PageWithSidebar
 				content={
-					<React.Fragment>
+					<>
 						<TextSection title="Summary">{summary}</TextSection>
 						<Spacer height={25} />
 						<TextSection title="Notes" markdown>
 							{notes}
 						</TextSection>
 						{isOwner ? (
-							<React.Fragment>
+							<>
 								<Spacer height={25} />
 								<TextSection title="Private Notes" markdown>
 									{private_notes}
 								</TextSection>
-							</React.Fragment>
+							</>
 						) : null}
 						<Spacer height={25} />
-					</React.Fragment>
+					</>
 				}
 				sidebar={
-					<React.Fragment>
+					<>
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
 
 						<RelatedNouns
@@ -128,9 +128,9 @@ export default function NounDetail() {
 							noun={noun}
 							campaignId={campaign.id}
 						/>
-					</React.Fragment>
+					</>
 				}
 			/>
-		</React.Fragment>
+		</>
 	)
 }

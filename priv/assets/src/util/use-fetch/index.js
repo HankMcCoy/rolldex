@@ -12,14 +12,6 @@ type Response<T> = {
 }
 type MutateMethod = 'PUT' | 'POST' | 'DELETE'
 
-type FetchOptions<T> = {
-	handleResponse: (
-		Response<T>,
-		{ setData: T => void, setError: string => void }
-	) => boolean,
-	noCache?: boolean,
-}
-
 const DEFAULT_OPTIONS = {
 	headers: {
 		'Content-Type': 'application/json; charset=utf-8',
@@ -47,10 +39,17 @@ const useInvalidationHandling = (path: string) => {
 	return invalidationCount
 }
 
+const inFlight: Map<string, Promise<mixed>> = new Map()
+
+type FetchResult<T> = [T, void] | [void, Error]
+type FetchOptions<T> = {
+	handleResponse: (Response<T>) => FetchResult<T>,
+	noCache?: boolean,
+}
 export const useFetch = <T>(
 	path: string,
 	options?: FetchOptions<T> = {}
-): [?T, any] => {
+): FetchResult<T> => {
 	const { noCache, handleResponse } = options
 
 	let cancelled = false
@@ -61,33 +60,54 @@ export const useFetch = <T>(
 	const invalidateCount = useInvalidationHandling(path)
 
 	useEffect(() => {
-		const promise: Promise<Response<T>> = window.fetch(path, DEFAULT_OPTIONS)
+		const fetchData = (): Promise<FetchResult<T>> => {
+			const responsePromise: Promise<Response<T>> = window.fetch(path, {
+				DEFAULT_OPTIONS,
+			})
+			return responsePromise
+				.then(async (resp: Response<T>) => {
+					inFlight.delete(path)
+					if (handleResponse) {
+						const result = handleResponse(resp)
+						if (result) {
+							return result
+						}
+					}
+					if (resp.status >= 200 && resp.status < 300) {
+						const { data } = await resp.json()
+						cache.set(path, data)
+						return ([data, undefined]: [T, void])
+					} else {
+						const text = await resp.text()
+						return ([undefined, new Error(text)]: [void, Error])
+					}
+				})
+				.catch((e: Error) => {
+					return [undefined, e]
+				})
+		}
+		const promise: Promise<FetchResult<T>> =
+			// $FlowFixMe
+			inFlight.get(path) || inFlight.set(path, fetchData()).get(path)
 
-		promise
-			.then(async (resp: Response<T>) => {
-				if (cancelled) {
-					return
-				}
-				if (handleResponse && handleResponse(resp, { setData, setError })) {
-					return
-				}
-				if (resp.status >= 200 && resp.status < 300) {
-					const { data } = await resp.json()
-					cache.set(path, data)
-					setData(data)
-				} else {
-					const text = await resp.text()
-					setError(text)
-				}
-			})
-			.catch(e => {
-				setError(e)
-			})
+		promise.then(async (result: FetchResult<T>) => {
+			if (cancelled) {
+				return
+			}
+			const [data, error] = result
+			if (data) {
+				setData(data)
+			} else if (error && error.name !== 'AbortError') {
+				setError(error)
+			}
+		})
+
 		return () => {
 			cancelled = true
 		}
 	}, [path, invalidateCount])
 
+	// $FlowFixMe
 	return [data, error]
 }
 

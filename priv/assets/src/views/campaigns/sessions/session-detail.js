@@ -9,7 +9,6 @@ import Spacer from 'r/components/spacer'
 import { useSession } from 'r/domains/sessions'
 import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
 
-import { callApi } from 'r/util/api'
 import { useRouteId } from 'r/util/router'
 
 import PageWithSidebar from 'r/components/page-with-sidebar'
@@ -63,15 +62,9 @@ export default function SessionDetail() {
 				}
 				sidebar={
 					<RelatedNouns
-						campaignId={campaign.id}
-						getNouns={() =>
-							callApi({
-								path: `/api/campaigns/${campaign.id}/sessions/${
-									session.id
-								}/related-nouns`,
-								method: 'GET',
-							}).then(({ data: nouns }) => nouns)
-						}
+						path={`/api/campaigns/${campaign.id}/sessions/${
+							session.id
+						}/related-nouns`}
 					/>
 				}
 			/>

@@ -11,9 +11,8 @@ import RelatedNouns from 'r/components/related-nouns'
 import Spacer from 'r/components/spacer'
 
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
-import { type Noun, type NounType, useNoun } from 'r/domains/nouns'
+import { type NounType, useNoun } from 'r/domains/nouns'
 
-import { callApi } from 'r/util/api'
 import { useRouteId } from 'r/util/router'
 
 import PersonSvg from 'r/svg/person'
@@ -110,18 +109,11 @@ export default function NounDetail() {
 				sidebar={
 					<>
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
-
 						<RelatedNouns
 							key={`related-nouns-${noun.id}`}
-							campaignId={campaign.id}
-							getNouns={() =>
-								callApi({
-									path: `/api/campaigns/${campaign.id}/nouns/${
-										noun.id
-									}/related-nouns`,
-									method: 'GET',
-								}).then(({ data: nouns }) => nouns)
-							}
+							path={`/api/campaigns/${campaign.id}/nouns/${
+								noun.id
+							}/related-nouns`}
 						/>
 						<RelatedSessions
 							key={`related-sessions-${noun.id}`}

@@ -1,14 +1,14 @@
 // @flow
 import * as React from 'react'
-import { useState, useEffect } from 'react'
 import styled from '@emotion/styled/macro'
 import sortBy from 'lodash-es/sortBy'
 
 import type { Noun } from 'r/domains/nouns'
+import type { Session } from 'r/domains/sessions'
 import { H2 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
 import PlainLink from 'r/components/plain-link'
-import { callApi } from 'r/util/api'
+import { useFetch } from 'r/util/use-fetch'
 
 const Root = styled.div`
 	padding: 20px;
@@ -22,42 +22,36 @@ const SessionList = styled.ul`
 	}
 `
 
-const SessionLink = ({ session, campaignId }) => (
+const SessionLink = ({ session }: {| session: Session |}) => (
 	<li>
-		<PlainLink to={`/campaigns/${campaignId}/sessions/${session.id}`}>
+		<PlainLink to={`/campaigns/${session.campaign_id}/sessions/${session.id}`}>
 			- {session.name}
 		</PlainLink>
 	</li>
 )
 
 type Props = {|
-	campaignId: number,
 	noun: Noun,
 |}
-export default function RelatedSessions({ campaignId, noun }: Props) {
-	const [sessions, setSessions] = useState([])
-	useEffect(() => {
-		callApi({
-			path: `/api/campaigns/${campaignId}/nouns/${noun.id}/related-sessions`,
-			method: 'GET',
-		}).then(({ data: sessions }) => {
-			setSessions(sortBy(sessions, 'inserted_at'))
-		})
-	}, [campaignId, noun.id])
+export default function RelatedSessions({ noun }: Props) {
+	const [sessions] = useFetch<Array<Session>>(
+		`/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`
+	)
+
 	if (!sessions) return null
 
 	return (
 		<Root>
 			{sessions.length ? (
-				<React.Fragment>
+				<>
 					<H2>Sessions</H2>
 					<Spacer height={15} />
 					<SessionList>
-						{sessions.map(s => (
-							<SessionLink key={s.id} session={s} campaignId={campaignId} />
+						{sortBy(sessions, 'inserted_at').map((s: Session) => (
+							<SessionLink key={s.id} session={s} />
 						))}
 					</SessionList>
-				</React.Fragment>
+				</>
 			) : null}
 		</Root>
 	)

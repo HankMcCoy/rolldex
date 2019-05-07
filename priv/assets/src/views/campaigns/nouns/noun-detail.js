@@ -13,7 +13,6 @@ import Spacer from 'r/components/spacer'
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
 import { type NounType, useNoun } from 'r/domains/nouns'
 
-import { callApi } from 'r/util/api'
 import { useRouteId } from 'r/util/router'
 
 import PersonSvg from 'r/svg/person'
@@ -53,8 +52,8 @@ const AvatarWrapper = styled.div`
 `
 
 export default function NounDetail() {
-	const { datum: campaign } = useCurCampaign()
-	const { datum: noun } = useNoun(useRouteId('nounId'))
+	const [campaign] = useCurCampaign()
+	const [noun] = useNoun(useRouteId('nounId'))
 	const isOwner = useIsOwner(campaign)
 	if (!noun || !campaign) return <LoadingPage />
 
@@ -63,7 +62,7 @@ export default function NounDetail() {
 	const nounTypeTitle = getNounTypeTitle(noun_type)
 
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={name}
 				breadcrumbs={[
@@ -90,47 +89,40 @@ export default function NounDetail() {
 			/>
 			<PageWithSidebar
 				content={
-					<React.Fragment>
+					<>
 						<TextSection title="Summary">{summary}</TextSection>
 						<Spacer height={25} />
 						<TextSection title="Notes" markdown>
 							{notes}
 						</TextSection>
 						{isOwner ? (
-							<React.Fragment>
+							<>
 								<Spacer height={25} />
 								<TextSection title="Private Notes" markdown>
 									{private_notes}
 								</TextSection>
-							</React.Fragment>
+							</>
 						) : null}
 						<Spacer height={25} />
-					</React.Fragment>
+					</>
 				}
 				sidebar={
-					<React.Fragment>
+					<>
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
-
 						<RelatedNouns
 							key={`related-nouns-${noun.id}`}
-							campaignId={campaign.id}
-							getNouns={() =>
-								callApi({
-									path: `/api/campaigns/${campaign.id}/nouns/${
-										noun.id
-									}/related-nouns`,
-									method: 'GET',
-								}).then(({ data: nouns }) => nouns)
-							}
+							path={`/api/campaigns/${campaign.id}/nouns/${
+								noun.id
+							}/related-nouns`}
 						/>
 						<RelatedSessions
 							key={`related-sessions-${noun.id}`}
 							noun={noun}
 							campaignId={campaign.id}
 						/>
-					</React.Fragment>
+					</>
 				}
 			/>
-		</React.Fragment>
+		</>
 	)
 }

@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 
-import { useMemberMutations } from 'r/domains/members'
+import { createMember } from 'r/domains/members'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 
@@ -13,11 +13,10 @@ import MemberForm from './member-form'
 
 export default function AddNoun() {
 	const history = useHistory()
-	const { datum: campaign } = useCurCampaign()
-	const { create: createMember } = useMemberMutations()
+	const [campaign] = useCurCampaign()
 	if (!campaign) return <LoadingPage />
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title="New Member"
 				breadcrumbs={[
@@ -30,19 +29,24 @@ export default function AddNoun() {
 					initialValues={{
 						email: '',
 					}}
-					onSubmit={(values, { setSubmitting }) => {
+					onSubmit={(values, { setSubmitting, setFieldError }) => {
 						const { email } = values
 						createMember({
 							email,
 							campaign_id: campaign.id,
 							member_type: 'READ_ONLY',
-						}).then(() => {
-							setSubmitting(false)
-							history.push(`/campaigns/${campaign.id}`)
-						})
+						}).then(
+							() => {
+								setSubmitting(false)
+								history.push(`/campaigns/${campaign.id}`)
+							},
+							error => {
+								setFieldError('email', 'Bad email')
+							}
+						)
 					}}
 				/>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }

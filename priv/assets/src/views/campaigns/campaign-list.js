@@ -25,22 +25,22 @@ type Props = {
 	campaigns: Array<Campaign> | void,
 }
 function CampaignList({ campaigns }: Props) {
-	const { list: campaignList, hasLoadedAll } = useCampaignList(['inserted_at'])
+	const [campaignList] = useCampaignList()
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title="Campaigns"
 				controls={<AddBtn to="/campaigns/add" inverted />}
 			/>
 			<PageContent>
-				{hasLoadedAll
+				{campaignList
 					? intersperse(
 							campaignList.map(c => <CampaignCard campaign={c} key={c.id} />),
 							i => <Spacer height={10} key={`spacer-${i}`} />
 					  )
 					: 'Loading...'}
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }
 

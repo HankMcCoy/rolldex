@@ -11,7 +11,7 @@ import NotableCard from 'r/components/notable-card'
 import { SecondaryLinkButton } from 'r/components/button'
 
 import { type Campaign, useIsOwner } from 'r/domains/campaigns'
-import { type Noun, type NounType } from 'r/domains/nouns'
+import { type Noun, type NounType, deleteNoun } from 'r/domains/nouns'
 
 import { getNounTypePathToken } from './nouns/util'
 
@@ -20,14 +20,12 @@ type Props = {|
 	nouns: Array<Noun>,
 	nounType: NounType,
 	title: string,
-	removeNoun: (campaignId: number, nounId: number) => Promise<void>,
 |}
 export default function NounList({
 	campaign,
 	nouns: allNouns,
 	nounType,
 	title,
-	removeNoun,
 }: Props) {
 	const isOwner = useIsOwner(campaign)
 	const relevantNouns = allNouns.filter(n => n.noun_type === nounType)
@@ -57,7 +55,7 @@ export default function NounList({
 												}"? This is not reversible.`
 											)
 										) {
-											removeNoun(campaign.id, n.id)
+											deleteNoun(n)
 										}
 								  }
 								: undefined

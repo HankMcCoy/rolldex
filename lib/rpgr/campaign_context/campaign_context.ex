@@ -58,6 +58,7 @@ defmodule Rpgr.CampaignContext do
   defp get_campaigns_for_user_query(user_id) do
     from(
       c in Campaign,
+      distinct: true,
       left_join: m in Member,
       on: c.id == m.campaign_id,
       where: c.created_by_id == ^user_id or m.user_id == ^user_id

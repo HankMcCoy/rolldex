@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import sortBy from 'lodash-es/sortBy'
 
 import PageHeader, {
 	ControlsWrapper,
@@ -14,16 +15,15 @@ import { List } from 'r/components/lists'
 import { type Noun } from 'r/domains/nouns'
 import { useIsOwner } from 'r/domains/campaigns'
 import { useCurCampaign } from 'r/domains/campaigns'
-import { useNounList, useNounMutations } from 'r/domains/nouns'
+import { useNounList, deleteNoun } from 'r/domains/nouns'
 import { useRouteParam } from 'r/util/router'
 
 import { getNounTypeFromPathToken, getNounTypeTitle } from './util'
 
 export default function NounTypeList() {
-	const { datum: campaign } = useCurCampaign()
-	const { list: allNouns } = useNounList(['name'])
+	const [campaign] = useCurCampaign()
+	const [allNouns] = useNounList()
 	const nounTypePathToken = useRouteParam('nounType')
-	const { remove: removeNoun } = useNounMutations()
 	const isOwner = useIsOwner(campaign)
 
 	if (!campaign || !allNouns) return <LoadingPage />
@@ -32,7 +32,7 @@ export default function NounTypeList() {
 	const relevantNouns = allNouns.filter((n: Noun) => n.noun_type === nounType)
 
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={getNounTypeTitle(nounType)}
 				breadcrumbs={[
@@ -51,7 +51,7 @@ export default function NounTypeList() {
 			/>
 			<PageContent>
 				<List>
-					{relevantNouns.map(n => (
+					{sortBy(relevantNouns, 'name').map(n => (
 						<PlainLink
 							key={n.id}
 							to={`/campaigns/${campaign.id}/nouns/${n.id}`}
@@ -71,7 +71,7 @@ export default function NounTypeList() {
 														}"? This is not reversible.`
 													)
 												) {
-													removeNoun(n.id)
+													deleteNoun(n)
 												}
 										  }
 										: undefined
@@ -81,6 +81,6 @@ export default function NounTypeList() {
 					))}
 				</List>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }

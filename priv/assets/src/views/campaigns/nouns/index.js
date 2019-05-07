@@ -13,7 +13,7 @@ type Props = {
 }
 export default function Nouns({ match }: Props) {
 	return (
-		<React.Fragment>
+		<>
 			<Switch>
 				<Route exact path={match.path} render={() => <Redirect to="" />} />
 				<Route exact path={`${match.path}/add`} component={AddNoun} />
@@ -40,6 +40,6 @@ export default function Nouns({ match }: Props) {
 				/>
 				<Route path={`${match.path}/:nounId`} component={NounDetail} />
 			</Switch>
-		</React.Fragment>
+		</>
 	)
 }

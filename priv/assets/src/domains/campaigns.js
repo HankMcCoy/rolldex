@@ -1,6 +1,6 @@
 // @flow
 import { useRouteId } from 'r/util/router'
-import createGenericDomain from './create-generic-domain'
+import { useFetch, post, put } from 'r/util/use-fetch'
 import { useCurUser } from './auth'
 
 export type Campaign = {|
@@ -22,33 +22,25 @@ export type DraftCampaign = $Diff<
 	|}
 >
 
-const { Provider, useList, useOne, useMutations } = createGenericDomain<
-	DraftCampaign,
-	Campaign
->({
-	name: 'Campaigns',
-	useRootPath: () => '/api/campaigns',
-	wrapPost: data => ({ campaign: data }),
-	wrapPut: data => ({ campaign: data }),
-})
-export {
-	Provider as CampaignProvider,
-	useList as useCampaignList,
-	useOne as useCampaign,
-	useMutations as useCampaignMutations,
-}
-
 export const useCampaignId = (): number => {
-	const campaignId = useRouteId('campaignId')
+	const campaignId: number = useRouteId('campaignId')
 	if (campaignId === undefined) {
 		throw new Error('Could not find campaignId in route match')
 	}
 	return campaignId
 }
-
-export const useCurCampaign = () => useOne(useCampaignId())
-
 export const useIsOwner = (campaign: ?Campaign) => {
 	const curUser = useCurUser()
 	return campaign ? curUser.id === campaign.created_by_id : false
 }
+
+export const useCampaignList = () => useFetch<Array<Campaign>>('/api/campaigns')
+export const useCampaign = (id: number) =>
+	useFetch<Campaign>(`/api/campaigns/${id}`)
+export const useCurCampaign = () => useCampaign(useCampaignId())
+
+export const createCampaign = (draft: DraftCampaign) =>
+	post<Campaign>({ path: '/api/campaigns', body: { campaign: draft } })
+
+export const updateCampaign = (campaign: Campaign) =>
+	put<Campaign>({ path: '/api/campaigns', body: { campaign } })

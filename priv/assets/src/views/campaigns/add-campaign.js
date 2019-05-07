@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 
-import { useCampaignMutations } from 'r/domains/campaigns'
+import { createCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
@@ -9,10 +9,9 @@ import PageContent from 'r/components/page-content'
 import CampaignForm from './campaign-form'
 
 export default function AddCampaign() {
-	const { create: createCampaign } = useCampaignMutations()
 	const history = useHistory()
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader title="New Campaign" />
 			<PageContent>
 				<CampaignForm
@@ -29,6 +28,6 @@ export default function AddCampaign() {
 					}}
 				/>
 			</PageContent>
-		</React.Fragment>
+		</>
 	)
 }

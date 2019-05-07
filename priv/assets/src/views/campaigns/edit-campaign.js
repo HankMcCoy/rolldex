@@ -1,11 +1,7 @@
 // @flow
 import * as React from 'react'
 
-import {
-	useCampaign,
-	useCampaignId,
-	useCampaignMutations,
-} from 'r/domains/campaigns'
+import { useCampaign, useCampaignId, updateCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
@@ -15,12 +11,11 @@ import CampaignForm from './campaign-form'
 
 export default function EditCampaign() {
 	const campaignId = useCampaignId()
-	const { datum: campaign } = useCampaign(campaignId)
-	const { update } = useCampaignMutations()
+	const [campaign] = useCampaign(campaignId)
 	const history = useHistory()
 
 	return campaign ? (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={`Edit ${campaign.name}`}
 				breadcrumbs={[{ text: 'Campaigns', to: '/campaigns' }]}
@@ -33,7 +28,7 @@ export default function EditCampaign() {
 					}}
 					onSubmit={(values, { setSubmitting }) => {
 						const { name, description } = values
-						update({
+						updateCampaign({
 							...campaign,
 							name,
 							description,
@@ -44,7 +39,7 @@ export default function EditCampaign() {
 					}}
 				/>
 			</PageContent>
-		</React.Fragment>
+		</>
 	) : (
 		<LoadingPage />
 	)

@@ -13,40 +13,37 @@ import Campaigns from './views/campaigns'
 import Login from './views/auth/login'
 import Register from './views/auth/register'
 import { AuthProvider } from './domains/auth'
-import { CampaignProvider } from 'r/domains/campaigns'
 
 class App extends Component<{}> {
 	render() {
 		return (
 			<ThemeProvider theme={theme}>
-				<CampaignProvider>
-					<Router history={history}>
-						<ModalsPresenter>
-							<React.Fragment>
-								<Switch>
-									<Route
-										exact
-										path="/"
-										render={() => <Redirect to="/campaigns" />}
-									/>
-									<Route exact path="/login" component={Login} />
-									<Route exact path="/register" component={Register} />
-									<Route
-										render={() => (
-											<AuthProvider>
-												<Layout>
-													<Switch>
-														<Route path="/campaigns" component={Campaigns} />
-													</Switch>
-												</Layout>
-											</AuthProvider>
-										)}
-									/>
-								</Switch>
-							</React.Fragment>
-						</ModalsPresenter>
-					</Router>
-				</CampaignProvider>
+				<Router history={history}>
+					<ModalsPresenter>
+						<React.Fragment>
+							<Switch>
+								<Route
+									exact
+									path="/"
+									render={() => <Redirect to="/campaigns" />}
+								/>
+								<Route exact path="/login" component={Login} />
+								<Route exact path="/register" component={Register} />
+								<Route
+									render={() => (
+										<AuthProvider>
+											<Layout>
+												<Switch>
+													<Route path="/campaigns" component={Campaigns} />
+												</Switch>
+											</Layout>
+										</AuthProvider>
+									)}
+								/>
+							</Switch>
+						</React.Fragment>
+					</ModalsPresenter>
+				</Router>
 			</ThemeProvider>
 		)
 	}

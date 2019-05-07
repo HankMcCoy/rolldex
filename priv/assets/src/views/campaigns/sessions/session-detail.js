@@ -9,7 +9,6 @@ import Spacer from 'r/components/spacer'
 import { useSession } from 'r/domains/sessions'
 import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
 
-import { callApi } from 'r/util/api'
 import { useRouteId } from 'r/util/router'
 
 import PageWithSidebar from 'r/components/page-with-sidebar'
@@ -17,13 +16,13 @@ import PageWithSidebar from 'r/components/page-with-sidebar'
 import RelatedNouns from 'r/components/related-nouns'
 
 export default function SessionDetail() {
-	const { datum: session } = useSession(useRouteId('sessionId'))
-	const { datum: campaign } = useCurCampaign()
+	const [session] = useSession(useRouteId('sessionId'))
+	const [campaign] = useCurCampaign()
 	const isOwner = useIsOwner(campaign)
 	if (!session || !campaign) return <LoadingPage />
 	const { name, summary, notes, private_notes } = session
 	return (
-		<React.Fragment>
+		<>
 			<PageHeader
 				title={name}
 				breadcrumbs={[
@@ -44,37 +43,31 @@ export default function SessionDetail() {
 			/>
 			<PageWithSidebar
 				content={
-					<React.Fragment>
+					<>
 						<TextSection title="Summary">{summary}</TextSection>
 						<Spacer height={25} />
 						<TextSection title="Notes" markdown>
 							{notes}
 						</TextSection>
 						{isOwner ? (
-							<React.Fragment>
+							<>
 								<Spacer height={25} />
 								<TextSection title="Private Notes" markdown>
 									{private_notes}
 								</TextSection>
-							</React.Fragment>
+							</>
 						) : null}
 						<Spacer height={25} />
-					</React.Fragment>
+					</>
 				}
 				sidebar={
 					<RelatedNouns
-						campaignId={campaign.id}
-						getNouns={() =>
-							callApi({
-								path: `/api/campaigns/${campaign.id}/sessions/${
-									session.id
-								}/related-nouns`,
-								method: 'GET',
-							}).then(({ data: nouns }) => nouns)
-						}
+						path={`/api/campaigns/${campaign.id}/sessions/${
+							session.id
+						}/related-nouns`}
 					/>
 				}
 			/>
-		</React.Fragment>
+		</>
 	)
 }

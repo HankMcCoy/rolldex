@@ -1,15 +1,13 @@
 // @flow
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
-import flowRight from 'lodash-es/flowRight'
-import omit from 'lodash-es/omit'
-import { withState, lifecycle, mapProps } from 'recompose'
 
-import type { Noun } from 'r/domains/nouns'
+import type { Noun, NounType } from 'r/domains/nouns'
 
 import { H2 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
 import PlainLink from 'r/components/plain-link'
+import { useFetch } from 'r/util/use-fetch'
 
 const Root = styled.div`
 	padding: 20px;
@@ -29,24 +27,27 @@ const NounList = styled.ul`
 	}
 `
 
-const NounLink = ({ noun, campaignId }) => (
+const NounLink = ({ noun }: {| noun: Noun |}) => (
 	<li>
-		<PlainLink to={`/campaigns/${campaignId}/nouns/${noun.id}`}>
+		<PlainLink to={`/campaigns/${noun.campaign_id}/nouns/${noun.id}`}>
 			- {noun.name}
 		</PlainLink>
 	</li>
 )
 
-type Props = {
-	nouns: Array<Noun> | void,
-	campaignId: number,
-}
-function NounsInSession({ nouns, campaignId }: Props) {
-	if (!nouns) return 'Loading...'
-	const people = nouns.filter(n => n.noun_type === 'PERSON')
-	const places = nouns.filter(n => n.noun_type === 'PLACE')
-	const things = nouns.filter(n => n.noun_type === 'THING')
-	const factions = nouns.filter(n => n.noun_type === 'FACTION')
+const filterByType = (nouns: Array<Noun>, type: NounType) =>
+	nouns.filter(n => n.noun_type === type)
+
+type Props = {|
+	path: string,
+|}
+function RelatedNouns({ path }: Props) {
+	const [nouns] = useFetch<Array<Noun>>(path)
+	if (!nouns) return null
+	const people = filterByType(nouns, 'PERSON')
+	const places = filterByType(nouns, 'PLACE')
+	const things = filterByType(nouns, 'THING')
+	const factions = filterByType(nouns, 'FACTION')
 
 	return (
 		<Root>
@@ -56,7 +57,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
 					<Spacer height={15} />
 					<NounList>
 						{people.map(noun => (
-							<NounLink key={noun.id} noun={noun} campaignId={campaignId} />
+							<NounLink key={noun.id} noun={noun} />
 						))}
 					</NounList>
 				</NounGroup>
@@ -67,7 +68,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
 					<Spacer height={15} />
 					<NounList>
 						{factions.map(noun => (
-							<NounLink key={noun.id} noun={noun} campaignId={campaignId} />
+							<NounLink key={noun.id} noun={noun} />
 						))}
 					</NounList>
 				</NounGroup>
@@ -78,7 +79,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
 					<Spacer height={15} />
 					<NounList>
 						{places.map(noun => (
-							<NounLink key={noun.id} noun={noun} campaignId={campaignId} />
+							<NounLink key={noun.id} noun={noun} />
 						))}
 					</NounList>
 				</NounGroup>
@@ -89,7 +90,7 @@ function NounsInSession({ nouns, campaignId }: Props) {
 					<Spacer height={15} />
 					<NounList>
 						{things.map(noun => (
-							<NounLink key={noun.id} noun={noun} campaignId={campaignId} />
+							<NounLink key={noun.id} noun={noun} />
 						))}
 					</NounList>
 				</NounGroup>
@@ -98,13 +99,4 @@ function NounsInSession({ nouns, campaignId }: Props) {
 	)
 }
 
-export default flowRight(
-	withState('nouns', 'setNouns', []),
-	lifecycle({
-		componentDidMount() {
-			const { getNouns, setNouns } = this.props
-			getNouns().then(setNouns)
-		},
-	}),
-	mapProps(props => omit(props, ['setNouns']))
-)(NounsInSession)
+export default RelatedNouns

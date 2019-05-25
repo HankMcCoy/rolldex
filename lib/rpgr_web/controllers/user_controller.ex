@@ -14,7 +14,11 @@ defmodule RpgrWeb.UserController do
                       "david@garrison.net",
                       "dbellgarrison@gmail.com",
                       "alex@panger.org",
-                      "bethjohnson3@gmail.com"
+                      "bethjohnson3@gmail.com",
+                      "samabeken@aol.com",
+                      "erin@wohletz.net",
+                      "chad.cerruti@gmail.com",
+                      "dkenton702@gmail.com"
                     ])
 
   def register(conn, %{"email" => email, "password" => password}) do

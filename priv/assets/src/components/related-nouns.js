@@ -29,7 +29,10 @@ const NounList = styled.ul`
 
 const NounLink = ({ noun }: {| noun: Noun |}) => (
 	<li>
-		<PlainLink to={`/campaigns/${noun.campaign_id}/nouns/${noun.id}`}>
+		<PlainLink
+			to={`/campaigns/${noun.campaign_id}/nouns/${noun.id}`}
+			title={noun.summary}
+		>
 			- {noun.name}
 		</PlainLink>
 	</li>

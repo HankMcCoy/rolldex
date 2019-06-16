@@ -24,7 +24,10 @@ const SessionList = styled.ul`
 
 const SessionLink = ({ session }: {| session: Session |}) => (
 	<li>
-		<PlainLink to={`/campaigns/${session.campaign_id}/sessions/${session.id}`}>
+		<PlainLink
+			to={`/campaigns/${session.campaign_id}/sessions/${session.id}`}
+			title={session.summary}
+		>
 			- {session.name}
 		</PlainLink>
 	</li>

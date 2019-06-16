@@ -115,11 +115,7 @@ export default function NounDetail() {
 								noun.id
 							}/related-nouns`}
 						/>
-						<RelatedSessions
-							key={`related-sessions-${noun.id}`}
-							noun={noun}
-							campaignId={campaign.id}
-						/>
+						<RelatedSessions key={`related-sessions-${noun.id}`} noun={noun} />
 					</>
 				}
 			/>

@@ -27,10 +27,9 @@ const SessionList = styled.ul`
 const SessionLink = ({ session }: {| session: Session |}) => (
 	<Tooltip
 		renderTarget={ref => (
-			<li>
+			<li ref={ref}>
 				<PlainLink
 					to={`/campaigns/${session.campaign_id}/sessions/${session.id}`}
-					title={session.summary}
 				>
 					- {session.name}
 				</PlainLink>

@@ -68,12 +68,16 @@ export function useHoverCombo(delay: number = 150) {
 		latestHoveringA.current = isHoveringA
 		latestHoveringB.current = isHoveringB
 
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current)
+		}
 		if (isHoveringA || isHoveringB) {
-			setIsHovering(true)
+			timeoutRef.current = setTimeout(() => {
+				if (latestHoveringA.current || latestHoveringB.current) {
+					setIsHovering(true)
+				}
+			}, delay)
 		} else {
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current)
-			}
 			timeoutRef.current = setTimeout(() => {
 				if (!latestHoveringA.current && !latestHoveringB.current) {
 					setIsHovering(false)

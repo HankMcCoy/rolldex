@@ -9,6 +9,7 @@ import { H2 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
 import { StyledMarkdown } from 'r/components/text-section'
 import PlainLink from 'r/components/plain-link'
+import { Tooltip } from 'r/components/tooltip'
 import { useFetch } from 'r/util/use-fetch'
 import { useHover } from 'r/util/hooks'
 
@@ -30,39 +31,17 @@ const NounList = styled.ul`
 	}
 `
 
-const Tooltip = styled(StyledMarkdown)`
-	background: #333;
-	color: #fff;
-	padding: 20px;
-	border-radius: 3px;
-	max-width: 400px;
-`
-
 const NounLink = ({ noun }: {| noun: Noun |}) => {
-	const [hoverRef, isLinkHovered] = useHover()
-	console.log({ isLinkHovered })
 	return (
-		<TetherComponent
-			attachment="center right"
-			targetAttachment="center left"
-			offset="0 5px"
-			renderTarget={(ref: { -current: React$ElementRef<'li'> | null }) => (
-				<li
-					ref={el => {
-						console.log({ ref, el, hoverRef })
-						if (el) {
-							hoverRef.current = ref.current = el
-						}
-					}}
-				>
+		<Tooltip
+			renderTarget={ref => (
+				<li ref={ref}>
 					<PlainLink to={`/campaigns/${noun.campaign_id}/nouns/${noun.id}`}>
 						- {noun.name}
 					</PlainLink>
 				</li>
 			)}
-			renderElement={ref =>
-				isLinkHovered && <Tooltip ref={ref}>{noun.summary}</Tooltip>
-			}
+			tooltipContent={<StyledMarkdown>{noun.summary}</StyledMarkdown>}
 		/>
 	)
 }

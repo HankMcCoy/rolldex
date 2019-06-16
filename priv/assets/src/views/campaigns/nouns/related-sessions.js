@@ -8,6 +8,8 @@ import type { Session } from 'r/domains/sessions'
 import { H2 } from 'r/components/heading'
 import Spacer from 'r/components/spacer'
 import PlainLink from 'r/components/plain-link'
+import { Tooltip } from 'r/components/tooltip'
+import { StyledMarkdown } from 'r/components/text-section'
 import { useFetch } from 'r/util/use-fetch'
 
 const Root = styled.div`
@@ -23,14 +25,19 @@ const SessionList = styled.ul`
 `
 
 const SessionLink = ({ session }: {| session: Session |}) => (
-	<li>
-		<PlainLink
-			to={`/campaigns/${session.campaign_id}/sessions/${session.id}`}
-			title={session.summary}
-		>
-			- {session.name}
-		</PlainLink>
-	</li>
+	<Tooltip
+		renderTarget={ref => (
+			<li>
+				<PlainLink
+					to={`/campaigns/${session.campaign_id}/sessions/${session.id}`}
+					title={session.summary}
+				>
+					- {session.name}
+				</PlainLink>
+			</li>
+		)}
+		tooltipContent={<StyledMarkdown>{session.summary}</StyledMarkdown>}
+	/>
 )
 
 type Props = {|

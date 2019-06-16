@@ -54,3 +54,33 @@ export function useHover() {
 
 	return [ref, value]
 }
+
+export function useHoverCombo(delay: number = 150) {
+	const [isHovering, setIsHovering] = useState()
+	const [refA, isHoveringA] = useHover()
+	const [refB, isHoveringB] = useHover()
+	const timeoutRef = useRef()
+	const latestHoveringA = useRef(isHoveringA)
+	const latestHoveringB = useRef(isHoveringB)
+
+	useEffect(() => {
+		console.log({ isHoveringA, isHoveringB })
+		latestHoveringA.current = isHoveringA
+		latestHoveringB.current = isHoveringB
+
+		if (isHoveringA || isHoveringB) {
+			setIsHovering(true)
+		} else {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current)
+			}
+			timeoutRef.current = setTimeout(() => {
+				if (!latestHoveringA.current && !latestHoveringB.current) {
+					setIsHovering(false)
+				}
+			}, delay)
+		}
+	}, [isHoveringA, isHoveringB, delay])
+
+	return [refA, refB, isHovering]
+}

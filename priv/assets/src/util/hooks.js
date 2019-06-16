@@ -64,7 +64,6 @@ export function useHoverCombo(delay: number = 150) {
 	const latestHoveringB = useRef(isHoveringB)
 
 	useEffect(() => {
-		console.log({ isHoveringA, isHoveringB })
 		latestHoveringA.current = isHoveringA
 		latestHoveringB.current = isHoveringB
 

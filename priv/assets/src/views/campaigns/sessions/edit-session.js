@@ -32,7 +32,6 @@ export default function EditSession() {
 					...session,
 					...draftSession,
 				}).then(session => {
-					console.log('UPDATED SESSION', session)
 					setSubmitting(false)
 					history.push(`/campaigns/${campaign.id}/sessions/${session.id}`)
 				})

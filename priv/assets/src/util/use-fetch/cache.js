@@ -21,10 +21,8 @@ export default {
 	},
 	set: (path: string, data: mixed) => {
 		if (fetchCache.size > MAX_CACHE_SIZE && !fetchCache.has(path)) {
-			console.log('EVICTING')
 			const entries = [...fetchCache.entries()]
 			entries.slice(-NUM_TO_CLEAR).forEach(([key]) => {
-				console.log('EVICTING:', key)
 				fetchCache.delete(key)
 			})
 		}

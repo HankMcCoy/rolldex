@@ -65,6 +65,21 @@ const MarkdownContainer = styled.div`
 	}
 `
 
+type StyledMarkdownProps = { className?: string, children: string }
+export const StyledMarkdown = React.forwardRef<StyledMarkdownProps, {}>(
+	({ className, children }: StyledMarkdownProps, ref: any) => (
+		<div className={className}>
+			<Markdown
+				ref={ref}
+				container={MarkdownContainer}
+				options={{ html: true, breaks: true, linkify: true }}
+			>
+				{children}
+			</Markdown>
+		</div>
+	)
+)
+
 type Props = {
 	title: string,
 	children: React.Node,
@@ -84,12 +99,7 @@ export default function TextSection({
 			<H2>{title}</H2>
 			<Spacer height={15} />
 			{markdown ? (
-				<Markdown
-					container={MarkdownContainer}
-					options={{ html: true, breaks: true, linkify: true }}
-				>
-					{children}
-				</Markdown>
+				<StyledMarkdown>{children}</StyledMarkdown>
 			) : (
 				<P>{children}</P>
 			)}

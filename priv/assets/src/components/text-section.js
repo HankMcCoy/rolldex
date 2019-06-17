@@ -82,7 +82,7 @@ export const StyledMarkdown = React.forwardRef<StyledMarkdownProps, {}>(
 
 type Props = {
 	title: string,
-	children: React.Node,
+	children: string,
 	markdown?: boolean,
 }
 export default function TextSection({

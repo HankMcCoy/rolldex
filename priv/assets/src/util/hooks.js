@@ -1,6 +1,8 @@
 // @flow
 import { useEffect, useState, useRef } from 'react'
 
+export { useModals } from '../modals/presenter'
+
 export const useClick = (
 	el: HTMLElement | Document,
 	listener: MouseEvent => void,
@@ -86,4 +88,12 @@ export function useHoverCombo(delay: number = 150) {
 	}, [isHoveringA, isHoveringB, delay])
 
 	return [refA, refB, isHovering]
+}
+
+export function useInput(initValue?: string) {
+	const [value, setValue] = useState(initValue || '')
+	return {
+		value,
+		onChange: (e: { target: { value: string } }) => setValue(e.target.value),
+	}
 }

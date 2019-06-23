@@ -78,6 +78,16 @@ function Nav() {
 						<SubAppLink to="/campaigns">Campaigns</SubAppLink>
 					</Route>
 				</Switch>
+				<Switch>
+					<Route path="/systems">
+						<ActiveSection>
+							<SubAppLink to="/systems">Systems</SubAppLink>
+						</ActiveSection>
+					</Route>
+					<Route>
+						<SubAppLink to="/systems">Systems</SubAppLink>
+					</Route>
+				</Switch>
 			</div>
 			<div
 				css={css`

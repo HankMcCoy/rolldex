@@ -41,10 +41,12 @@ export const PrimaryButton = styled(Button)`
 `
 
 export const SecondaryButton = styled(Button)`
-	border: 1px solid ${theme.gray87};
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	color: ${theme.gray38};
+	background: rgba(255, 255, 255, 0.15);
 	&:hover {
-		border-color: ${theme.gray38};
+		background: rgba(255, 255, 255, 0.3);
+		border-color: rgba(0, 0, 0, 0.5);
 		color: ${theme.gray20};
 	}
 `

@@ -5,7 +5,7 @@ import theme from 'r/theme'
 const commonStyle = props => css`
 	border-width: 1px;
 	border-style: solid;
-	border-color: ${props.error ? theme.dangerRed : theme.gray30};
+	border-color: ${props.error ? theme.dangerRed : theme.gray50};
 	border-radius: 2px;
 	background: #fff;
 	font: unset;

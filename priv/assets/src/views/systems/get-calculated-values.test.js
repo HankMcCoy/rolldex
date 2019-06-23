@@ -74,3 +74,31 @@ it('calculates a value based on a single instance value', () => {
 
 	expect(result.get('str_mod')).toEqual(1)
 })
+
+it('ignores string values', () => {
+	const things: Array<ThingDef> = [
+		{
+			label: 'Character Name',
+			name: 'characterName',
+			children: [
+				{
+					type: 'INSTANCE_VALUE',
+					name: 'base',
+					valueType: 'string',
+				},
+			],
+		},
+	]
+	const sheetValues: Array<SheetValue> = [
+		{
+			name: 'characterName_base',
+			type: 'string',
+			value: 'Fluter Flam',
+		},
+	]
+	const thingsMap = new Map(arrToMap(things))
+	const sheetValuesMap = new Map(arrToMap(sheetValues))
+	const result = getCalculatedValues(thingsMap, sheetValuesMap)
+
+	expect(result.size).toEqual(0)
+})

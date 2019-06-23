@@ -10,13 +10,14 @@ import PageHeader from 'r/components/page-header'
 import Spacer from 'r/components/spacer'
 import AddBtn from 'r/components/add-btn'
 import { Input } from 'r/components/input'
-import { FormRow, Label } from 'r/components/form'
+import { FormRow } from 'r/components/form'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import { H2, H3 } from 'r/components/heading'
 import theme from 'r/theme'
 
 import type { ThingDef, ChildDef } from './types'
 import AddChildModal from './add-child-modal'
+import SheetPreview from './sheet-preview'
 
 const Content = styled.div`
 	display: flex;
@@ -34,15 +35,13 @@ const Controls = styled.div`
 	padding: 20px 30px;
 `
 
-const Sheet = styled.div`
+const LeftFrame = styled.div`
 	flex: 1 0 0%;
-	padding: 20px 30px;
 `
 
 const ChildrenFrame = styled.div`
-	border: 1px solid ${theme.gray87};
-	background: #f0f0f0;
-	padding: 20px;
+	border-left: 4px solid ${theme.gray87};
+	padding: 0 0 10px 20px;
 `
 
 function EditThing({
@@ -116,7 +115,7 @@ function EditThing({
 						flex-direction: row-reverse;
 					`}
 				>
-					<PrimaryButton>Submit</PrimaryButton>
+					<PrimaryButton>Save</PrimaryButton>
 					<Spacer width={10} />
 					<SecondaryButton
 						onClick={e => {
@@ -138,6 +137,9 @@ function Thing({ thing, edit }: { thing: ThingDef, edit: () => void }) {
 			<div
 				css={css`
 					line-height: 50px;
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
 				`}
 			>
 				{thing.name}
@@ -161,8 +163,8 @@ type ThingsAction =
 const mapAdd = <K, V>(map: Map<K, V>, key: K, value: V): Map<K, V> =>
 	new Map([...map, [key, value]])
 
-function addLogging<S, A>(reducer: (S, A) => S) {
-	return function loggingReducer(s: S, a: A): S {
+function addLogging<S, A>(reducer: (S, A) => S): (S, A) => S {
+	return function loggingReducer(s, a) {
 		const before = s
 		const after = reducer(s, a)
 		console.log({ action: a, before, after })
@@ -209,26 +211,9 @@ function Systems() {
 		<>
 			<PageHeader title="Systems" />
 			<Content>
-				<Sheet>
-					<H2>Preview</H2>
-					{[...things.values()].map(t => (
-						<Label>
-							{t.label}
-							{t.children.map(c => {
-								if (c.type === 'INSTANCE_VALUE') {
-									return (
-										<Input
-											type={c.valueType === 'number' ? 'number' : 'text'}
-										/>
-									)
-								} else if (c.type === 'CALC_VALUE') {
-									return <div>{c.calc}</div>
-								}
-								throw new Error('WTF')
-							})}
-						</Label>
-					))}
-				</Sheet>
+				<LeftFrame>
+					<SheetPreview things={things} />
+				</LeftFrame>
 				<Controls>
 					<H2>Things</H2>
 					<Spacer height={10} />

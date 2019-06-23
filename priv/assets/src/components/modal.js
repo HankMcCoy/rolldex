@@ -9,7 +9,7 @@ export const Modal = ({
 	className,
 }: {
 	children: React.Node,
-	className: string,
+	className?: string,
 }) => (
 	<div
 		css={css`

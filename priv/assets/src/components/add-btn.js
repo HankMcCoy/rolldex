@@ -16,6 +16,8 @@ const commonStyles = {
 	justifyContent: 'center',
 	fontSize: '24px',
 	borderRadius: '3px',
+	cursor: 'pointer',
+	border: 'none',
 }
 const commonDynamicStyles = ({ invertedFoo, match, theme }) => ({
 	background: invertedFoo ? theme.white : getSubAppColor({ match, theme }),

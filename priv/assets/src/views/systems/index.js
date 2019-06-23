@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react'
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 
@@ -10,12 +10,12 @@ import PageHeader from 'r/components/page-header'
 import Spacer from 'r/components/spacer'
 import AddBtn from 'r/components/add-btn'
 import { Input } from 'r/components/input'
-import { FormRow } from 'r/components/form'
+import { FormRow, Label } from 'r/components/form'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import { H2, H3 } from 'r/components/heading'
 import theme from 'r/theme'
 
-import { type ThingDef } from './types'
+import type { ThingDef, ChildDef } from './types'
 import AddChildModal from './add-child-modal'
 
 const Content = styled.div`
@@ -46,15 +46,20 @@ const ChildrenFrame = styled.div`
 `
 
 function EditThing({
+	thing,
 	onSave,
 	onCancel,
 }: {
+	thing?: ThingDef,
 	onSave: ThingDef => void,
 	onCancel: () => void,
 }) {
-	const name = useInput()
-	const label = useInput()
+	const name = useInput(thing && thing.name)
+	const label = useInput(thing && thing.label)
 	const { showModal, closeModal } = useModals()
+	const [children, setChildren] = useState<Array<ChildDef>>(
+		thing ? thing.children : []
+	)
 	return (
 		<ThingFrame>
 			<form
@@ -62,7 +67,7 @@ function EditThing({
 					onSave({
 						name: name.value,
 						label: label.value,
-						children: [],
+						children,
 					})
 				}}
 				css={css`
@@ -92,7 +97,7 @@ function EditThing({
 								showModal(
 									<AddChildModal
 										createChild={child => {
-											console.log(child)
+											setChildren([...children, child])
 										}}
 										closeModal={closeModal}
 									/>
@@ -100,6 +105,9 @@ function EditThing({
 							}}
 						/>
 					</div>
+					{children.map(c => (
+						<div>{c.name}</div>
+					))}
 				</ChildrenFrame>
 				<Spacer height={20} />
 				<div
@@ -124,7 +132,7 @@ function EditThing({
 	)
 }
 
-function Thing({ thing }: { thing: ThingDef }) {
+function Thing({ thing, edit }: { thing: ThingDef, edit: () => void }) {
 	return (
 		<ThingFrame>
 			<div
@@ -133,37 +141,68 @@ function Thing({ thing }: { thing: ThingDef }) {
 				`}
 			>
 				{thing.name}
+				<SecondaryButton onClick={edit}>Edit</SecondaryButton>
 			</div>
 		</ThingFrame>
 	)
 }
 type ThingsState = {
-	things: Array<ThingDef>,
+	things: Map<string, ThingDef>,
+	isEditing: Map<string, boolean>,
 	isDrafting: boolean,
 }
 type ThingsAction =
 	| {| type: 'CREATE', thing: ThingDef |}
+	| {| type: 'EDIT', name: string |}
+	| {| type: 'CANCEL_EDIT', name: string |}
+	| {| type: 'UPDATE', thing: ThingDef |}
 	| {| type: 'DRAFT' |}
 	| {| type: 'CANCEL_DRAFT' |}
-function reduceThings(s: ThingsState, action: ThingsAction) {
+const mapAdd = <K, V>(map: Map<K, V>, key: K, value: V): Map<K, V> =>
+	new Map([...map, [key, value]])
+
+function addLogging<S, A>(reducer: (S, A) => S) {
+	return function loggingReducer(s: S, a: A): S {
+		const before = s
+		const after = reducer(s, a)
+		console.log({ action: a, before, after })
+		return after
+	}
+}
+function reduceThings(s: ThingsState, action: ThingsAction): ThingsState {
 	switch (action.type) {
 		case 'DRAFT':
 			return { ...s, isDrafting: true }
 		case 'CANCEL_DRAFT':
 			return { ...s, isDrafting: false }
 		case 'CREATE':
-			return { ...s, things: [...s.things, action.thing], isDrafting: false }
+			return {
+				...s,
+				things: mapAdd(s.things, action.thing.name, action.thing),
+				isDrafting: false,
+			}
+		case 'EDIT':
+			return { ...s, isEditing: mapAdd(s.isEditing, action.name, true) }
+		case 'CANCEL_EDIT':
+			return { ...s, isEditing: mapAdd(s.isEditing, action.name, false) }
+		case 'UPDATE':
+			return {
+				...s,
+				isEditing: mapAdd(s.isEditing, action.thing.name, false),
+				things: mapAdd(s.things, action.thing.name, action.thing),
+			}
 		default:
 			throw new Error(`Invalid action ${action.type}`)
 	}
 }
 
 function Systems() {
-	const [{ things, isDrafting }, dispatch] = useReducer<
+	const [{ things, isDrafting, isEditing }, dispatch] = useReducer<
 		ThingsState,
 		ThingsAction
-	>(reduceThings, {
-		things: [],
+	>(addLogging(reduceThings), {
+		things: new Map(),
+		isEditing: new Map(),
 		isDrafting: false,
 	})
 	return (
@@ -172,8 +211,22 @@ function Systems() {
 			<Content>
 				<Sheet>
 					<H2>Preview</H2>
-					{things.map(t => (
-						<div>{t.label}</div>
+					{[...things.values()].map(t => (
+						<Label>
+							{t.label}
+							{t.children.map(c => {
+								if (c.type === 'INSTANCE_VALUE') {
+									return (
+										<Input
+											type={c.valueType === 'number' ? 'number' : 'text'}
+										/>
+									)
+								} else if (c.type === 'CALC_VALUE') {
+									return <div>{c.calc}</div>
+								}
+								throw new Error('WTF')
+							})}
+						</Label>
 					))}
 				</Sheet>
 				<Controls>
@@ -186,11 +239,28 @@ function Systems() {
 							}
 						`}
 					>
-						{things.map(t => (
-							<Thing thing={t} />
-						))}
+						{[...things.values()].map(t =>
+							isEditing.get(t.name) ? (
+								<EditThing
+									thing={t}
+									onCancel={() =>
+										dispatch({ type: 'CANCEL_EDIT', name: t.name })
+									}
+									onSave={thing => {
+										dispatch({ type: 'UPDATE', thing: t })
+									}}
+								/>
+							) : (
+								<Thing
+									thing={t}
+									edit={() => {
+										dispatch({ type: 'EDIT', name: t.name })
+									}}
+								/>
+							)
+						)}
 					</div>
-					{!!things.length && <Spacer height={10} />}
+					{!!things.size && <Spacer height={10} />}
 					{isDrafting ? (
 						<EditThing
 							onCancel={() => dispatch({ type: 'CANCEL_DRAFT' })}

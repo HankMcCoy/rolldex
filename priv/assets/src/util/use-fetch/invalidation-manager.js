@@ -27,7 +27,7 @@ const invalidationManager = {
 		const oldCbs = subscriptions.get(normalizedPath) || []
 		const cbIdx = oldCbs.indexOf(cb)
 		if (cbIdx === -1) {
-			console.warning('Attempted to unsubscribe an invalid callback')
+			console.warn('Attempted to unsubscribe an invalid callback')
 		} else if (oldCbs.length === 1) {
 			subscriptions.delete(normalizedPath)
 		} else {

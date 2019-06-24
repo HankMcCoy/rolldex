@@ -11,7 +11,6 @@ import Nouns from './nouns'
 import InviteMember from './members/invite'
 
 function Campaign({ match }) {
-	const { campaignId } = match.params
 	return (
 		<Switch>
 			<Route exact path={`${match.path}/edit`} component={EditCampaign} />

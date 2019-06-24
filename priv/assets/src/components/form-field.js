@@ -6,13 +6,8 @@ import { Field } from 'formik'
 import { type ErrCode, getValidationMessage } from 'r/util/formik'
 import { H2 } from 'r/components/heading'
 import { Input } from 'r/components/input'
-import Spacer from 'r/components/spacer'
+import { FormRow } from 'r/components/form'
 import theme from 'r/theme'
-
-const Label = styled.label`
-	display: flex;
-	flex-direction: column;
-`
 
 const Error = styled.div`
 	margin-top: 5px;
@@ -72,14 +67,14 @@ export default function FormField<
 				}
 
 				return (
-					<Label>
-						<H2>{label}</H2>
-						<Spacer height={10} />
-						{content}
-						{error && isTouched && (
-							<Error>{getValidationMessage(error, label)}</Error>
-						)}
-					</Label>
+					<FormRow label={<H2>{label}</H2>}>
+						<>
+							{content}
+							{error && isTouched && (
+								<Error>{getValidationMessage(error, label)}</Error>
+							)}
+						</>
+					</FormRow>
 				)
 			}}
 		/>

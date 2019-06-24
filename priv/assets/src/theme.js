@@ -13,6 +13,7 @@ const campaignColor = '#6C6EA0'
 const campaignText = '#696987'
 const campaignColorLight = '#E4E4ED'
 const systemColor = '#417F9C'
+const systemColorLight = '#DAE7ED'
 const primaryGreen = '#3BA170'
 const primaryGreenLight = '#44BA81'
 const dangerRed = '#b81422'
@@ -33,6 +34,7 @@ const theme = {
 	campaignText,
 	campaignColorLight,
 	systemColor,
+	systemColorLight,
 	primaryGreen,
 	primaryGreenLight,
 	dangerRed,

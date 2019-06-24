@@ -48,7 +48,8 @@ export const subscribeToErrors = (callback: () => void) => {
 	errorSubscribers.push(callback)
 }
 
-export const ignoreAborts = e => {
+declare var DOMException: { name: string }
+export const ignoreAborts = (e: Error) => {
 	if (e instanceof DOMException && e.name === 'AbortError') {
 		return
 	}

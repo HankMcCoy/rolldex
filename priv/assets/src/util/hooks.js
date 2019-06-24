@@ -1,5 +1,7 @@
 // @flow
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo, useReducer } from 'react'
+
+export { useModals } from '../modals/presenter'
 
 export const useClick = (
 	el: HTMLElement | Document,
@@ -87,3 +89,39 @@ export function useHoverCombo(delay: number = 150) {
 
 	return [refA, refB, isHovering]
 }
+
+export function useInput(initValue?: string) {
+	const [value, setValue] = useState(initValue || '')
+	return {
+		value,
+		onChange: (e: { target: { value: string } }) => setValue(e.target.value),
+	}
+}
+
+function addLogging<S, A: { type: any }>(reducer: (S, A) => S): (S, A) => S {
+	return function loggingReducer(s, a) {
+		const before = s
+		const after = reducer(s, a)
+
+		console.groupCollapsed(`%c${a.type}`, 'color: #444')
+		console.log(
+			'%cPrevious State:',
+			'color: #9E9E9E; font-weight: 700;',
+			before
+		)
+		console.log('%cAction:', 'color: #00A7F7; font-weight: 700;', a)
+		console.log('%cNext State:', 'color: #47B04B; font-weight: 700;', after)
+		console.groupEnd()
+		return after
+	}
+}
+
+function useReducerWithLogging<S, A: { type: any }>(
+	reducer: (S, A) => S,
+	initState: S
+): [S, (A) => void] {
+	const reducerWithLogging = useMemo(() => addLogging(reducer), [reducer])
+	return useReducer(reducerWithLogging, initState)
+}
+
+export { useReducerWithLogging as useReducer }

@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
 import { H2 } from './heading'
-import Spacer from './spacer'
+import { Spacer } from './spacer'
 import AddBtn from './add-btn'
 import { List } from './lists'
 

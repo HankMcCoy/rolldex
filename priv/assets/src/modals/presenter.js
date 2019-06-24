@@ -1,6 +1,14 @@
 // @flow
 import * as React from 'react'
-import { useState, useEffect, useLayoutEffect, useReducer, useRef } from 'react'
+import {
+	useState,
+	useContext,
+	useEffect,
+	useLayoutEffect,
+	useReducer,
+	useMemo,
+	useRef,
+} from 'react'
 import { css } from '@emotion/core'
 import isHotkey from 'is-hotkey'
 import last from 'lodash-es/last'
@@ -54,6 +62,15 @@ type ContextType = {
 // $FlowFixMe
 const ModalContext = React.createContext<ContextType>()
 export const ModalsConsumer = ModalContext.Consumer
+
+export const useModals = () => {
+	const { showModal, closeModal } = useContext(ModalContext)
+
+	return useMemo(() => ({
+		showModal,
+		closeModal,
+	}))
+}
 
 type KeyHandler = (e: KeyboardEvent) => void
 function useKeyBindings(

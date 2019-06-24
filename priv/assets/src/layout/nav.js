@@ -78,6 +78,19 @@ function Nav() {
 						<SubAppLink to="/campaigns">Campaigns</SubAppLink>
 					</Route>
 				</Switch>
+				{/* SUPER LEGIT FEATURE FLAG */}
+				{curUser.email === 'thomas.beirne@gmail.com' && (
+					<Switch>
+						<Route path="/systems">
+							<ActiveSection>
+								<SubAppLink to="/systems">Systems</SubAppLink>
+							</ActiveSection>
+						</Route>
+						<Route>
+							<SubAppLink to="/systems">Systems</SubAppLink>
+						</Route>
+					</Switch>
+				)}
 			</div>
 			<div
 				css={css`

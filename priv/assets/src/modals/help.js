@@ -3,7 +3,7 @@ import styled from '@emotion/styled/macro'
 
 import theme from 'r/theme'
 import { H2 } from 'r/components/heading'
-import Spacer from 'r/components/spacer'
+import { Spacer } from 'r/components/spacer'
 
 const Modal = styled.div`
 	position: absolute;

@@ -5,7 +5,7 @@ import styled from '@emotion/styled/macro'
 import { css } from '@emotion/core'
 
 import { fromTheme } from 'r/theme'
-import Spacer from './spacer'
+import { Spacer } from './spacer'
 import { H2 } from './heading'
 import { P } from './text'
 

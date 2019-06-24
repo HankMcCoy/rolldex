@@ -2,15 +2,21 @@
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
-const SSpacer = styled('div')`
+export const Spacer: React.ComponentType<{
+	width?: number,
+	height?: number,
+}> = styled.div`
 	flex: 0 0 auto;
 	height: ${({ height }) => height}px;
 	width: ${({ width }) => width}px;
 `
-type Props = {
-	width?: number,
+
+export const SpaceChildren: React.ComponentType<{
+	width?: Number,
 	height?: number,
-}
-export default function Spacer(props: Props) {
-	return <SSpacer {...props} />
-}
+}> = styled.div`
+	& > *:not(:last-child) {
+		margin-bottom: ${({ height }) => height}px;
+		margin-right: ${({ width }) => width}px;
+	}
+`

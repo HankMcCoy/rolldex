@@ -8,7 +8,7 @@ import LoadingPage from 'r/components/loading-page'
 import PageWithSidebar from 'r/components/page-with-sidebar'
 import TextSection from 'r/components/text-section'
 import RelatedNouns from 'r/components/related-nouns'
-import Spacer from 'r/components/spacer'
+import { Spacer } from 'r/components/spacer'
 
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
 import { type NounType, useNoun } from 'r/domains/nouns'

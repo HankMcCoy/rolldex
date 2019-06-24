@@ -5,7 +5,7 @@ import styled from '@emotion/styled/macro'
 
 import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
-import Spacer from 'r/components/spacer'
+import { Spacer } from 'r/components/spacer'
 import { useHistory } from 'r/util/router'
 import theme from 'r/theme'
 

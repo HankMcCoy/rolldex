@@ -4,7 +4,7 @@ import * as React from 'react'
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import TextSection from 'r/components/text-section'
-import Spacer from 'r/components/spacer'
+import { Spacer } from 'r/components/spacer'
 
 import { useSession } from 'r/domains/sessions'
 import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'

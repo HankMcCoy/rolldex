@@ -5,7 +5,7 @@ import styled from '@emotion/styled/macro'
 import type { Noun, NounType } from 'r/domains/nouns'
 
 import { H2 } from 'r/components/heading'
-import Spacer from 'r/components/spacer'
+import { Spacer } from 'r/components/spacer'
 import { StyledMarkdown } from 'r/components/text-section'
 import PlainLink from 'r/components/plain-link'
 import { Tooltip } from 'r/components/tooltip'

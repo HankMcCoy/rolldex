@@ -6,7 +6,7 @@ import styled from '@emotion/styled/macro'
 
 import { useInput, useReducer } from 'r/util/hooks'
 import PageHeader from 'r/components/page-header'
-import Spacer from 'r/components/spacer'
+import { Spacer, SpaceChildren } from 'r/components/spacer'
 import { Input, Select } from 'r/components/input'
 import { FormRow } from 'r/components/form'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
@@ -79,52 +79,50 @@ function EditValueDef({
 					padding: 10px 0 20px 0;
 				`}
 			>
-				<FormRow label="Name:">
-					<Input {...name} autoFocus />
-				</FormRow>
-				<Spacer height={10} />
-				<FormRow label="Label:">
-					<Input {...label} />
-				</FormRow>
-				<Spacer height={20} />
-				<FormRow label="Type:">
-					<Select {...type}>
-						<option value="INSTANCE_VALUE">Value</option>
-						<option value="CALC_VALUE">Calculation</option>
-					</Select>
-				</FormRow>
-				<Spacer height={20} />
-				{type.value === 'INSTANCE_VALUE' && (
-					<FormRow label="Input type:">
-						<Select {...instanceValueType}>
-							<option value="number">Number</option>
-							<option value="string">Text</option>
+				<SpaceChildren height={12}>
+					<FormRow label="Name:">
+						<Input {...name} autoFocus />
+					</FormRow>
+					<FormRow label="Label:">
+						<Input {...label} />
+					</FormRow>
+					<FormRow label="Type:">
+						<Select {...type}>
+							<option value="INSTANCE_VALUE">Value</option>
+							<option value="CALC_VALUE">Calculation</option>
 						</Select>
 					</FormRow>
-				)}
-				{type.value === 'CALC_VALUE' && (
-					<FormRow label="Formula:">
-						<Input {...calc} />
-					</FormRow>
-				)}
-				<Spacer height={20} />
-				<div
-					css={css`
-						display: flex;
-						flex-direction: row-reverse;
-					`}
-				>
-					<PrimaryButton>Save</PrimaryButton>
-					<Spacer width={10} />
-					<SecondaryButton
-						onClick={e => {
-							e.preventDefault()
-							onCancel()
-						}}
+					{type.value === 'INSTANCE_VALUE' && (
+						<FormRow label="Input type:">
+							<Select {...instanceValueType}>
+								<option value="number">Number</option>
+								<option value="string">Text</option>
+							</Select>
+						</FormRow>
+					)}
+					{type.value === 'CALC_VALUE' && (
+						<FormRow label="Formula:">
+							<Input {...calc} />
+						</FormRow>
+					)}
+					<div
+						css={css`
+							display: flex;
+							flex-direction: row-reverse;
+						`}
 					>
-						Cancel
-					</SecondaryButton>
-				</div>
+						<PrimaryButton>Save</PrimaryButton>
+						<Spacer width={10} />
+						<SecondaryButton
+							onClick={e => {
+								e.preventDefault()
+								onCancel()
+							}}
+						>
+							Cancel
+						</SecondaryButton>
+					</div>
+				</SpaceChildren>
 			</form>
 		</ValueDefFrame>
 	)

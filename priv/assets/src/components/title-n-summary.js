@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { H3 } from 'r/components/heading'
-import Spacer from 'r/components/spacer'
+import { Spacer } from 'r/components/spacer'
 
 type Props = {
 	title: string,

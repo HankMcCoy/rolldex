@@ -1,22 +1,19 @@
 // @flow
 
 import * as React from 'react'
-import { useReducer, useState } from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 
-import { useModals, useInput } from 'r/util/hooks'
+import { useInput, useReducer } from 'r/util/hooks'
 import PageHeader from 'r/components/page-header'
 import Spacer from 'r/components/spacer'
-import AddBtn from 'r/components/add-btn'
-import { Input } from 'r/components/input'
+import { Input, Select } from 'r/components/input'
 import { FormRow } from 'r/components/form'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
-import { H2, H3 } from 'r/components/heading'
+import { H2 } from 'r/components/heading'
 import theme from 'r/theme'
 
-import type { ThingDef, ChildDef } from './types'
-import AddChildModal from './add-child-modal'
+import type { ValueDef } from './types'
 import SheetPreview from './sheet-preview'
 
 const Content = styled.div`
@@ -24,7 +21,7 @@ const Content = styled.div`
 	flex: 1 0 0%;
 `
 
-const ThingFrame = styled.div`
+const ValueDefFrame = styled.div`
 	background: #f8f8f8;
 	border: 1px solid #ddd;
 	padding: 0 20px;
@@ -39,35 +36,44 @@ const LeftFrame = styled.div`
 	flex: 1 0 0%;
 `
 
-const ChildrenFrame = styled.div`
-	border-left: 4px solid ${theme.gray87};
-	padding: 0 0 10px 20px;
-`
-
-function EditThing({
-	thing,
+function EditValueDef({
+	valueDef,
 	onSave,
 	onCancel,
 }: {
-	thing?: ThingDef,
-	onSave: ThingDef => void,
+	valueDef?: ValueDef,
+	onSave: ValueDef => void,
 	onCancel: () => void,
 }) {
-	const name = useInput(thing && thing.name)
-	const label = useInput(thing && thing.label)
-	const { showModal, closeModal } = useModals()
-	const [children, setChildren] = useState<Array<ChildDef>>(
-		thing ? thing.children : []
-	)
+	const name = useInput(valueDef && valueDef.name)
+	const label = useInput(valueDef && valueDef.label)
+	const type = useInput((valueDef && valueDef.type) || 'INSTANCE_VALUE')
+	const instanceValueType = useInput('number')
+	const calc = useInput('')
+
 	return (
-		<ThingFrame>
+		<ValueDefFrame>
 			<form
 				onSubmit={() => {
-					onSave({
-						name: name.value,
-						label: label.value,
-						children,
-					})
+					if (type.value === 'INSTANCE_VALUE') {
+						const valueType:
+							| 'string'
+							| 'number' = (instanceValueType.value: any)
+
+						onSave({
+							type: 'INSTANCE_VALUE',
+							name: name.value,
+							label: label.value,
+							valueType,
+						})
+					} else if (type.value === 'CALC_VALUE') {
+						onSave({
+							type: 'CALC_VALUE',
+							name: name.value,
+							label: label.value,
+							calc: calc.value,
+						})
+					}
 				}}
 				css={css`
 					padding: 10px 0 20px 0;
@@ -81,33 +87,26 @@ function EditThing({
 					<Input {...label} />
 				</FormRow>
 				<Spacer height={20} />
-				<ChildrenFrame>
-					<div
-						css={css`
-							display: flex;
-							justify-content: space-between;
-							align-items: center;
-						`}
-					>
-						<H3>Children</H3>
-						<AddBtn
-							onClick={e => {
-								e.preventDefault()
-								showModal(
-									<AddChildModal
-										createChild={child => {
-											setChildren([...children, child])
-										}}
-										closeModal={closeModal}
-									/>
-								)
-							}}
-						/>
-					</div>
-					{children.map(c => (
-						<div>{c.name}</div>
-					))}
-				</ChildrenFrame>
+				<FormRow label="Type:">
+					<Select {...type}>
+						<option value="INSTANCE_VALUE">Value</option>
+						<option value="CALC_VALUE">Calculation</option>
+					</Select>
+				</FormRow>
+				<Spacer height={20} />
+				{type.value === 'INSTANCE_VALUE' && (
+					<FormRow label="Input type:">
+						<Select {...instanceValueType}>
+							<option value="number">Number</option>
+							<option value="string">Text</option>
+						</Select>
+					</FormRow>
+				)}
+				{type.value === 'CALC_VALUE' && (
+					<FormRow label="Formula:">
+						<Input {...calc} />
+					</FormRow>
+				)}
 				<Spacer height={20} />
 				<div
 					css={css`
@@ -127,13 +126,19 @@ function EditThing({
 					</SecondaryButton>
 				</div>
 			</form>
-		</ThingFrame>
+		</ValueDefFrame>
 	)
 }
 
-function Thing({ thing, edit }: { thing: ThingDef, edit: () => void }) {
+function DisplayValueDef({
+	valueDef,
+	edit,
+}: {
+	valueDef: ValueDef,
+	edit: () => void,
+}) {
 	return (
-		<ThingFrame>
+		<ValueDefFrame>
 			<div
 				css={css`
 					line-height: 50px;
@@ -142,45 +147,30 @@ function Thing({ thing, edit }: { thing: ThingDef, edit: () => void }) {
 					justify-content: space-between;
 				`}
 			>
-				{thing.name}
+				{valueDef.name}
 				<SecondaryButton onClick={edit}>Edit</SecondaryButton>
 			</div>
-		</ThingFrame>
+		</ValueDefFrame>
 	)
 }
-type ThingsState = {
-	things: Map<string, ThingDef>,
+type ValueDefState = {
+	valueDefs: Map<string, ValueDef>,
 	isEditing: Map<string, boolean>,
 	isDrafting: boolean,
 }
-type ThingsAction =
-	| {| type: 'CREATE', thing: ThingDef |}
+type ValueDefAction =
+	| {| type: 'CREATE', valueDef: ValueDef |}
 	| {| type: 'EDIT', name: string |}
 	| {| type: 'CANCEL_EDIT', name: string |}
-	| {| type: 'UPDATE', thing: ThingDef |}
+	| {| type: 'UPDATE', valueDef: ValueDef |}
 	| {| type: 'DRAFT' |}
 	| {| type: 'CANCEL_DRAFT' |}
 const mapAdd = <K, V>(map: Map<K, V>, key: K, value: V): Map<K, V> =>
 	new Map([...map, [key, value]])
-
-function addLogging<S, A: { type: any }>(reducer: (S, A) => S): (S, A) => S {
-	return function loggingReducer(s, a) {
-		const before = s
-		const after = reducer(s, a)
-
-		console.groupCollapsed(`%c${a.type}`, 'color: #444')
-		console.log(
-			'%cPrevious State:',
-			'color: #9E9E9E; font-weight: 700;',
-			before
-		)
-		console.log('%cAction:', 'color: #00A7F7; font-weight: 700;', a)
-		console.log('%cNext State:', 'color: #47B04B; font-weight: 700;', after)
-		console.groupEnd()
-		return after
-	}
-}
-function reduceThings(s: ThingsState, action: ThingsAction): ThingsState {
+function reduceValueDefs(
+	s: ValueDefState,
+	action: ValueDefAction
+): ValueDefState {
 	switch (action.type) {
 		case 'DRAFT':
 			return { ...s, isDrafting: true }
@@ -189,7 +179,7 @@ function reduceThings(s: ThingsState, action: ThingsAction): ThingsState {
 		case 'CREATE':
 			return {
 				...s,
-				things: mapAdd(s.things, action.thing.name, action.thing),
+				valueDefs: mapAdd(s.valueDefs, action.valueDef.name, action.valueDef),
 				isDrafting: false,
 			}
 		case 'EDIT':
@@ -199,33 +189,33 @@ function reduceThings(s: ThingsState, action: ThingsAction): ThingsState {
 		case 'UPDATE':
 			return {
 				...s,
-				isEditing: mapAdd(s.isEditing, action.thing.name, false),
-				things: mapAdd(s.things, action.thing.name, action.thing),
+				isEditing: mapAdd(s.isEditing, action.valueDef.name, false),
+				valueDefs: mapAdd(s.valueDefs, action.valueDef.name, action.valueDef),
 			}
 		default:
 			throw new Error(`Invalid action ${action.type}`)
 	}
 }
-const reduceThingsWithLogging = addLogging(reduceThings)
 
 function Systems() {
-	const [{ things, isDrafting, isEditing }, dispatch] = useReducer<
-		ThingsState,
-		ThingsAction
-	>(reduceThingsWithLogging, {
-		things: new Map(),
+	const [{ valueDefs, isDrafting, isEditing }, dispatch] = useReducer<
+		ValueDefState,
+		ValueDefAction
+	>(reduceValueDefs, {
+		valueDefs: new Map(),
 		isEditing: new Map(),
 		isDrafting: false,
 	})
+
 	return (
 		<>
 			<PageHeader title="Systems" />
 			<Content>
 				<LeftFrame>
-					<SheetPreview things={things} />
+					<SheetPreview valueDefs={valueDefs} />
 				</LeftFrame>
 				<Controls>
-					<H2>Things</H2>
+					<H2>Definitions </H2>
 					<Spacer height={10} />
 					<div
 						css={css`
@@ -234,33 +224,33 @@ function Systems() {
 							}
 						`}
 					>
-						{[...things.values()].map(t =>
-							isEditing.get(t.name) ? (
-								<EditThing
-									thing={t}
+						{[...valueDefs.values()].map(v =>
+							isEditing.get(v.name) ? (
+								<EditValueDef
+									valueDef={v}
 									onCancel={() =>
-										dispatch({ type: 'CANCEL_EDIT', name: t.name })
+										dispatch({ type: 'CANCEL_EDIT', name: v.name })
 									}
-									onSave={thing => {
-										dispatch({ type: 'UPDATE', thing })
+									onSave={valueDef => {
+										dispatch({ type: 'UPDATE', valueDef })
 									}}
 								/>
 							) : (
-								<Thing
-									thing={t}
+								<DisplayValueDef
+									valueDef={v}
 									edit={() => {
-										dispatch({ type: 'EDIT', name: t.name })
+										dispatch({ type: 'EDIT', name: v.name })
 									}}
 								/>
 							)
 						)}
 					</div>
-					{!!things.size && <Spacer height={10} />}
+					{!!valueDefs.size && <Spacer height={10} />}
 					{isDrafting ? (
-						<EditThing
+						<EditValueDef
 							onCancel={() => dispatch({ type: 'CANCEL_DRAFT' })}
-							onSave={thing => {
-								dispatch({ type: 'CREATE', thing })
+							onSave={valueDef => {
+								dispatch({ type: 'CREATE', valueDef })
 							}}
 						/>
 					) : (

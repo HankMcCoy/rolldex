@@ -2,22 +2,18 @@
 export type InstanceValueDef = {|
 	type: 'INSTANCE_VALUE',
 	name: string,
+	label: string,
 	valueType: 'string' | 'number',
 |}
 
 export type CalcValueDef = {|
 	type: 'CALC_VALUE',
 	name: string,
+	label: string,
 	calc: string,
 |}
 
-export type ChildDef = InstanceValueDef | CalcValueDef
-
-export type ThingDef = {|
-	label: string,
-	name: string,
-	children: Array<ChildDef>,
-|}
+export type ValueDef = InstanceValueDef | CalcValueDef
 
 export type SheetNumberValue = {|
 	type: 'number',

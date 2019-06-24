@@ -26,7 +26,5 @@ npm-debug.log
 # variables.
 /config/*.secret.exs
 
-flow-typed
-
 *.swp
 .DS_Store

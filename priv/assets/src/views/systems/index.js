@@ -163,11 +163,20 @@ type ThingsAction =
 const mapAdd = <K, V>(map: Map<K, V>, key: K, value: V): Map<K, V> =>
 	new Map([...map, [key, value]])
 
-function addLogging<S, A>(reducer: (S, A) => S): (S, A) => S {
+function addLogging<S, A: { type: any }>(reducer: (S, A) => S): (S, A) => S {
 	return function loggingReducer(s, a) {
 		const before = s
 		const after = reducer(s, a)
-		console.log({ action: a, before, after })
+
+		console.groupCollapsed(`%c${a.type}`, 'color: #444')
+		console.log(
+			'%cPrevious State:',
+			'color: #9E9E9E; font-weight: 700;',
+			before
+		)
+		console.log('%cAction:', 'color: #00A7F7; font-weight: 700;', a)
+		console.log('%cNext State:', 'color: #47B04B; font-weight: 700;', after)
+		console.groupEnd()
 		return after
 	}
 }
@@ -197,12 +206,13 @@ function reduceThings(s: ThingsState, action: ThingsAction): ThingsState {
 			throw new Error(`Invalid action ${action.type}`)
 	}
 }
+const reduceThingsWithLogging = addLogging(reduceThings)
 
 function Systems() {
 	const [{ things, isDrafting, isEditing }, dispatch] = useReducer<
 		ThingsState,
 		ThingsAction
-	>(addLogging(reduceThings), {
+	>(reduceThingsWithLogging, {
 		things: new Map(),
 		isEditing: new Map(),
 		isDrafting: false,
@@ -232,7 +242,7 @@ function Systems() {
 										dispatch({ type: 'CANCEL_EDIT', name: t.name })
 									}
 									onSave={thing => {
-										dispatch({ type: 'UPDATE', thing: t })
+										dispatch({ type: 'UPDATE', thing })
 									}}
 								/>
 							) : (

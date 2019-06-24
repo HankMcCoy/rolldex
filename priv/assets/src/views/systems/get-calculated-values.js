@@ -68,17 +68,17 @@ export function getCalculatedValues(
 			if (child.type === 'CALC_VALUE') {
 				// If it is a calculated value, try to calculate it
 				const { result, error } = (parser.parse(child.calc): {
-					result: ?number,
-					error: ?string,
+					result: number | null,
+					error: string | null,
 				})
 
 				// If it fails, push it to the next version of the unsolved children array
-				if (error != undefined) {
+				if (error !== null) {
 					nextUnsolved.push({ fullName, child })
 				}
 
 				// If it succeeds, set it's value in the result map and define it on the parser
-				else if (result != undefined) {
+				else if (result !== null) {
 					valueMap.set(fullName, result)
 					parser.setVariable(fullName, result)
 				}

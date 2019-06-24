@@ -91,7 +91,10 @@ export function getCalculatedValues(
 
 		// Replace the list of unsolved children with the new one
 		if (unsolvedChildren.length === nextUnsolved.length) {
-			throw new Error('Circular dependency detected!')
+			throw new Error(
+				'Circular dependencies detected in formulas: ' +
+					nextUnsolved.map(x => x.fullName).join(', ')
+			)
 		}
 		unsolvedChildren = nextUnsolved
 	}

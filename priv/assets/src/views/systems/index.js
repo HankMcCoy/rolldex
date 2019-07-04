@@ -48,8 +48,12 @@ function EditValueDef({
 	const name = useInput(valueDef && valueDef.name)
 	const label = useInput(valueDef && valueDef.label)
 	const type = useInput((valueDef && valueDef.type) || 'INSTANCE_VALUE')
-	const instanceValueType = useInput('number')
-	const calc = useInput('')
+	const instanceValueType = useInput(
+		valueDef && valueDef.type === 'INSTANCE_VALUE' ? valueDef.valueType : ''
+	)
+	const calc = useInput(
+		valueDef && valueDef.type === 'CALC_VALUE' ? valueDef.calc : ''
+	)
 
 	return (
 		<ValueDefFrame>

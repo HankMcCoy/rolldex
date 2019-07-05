@@ -49,7 +49,8 @@ export function getCalculatedValues(
 
 			// If it fails, push it to the next version of the unsolved children array
 			if (error !== null) {
-				nextUnsolved.push(unsolvedValueDef, unsolvedValueDef)
+				console.error(error)
+				nextUnsolved.push(unsolvedValueDef)
 			}
 			// If it succeeds, set it's value in the result map and define it on the parser
 			else if (result !== null) {

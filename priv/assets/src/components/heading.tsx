@@ -1,5 +1,3 @@
-
-
 import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
 import theme from 'r/theme'

@@ -1,5 +1,3 @@
-
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
@@ -34,7 +32,7 @@ const ContentContainer = styled('div')`
 `
 
 type Props = {
-	children: React.Node,
+	children: React.Node
 }
 export default function Layout({ children }: Props) {
 	return (

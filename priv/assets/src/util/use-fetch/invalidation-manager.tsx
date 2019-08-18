@@ -1,5 +1,3 @@
-
-
 const idRegExp = new RegExp('(/|^)([0-9]+)(/|$)', 'g')
 const normalize = (path: string): string => {
 	return path.replace(

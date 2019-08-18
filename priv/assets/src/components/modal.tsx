@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 
 import { css } from '@emotion/core'
@@ -8,8 +7,8 @@ export const Modal = ({
 	children,
 	className,
 }: {
-	children: React.Node,
-	className?: string,
+	children: React.Node
+	className?: string
 }) => (
 	<div
 		css={css`

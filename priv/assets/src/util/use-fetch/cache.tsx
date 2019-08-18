@@ -1,6 +1,4 @@
-
-
-type FetchCache = Map<string, { data: mixed, lastAccessed: number }>
+type FetchCache = Map<string, { data: mixed; lastAccessed: number }>
 
 const MAX_CACHE_SIZE = 10000
 const NUM_TO_CLEAR = MAX_CACHE_SIZE * 0.2

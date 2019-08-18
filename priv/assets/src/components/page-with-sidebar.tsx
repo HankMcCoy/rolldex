@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
@@ -39,8 +38,8 @@ const PageSidebar = styled.div`
 `
 
 type Props = {
-	content: React.Node,
-	sidebar: React.Node,
+	content: React.Node
+	sidebar: React.Node
 }
 export default function PageWithSidebar({ content, sidebar }: Props) {
 	return (

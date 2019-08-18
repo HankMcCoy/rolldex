@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import Markdown from 'react-remarkable'
 import styled from '@emotion/styled/macro'
@@ -65,7 +64,7 @@ const MarkdownContainer = styled.div`
 	}
 `
 
-type StyledMarkdownProps = { className?: string, children: string }
+type StyledMarkdownProps = { className?: string; children: string }
 export const StyledMarkdown = React.forwardRef<StyledMarkdownProps, {}>(
 	({ className, children }: StyledMarkdownProps, ref: any) => (
 		<div className={className}>
@@ -81,9 +80,9 @@ export const StyledMarkdown = React.forwardRef<StyledMarkdownProps, {}>(
 )
 
 type Props = {
-	title: string,
-	children: string,
-	markdown?: boolean,
+	title: string
+	children: string
+	markdown?: boolean
 }
 export default function TextSection({
 	title,

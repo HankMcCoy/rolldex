@@ -3,8 +3,8 @@ import { H3 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
 
 type Props = {
-	title: string,
-	summary?: string,
+	title: string
+	summary?: string
 }
 
 export default function TitleNSummary({ title, summary }: Props) {

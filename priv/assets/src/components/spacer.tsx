@@ -1,10 +1,9 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
 export const Spacer: React.ComponentType<{
-	width?: number,
-	height?: number,
+	width?: number
+	height?: number
 }> = styled.div`
 	flex: 0 0 auto;
 	height: ${({ height }) => height}px;
@@ -12,8 +11,8 @@ export const Spacer: React.ComponentType<{
 `
 
 export const SpaceChildren: React.ComponentType<{
-	width?: Number,
-	height?: number,
+	width?: Number
+	height?: number
 }> = styled.div`
 	& > *:not(:last-child) {
 		margin-bottom: ${({ height }) => height}px;

@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
@@ -13,10 +12,10 @@ const Header = styled.div`
 `
 
 type Props = {
-	title: string,
-	addPath: string,
-	canEdit: boolean,
-	children: React.Node,
+	title: string
+	addPath: string
+	canEdit: boolean
+	children: React.Node
 }
 export default function AddableList({
 	title,

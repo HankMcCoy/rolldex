@@ -1,17 +1,16 @@
-
 const errorSubscribers: Array<() => void> = []
 
 type Response = {
-	status: number,
-	ok: boolean,
-	json: () => Promise<{}>,
+	status: number
+	ok: boolean
+	json: () => Promise<{}>
 }
 type Args = {
-	method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-	path: string,
-	body?: any,
-	handleError?: (resp: Response) => boolean,
-	signal?: AbortSignal,
+	method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+	path: string
+	body?: any
+	handleError?: (resp: Response) => boolean
+	signal?: AbortSignal
 }
 export const callApi = ({
 	method,

@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
@@ -16,13 +15,13 @@ const ColumnWrapper = styled('div')`
 	display: flex;
 	justify-content: space-between;
 
-	${Column}:not(:last-child) {
+	${Column}:not (:last-child) {
 		margin-right: ${props => props.gutterWidth}px;
 	}
 
 	@media (max-width: ${theme.breakpoints.phone}px) {
 		flex-direction: column;
-		${Column}:not(:last-child) {
+		${Column}:not (:last-child) {
 			margin-right: 0;
 			margin-bottom: ${props => props.gutterWidth}px;
 		}
@@ -32,8 +31,8 @@ const ColumnWrapper = styled('div')`
 type ColumnEl = React.Element<typeof Column>
 
 type Props = {
-	children: React.ChildrenArray<ColumnEl>,
-	gutterWidth?: number,
+	children: React.ChildrenArray<ColumnEl>
+	gutterWidth?: number
 }
 export default function ColumnView({ children, gutterWidth = 10 }: Props) {
 	return <ColumnWrapper gutterWidth={gutterWidth}>{children}</ColumnWrapper>

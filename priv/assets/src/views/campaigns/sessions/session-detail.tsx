@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
@@ -62,9 +61,7 @@ export default function SessionDetail() {
 				}
 				sidebar={
 					<RelatedNouns
-						path={`/api/campaigns/${campaign.id}/sessions/${
-							session.id
-						}/related-nouns`}
+						path={`/api/campaigns/${campaign.id}/sessions/${session.id}/related-nouns`}
 					/>
 				}
 			/>

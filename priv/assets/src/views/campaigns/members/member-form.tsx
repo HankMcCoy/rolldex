@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { Formik } from 'formik'
 
@@ -8,17 +7,13 @@ import { StandardForm } from 'r/components/form'
 import FormField from 'r/components/form-field'
 
 type Values = {
-	email: string,
+	email: string
 }
 type Props = {
-	initialValues: Values,
-	onSubmit: (Values, *) => void,
+	initialValues: Values
+	onSubmit: (Values) => void
 }
-export default function MemberForm({
-	initialValues,
-	onSubmit,
-	onCancel,
-}: Props) {
+export default function MemberForm({ initialValues, onSubmit }: Props) {
 	return (
 		<Formik
 			initialValues={initialValues}

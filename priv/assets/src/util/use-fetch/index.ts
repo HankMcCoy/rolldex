@@ -46,9 +46,9 @@ interface FetchOptions<T> {
 	handleResponse?: (response: Response<T>) => FetchResult<T>
 	noCache?: boolean
 }
-export const useFetch = <T,>(
+export const useFetch = <T>(
 	path: string,
-	options?: FetchOptions<T> = {}
+	options: FetchOptions<T> = {}
 ): FetchResult<T> => {
 	const { noCache, handleResponse } = options
 

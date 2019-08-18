@@ -1,4 +1,5 @@
-import { useFetch, post, put, remove } from 'r/util/use-fetch'
+import { $Diff } from 'utility-types'
+import { useFetch, post, put, remove } from '../util/use-fetch'
 import { useCampaignId } from './campaigns'
 
 export type MemberType = 'READ_ONLY'

@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import styled from 'styled-components'
 import { Field } from 'formik'
@@ -15,25 +14,25 @@ const Error = styled.div`
 `
 
 type FieldInfo = {
-	name: string,
-	onChange: Function,
-	onBlur: Function,
-	value: any,
+	name: string
+	onChange: Function
+	onBlur: Function
+	value: any
 }
 type FormInfo = {
-	values: { [field: string]: any },
-	touched: { [field: string]: boolean },
-	errors: { [field: string]: ErrCode },
-	handleChange: Function,
-	handleBlur: Function,
-	handleSubmit: Function,
+	values: { [field: string]: any }
+	touched: { [field: string]: boolean }
+	errors: { [field: string]: ErrCode }
+	handleChange: Function
+	handleBlur: Function
+	handleSubmit: Function
 }
 type FieldProps = {
-	field: FieldInfo,
-	form: FormInfo,
+	field: FieldInfo
+	form: FormInfo
 }
 export default function FormField<
-	InputComponent: React.ComponentType<FieldInfo>
+	InputComponent extends React.ComponentType<FieldInfo>
 >({
 	label,
 	name,
@@ -42,11 +41,11 @@ export default function FormField<
 	validate,
 	...rest
 }: {
-	label: string,
-	name: string,
-	render?: FieldProps => ?React.ReactNode,
-	component?: React.ComponentType<React.ElementConfig<InputComponent>>,
-	validate?: (value: any) => void | string | Promise<any>,
+	label: string
+	name: string
+	render?: (fp: FieldProps) => React.ReactNode
+	component?: any
+	validate?: (value: any) => void | string | Promise<any>
 }) {
 	return (
 		<Field

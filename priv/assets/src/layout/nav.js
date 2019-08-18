@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
-import { css } from '@emotion/core'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import flowRight from 'lodash-es/flowRight'
 import sortBy from 'lodash-es/sortBy'
@@ -43,7 +42,7 @@ function Nav() {
 	const curUser = useCurUser()
 	return (
 		<div
-			css={css`
+			css={`
 				display: flex;
 				flex-direction: column;
 				justify-content: space-between;
@@ -51,7 +50,7 @@ function Nav() {
 			`}
 		>
 			<div
-				css={css`
+				css={`
 					display: flex;
 					flex-direction: column;
 				`}
@@ -93,13 +92,13 @@ function Nav() {
 				)}
 			</div>
 			<div
-				css={css`
+				css={`
 					display: flex;
 					justify-content: space-between;
 				`}
 			>
 				<div
-					css={css`
+					css={`
 						padding: 5px 10px;
 						color: #b5b5b6;
 						font-size: 16px;
@@ -109,7 +108,7 @@ function Nav() {
 					{curUser.email}
 				</div>
 				<UnstyledButton
-					css={css`
+					css={`
 						padding: 5px 10px;
 						color: #b5b5b6;
 						font-size: 14px;

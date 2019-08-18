@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import flowRight from 'lodash-es/flowRight'
 import sortBy from 'lodash-es/sortBy'
@@ -125,7 +125,7 @@ function Nav() {
 							method: 'POST',
 							path: '/api/users/sign-out',
 						}).then(() => {
-							window.location = '/login'
+							window.location.href = '/login'
 						})
 					}}
 				>

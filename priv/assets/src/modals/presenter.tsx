@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import {
 	useState,
@@ -9,7 +8,6 @@ import {
 	useMemo,
 	useRef,
 } from 'react'
-import { css } from '@emotion/core'
 import isHotkey from 'is-hotkey'
 import last from 'lodash-es/last'
 import get from 'lodash-es/get'
@@ -20,15 +18,15 @@ import JumpTo, { useCampaignId } from './jump-to'
 import Help from './help'
 import NetworkError from './network-error'
 
-type Modal = React.Element<*>
-type State = Array<Modal>
+type Modal = React.ReactElement
+type State = Modal[]
 type Action =
 	| {
-			type: 'SHOW_MODAL',
-			payload: Modal,
+			type: 'SHOW_MODAL'
+			payload: Modal
 	  }
 	| {
-			type: 'HIDE_MODAL',
+			type: 'HIDE_MODAL'
 	  }
 
 function modalsReducer(state: State, action: Action) {
@@ -37,8 +35,6 @@ function modalsReducer(state: State, action: Action) {
 			return [...state, action.payload]
 		case 'HIDE_MODAL':
 			return state.slice(0, -1)
-		default:
-			throw new Error(`Invalid modals action ${action.type}`)
 	}
 }
 
@@ -55,32 +51,34 @@ function usePreserveFocus(modals) {
 }
 
 type ContextType = {
-	modals: State,
-	showModal: Modal => void,
-	closeModal: () => void,
+	modals: State
+	showModal: (Modal) => void
+	closeModal: () => void
 }
-// $FlowFixMe
-const ModalContext = React.createContext<ContextType>()
+const ModalContext = React.createContext<ContextType>(undefined)
 export const ModalsConsumer = ModalContext.Consumer
 
 export const useModals = () => {
 	const { showModal, closeModal } = useContext(ModalContext)
 
-	return useMemo(() => ({
-		showModal,
-		closeModal,
-	}))
+	return useMemo(
+		() => ({
+			showModal,
+			closeModal,
+		}),
+		[]
+	)
 }
 
 type KeyHandler = (e: KeyboardEvent) => void
 function useKeyBindings(
 	el: HTMLElement | Document,
 	keyHandlerMap: Map<string, KeyHandler>,
-	deps: $ReadOnlyArray<mixed>
+	deps: unknown[]
 ) {
 	const conditionalHandlers = Array.from(keyHandlerMap).map(
 		([keyDesc, handler]) => {
-			const matches: KeyboardEvent => boolean = isHotkey(keyDesc)
+			const matches: (KeyboardEvent) => boolean = isHotkey(keyDesc)
 			return (e: KeyboardEvent) => {
 				if (matches(e)) {
 					handler(e)
@@ -154,7 +152,7 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 	return (
 		<div
 			ref={rootRef}
-			css={css`
+			css={`
 				position: fixed;
 				top: 0;
 				right: 0;
@@ -178,9 +176,9 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 export default function ModalsPresenter({
 	children,
 }: {
-	children: React.Node,
+	children: React.ReactNode
 }) {
-	const [modals, dispatch] = useReducer<State, Action>(modalsReducer, [])
+	const [modals, dispatch] = useReducer(modalsReducer, [], undefined)
 
 	const modalContextValue = React.useMemo(
 		() => ({

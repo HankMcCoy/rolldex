@@ -1,12 +1,11 @@
-
 import { useEffect, useState, useRef, useMemo, useReducer } from 'react'
 
 export { useModals } from '../modals/presenter'
 
 export const useClick = (
 	el: HTMLElement | Document,
-	listener: MouseEvent => void,
-	deps: ?$ReadOnlyArray<mixed>
+	listener: (MouseEvent) => void,
+	deps: any[]
 ) => {
 	return useEffect(() => {
 		el.addEventListener('click', listener)
@@ -16,8 +15,8 @@ export const useClick = (
 
 export const useKeydown = (
 	el: HTMLElement | Document,
-	listener: KeyboardEvent => void,
-	deps: ?$ReadOnlyArray<mixed>
+	listener: (KeyboardEvent) => void,
+	deps: any[]
 ) => {
 	return useEffect(() => {
 		el.addEventListener('keydown', listener)
@@ -26,7 +25,7 @@ export const useKeydown = (
 }
 
 export const usePrevious = <T>(value: T): T | null => {
-	const ref = useRef()
+	const ref = useRef<T>()
 	useEffect(() => {
 		ref.current = value
 	})
@@ -61,7 +60,7 @@ export function useHoverCombo(delay: number = 150) {
 	const [isHovering, setIsHovering] = useState()
 	const [refA, isHoveringA] = useHover()
 	const [refB, isHoveringB] = useHover()
-	const timeoutRef = useRef()
+	const timeoutRef = useRef<number>()
 	const latestHoveringA = useRef(isHoveringA)
 	const latestHoveringB = useRef(isHoveringB)
 
@@ -98,7 +97,10 @@ export function useInput(initValue?: string) {
 	}
 }
 
-function addLogging<S, A: { type: any }>(reducer: (S, A) => S): (S, A) => S {
+interface Action {
+	type: any
+}
+function addLogging<S, A extends Action>(reducer: (S, A) => S): (S, A) => S {
 	return function loggingReducer(s, a) {
 		const before = s
 		const after = reducer(s, a)
@@ -116,7 +118,7 @@ function addLogging<S, A: { type: any }>(reducer: (S, A) => S): (S, A) => S {
 	}
 }
 
-function useReducerWithLogging<S, A: { type: any }>(
+function useReducerWithLogging<S, A extends Action>(
 	reducer: (S, A) => S,
 	initState: S
 ): [S, (A) => void] {

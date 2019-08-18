@@ -1,6 +1,5 @@
-
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 import TetherComponent from 'react-tether'
 
 import { useHoverCombo } from 'r/util/hooks'
@@ -20,11 +19,11 @@ export const Tooltip = ({
 	renderTarget,
 	tooltipContent,
 }: {
-	attachment?: string,
-	targetAttachment?: string,
-	offset?: string,
-	renderTarget: any => React.Node,
-	tooltipContent: React.Node,
+	attachment?: string
+	targetAttachment?: string
+	offset?: string
+	renderTarget: (any) => React.ReactNode
+	tooltipContent: React.ReactNode
 }) => {
 	const [targetRef, tooltipRef, showTooltip] = useHoverCombo()
 

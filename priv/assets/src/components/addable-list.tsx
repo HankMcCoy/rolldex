@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import { H2 } from './heading'
 import { Spacer } from './spacer'
@@ -15,7 +15,7 @@ type Props = {
 	title: string
 	addPath: string
 	canEdit: boolean
-	children: React.Node
+	children: React.ReactNode
 }
 export default function AddableList({
 	title,

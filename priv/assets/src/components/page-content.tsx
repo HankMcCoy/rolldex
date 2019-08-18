@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 import { fromTheme } from 'r/theme'
 
 const Root = styled('div')`
@@ -11,7 +11,7 @@ const Root = styled('div')`
 `
 
 type Props = {
-	children: React.Node
+	children: React.ReactNode
 }
 export default function PageContent({ children }: Props) {
 	return <Root>{children}</Root>

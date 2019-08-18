@@ -1,7 +1,5 @@
-
 import * as React from 'react'
 import { useState, useEffect, useRef } from 'react'
-import { css } from '@emotion/core'
 import theme from 'r/theme'
 import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
@@ -14,10 +12,10 @@ const w = 580
 const h = 75
 
 type SearchMatch = {
-	name: string,
-	id: number,
-	campaign_id: number,
-	source: NounType | 'SESSION',
+	name: string
+	id: number
+	campaign_id: number
+	source: NounType | 'SESSION'
 }
 
 const getPath = (searchMatch: SearchMatch): string => {
@@ -42,9 +40,9 @@ const wrapSelection = (idx, count) => {
 }
 
 const campaignIdRegExp = new RegExp('/campaigns/([0-9]+)(?:/|$)')
-export const useCampaignId = (): ?number => {
+export const useCampaignId = (): number | undefined => {
 	const location = useLocation()
-	let campaignId: ?number = undefined
+	let campaignId: number | undefined = undefined
 	const idMatch = campaignIdRegExp.exec(location.pathname)
 	if (idMatch) {
 		campaignId = parseInt(idMatch[1], 10)
@@ -57,14 +55,14 @@ export default function JumpTo({
 	close,
 	campaignId,
 }: {
-	close: () => void,
-	campaignId: number,
+	close: () => void
+	campaignId: number
 }) {
 	const [searchMatches, setSearchMatches] = useState<Array<SearchMatch>>([])
 	const [value, setValue] = useState('')
-	const [searchValue] = (useDebounce(value, 100): [string])
+	const [searchValue] = useDebounce(value, 100) as [string]
 	const [selectedMatchIdx, setSelectedMatchIdx] = useState(0)
-	const rootElRef = useRef()
+	const rootElRef = useRef<HTMLDivElement>()
 
 	const handleKeydown = (e: KeyboardEvent) => {
 		const rootEl = rootElRef.current
@@ -125,14 +123,14 @@ export default function JumpTo({
 
 	return (
 		<div
-			css={css`
+			css={`
 				position: absolute;
 				top: 20vh;
 			`}
 			ref={rootElRef}
 		>
 			<input
-				css={css`
+				css={`
 					font: unset;
 					width: ${w}px;
 					height: ${h}px;
@@ -144,7 +142,7 @@ export default function JumpTo({
 					}
 				`}
 				placeholder="Jump to..."
-				onChange={(e: SyntheticEvent<HTMLInputElement>) =>
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					setValue(e.currentTarget.value)
 				}
 				value={value}
@@ -155,7 +153,7 @@ export default function JumpTo({
 					return (
 						<Link
 							key={i}
-							css={css`
+							css={`
 								padding: 10px 32px;
 								background: ${isSelected ? theme.campaignColor : theme.white};
 								color: ${isSelected ? theme.white : theme.textColor};
@@ -173,7 +171,7 @@ export default function JumpTo({
 				})}
 				{value && (
 					<Link
-						css={css`
+						css={`
 							padding: 10px 32px;
 							background: ${hasSelectedAddItem
 								? theme.campaignColor

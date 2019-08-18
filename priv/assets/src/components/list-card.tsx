@@ -1,9 +1,15 @@
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import { fromTheme } from 'r/theme'
 
 const getPaddingSize = val => (val === undefined ? '10px' : val)
-const ListCard = styled.div`
+interface Props {
+	paddingTop?: number
+	paddingRight?: number
+	paddingBottom?: number
+	paddingLeft?: number
+}
+const ListCard = styled.div<Props>`
 	background: ${fromTheme('gray97')};
 	border: 1px solid ${fromTheme('gray87')};
 	color: ${fromTheme('textColor')};

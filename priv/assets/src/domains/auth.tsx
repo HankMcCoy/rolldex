@@ -1,17 +1,16 @@
-
 import * as React from 'react'
 import { useState, useEffect, useContext } from 'react'
 
 import { callApi } from 'r/util/api'
 
 type User = {
-	id: number,
-	email: string,
+	id: number
+	email: string
 }
-const AuthCtx: React.Context<?User> = React.createContext()
+const AuthCtx = React.createContext<User>(undefined)
 
 type ProviderProps = {
-	children: React.Node,
+	children: React.ReactNode
 }
 
 export function AuthProvider({ children }: ProviderProps) {

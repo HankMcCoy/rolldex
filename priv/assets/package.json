@@ -41,7 +41,8 @@
 		"simplemde": "^1.11.2",
 		"styled-components": "^4.3.2",
 		"typescript": "^3.5.3",
-		"use-debounce": "~1.1.1"
+		"use-debounce": "~1.1.1",
+		"utility-types": "^3.7.0"
 	},
 	"scripts": {
 		"start": "react-app-rewired start",

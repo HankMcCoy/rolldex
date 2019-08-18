@@ -1,12 +1,12 @@
 import SimpleMdeImpl from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
-const MdEditorRoot: React.ComponentType<{
+const MdEditorRoot = styled.div<{
 	minHeight: number
-	children: React.Node
-}> = styled.div`
+	children: React.ReactNode
+}>`
 	& .CodeMirror,
 	& .CodeMirror-scroll {
 		min-height: ${props => props.minHeight}px;
@@ -31,10 +31,14 @@ const MdEditorRoot: React.ComponentType<{
 	}
 `
 
+interface Target {
+	name: string
+	value: string
+}
 type Props = {
 	name: string
 	value?: string
-	onChange?: ({ target: { name: string, value: string } }) => void
+	onChange?: ({ target: Target }) => void
 	minHeight: number
 }
 export default class MdEditor extends React.Component<Props, void> {

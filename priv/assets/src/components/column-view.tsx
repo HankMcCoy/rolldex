@@ -28,11 +28,11 @@ const ColumnWrapper = styled('div')`
 	}
 `
 
-type ColumnEl = React.Element<typeof Column>
+type ColumnEl = React.ReactElement<typeof Column>
 
 type Props = {
-	children: React.ChildrenArray<ColumnEl>
 	gutterWidth?: number
+	children: React.ReactNode
 }
 export default function ColumnView({ children, gutterWidth = 10 }: Props) {
 	return <ColumnWrapper gutterWidth={gutterWidth}>{children}</ColumnWrapper>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
 import { fromTheme } from 'r/theme'

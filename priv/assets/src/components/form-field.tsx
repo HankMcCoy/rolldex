@@ -1,6 +1,6 @@
 
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 import { Field } from 'formik'
 
 import { ErrCode, getValidationMessage } from 'r/util/formik'
@@ -19,7 +19,6 @@ type FieldInfo = {
 	onChange: Function,
 	onBlur: Function,
 	value: any,
-	onChange: Function,
 }
 type FormInfo = {
 	values: { [field: string]: any },
@@ -45,7 +44,7 @@ export default function FormField<
 }: {
 	label: string,
 	name: string,
-	render?: FieldProps => ?React.Node,
+	render?: FieldProps => ?React.ReactNode,
 	component?: React.ComponentType<React.ElementConfig<InputComponent>>,
 	validate?: (value: any) => void | string | Promise<any>,
 }) {

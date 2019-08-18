@@ -1,8 +1,7 @@
 
 
 import * as React from 'react'
-import { css } from '@emotion/core'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import { useInput, useReducer } from 'r/util/hooks'
 import PageHeader from 'r/components/page-header'
@@ -79,7 +78,7 @@ function EditValueDef({
 						})
 					}
 				}}
-				css={css`
+				css={`
 					padding: 10px 0 20px 0;
 				`}
 			>
@@ -113,7 +112,7 @@ function EditValueDef({
 				)}
 				<Spacer height={20} />
 				<div
-					css={css`
+					css={`
 						display: flex;
 						flex-direction: row-reverse;
 					`}
@@ -144,7 +143,7 @@ function DisplayValueDef({
 	return (
 		<ValueDefFrame>
 			<div
-				css={css`
+				css={`
 					line-height: 50px;
 					display: flex;
 					align-items: center;
@@ -222,7 +221,7 @@ function Systems() {
 					<H2>Definitions </H2>
 					<Spacer height={10} />
 					<div
-						css={css`
+						css={`
 							& > *:not(:last-child) {
 								margin-bottom: 5px;
 							}

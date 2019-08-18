@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 import sortBy from 'lodash-es/sortBy'
 
 import { Noun } from 'r/domains/nouns'

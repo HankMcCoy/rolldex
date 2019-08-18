@@ -1,17 +1,16 @@
 import * as React from 'react'
 
-import { css } from '@emotion/core'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 export const Modal = ({
 	children,
 	className,
 }: {
-	children: React.Node
+	children: React.ReactNode
 	className?: string
 }) => (
 	<div
-		css={css`
+		css={`
 			position: fixed;
 			top: 0;
 			left: 0;
@@ -23,7 +22,7 @@ export const Modal = ({
 		`}
 	>
 		<div
-			css={css`
+			css={`
 				position: relative;
 				top: 20vh;
 				background: #fff;

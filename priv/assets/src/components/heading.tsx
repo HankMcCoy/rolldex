@@ -1,5 +1,4 @@
-import { css } from '@emotion/core'
-import styled from '@emotion/styled/macro'
+import styled, { css } from 'styled-components'
 import theme from 'r/theme'
 
 const commonStyles = css`

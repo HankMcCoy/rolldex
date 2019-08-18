@@ -39,14 +39,14 @@ const useInvalidationHandling = (path: string) => {
 	return invalidationCount
 }
 
-const inFlight: Map<string, Promise<mixed>> = new Map()
+const inFlight: Map<string, Promise<unknown>> = new Map()
 
 type FetchResult<T> = [T, void] | [void, Error]
-type FetchOptions<T> = {
-	handleResponse: (Response<T>) => FetchResult<T>,
-	noCache?: boolean,
+interface FetchOptions<T> {
+	handleResponse?: (response: Response<T>) => FetchResult<T>
+	noCache?: boolean
 }
-export const useFetch = <T>(
+export const useFetch = <T,>(
 	path: string,
 	options?: FetchOptions<T> = {}
 ): FetchResult<T> => {
@@ -54,7 +54,7 @@ export const useFetch = <T>(
 
 	let cancelled = false
 	// $FlowFixMe
-	const cachedValue: ?T = noCache ? undefined : cache.get(path)
+	const cachedValue = noCache ? undefined : (cache.get(path) as T)
 	const [data, setData] = useState<?T>(cachedValue)
 	const [error, setError] = useState()
 	const invalidateCount = useInvalidationHandling(path)

@@ -1,21 +1,20 @@
-
 import * as React from 'react'
-import { css } from '@emotion/core'
+import styled from 'styled-components/macro'
 
 import ListCard from './list-card'
 import TitleNSummary from './title-n-summary'
 import XBtn from './x-btn'
 
 type Props = {
-	title: string,
-	summary?: string,
-	onRemove?: ({ clickEvent: SyntheticEvent<HTMLButtonElement> }) => void,
+	title: string
+	summary?: string
+	onRemove?: ({ clickEvent: ClickEvent }) => void
 }
 export default function NotableCard({ title, summary, onRemove }: Props) {
 	return (
 		<ListCard paddingRight={onRemove ? 0 : undefined}>
 			<div
-				css={css`
+				css={`
 					display: flex;
 					justify-content: space-between;
 					align-items: center;

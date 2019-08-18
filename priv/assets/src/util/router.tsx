@@ -1,10 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { __RouterContext } from 'react-router'
-import { Location } from 'react-router-dom'
 import { History } from 'history'
 
 export const useRouteParam = (paramName: string): string => {
-	const { match }: { match: Match } = useContext(__RouterContext)
+	const { match }: { match: any } = useContext(__RouterContext)
 	return match.params[paramName]
 }
 
@@ -17,8 +16,8 @@ export const useHistory = (): History => {
 	const { history }: { history: History } = useContext(__RouterContext)
 	return history
 }
-export const useLocation = (): Location => {
-	const { location }: { location: Location } = useContext(__RouterContext)
+export const useLocation = (): any => {
+	const { location }: { location: any } = useContext(__RouterContext)
 	return location
 }
 

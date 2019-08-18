@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Markdown from 'react-remarkable'
-import styled from '@emotion/styled/macro'
-import { css } from '@emotion/core'
+import styled, { css } from 'styled-components'
 
 import { fromTheme } from 'r/theme'
 import { Spacer } from './spacer'
@@ -65,7 +64,7 @@ const MarkdownContainer = styled.div`
 `
 
 type StyledMarkdownProps = { className?: string; children: string }
-export const StyledMarkdown = React.forwardRef<StyledMarkdownProps, {}>(
+export const StyledMarkdown = React.forwardRef(
 	({ className, children }: StyledMarkdownProps, ref: any) => (
 		<div className={className}>
 			<Markdown
@@ -91,7 +90,7 @@ export default function TextSection({
 }: Props) {
 	return (
 		<div
-			css={css`
+			css={`
 				max-width: 700px;
 			`}
 		>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import theme from 'r/theme'
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
@@ -22,7 +22,7 @@ import FactionSvg from 'r/svg/faction'
 import RelatedSessions from './related-sessions'
 import { getNounTypeTitle, getNounTypePathToken } from './util'
 
-const nounTypeToSvg: { [NounType]: React.Node } = {
+const nounTypeToSvg: { [NounType]: React.ReactNode } = {
 	PERSON: <PersonSvg />,
 	PLACE: <PlaceSvg />,
 	THING: <ThingSvg />,

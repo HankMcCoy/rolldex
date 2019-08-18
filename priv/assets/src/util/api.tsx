@@ -32,7 +32,7 @@ export const callApi = ({
 		.then((resp: Response) => {
 			if (!resp.ok && (!handleError || handleError(resp))) {
 				if (resp.status === 401) {
-					window.location = '/login'
+					window.location.href = '/login'
 					throw new Error('UNAUTHORIZED')
 				}
 				errorSubscribers.forEach(subscriber => subscriber())
@@ -47,7 +47,6 @@ export const subscribeToErrors = (callback: () => void) => {
 	errorSubscribers.push(callback)
 }
 
-declare var DOMException: { name: string }
 export const ignoreAborts = (e: Error) => {
 	if (e instanceof DOMException && e.name === 'AbortError') {
 		return

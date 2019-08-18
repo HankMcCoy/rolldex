@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useRef } from 'react'
-import { css } from '@emotion/core'
-import styled from '@emotion/styled/macro'
+import styled, { css } from 'styled-components'
 import { Match, withRouter, Link } from 'react-router-dom'
 
 import { H1 } from 'r/components/heading'
@@ -47,7 +46,7 @@ const Breadcrumb = styled(Link)`
 
 const Separator = () => (
 	<div
-		css={css`
+		css={`
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -128,7 +127,7 @@ function useEditShortcuts(controls, controlsRef) {
 function Breadcrumbs({ breadcrumbs }: { breadcrumbs: Array<BreadcrumbDesc> }) {
 	return (
 		<div
-			css={css`
+			css={`
 				display: flex;
 			`}
 		>
@@ -153,7 +152,7 @@ type BreadcrumbDesc = {
 type ExternalProps = {
 	title: string
 	breadcrumbs?: Array<BreadcrumbDesc>
-	controls?: React.Node
+	controls?: React.ReactNode
 }
 type RouterProps = {
 	match: Match

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import theme from 'r/theme'
 import { H2 } from 'r/components/heading'

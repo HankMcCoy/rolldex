@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import ScrollToTop from 'r/components/scroll-to-top'
 import theme from 'r/theme'
@@ -32,7 +32,7 @@ const ContentContainer = styled('div')`
 `
 
 type Props = {
-	children: React.Node
+	children: React.ReactNode
 }
 export default function Layout({ children }: Props) {
 	return (

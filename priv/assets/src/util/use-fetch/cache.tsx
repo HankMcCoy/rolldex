@@ -1,4 +1,4 @@
-type FetchCache = Map<string, { data: mixed; lastAccessed: number }>
+type FetchCache = Map<string, { data: unknown; lastAccessed: number }>
 
 const MAX_CACHE_SIZE = 10000
 const NUM_TO_CLEAR = MAX_CACHE_SIZE * 0.2
@@ -17,7 +17,7 @@ export default {
 		}
 		return undefined
 	},
-	set: (path: string, data: mixed) => {
+	set: (path: string, data: unknown) => {
 		if (fetchCache.size > MAX_CACHE_SIZE && !fetchCache.has(path)) {
 			const entries = [...fetchCache.entries()]
 			entries.slice(-NUM_TO_CLEAR).forEach(([key]) => {

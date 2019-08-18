@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useMemo } from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import { H2 } from 'r/components/heading'
 import { Label } from 'r/components/form'

@@ -1,4 +1,4 @@
-// @flow
+
 export type InstanceValueDef = {|
 	type: 'INSTANCE_VALUE',
 	name: string,

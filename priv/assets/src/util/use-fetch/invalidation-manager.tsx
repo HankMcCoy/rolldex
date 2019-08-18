@@ -1,4 +1,4 @@
-// @flow
+
 
 const idRegExp = new RegExp('(/|^)([0-9]+)(/|$)', 'g')
 const normalize = (path: string): string => {

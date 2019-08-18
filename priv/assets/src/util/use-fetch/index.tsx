@@ -1,4 +1,4 @@
-// @flow
+
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import cache from './cache'

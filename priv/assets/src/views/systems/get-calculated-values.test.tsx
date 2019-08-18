@@ -1,4 +1,4 @@
-// @flow
+
 import { getCalculatedValues } from './get-calculated-values'
 import type { ValueDef, SheetValue } from './types'
 

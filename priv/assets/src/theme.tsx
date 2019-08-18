@@ -1,4 +1,4 @@
-// @flow
+
 import get from 'lodash-es/get'
 
 const gray20 = '#333333'

@@ -1,4 +1,4 @@
-// @flow
+
 import flatMap from 'lodash-es/flatMap'
 import { matchPath } from 'react-router-dom'
 

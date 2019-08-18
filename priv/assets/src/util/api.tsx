@@ -1,4 +1,4 @@
-// @flow
+
 const errorSubscribers: Array<() => void> = []
 
 type Response = {

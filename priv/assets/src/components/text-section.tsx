@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from 'react'
 import Markdown from 'react-remarkable'
 import styled from '@emotion/styled/macro'

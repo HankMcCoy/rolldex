@@ -1,4 +1,4 @@
-// @flow
+
 function mapProduce<K, V>(m: Map<K, V>, fn: (Map<K, V>) => void): Map<K, V> {
 	const draft = new Map(m.entries())
 	fn(draft)

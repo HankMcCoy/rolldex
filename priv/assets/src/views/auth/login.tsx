@@ -1,4 +1,4 @@
-// @flow
+
 
 import * as React from 'react'
 import { callApi } from 'r/util/api'

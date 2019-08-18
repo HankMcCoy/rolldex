@@ -1,4 +1,4 @@
-// @flow
+
 import SimpleMdeImpl from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import * as React from 'react'

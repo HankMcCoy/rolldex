@@ -1,4 +1,4 @@
-// @flow
+
 import { Parser } from 'hot-formula-parser'
 import type { ValueDef, CalcValueDef, SheetValue } from './types'
 

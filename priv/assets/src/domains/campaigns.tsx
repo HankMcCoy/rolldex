@@ -1,4 +1,4 @@
-// @flow
+
 import { useRouteId } from 'r/util/router'
 import { useFetch, post, put } from 'r/util/use-fetch'
 import { useCurUser } from './auth'

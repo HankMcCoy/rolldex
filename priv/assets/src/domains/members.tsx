@@ -1,4 +1,4 @@
-// @flow
+
 import { useFetch, post, put, remove } from 'r/util/use-fetch'
 import { useCampaignId } from './campaigns'
 

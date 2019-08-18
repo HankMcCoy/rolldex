@@ -1,4 +1,4 @@
-// @flow
+
 
 // Validations
 export type ErrCode = 'required'

@@ -1,4 +1,4 @@
-// @flow
+
 
 type FetchCache = Map<string, { data: mixed, lastAccessed: number }>
 

@@ -1,4 +1,4 @@
-// @flow
+
 import * as React from 'react'
 
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'

@@ -1,4 +1,4 @@
-// @flow
+
 import { useEffect, useState, useRef, useMemo, useReducer } from 'react'
 
 export { useModals } from '../modals/presenter'

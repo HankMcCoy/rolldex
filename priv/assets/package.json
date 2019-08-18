@@ -13,6 +13,7 @@
 		"@types/react": "^16.9.2",
 		"@types/react-dom": "^16.8.5",
 		"@types/react-router-dom": "^4.3.4",
+		"@types/styled-components": "^4.1.18",
 		"customize-cra": "~0.2.9",
 		"emotion-theming": "~10.0.6",
 		"flow-bin": "^0.92.1",
@@ -38,6 +39,7 @@
 		"redux-thunk": "^2.3.0",
 		"reselect": "^3.0.1",
 		"simplemde": "^1.11.2",
+		"styled-components": "^4.3.2",
 		"typescript": "^3.5.3",
 		"use-debounce": "~1.1.1"
 	},

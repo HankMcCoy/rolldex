@@ -1,6 +1,6 @@
 
 import { getCalculatedValues } from './get-calculated-values'
-import type { ValueDef, SheetValue } from './types'
+import { ValueDef, SheetValue } from './types'
 
 const arrToMap = <T: { name: string }>(arr: Array<T>): Map<string, T> =>
 	new Map([...arr.map(v => [v.name, v])])

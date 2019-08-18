@@ -1,11 +1,11 @@
-
-
 // Validations
 export type ErrCode = 'required'
 export const required = (value: string): ErrCode | void =>
 	value ? undefined : 'required'
 
-const validationMessagesByCode: { [ErrCode]: (name: string) => string } = {
+const validationMessagesByCode: {
+	[key in ErrCode]: (name: string) => string
+} = {
 	required: name => `${name} is required`,
 }
 export const getValidationMessage = (errCode: ErrCode, name: string) =>

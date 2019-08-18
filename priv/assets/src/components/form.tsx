@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
@@ -18,8 +17,8 @@ export function FormRow({
 	label,
 	children,
 }: {
-	label: React.Node,
-	children: React.Node,
+	label: React.Node
+	children: React.Node
 }) {
 	return (
 		<Label>
@@ -52,11 +51,11 @@ export const SaveButtons = ({ onCancel }: { onCancel: () => void }) => {
 	)
 }
 
-type Props = {|
-	onSubmit: (event: any) => void,
-	onCancel?: () => void,
-	children: React.ChildrenArray<React.Element<typeof FormField>>,
-|}
+type Props = {
+	onSubmit: (event: any) => void
+	onCancel?: () => void
+	children: React.ChildrenArray<React.Element<typeof FormField>>
+}
 export const StandardForm = ({ onSubmit, onCancel, children }: Props) => {
 	const history = useHistory()
 	return (

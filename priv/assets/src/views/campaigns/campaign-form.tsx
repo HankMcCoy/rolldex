@@ -8,14 +8,14 @@ import { StandardForm } from 'r/components/form'
 import FormField from 'r/components/form-field'
 import { Textarea } from 'r/components/input'
 
-type Values = {|
+type Values = {
 	name: string,
 	description: string,
-|}
-type Props = {|
+}
+type Props = {
 	initialValues: Values,
 	onSubmit: (Values, *) => void,
-|}
+}
 function CampaignForm({ initialValues, onSubmit }: Props) {
 	return (
 		<Formik

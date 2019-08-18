@@ -1,22 +1,21 @@
-
 import { useFetch, post, put, remove } from 'r/util/use-fetch'
 import { useCampaignId } from './campaigns'
 
 export type MemberType = 'READ_ONLY'
-export type Member = {|
-	id: number,
-	inserted_at: string,
-	updated_at: string,
+export type Member = {
+	id: number
+	inserted_at: string
+	updated_at: string
 
-	user_id: number,
-	campaign_id: number,
-	email: string,
-	member_type: MemberType,
-|}
+	user_id: number
+	campaign_id: number
+	email: string
+	member_type: MemberType
+}
 
 export type DraftMember = $Diff<
 	Member,
-	{| id: number, inserted_at: string, updated_at: string, user_id: number |}
+	{ id: number; inserted_at: string; updated_at: string; user_id: number }
 >
 
 export const useMemberList = () =>

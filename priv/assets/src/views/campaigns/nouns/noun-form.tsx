@@ -1,21 +1,20 @@
-
 import * as React from 'react'
 import { required } from 'r/util/formik'
 
-import type { NounType, DraftNoun } from 'r/domains/nouns'
+import { NounType, DraftNoun } from 'r/domains/nouns'
 
 import { StandardForm } from 'r/components/form'
 import MdEditor from 'r/components/md-editor'
 import FormField from 'r/components/form-field'
 import { Textarea, Select } from 'r/components/input'
 
-export type Values = {|
-	name: string,
-	summary: string,
-	notes: string,
-	privateNotes: string,
-	nounType: NounType,
-|}
+export type Values = {
+	name: string
+	summary: string
+	notes: string
+	privateNotes: string
+	nounType: NounType
+}
 
 export const convertValuesToDraftNoun = (
 	values: Values
@@ -30,9 +29,9 @@ export const convertValuesToDraftNoun = (
 	}
 }
 
-type Props = {|
-	handleSubmit: (event: any) => void,
-|}
+type Props = {
+	handleSubmit: (event: any) => void
+}
 export default function NounForm({ handleSubmit }: Props) {
 	return (
 		<StandardForm onSubmit={handleSubmit}>

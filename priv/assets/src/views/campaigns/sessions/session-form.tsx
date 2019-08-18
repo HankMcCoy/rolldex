@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 
 import { required } from 'r/util/formik'
@@ -7,14 +6,14 @@ import FormField from 'r/components/form-field'
 import MdEditor from 'r/components/md-editor'
 import { Textarea } from 'r/components/input'
 
-import { type DraftSession } from 'r/domains/sessions'
+import { DraftSession } from 'r/domains/sessions'
 
-export type Values = {|
-	name: string,
-	summary: string,
-	notes: string,
-	privateNotes: string,
-|}
+export type Values = {
+	name: string
+	summary: string
+	notes: string
+	privateNotes: string
+}
 
 export const convertValuesToDraftSession = (
 	values: Values
@@ -29,7 +28,7 @@ export const convertValuesToDraftSession = (
 }
 
 type Props = {
-	handleSubmit: (event: any) => void,
+	handleSubmit: (event: any) => void
 }
 export default function SessionForm({ handleSubmit }: Props) {
 	return (

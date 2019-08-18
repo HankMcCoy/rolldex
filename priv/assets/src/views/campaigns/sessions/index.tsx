@@ -1,14 +1,13 @@
-
 import * as React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import type { Match } from 'react-router-dom'
+import { Match } from 'react-router-dom'
 
 import SessionDetail from './session-detail'
 import AddSession from './add-session'
 import EditSession from './edit-session'
 
 type Props = {
-	match: Match,
+	match: Match
 }
 export default function Sessions({ match }: Props) {
 	return (

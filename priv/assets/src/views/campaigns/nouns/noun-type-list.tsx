@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import sortBy from 'lodash-es/sortBy'
 
@@ -12,7 +11,7 @@ import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 import { List } from 'r/components/lists'
 
-import { type Noun } from 'r/domains/nouns'
+import { Noun } from 'r/domains/nouns'
 import { useIsOwner } from 'r/domains/campaigns'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useNounList, deleteNoun } from 'r/domains/nouns'
@@ -66,9 +65,7 @@ export default function NounTypeList() {
 												clickEvent.preventDefault()
 												if (
 													window.confirm(
-														`Are you sure you want to remove "${
-															n.name
-														}"? This is not reversible.`
+														`Are you sure you want to remove "${n.name}"? This is not reversible.`
 													)
 												) {
 													deleteNoun(n)

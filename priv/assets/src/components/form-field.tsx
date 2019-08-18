@@ -3,7 +3,7 @@ import * as React from 'react'
 import styled from '@emotion/styled/macro'
 import { Field } from 'formik'
 
-import { type ErrCode, getValidationMessage } from 'r/util/formik'
+import { ErrCode, getValidationMessage } from 'r/util/formik'
 import { H2 } from 'r/components/heading'
 import { Input } from 'r/components/input'
 import { FormRow } from 'r/components/form'

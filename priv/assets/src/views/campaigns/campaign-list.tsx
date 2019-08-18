@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 
 import { intersperse } from 'r/util'
@@ -9,7 +8,7 @@ import AddBtn from 'r/components/add-btn'
 import ListCard from 'r/components/list-card'
 import PlainLink from 'r/components/plain-link'
 import TitleNSummary from 'r/components/title-n-summary'
-import { useCampaignList, type Campaign } from 'r/domains/campaigns'
+import { useCampaignList, Campaign } from 'r/domains/campaigns'
 
 function CampaignCard({ campaign }: { campaign: Campaign }) {
 	return (
@@ -22,7 +21,7 @@ function CampaignCard({ campaign }: { campaign: Campaign }) {
 }
 
 type Props = {
-	campaigns: Array<Campaign> | void,
+	campaigns: Array<Campaign> | void
 }
 function CampaignList({ campaigns }: Props) {
 	const [campaignList] = useCampaignList()

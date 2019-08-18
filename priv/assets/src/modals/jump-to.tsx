@@ -8,17 +8,17 @@ import { useDebounce } from 'use-debounce'
 
 import { callApi, ignoreAborts } from 'r/util/api'
 import { useLocation } from 'r/util/router'
-import { type NounType } from 'r/domains/nouns'
+import { NounType } from 'r/domains/nouns'
 
 const w = 580
 const h = 75
 
-type SearchMatch = {|
+type SearchMatch = {
 	name: string,
 	id: number,
 	campaign_id: number,
 	source: NounType | 'SESSION',
-|}
+}
 
 const getPath = (searchMatch: SearchMatch): string => {
 	switch (searchMatch.source) {

@@ -1,10 +1,8 @@
-
-
 import * as React from 'react'
 import { useRef } from 'react'
 import { css } from '@emotion/core'
 import styled from '@emotion/styled/macro'
-import { type Match, withRouter, Link } from 'react-router-dom'
+import { Match, withRouter, Link } from 'react-router-dom'
 
 import { H1 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
@@ -149,16 +147,16 @@ function Breadcrumbs({ breadcrumbs }: { breadcrumbs: Array<BreadcrumbDesc> }) {
 }
 
 type BreadcrumbDesc = {
-	text: string,
-	to: string,
+	text: string
+	to: string
 }
-type ExternalProps = {|
-	title: string,
-	breadcrumbs?: Array<BreadcrumbDesc>,
-	controls?: React.Node,
-|}
+type ExternalProps = {
+	title: string
+	breadcrumbs?: Array<BreadcrumbDesc>
+	controls?: React.Node
+}
 type RouterProps = {
-	match: Match,
+	match: Match
 }
 function PageHeader({
 	title,
@@ -201,8 +199,8 @@ export const SaveControls = ({
 	onSubmit,
 	onCancel,
 }: {
-	onSubmit: () => void,
-	onCancel?: () => void,
+	onSubmit: () => void
+	onCancel?: () => void
 }) => {
 	const history = useHistory()
 	return (

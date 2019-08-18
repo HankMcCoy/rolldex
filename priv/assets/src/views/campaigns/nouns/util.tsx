@@ -1,5 +1,4 @@
-
-import { type NounType } from 'r/domains/nouns'
+import { NounType } from 'r/domains/nouns'
 
 type NounTypePathToken = 'people' | 'factions' | 'places' | 'things'
 

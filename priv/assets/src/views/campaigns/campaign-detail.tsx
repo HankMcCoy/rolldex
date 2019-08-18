@@ -1,5 +1,3 @@
-
-
 import * as React from 'react'
 import sortBy from 'lodash-es/sortBy'
 import reverse from 'lodash-es/reverse'
@@ -15,7 +13,7 @@ import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 
 import { useCampaignId, useCurCampaign, useIsOwner } from 'r/domains/campaigns'
-import { type Session, deleteSession } from 'r/domains/sessions'
+import { Session, deleteSession } from 'r/domains/sessions'
 import { useNounList } from 'r/domains/nouns'
 import { useMemberList } from 'r/domains/members'
 import { useFetch, remove } from 'r/util/use-fetch'
@@ -68,9 +66,7 @@ function CampaignDetail() {
 											? () => {
 													if (
 														window.confirm(
-															`Are you sure you want to remove ${
-																m.email
-															} from this campaign?`
+															`Are you sure you want to remove ${m.email} from this campaign?`
 														)
 													) {
 														remove({
@@ -104,9 +100,7 @@ function CampaignDetail() {
 														clickEvent.preventDefault()
 														if (
 															window.confirm(
-																`Are you sure you want to remove "${
-																	s.name
-																}"? This is not reversable.`
+																`Are you sure you want to remove "${s.name}"? This is not reversable.`
 															)
 														) {
 															deleteSession(s)

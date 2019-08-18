@@ -1,7 +1,6 @@
-
 import * as React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import type { Match } from 'react-router-dom'
+import { Match } from 'react-router-dom'
 
 import NounDetail from './noun-detail'
 import AddNoun from './add-noun'
@@ -9,7 +8,7 @@ import EditNoun from './edit-noun'
 import NounTypeList from './noun-type-list'
 
 type Props = {
-	match: Match,
+	match: Match
 }
 export default function Nouns({ match }: Props) {
 	return (

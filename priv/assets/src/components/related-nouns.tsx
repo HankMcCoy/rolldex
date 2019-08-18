@@ -1,8 +1,7 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
-import type { Noun, NounType } from 'r/domains/nouns'
+import { Noun, NounType } from 'r/domains/nouns'
 
 import { H2 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
@@ -29,7 +28,7 @@ const NounList = styled.ul`
 	}
 `
 
-const NounLink = ({ noun }: {| noun: Noun |}) => {
+const NounLink = ({ noun }: { noun: Noun }) => {
 	return (
 		<Tooltip
 			renderTarget={ref => (
@@ -47,9 +46,9 @@ const NounLink = ({ noun }: {| noun: Noun |}) => {
 const filterByType = (nouns: Array<Noun>, type: NounType) =>
 	nouns.filter(n => n.noun_type === type)
 
-type Props = {|
-	path: string,
-|}
+type Props = {
+	path: string
+}
 function RelatedNouns({ path }: Props) {
 	const [nouns] = useFetch<Array<Noun>>(path)
 	if (!nouns) return null

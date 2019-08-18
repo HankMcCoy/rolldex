@@ -1,4 +1,4 @@
-import { type HOC, lifecycle } from 'recompose'
+import { HOC, lifecycle } from 'recompose'
 import isEqual from 'lodash-es/isEqual'
 
 export function handleIdChange<T>({ getId, handleChange }): HOC<T, void> {

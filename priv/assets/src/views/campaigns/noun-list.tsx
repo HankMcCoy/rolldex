@@ -1,5 +1,3 @@
-
-
 import * as React from 'react'
 import { css } from '@emotion/core'
 
@@ -10,17 +8,17 @@ import PlainLink from 'r/components/plain-link'
 import NotableCard from 'r/components/notable-card'
 import { SecondaryLinkButton } from 'r/components/button'
 
-import { type Campaign, useIsOwner } from 'r/domains/campaigns'
-import { type Noun, type NounType, deleteNoun } from 'r/domains/nouns'
+import { Campaign, useIsOwner } from 'r/domains/campaigns'
+import { Noun, NounType, deleteNoun } from 'r/domains/nouns'
 
 import { getNounTypePathToken } from './nouns/util'
 
-type Props = {|
-	campaign: Campaign,
-	nouns: Array<Noun>,
-	nounType: NounType,
-	title: string,
-|}
+type Props = {
+	campaign: Campaign
+	nouns: Array<Noun>
+	nounType: NounType
+	title: string
+}
 export default function NounList({
 	campaign,
 	nouns: allNouns,
@@ -50,9 +48,7 @@ export default function NounList({
 										clickEvent.preventDefault()
 										if (
 											window.confirm(
-												`Are you sure you want to remove "${
-													n.name
-												}"? This is not reversible.`
+												`Are you sure you want to remove "${n.name}"? This is not reversible.`
 											)
 										) {
 											deleteNoun(n)

@@ -1,6 +1,6 @@
 
 import { Parser } from 'hot-formula-parser'
-import type { ValueDef, CalcValueDef, SheetValue } from './types'
+import { ValueDef, CalcValueDef, SheetValue } from './types'
 
 const getMatchingSheetNumberValue = (
 	fullName: string,

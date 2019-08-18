@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { callApi } from 'r/util/api'
-import type { History } from 'history'
+import { History } from 'history'
 import { Formik } from 'formik'
 import styled from '@emotion/styled/macro'
 

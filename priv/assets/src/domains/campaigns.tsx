@@ -3,23 +3,23 @@ import { useRouteId } from 'r/util/router'
 import { useFetch, post, put } from 'r/util/use-fetch'
 import { useCurUser } from './auth'
 
-export type Campaign = {|
+export type Campaign = {
 	id: number,
 	name: string,
 	description: string,
 	inserted_at: string,
 	updated_at: string,
 	created_by_id: number,
-|}
+}
 
 export type DraftCampaign = $Diff<
 	Campaign,
-	{|
+	{
 		id: number,
 		inserted_at: string,
 		updated_at: string,
 		created_by_id: number,
-	|}
+	}
 >
 
 export const useCampaignId = (): number => {

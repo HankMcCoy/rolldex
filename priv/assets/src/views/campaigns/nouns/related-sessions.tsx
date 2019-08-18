@@ -1,10 +1,9 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 import sortBy from 'lodash-es/sortBy'
 
-import type { Noun } from 'r/domains/nouns'
-import type { Session } from 'r/domains/sessions'
+import { Noun } from 'r/domains/nouns'
+import { Session } from 'r/domains/sessions'
 import { H2 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
 import PlainLink from 'r/components/plain-link'
@@ -24,7 +23,7 @@ const SessionList = styled.ul`
 	}
 `
 
-const SessionLink = ({ session }: {| session: Session |}) => (
+const SessionLink = ({ session }: { session: Session }) => (
 	<Tooltip
 		renderTarget={ref => (
 			<li ref={ref}>
@@ -39,9 +38,9 @@ const SessionLink = ({ session }: {| session: Session |}) => (
 	/>
 )
 
-type Props = {|
-	noun: Noun,
-|}
+type Props = {
+	noun: Noun
+}
 export default function RelatedSessions({ noun }: Props) {
 	const [sessions] = useFetch<Array<Session>>(
 		`/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`

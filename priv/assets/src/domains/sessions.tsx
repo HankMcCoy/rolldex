@@ -2,7 +2,7 @@
 import { useFetch, post, put, remove } from 'r/util/use-fetch'
 import { useCampaignId } from './campaigns'
 
-export type Session = {|
+export type Session = {
 	id: number,
 	name: string,
 	campaign_id: number,
@@ -11,11 +11,11 @@ export type Session = {|
 	private_notes: string,
 	inserted_at: string,
 	updated_at: string,
-|}
+}
 
 export type DraftSession = $Diff<
 	Session,
-	{| id: number, inserted_at: string, updated_at: string |}
+	{ id: number, inserted_at: string, updated_at: string }
 >
 
 export const useSessionList = () =>

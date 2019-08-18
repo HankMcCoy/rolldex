@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import styled from '@emotion/styled/macro'
 
@@ -11,7 +10,7 @@ import RelatedNouns from 'r/components/related-nouns'
 import { Spacer } from 'r/components/spacer'
 
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
-import { type NounType, useNoun } from 'r/domains/nouns'
+import { NounType, useNoun } from 'r/domains/nouns'
 
 import { useRouteId } from 'r/util/router'
 
@@ -111,9 +110,7 @@ export default function NounDetail() {
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
 						<RelatedNouns
 							key={`related-nouns-${noun.id}`}
-							path={`/api/campaigns/${campaign.id}/nouns/${
-								noun.id
-							}/related-nouns`}
+							path={`/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`}
 						/>
 						<RelatedSessions key={`related-sessions-${noun.id}`} noun={noun} />
 					</>

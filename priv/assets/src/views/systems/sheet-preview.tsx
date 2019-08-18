@@ -1,5 +1,3 @@
-
-
 import * as React from 'react'
 import { useMemo } from 'react'
 import styled from '@emotion/styled/macro'
@@ -9,7 +7,7 @@ import { Label } from 'r/components/form'
 import { Input } from 'r/components/input'
 import { useReducer } from 'r/util/hooks'
 
-import type { ValueDef, SheetValue } from './types'
+import { ValueDef, SheetValue } from './types'
 import { getCalculatedValues } from './get-calculated-values'
 
 const Sheet = styled.div`
@@ -18,8 +16,8 @@ const Sheet = styled.div`
 
 type SheetValueState = Map<string, SheetValue>
 type SheetValueAction = {
-	type: 'UPDATE',
-	sheetValue: SheetValue,
+	type: 'UPDATE'
+	sheetValue: SheetValue
 }
 function sheetValueReducer(state: SheetValueState, action: SheetValueAction) {
 	switch (action.type) {
@@ -33,7 +31,7 @@ function sheetValueReducer(state: SheetValueState, action: SheetValueAction) {
 export default function SheetPreview({
 	valueDefs,
 }: {
-	valueDefs: Map<string, ValueDef>,
+	valueDefs: Map<string, ValueDef>
 }) {
 	const [sheetValues, dispatch] = useReducer(sheetValueReducer, new Map())
 	const calculatedValues = useMemo(

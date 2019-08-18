@@ -13,7 +13,7 @@ import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import { H2 } from 'r/components/heading'
 import theme from 'r/theme'
 
-import type { ValueDef } from './types'
+import { ValueDef } from './types'
 import SheetPreview from './sheet-preview'
 
 const Content = styled.div`
@@ -163,12 +163,12 @@ type ValueDefState = {
 	isDrafting: boolean,
 }
 type ValueDefAction =
-	| {| type: 'CREATE', valueDef: ValueDef |}
-	| {| type: 'EDIT', name: string |}
-	| {| type: 'CANCEL_EDIT', name: string |}
-	| {| type: 'UPDATE', valueDef: ValueDef |}
-	| {| type: 'DRAFT' |}
-	| {| type: 'CANCEL_DRAFT' |}
+	| { type: 'CREATE', valueDef: ValueDef }
+	| { type: 'EDIT', name: string }
+	| { type: 'CANCEL_EDIT', name: string }
+	| { type: 'UPDATE', valueDef: ValueDef }
+	| { type: 'DRAFT' }
+	| { type: 'CANCEL_DRAFT' }
 const mapAdd = <K, V>(map: Map<K, V>, key: K, value: V): Map<K, V> =>
 	new Map([...map, [key, value]])
 function reduceValueDefs(

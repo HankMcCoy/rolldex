@@ -7,13 +7,13 @@ import { required } from 'r/util/formik'
 import { StandardForm } from 'r/components/form'
 import FormField from 'r/components/form-field'
 
-type Values = {|
+type Values = {
 	email: string,
-|}
-type Props = {|
+}
+type Props = {
 	initialValues: Values,
 	onSubmit: (Values, *) => void,
-|}
+}
 export default function MemberForm({
 	initialValues,
 	onSubmit,

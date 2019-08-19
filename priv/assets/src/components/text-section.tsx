@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Markdown from 'react-remarkable'
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components/macro'
 
-import { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 import { Spacer } from './spacer'
 import { H2 } from './heading'
 import { P } from './text'
@@ -59,7 +59,7 @@ const MarkdownContainer = styled.div`
 	& th,
 	& td {
 		padding: 5px;
-		border: 1px solid ${fromTheme('gray30')};
+		border: 1px solid ${theme.gray30};
 	}
 `
 

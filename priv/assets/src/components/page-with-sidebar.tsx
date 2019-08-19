@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import theme, { fromTheme } from 'r/theme'
 
@@ -30,8 +30,8 @@ const RightColumn = styled.div`
 `
 
 const PageSidebar = styled.div`
-	background: ${fromTheme('campaignColorLight')};
-	color: ${fromTheme('campaignText')};
+	background: ${theme.campaignColorLight};
+	color: ${theme.campaignText};
 	height: 100%;
 	padding-bottom: 20px;
 	min-height: 500px;

@@ -17,9 +17,6 @@ const primaryGreen = '#3BA170'
 const primaryGreenLight = '#44BA81'
 const dangerRed = '#b81422'
 
-export const fromTheme = (path: string) => ({ theme }: { theme: Object }) =>
-	get(theme, path)
-
 const theme = {
 	// COLORS
 	gray20,

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { callApi } from 'r/util/api'
 import { History } from 'history'
 import { Formik, FormikActions } from 'formik'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'

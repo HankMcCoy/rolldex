@@ -8,7 +8,7 @@ import XBtn from './x-btn'
 type Props = {
 	title: string
 	summary?: string
-	onRemove?: ({ clickEvent: ClickEvent }) => void
+	onRemove?: ({ clickEvent }: { clickEvent: MouseEvent }) => void
 }
 export default function NotableCard({ title, summary, onRemove }: Props) {
 	return (
@@ -23,7 +23,7 @@ export default function NotableCard({ title, summary, onRemove }: Props) {
 				<TitleNSummary title={title} summary={summary} />
 				{onRemove && (
 					<XBtn
-						onClick={e => {
+						onClick={(e: MouseEvent) => {
 							onRemove({ clickEvent: e })
 						}}
 					/>

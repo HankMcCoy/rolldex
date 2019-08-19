@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
 import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
-import flowRight from 'lodash-es/flowRight'
 import sortBy from 'lodash-es/sortBy'
 
 import { useCampaignList } from 'r/domains/campaigns'
@@ -16,7 +15,7 @@ const ActiveSection = styled.div`
 
 const CommonLink = styled(NavLink)`
 	display: block;
-	color: ${fromTheme('white')};
+	color: ${theme.white};
 	text-decoration: none;
 	height: 45px;
 	line-height: 45px;
@@ -24,16 +23,16 @@ const CommonLink = styled(NavLink)`
 
 const SubAppLink = styled(CommonLink)`
 	font-size: 24px;
-	font-weight: ${fromTheme('contentFont.weights.veryLight')};
-	padding-left: ${fromTheme('sidebarHzPadding')}px;
+	font-weight: ${theme.contentFont.weights.veryLight};
+	padding-left: ${theme.sidebarHzPadding}px;
 `
 
 const ChildLink = styled(CommonLink)`
   display: block;
-  color: ${fromTheme('white')}
+  color: ${theme.white}
   font-size: 18px;
-	padding-left: calc(${fromTheme('sidebarHzPadding')}px + 20px);
-  font-weight: ${fromTheme('contentFont.weights.light')};
+	padding-left: calc(${theme.sidebarHzPadding}px + 20px);
+  font-weight: ${theme.contentFont.weights.light};
 `
 
 function Nav() {
@@ -136,7 +135,5 @@ function Nav() {
 	)
 }
 
-export default flowRight(
-	// Including withRouter to force a rerender when the location updates
-	withRouter
-)(Nav)
+// Including withRouter to force a rerender when the location updates
+export default withRouter(Nav)

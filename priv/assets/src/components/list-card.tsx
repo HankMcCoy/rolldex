@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
-import { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 
-const getPaddingSize = val => (val === undefined ? '10px' : val)
+const getPaddingSize = (val?: number) => (val === undefined ? '10px' : val)
 interface Props {
 	paddingTop?: number
 	paddingRight?: number
@@ -10,9 +10,9 @@ interface Props {
 	paddingLeft?: number
 }
 const ListCard = styled.div<Props>`
-	background: ${fromTheme('gray97')};
-	border: 1px solid ${fromTheme('gray87')};
-	color: ${fromTheme('textColor')};
+	background: ${theme.gray97};
+	border: 1px solid ${theme.gray87};
+	color: ${theme.textColor};
 	display: block;
 	padding-top: ${({ paddingTop }) => getPaddingSize(paddingTop)};
 	padding-right: ${({ paddingRight }) => getPaddingSize(paddingRight)};

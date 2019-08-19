@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import theme from 'r/theme'
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'

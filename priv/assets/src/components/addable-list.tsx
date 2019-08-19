@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import { H2 } from './heading'
 import { Spacer } from './spacer'

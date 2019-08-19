@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { useRef } from 'react'
-import styled, { css } from 'styled-components'
-import { Match, withRouter, Link } from 'react-router-dom'
+import styled, { css } from 'styled-components/macro'
+import { withRouter, Link } from 'react-router-dom'
 
 import { H1 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
 import { Button, LinkButton } from 'r/components/button'
-import theme, { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 import ArrowSvg from 'r/svg/arrow'
 import { getSubAppColor, intersperse } from 'r/util'
 import { useKeydown } from 'r/util/hooks'
@@ -15,8 +15,8 @@ import { useHistory, useTitle } from 'r/util/router'
 const Root = styled('div')`
 	background: ${getSubAppColor};
 	flex: 0 0 auto;
-	padding-left: ${fromTheme('pageHzPadding')};
-	padding-right: ${fromTheme('pageHzPadding')};
+	padding-left: ${theme.pageHzPadding};
+	padding-right: ${theme.pageHzPadding};
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -34,14 +34,14 @@ const Right = styled('div')`
 const Heading = styled(H1)`
 	line-height: 1;
 	padding-right: 10px;
-	color: ${fromTheme('white')};
+	color: ${theme.white};
 `
 
 const Breadcrumb = styled(Link)`
 	height: 40px;
 	line-height: 40px;
 	text-decoration: none;
-	color: ${fromTheme('white')};
+	color: ${theme.white};
 `
 
 const Separator = () => (
@@ -68,8 +68,8 @@ export const HeaderButton = styled(Button)`
 	width: auto;
 	height: 45px;
 	padding: 0 15px;
-	border: 1px solid ${fromTheme('white')};
-	color: ${fromTheme('white')};
+	border: 1px solid ${theme.white};
+	color: ${theme.white};
 	&:hover {
 		background: rgba(255, 255, 255, 0.2);
 	}
@@ -155,7 +155,7 @@ type ExternalProps = {
 	controls?: React.ReactNode
 }
 type RouterProps = {
-	match: Match
+	match: any
 }
 function PageHeader({
 	title,
@@ -189,9 +189,7 @@ function PageHeader({
 	)
 }
 
-const PageHeaderExport: React$ComponentType<ExternalProps> = withRouter(
-	PageHeader
-)
+const PageHeaderExport = withRouter(PageHeader)
 export default PageHeaderExport
 
 export const SaveControls = ({

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import styled from '@emotion/styled/macro'
+import styled from 'styled-components'
 
 import theme from 'r/theme'
 
-export const Column = styled('div')`
+export const Column = styled.div`
 	flex: 1 0 0%;
 	min-width: 0;
 	@media (max-width: ${theme.breakpoints.phone}px) {
@@ -11,17 +11,18 @@ export const Column = styled('div')`
 	}
 `
 
-const ColumnWrapper = styled('div')`
+// prettier-ignore
+const ColumnWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 
-	${Column}:not (:last-child) {
+	${Column}:not(.last-child) {
 		margin-right: ${props => props.gutterWidth}px;
 	}
 
 	@media (max-width: ${theme.breakpoints.phone}px) {
 		flex-direction: column;
-		${Column}:not (:last-child) {
+		${Column}:not(:last-child) {
 			margin-right: 0;
 			margin-bottom: ${props => props.gutterWidth}px;
 		}

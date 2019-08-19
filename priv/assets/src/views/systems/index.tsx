@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 import { useInput, useReducer } from 'r/util/hooks'
 import PageHeader from 'r/components/page-header'

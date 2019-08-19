@@ -3,10 +3,6 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"@emotion/babel-preset-css-prop": "^10.0.7",
-		"@emotion/core": "~10.0.6",
-		"@emotion/is-prop-valid": "~0.7.0",
-		"@emotion/styled": "~10.0.6",
 		"@types/history": "^4.7.2",
 		"@types/jest": "^24.0.17",
 		"@types/lodash-es": "^4.17.3",
@@ -15,8 +11,8 @@
 		"@types/react-dom": "^16.8.5",
 		"@types/react-router-dom": "^4.3.4",
 		"@types/styled-components": "^4.1.18",
+		"babel-plugin-macros": "^2.6.1",
 		"customize-cra": "~0.2.9",
-		"emotion-theming": "~10.0.6",
 		"formik": "^1.5.8",
 		"hot-formula-parser": "^3.0.1",
 		"http-proxy-middleware": "^0.19.0",
@@ -59,6 +55,6 @@
 		"not op_mini all"
 	],
 	"devDependencies": {
-		"prettier": "^1.16.4"
+		"prettier": "^1.18.2"
 	}
 }

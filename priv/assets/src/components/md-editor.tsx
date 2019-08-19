@@ -1,7 +1,7 @@
 import SimpleMdeImpl from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 const MdEditorRoot = styled.div<{
 	minHeight: number

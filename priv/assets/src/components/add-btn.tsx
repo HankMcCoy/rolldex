@@ -1,26 +1,27 @@
 import * as React from 'react'
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components/macro'
 import { RouteComponentProps } from 'react-router'
 import { withRouter } from 'react-router-dom'
 
+import theme from 'r/theme'
 import PlainLink from 'r/components/plain-link'
 import { getSubAppColor } from 'r/util'
 
 const commonStyles = css`
-	textdecoration: none;
+	text-decoration: none;
 	height: 34px;
 	width: 34px;
 	display: flex;
-	alignitems: center;
-	justifycontent: center;
-	fontsize: 24px;
-	borderradius: 3px;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	border-radius: 3px;
 	cursor: pointer;
 	border: none;
 `
-const commonDynamicStyles = ({ invertedFoo, match, theme }) => css`
-	background: ${invertedFoo ? theme.white : getSubAppColor({ match, theme })};
-	color: ${invertedFoo ? getSubAppColor({ match, theme }) : theme.white};
+const commonDynamicStyles = ({ invertedFoo, match }) => css`
+	background: ${invertedFoo ? theme.white : getSubAppColor({ match })};
+	color: ${invertedFoo ? getSubAppColor({ match }) : theme.white};
 `
 const StyledButton = styled.button`
 	${commonStyles};
@@ -34,7 +35,7 @@ const StyledLink = styled(PlainLink)`
 
 type Props<MP> = {
 	inverted?: boolean
-	onClick?: (MouseEvent) => void
+	onClick?: (e: MouseEvent) => void
 	to?: string
 } & RouteComponentProps<MP>
 function AddBtn<MatchParams>({

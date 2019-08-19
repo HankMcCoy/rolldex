@@ -1,5 +1,6 @@
 import flatMap from 'lodash-es/flatMap'
 import { matchPath } from 'react-router'
+import theme from 'r/theme'
 
 export function intersperse<X, Y>(
 	arr: Array<X>,
@@ -21,12 +22,10 @@ const subAppColors: { [key in SubApp]: string } = {
 }
 export const getSubAppColor = ({
 	match,
-	theme,
 }: {
 	match: {
 		path: string
 	}
-	theme: Object
 }): string => {
 	const subApp = getSubApp(match.path)
 	return theme[subAppColors[subApp]]

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components/macro'
 import { Link } from 'react-router-dom'
 
 import theme from 'r/theme'
@@ -39,7 +39,7 @@ export const PrimaryButton = styled(Button)`
 	}
 `
 
-export const SecondaryButton = styled(Button)`
+const secondaryStyles = css`
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	color: ${theme.gray38};
 	background: rgba(255, 255, 255, 0.15);
@@ -49,7 +49,12 @@ export const SecondaryButton = styled(Button)`
 		color: ${theme.gray20};
 	}
 `
+export const SecondaryButton = styled(Button)`
+	${secondaryStyles}
+`
 
-export const SecondaryLinkButton = SecondaryButton.withComponent(UnstyledLink)
+export const SecondaryLinkButton = styled(LinkButton)`
+	${secondaryStyles}
+`
 
 export default Button

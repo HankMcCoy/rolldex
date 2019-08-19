@@ -11,6 +11,7 @@ import {
 import isHotkey from 'is-hotkey'
 import last from 'lodash-es/last'
 import get from 'lodash-es/get'
+import styled from 'styled-components/macro'
 
 import { useClick, useKeydown } from 'r/util/hooks'
 import { subscribeToErrors } from 'r/util/api'
@@ -38,7 +39,7 @@ function modalsReducer(state: State, action: Action) {
 	}
 }
 
-function usePreserveFocus(modals) {
+function usePreserveFocus(modals: Modal[]) {
 	// Restore the focus wherever it was previously, upon hiding the last modal.
 	const [prevFocusedEl, setPrevFocusedEl] = useState()
 	useLayoutEffect(() => {
@@ -47,15 +48,17 @@ function usePreserveFocus(modals) {
 		} else if (prevFocusedEl) {
 			prevFocusedEl.focus()
 		}
-	}, [modals.length > 0])
+	}, [modals.length, prevFocusedEl])
 }
 
 type ContextType = {
 	modals: State
-	showModal: (Modal) => void
+	showModal: (modal: Modal) => void
 	closeModal: () => void
 }
-const ModalContext = React.createContext<ContextType>(undefined)
+const ModalContext = (React.createContext(
+	undefined
+) as unknown) as React.Context<ContextType>
 export const ModalsConsumer = ModalContext.Consumer
 
 export const useModals = () => {
@@ -66,7 +69,7 @@ export const useModals = () => {
 			showModal,
 			closeModal,
 		}),
-		[]
+		[showModal, closeModal]
 	)
 }
 
@@ -78,7 +81,7 @@ function useKeyBindings(
 ) {
 	const conditionalHandlers = Array.from(keyHandlerMap).map(
 		([keyDesc, handler]) => {
-			const matches: (KeyboardEvent) => boolean = isHotkey(keyDesc)
+			const matches: (e: KeyboardEvent) => boolean = isHotkey(keyDesc)
 			return (e: KeyboardEvent) => {
 				if (matches(e)) {
 					handler(e)
@@ -143,7 +146,7 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 		subscribeToErrors(() => {
 			showModal(<NetworkError close={closeModal} />)
 		})
-	}, [])
+	}, [showModal, closeModal])
 
 	if (!modals.length) {
 		return null
@@ -183,7 +186,8 @@ export default function ModalsPresenter({
 	const modalContextValue = React.useMemo(
 		() => ({
 			modals,
-			showModal: modal => dispatch({ type: 'SHOW_MODAL', payload: modal }),
+			showModal: (modal: Modal) =>
+				dispatch({ type: 'SHOW_MODAL', payload: modal }),
 			closeModal: () => dispatch({ type: 'HIDE_MODAL' }),
 		}),
 		[modals, dispatch]

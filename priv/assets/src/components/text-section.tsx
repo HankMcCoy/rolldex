@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Markdown from 'react-remarkable'
-import styled, { css } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 
 import theme from 'r/theme'
 import { Spacer } from './spacer'

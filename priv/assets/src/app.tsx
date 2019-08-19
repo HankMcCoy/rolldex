@@ -4,7 +4,6 @@ import { Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import history from './history'
 import Layout from './layout'
-import theme from './theme'
 import ModalsPresenter from './modals/presenter'
 import Campaigns from './views/campaigns'
 import Systems from './views/systems'

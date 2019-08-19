@@ -3,10 +3,11 @@ import 'simplemde/dist/simplemde.min.css'
 import * as React from 'react'
 import styled from 'styled-components/macro'
 
-const MdEditorRoot = styled.div<{
+interface MdEditorRootProps {
 	minHeight: number
 	children: React.ReactNode
-}>`
+}
+const MdEditorRoot = styled.div<MdEditorRootProps>`
 	& .CodeMirror,
 	& .CodeMirror-scroll {
 		min-height: ${props => props.minHeight}px;

@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
 
-import FormField from 'r/components/form-field'
 import { PrimaryButton, SecondaryButton } from 'r/components/button'
 import { Spacer } from 'r/components/spacer'
 import { useHistory } from 'r/util/router'

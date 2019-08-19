@@ -11,13 +11,6 @@ type Response<T> = {
 }
 type MutateMethod = 'PUT' | 'POST' | 'DELETE'
 
-const DEFAULT_OPTIONS = {
-	headers: {
-		'Content-Type': 'application/json; charset=utf-8',
-	},
-	credentials: 'include',
-}
-
 const useInvalidationHandling = (path: string) => {
 	const mutableInvalidationCount = useRef(0)
 	const [invalidationCount, setInvalidationCount] = useState(0)
@@ -33,7 +26,7 @@ const useInvalidationHandling = (path: string) => {
 		return () => {
 			invalidationManager.unsubscribe(path, handleInvalidation)
 		}
-	}, [path])
+	}, [path, handleInvalidation])
 
 	return invalidationCount
 }
@@ -51,13 +44,13 @@ export function useFetch<T>(
 ): FetchResult<T> {
 	const { noCache, handleResponse } = options
 
-	let cancelled = false
 	const cachedValue = noCache ? undefined : (cache.get(path) as T)
 	const [data, setData] = useState(cachedValue)
 	const [error, setError] = useState<Error>()
 	const invalidateCount = useInvalidationHandling(path)
 
 	useEffect(() => {
+		let cancelled = false
 		const fetchData = () => {
 			const responsePromise = (window.fetch(path, {
 				headers: {
@@ -105,7 +98,7 @@ export function useFetch<T>(
 		return () => {
 			cancelled = true
 		}
-	}, [path, invalidateCount])
+	}, [path, invalidateCount, handleResponse])
 
 	return [data, error] as FetchResult<T>
 }

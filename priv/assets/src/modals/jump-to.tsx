@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import theme from 'r/theme'
 import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
+import styled from 'styled-components/macro'
 
 import { callApi, ignoreAborts } from 'r/util/api'
 import { useLocation } from 'r/util/router'
@@ -106,7 +107,7 @@ export default function JumpTo({
 		return () => {
 			aborter.abort()
 		}
-	}, [searchValue])
+	}, [searchValue, campaignId])
 
 	useEffect(() => {
 		const rootEl = rootElRef.current

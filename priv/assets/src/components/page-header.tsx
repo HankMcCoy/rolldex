@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useRef } from 'react'
-import styled, { css } from 'styled-components/macro'
+import styled from 'styled-components/macro'
 import { withRouter, Link } from 'react-router-dom'
 
 import { H1 } from 'r/components/heading'

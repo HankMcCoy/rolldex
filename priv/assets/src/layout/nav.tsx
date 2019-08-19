@@ -4,7 +4,7 @@ import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
 import sortBy from 'lodash-es/sortBy'
 
 import { useCampaignList } from 'r/domains/campaigns'
-import theme, { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 import { useCurUser } from 'r/domains/auth'
 import { UnstyledButton } from 'r/components/button'
 import { callApi } from 'r/util/api'

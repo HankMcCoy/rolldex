@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
 
-import theme, { fromTheme } from 'r/theme'
+import theme from 'r/theme'
 
 import PageContent from './page-content'
 

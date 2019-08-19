@@ -1,5 +1,3 @@
-import get from 'lodash-es/get'
-
 const gray20 = '#333333'
 const gray30 = '#484D4B'
 const gray38 = '#5A605E'

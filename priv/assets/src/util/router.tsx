@@ -12,6 +12,14 @@ export const useRouteId = (paramName: string): number | void => {
 	return param ? +param : undefined
 }
 
+export const useRouteIdOrDie = (paramName: string): number => {
+	const param = useRouteId(paramName)
+	if (param) {
+		return +param
+	}
+	throw new Error(`Expected numeric route ID: ${paramName}`)
+}
+
 export const useHistory = (): History => {
 	const { history }: { history: History } = useContext(__RouterContext)
 	return history

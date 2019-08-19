@@ -1,14 +1,13 @@
-
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import cache from './cache'
 import invalidationManager from './invalidation-manager'
 
 type Response<T> = {
-	ok: boolean,
-	status: number,
-	json: () => { data: T },
-	text: () => string,
+	ok: boolean
+	status: number
+	json: () => { data: T }
+	text: () => string
 }
 type MutateMethod = 'PUT' | 'POST' | 'DELETE'
 
@@ -41,31 +40,33 @@ const useInvalidationHandling = (path: string) => {
 
 const inFlight: Map<string, Promise<unknown>> = new Map()
 
-type FetchResult<T> = [T, void] | [void, Error]
+type FetchResult<T> = [T, undefined] | [undefined, Error]
 interface FetchOptions<T> {
 	handleResponse?: (response: Response<T>) => FetchResult<T>
 	noCache?: boolean
 }
-export const useFetch = <T>(
+export function useFetch<T>(
 	path: string,
 	options: FetchOptions<T> = {}
-): FetchResult<T> => {
+): FetchResult<T> {
 	const { noCache, handleResponse } = options
 
 	let cancelled = false
-	// $FlowFixMe
 	const cachedValue = noCache ? undefined : (cache.get(path) as T)
-	const [data, setData] = useState<?T>(cachedValue)
-	const [error, setError] = useState()
+	const [data, setData] = useState(cachedValue)
+	const [error, setError] = useState<Error>()
 	const invalidateCount = useInvalidationHandling(path)
 
 	useEffect(() => {
-		const fetchData = (): Promise<FetchResult<T>> => {
-			const responsePromise: Promise<Response<T>> = window.fetch(path, {
-				DEFAULT_OPTIONS,
-			})
+		const fetchData = () => {
+			const responsePromise = (window.fetch(path, {
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8',
+				},
+				credentials: 'include',
+			}) as unknown) as Promise<Response<T>>
 			return responsePromise
-				.then(async (resp: Response<T>) => {
+				.then(async resp => {
 					inFlight.delete(path)
 					if (handleResponse) {
 						const result = handleResponse(resp)
@@ -76,19 +77,18 @@ export const useFetch = <T>(
 					if (resp.status >= 200 && resp.status < 300) {
 						const { data } = await resp.json()
 						cache.set(path, data)
-						return ([data, undefined]: [T, void])
+						return [data as T, undefined]
 					} else {
 						const text = await resp.text()
-						return ([undefined, new Error(text)]: [void, Error])
+						return [undefined, new Error(text)]
 					}
 				})
 				.catch((e: Error) => {
 					return [undefined, e]
 				})
 		}
-		const promise: Promise<FetchResult<T>> =
-			// $FlowFixMe
-			inFlight.get(path) || inFlight.set(path, fetchData()).get(path)
+		const promise = (inFlight.get(path) ||
+			inFlight.set(path, fetchData()).get(path)) as Promise<FetchResult<T>>
 
 		promise.then(async (result: FetchResult<T>) => {
 			if (cancelled) {
@@ -107,8 +107,7 @@ export const useFetch = <T>(
 		}
 	}, [path, invalidateCount])
 
-	// $FlowFixMe
-	return [data, error]
+	return [data, error] as FetchResult<T>
 }
 
 const mutate = async ({
@@ -116,12 +115,15 @@ const mutate = async ({
 	path,
 	body,
 }: {
-	method: MutateMethod,
-	path: string,
-	body?: {},
+	method: MutateMethod
+	path: string
+	body?: {}
 }) => {
 	const resp = await window.fetch(path, {
-		...DEFAULT_OPTIONS,
+		headers: {
+			'Content-Type': 'application/json; charset=utf-8',
+		},
+		credentials: 'include',
 		method,
 		body: JSON.stringify(body),
 	})
@@ -130,30 +132,33 @@ const mutate = async ({
 
 	return resp
 }
+
 export const post = async <T>({
 	path,
 	body,
 }: {
-	path: string,
-	body?: {},
+	path: string
+	body?: {}
 }): Promise<T> => {
 	const resp = await mutate({ method: 'POST', path, body })
 
 	const { data } = await resp.json()
 	return data
 }
+
 export const put = async <T>({
 	path,
 	body,
 }: {
-	path: string,
-	body?: {},
+	path: string
+	body?: {}
 }): Promise<T> => {
 	const resp = await mutate({ method: 'PUT', path, body })
 
 	const { data } = await resp.json()
 	return data
 }
+
 export const remove = async ({ path }: { path: string }): Promise<void> => {
 	await mutate({ method: 'DELETE', path })
 

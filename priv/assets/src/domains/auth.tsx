@@ -7,7 +7,9 @@ type User = {
 	id: number
 	email: string
 }
-const AuthCtx = React.createContext<User>(undefined)
+const AuthCtx = React.createContext<User | undefined>(
+	undefined
+) as React.Context<User>
 
 type ProviderProps = {
 	children: React.ReactNode

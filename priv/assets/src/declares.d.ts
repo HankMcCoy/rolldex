@@ -7,3 +7,5 @@ declare module 'react' {
 		css?: CSSProp<MyTheme>
 	}
 }
+
+declare module 'hot-formula-parser'

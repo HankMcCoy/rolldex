@@ -1,6 +1,5 @@
-
 import * as React from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikActions } from 'formik'
 
 import { required } from 'r/util/formik'
 
@@ -9,12 +8,12 @@ import FormField from 'r/components/form-field'
 import { Textarea } from 'r/components/input'
 
 type Values = {
-	name: string,
-	description: string,
+	name: string
+	description: string
 }
 type Props = {
-	initialValues: Values,
-	onSubmit: (Values, *) => void,
+	initialValues: Values
+	onSubmit: (values: Values, actions: FormikActions<Values>) => void
 }
 function CampaignForm({ initialValues, onSubmit }: Props) {
 	return (

@@ -1,4 +1,3 @@
-
 import { Parser } from 'hot-formula-parser'
 import { ValueDef, CalcValueDef, SheetValue } from './types'
 
@@ -42,10 +41,10 @@ export function getCalculatedValues(
 		// Iterate through the list of unsolved calculations
 		for (let unsolvedValueDef of unsolvedValueDefs) {
 			// Try to calculate it...
-			const { result, error } = (parser.parse(unsolvedValueDef.calc): {
-				result: number | null,
-				error: string | null,
-			})
+			const { result, error } = parser.parse(unsolvedValueDef.calc) as {
+				result: number | null
+				error: string | null
+			}
 
 			// If it fails, push it to the next version of the unsolved children array
 			if (error !== null) {

@@ -1,9 +1,7 @@
-
-
 import * as React from 'react'
 import { callApi } from 'r/util/api'
 import { History } from 'history'
-import { Formik } from 'formik'
+import { Formik, FormikActions } from 'formik'
 import styled from 'styled-components'
 
 import { required } from 'r/util/formik'
@@ -23,28 +21,25 @@ const ButtonWrapper = styled.div`
 `
 
 type Props = {
-	history: History,
+	history: History
 }
 type Values = {
-	email: string,
-	password: string,
+	email: string
+	password: string
 }
 type FormErrors = {
-	badLogin: boolean,
+	badLogin: boolean
 }
 class Login extends React.Component<Props, void> {
 	render() {
 		return (
 			<Formik
-				initialValues={{}}
+				initialValues={{
+					email: '',
+					password: '',
+				}}
 				onSubmit={this.login}
-				render={({
-					handleSubmit,
-					errors,
-				}: {
-					handleSubmit: Function,
-					errors: FormErrors,
-				}) => (
+				render={({ handleSubmit, errors }) => (
 					<FormWrapper onSubmit={handleSubmit}>
 						<H1>Rolldex</H1>
 						<Spacer height={20} />
@@ -71,10 +66,7 @@ class Login extends React.Component<Props, void> {
 
 	login = (
 		values: Values,
-		{
-			setSubmitting,
-			setErrors,
-		}: { setSubmitting: boolean => void, setErrors: FormErrors => void }
+		{ setSubmitting, setErrors }: FormikActions<Values>
 	) => {
 		const { email, password } = values
 

@@ -1,5 +1,3 @@
-
-
 import * as React from 'react'
 import styled from 'styled-components'
 
@@ -40,9 +38,9 @@ function EditValueDef({
 	onSave,
 	onCancel,
 }: {
-	valueDef?: ValueDef,
-	onSave: ValueDef => void,
-	onCancel: () => void,
+	valueDef?: ValueDef
+	onSave: (valueDef: ValueDef) => void
+	onCancel: () => void
 }) {
 	const name = useInput(valueDef && valueDef.name)
 	const label = useInput(valueDef && valueDef.label)
@@ -59,9 +57,7 @@ function EditValueDef({
 			<form
 				onSubmit={() => {
 					if (type.value === 'INSTANCE_VALUE') {
-						const valueType:
-							| 'string'
-							| 'number' = (instanceValueType.value: any)
+						const valueType = instanceValueType.value as 'string' | 'number'
 
 						onSave({
 							type: 'INSTANCE_VALUE',
@@ -137,8 +133,8 @@ function DisplayValueDef({
 	valueDef,
 	edit,
 }: {
-	valueDef: ValueDef,
-	edit: () => void,
+	valueDef: ValueDef
+	edit: () => void
 }) {
 	return (
 		<ValueDefFrame>
@@ -157,15 +153,15 @@ function DisplayValueDef({
 	)
 }
 type ValueDefState = {
-	valueDefs: Map<string, ValueDef>,
-	isEditing: Map<string, boolean>,
-	isDrafting: boolean,
+	valueDefs: Map<string, ValueDef>
+	isEditing: Map<string, boolean>
+	isDrafting: boolean
 }
 type ValueDefAction =
-	| { type: 'CREATE', valueDef: ValueDef }
-	| { type: 'EDIT', name: string }
-	| { type: 'CANCEL_EDIT', name: string }
-	| { type: 'UPDATE', valueDef: ValueDef }
+	| { type: 'CREATE'; valueDef: ValueDef }
+	| { type: 'EDIT'; name: string }
+	| { type: 'CANCEL_EDIT'; name: string }
+	| { type: 'UPDATE'; valueDef: ValueDef }
 	| { type: 'DRAFT' }
 	| { type: 'CANCEL_DRAFT' }
 const mapAdd = <K, V>(map: Map<K, V>, key: K, value: V): Map<K, V> =>

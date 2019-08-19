@@ -1,21 +1,20 @@
-
 import * as React from 'react'
 import { Formik } from 'formik'
 
 import { useNoun, updateNoun } from 'r/domains/nouns'
 import { useCurCampaign } from 'r/domains/campaigns'
-import { useHistory, useRouteId } from 'r/util/router'
+import { useHistory, useRouteIdOrDie } from 'r/util/router'
 
 import PageHeader, { SaveControls } from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
-import NounForm, { type Values, convertValuesToDraftNoun } from './noun-form'
+import NounForm, { Values, convertValuesToDraftNoun } from './noun-form'
 
 export default function EditNoun() {
 	const history = useHistory()
 	const [campaign] = useCurCampaign()
-	const [noun] = useNoun(useRouteId('nounId'))
+	const [noun] = useNoun(useRouteIdOrDie('nounId'))
 
 	if (!campaign || !noun) return <LoadingPage />
 

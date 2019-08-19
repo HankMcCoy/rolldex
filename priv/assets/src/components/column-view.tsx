@@ -16,7 +16,7 @@ const ColumnWrapper = styled.div`
 	display: flex;
 	justify-content: space-between;
 
-	${Column}:not(.last-child) {
+	${Column}:not(:last-child) {
 		margin-right: ${props => props.gutterWidth}px;
 	}
 

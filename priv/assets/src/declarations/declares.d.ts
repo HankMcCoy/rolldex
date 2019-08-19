@@ -9,3 +9,8 @@ declare module 'react' {
 }
 
 declare module 'hot-formula-parser'
+
+declare module 'use-debounce' {
+	declare let useDebounce: <T>(val: T, delay: number) => T
+	export default useDebounce
+}

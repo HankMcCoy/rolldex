@@ -3,7 +3,7 @@ const errorSubscribers: Array<() => void> = []
 type Response = {
 	status: number
 	ok: boolean
-	json: () => Promise<{}>
+	json: () => Promise<any>
 }
 type Args = {
 	method: 'GET' | 'POST' | 'PUT' | 'DELETE'

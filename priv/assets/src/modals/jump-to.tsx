@@ -33,7 +33,7 @@ const getPath = (searchMatch: SearchMatch): string => {
 	}
 }
 
-const wrapSelection = (idx, count) => {
+const wrapSelection = (idx: number, count: number) => {
 	if (count === 0) return 0
 	if (idx === -1) return count - 1
 	if (idx === count) return 0
@@ -61,9 +61,9 @@ export default function JumpTo({
 }) {
 	const [searchMatches, setSearchMatches] = useState<Array<SearchMatch>>([])
 	const [value, setValue] = useState('')
-	const [searchValue] = useDebounce(value, 100) as [string]
+	const [searchValue] = useDebounce(value, 100)
 	const [selectedMatchIdx, setSelectedMatchIdx] = useState(0)
-	const rootElRef = useRef<HTMLDivElement>()
+	const rootElRef = useRef<HTMLDivElement>(null)
 
 	const handleKeydown = (e: KeyboardEvent) => {
 		const rootEl = rootElRef.current
@@ -83,7 +83,7 @@ export default function JumpTo({
 				const linkEl = linkEls[selectedMatchIdx]
 				if (linkEl) {
 					if (e.ctrlKey || e.metaKey) {
-						window.open(linkEl.getAttribute('href'), '_blank')
+						window.open(linkEl.getAttribute('href') || undefined, '_blank')
 					} else {
 						linkEl.click()
 					}

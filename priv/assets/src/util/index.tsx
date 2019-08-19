@@ -4,7 +4,7 @@ import theme from 'r/theme'
 
 export function intersperse<X, Y>(
 	arr: Array<X>,
-	inter: (number) => Y
+	inter: (idx: number) => Y
 ): Array<X | Y> {
 	return flatMap(arr, (a, i) => (i ? [inter(i), a] : [a]))
 }

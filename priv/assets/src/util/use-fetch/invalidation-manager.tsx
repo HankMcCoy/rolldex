@@ -7,10 +7,13 @@ const normalize = (path: string): string => {
 }
 const getPathLevels = (path: string): Array<string> => {
 	const segments = path.split('/').filter(x => x)
-	return segments.reduce((levels, segment) => {
-		const prevSeg = levels[0] || ''
-		return [`${prevSeg}/${segment}`, ...levels]
-	}, [])
+	return segments.reduce(
+		(levels, segment) => {
+			const prevSeg = levels[0] || ''
+			return [`${prevSeg}/${segment}`, ...levels]
+		},
+		[] as string[]
+	)
 }
 
 const subscriptions: Map<string, Array<() => void>> = new Map()

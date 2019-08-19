@@ -91,7 +91,10 @@ export const ControlsWrapper = styled.div`
 	}
 `
 
-function useEditShortcuts(controls, controlsRef) {
+function useEditShortcuts(
+	controls: React.ReactNode,
+	controlsRef: React.RefObject<HTMLDivElement>
+) {
 	const getChild = (selector: string): HTMLElement | null =>
 		controlsRef.current && controlsRef.current.querySelector(selector)
 	useKeydown(
@@ -163,7 +166,7 @@ function PageHeader({
 	breadcrumbs,
 	controls,
 }: ExternalProps & RouterProps) {
-	const controlsRef = useRef()
+	const controlsRef = useRef<HTMLDivElement>(null)
 	useEditShortcuts(controls, controlsRef)
 	useTitle(title)
 	return (

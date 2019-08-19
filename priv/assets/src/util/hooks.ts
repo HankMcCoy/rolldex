@@ -4,27 +4,27 @@ export { useModals } from '../modals/presenter'
 
 export const useClick = (
 	el: HTMLElement | Document,
-	listener: (MouseEvent) => void,
+	listener: (e: React.MouseEvent) => void,
 	deps: any[]
 ) => {
 	return useEffect(() => {
-		el.addEventListener('click', listener)
-		return () => el.removeEventListener('click', listener)
+		el.addEventListener('click', listener as any)
+		return () => el.removeEventListener('click', listener as any)
 	}, deps)
 }
 
 export const useKeydown = (
 	el: HTMLElement | Document,
-	listener: (KeyboardEvent) => void,
+	listener: (e: React.KeyboardEvent) => void,
 	deps: any[]
 ) => {
 	return useEffect(() => {
-		el.addEventListener('keydown', listener)
-		return () => el.removeEventListener('keydown', listener)
+		el.addEventListener('keydown', listener as any)
+		return () => el.removeEventListener('keydown', listener as any)
 	}, deps)
 }
 
-export const usePrevious = <T>(value: T): T | null => {
+export const usePrevious = <T>(value: T): T | undefined => {
 	const ref = useRef<T>()
 	useEffect(() => {
 		ref.current = value
@@ -100,7 +100,9 @@ export function useInput(initValue?: string) {
 interface Action {
 	type: any
 }
-function addLogging<S, A extends Action>(reducer: (S, A) => S): (S, A) => S {
+function addLogging<S, A extends Action>(
+	reducer: (state: S, action: A) => S
+): (state: S, action: A) => S {
 	return function loggingReducer(s, a) {
 		const before = s
 		const after = reducer(s, a)
@@ -119,9 +121,9 @@ function addLogging<S, A extends Action>(reducer: (S, A) => S): (S, A) => S {
 }
 
 function useReducerWithLogging<S, A extends Action>(
-	reducer: (S, A) => S,
+	reducer: (state: S, action: A) => S,
 	initState: S
-): [S, (A) => void] {
+): [S, (action: A) => void] {
 	const reducerWithLogging = useMemo(() => addLogging(reducer), [reducer])
 	return useReducer(reducerWithLogging, initState)
 }

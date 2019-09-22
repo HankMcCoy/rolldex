@@ -21,10 +21,15 @@ export type DraftSession = $Diff<
 export const useSessionList = () =>
 	useFetch<Array<Session>>(`/api/campaigns/${useCampaignId()}/sessions`)
 
-export const useSession = (id: number): [Session, any] => {
+export const useSession = (id: number): [Session | undefined, any] => {
 	const [sessions, err] = useSessionList()
+
 	if (sessions) {
-		return [sessions.find(n => n.id === id), err]
+		const session = sessions.find(n => n.id === id)
+		if (!session) {
+			return [undefined, 'NO_MATCH_FOUND']
+		}
+		return [session, err]
 	}
 	return [undefined, err]
 }

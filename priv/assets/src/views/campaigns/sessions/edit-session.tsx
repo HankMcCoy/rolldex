@@ -3,7 +3,7 @@ import { Formik } from 'formik'
 
 import { useSession, updateSession } from 'r/domains/sessions'
 import { useCurCampaign } from 'r/domains/campaigns'
-import { useRouteId, useHistory } from 'r/util/router'
+import { useRouteIdOrDie, useHistory } from 'r/util/router'
 
 import PageHeader, { SaveControls } from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
@@ -13,7 +13,7 @@ import SessionForm, { convertValuesToDraftSession } from './session-form'
 
 export default function EditSession() {
 	const [campaign] = useCurCampaign()
-	const [session] = useSession(useRouteId('sessionId'))
+	const [session] = useSession(useRouteIdOrDie('sessionId'))
 	const history = useHistory()
 	if (!campaign || !session) return <LoadingPage />
 

@@ -1,19 +1,17 @@
-import * as React from 'react'
 import styled from 'styled-components/macro'
 
-export const Spacer: React.ComponentType<{
+interface Dimensions {
 	width?: number
 	height?: number
-}> = styled.div`
+}
+
+export const Spacer = styled.div<Dimensions>`
 	flex: 0 0 auto;
 	height: ${({ height }) => height}px;
 	width: ${({ width }) => width}px;
 `
 
-export const SpaceChildren: React.ComponentType<{
-	width?: Number
-	height?: number
-}> = styled.div`
+export const SpaceChildren = styled.div<Dimensions>`
 	& > *:not(:last-child) {
 		margin-bottom: ${({ height }) => height}px;
 		margin-right: ${({ width }) => width}px;

@@ -22,7 +22,7 @@ export const Tooltip = ({
 	attachment?: string
 	targetAttachment?: string
 	offset?: string
-	renderTarget: (any) => React.ReactNode
+	renderTarget: (el: HTMLElement) => React.ReactNode
 	tooltipContent: React.ReactNode
 }) => {
 	const [targetRef, tooltipRef, showTooltip] = useHoverCombo()

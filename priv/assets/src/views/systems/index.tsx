@@ -191,8 +191,6 @@ function reduceValueDefs(
 				isEditing: mapAdd(s.isEditing, action.valueDef.name, false),
 				valueDefs: mapAdd(s.valueDefs, action.valueDef.name, action.valueDef),
 			}
-		default:
-			throw new Error(`Invalid action ${action.type}`)
 	}
 }
 

@@ -10,7 +10,8 @@ export const useClick = (
 	return useEffect(() => {
 		el.addEventListener('click', listener as any)
 		return () => el.removeEventListener('click', listener as any)
-	}, deps)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [el, listener, ...deps])
 }
 
 export const useKeydown = (
@@ -21,7 +22,8 @@ export const useKeydown = (
 	return useEffect(() => {
 		el.addEventListener('keydown', listener as any)
 		return () => el.removeEventListener('keydown', listener as any)
-	}, deps)
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [el, listener, ...deps])
 }
 
 export const usePrevious = <T>(value: T): T | undefined => {
@@ -51,7 +53,7 @@ export function useHover() {
 				node.removeEventListener('mouseout', handleMouseOut)
 			}
 		}
-	}, [ref.current])
+	}, [])
 
 	return [ref, value]
 }

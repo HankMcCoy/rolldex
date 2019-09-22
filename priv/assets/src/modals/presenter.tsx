@@ -11,6 +11,8 @@ import {
 import isHotkey from 'is-hotkey'
 import last from 'lodash-es/last'
 import get from 'lodash-es/get'
+
+// eslint-disable-next-line
 import styled from 'styled-components/macro'
 
 import { useClick, useKeydown } from 'r/util/hooks'

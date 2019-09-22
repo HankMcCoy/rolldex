@@ -12,7 +12,7 @@ export const Column = styled.div`
 `
 
 // prettier-ignore
-const ColumnWrapper = styled.div`
+const ColumnWrapper = styled.div<{ gutterWidth: number }>`
 	display: flex;
 	justify-content: space-between;
 

@@ -1,9 +1,9 @@
-
 import { getCalculatedValues } from './get-calculated-values'
 import { ValueDef, SheetValue } from './types'
 
-const arrToMap = <T: { name: string }>(arr: Array<T>): Map<string, T> =>
-	new Map([...arr.map(v => [v.name, v])])
+function arrToMap<T extends { name: string }>(arr: Array<T>): Map<string, T> {
+	return new Map([...arr.map(v => [v.name, v] as [string, T])])
+}
 
 it('returns an empty map given empty values', () => {
 	const things = new Map()

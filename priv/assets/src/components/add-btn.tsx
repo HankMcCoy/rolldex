@@ -1,11 +1,9 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components/macro'
-import { RouteComponentProps } from 'react-router'
-import { withRouter } from 'react-router-dom'
 
 import theme from 'r/theme'
 import PlainLink from 'r/components/plain-link'
-import { getSubAppColor } from 'r/util'
+import { useSubAppColor } from 'r/util'
 
 const commonStyles = css`
 	text-decoration: none;
@@ -21,13 +19,13 @@ const commonStyles = css`
 `
 const commonDynamicStyles = ({
 	invertedFoo,
-	match,
+	color,
 }: {
 	invertedFoo: boolean
-	match: { path: string }
+	color: string
 }) => css`
-	background: ${invertedFoo ? theme.white : getSubAppColor({ match })};
-	color: ${invertedFoo ? getSubAppColor({ match }) : theme.white};
+	background: ${invertedFoo ? theme.white : color};
+	color: ${invertedFoo ? color : theme.white};
 `
 const StyledButton = styled.button`
 	${commonStyles};
@@ -39,27 +37,23 @@ const StyledLink = styled(PlainLink)`
 	${commonDynamicStyles};
 `
 
-type Props<MP> = {
+type Props = {
 	inverted?: boolean
 	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 	to?: string
-} & RouteComponentProps<MP>
-function AddBtn<MatchParams>({
-	inverted = false,
-	onClick,
-	to,
-	match,
-}: Props<MatchParams>) {
+}
+function AddBtn({ inverted = false, onClick, to }: Props) {
+	const color = useSubAppColor()
 	if (onClick) {
 		return (
-			<StyledButton onClick={onClick} invertedFoo={inverted} match={match}>
+			<StyledButton onClick={onClick} invertedFoo={inverted} color={color}>
 				+
 			</StyledButton>
 		)
 	}
 	if (to) {
 		return (
-			<StyledLink to={to} invertedFoo={inverted} match={match}>
+			<StyledLink to={to} invertedFoo={inverted} color={color}>
 				+
 			</StyledLink>
 		)
@@ -69,4 +63,4 @@ function AddBtn<MatchParams>({
 	)
 }
 
-export default withRouter(AddBtn)
+export default AddBtn

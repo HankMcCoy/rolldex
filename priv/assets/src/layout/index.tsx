@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
 
-import ScrollToTop from 'r/components/scroll-to-top'
+import { useScrollToTop } from 'r/components/scroll-to-top'
 import theme from 'r/theme'
 
 import Sidebar from './sidebar'
@@ -22,7 +22,7 @@ const SidebarContainer = styled('div')`
 	}
 `
 
-const ContentContainer = styled('div')`
+const ContentContainer = styled.div`
 	flex: 1 0 0%;
 	display: flex;
 	flex-direction: column;
@@ -35,14 +35,15 @@ type Props = {
 	children: React.ReactNode
 }
 export default function Layout({ children }: Props) {
+	const ref = React.createRef<HTMLDivElement>()
+	useScrollToTop({ ref })
+
 	return (
 		<Root>
 			<SidebarContainer>
 				<Sidebar />
 			</SidebarContainer>
-			<ScrollToTop>
-				<ContentContainer>{children}</ContentContainer>
-			</ScrollToTop>
+			<ContentContainer ref={ref}>{children}</ContentContainer>
 		</Root>
 	)
 }

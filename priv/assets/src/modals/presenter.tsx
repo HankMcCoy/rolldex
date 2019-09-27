@@ -75,7 +75,7 @@ export const useModals = () => {
 	)
 }
 
-type KeyHandler = (e: KeyboardEvent) => void
+type KeyHandler = (e: React.KeyboardEvent) => void
 function useKeyBindings(
 	el: HTMLElement | Document,
 	keyHandlerMap: Map<string, KeyHandler>,
@@ -84,8 +84,8 @@ function useKeyBindings(
 	const conditionalHandlers = Array.from(keyHandlerMap).map(
 		([keyDesc, handler]) => {
 			const matches: (e: KeyboardEvent) => boolean = isHotkey(keyDesc)
-			return (e: KeyboardEvent) => {
-				if (matches(e)) {
+			return (e: React.KeyboardEvent) => {
+				if (matches(e.nativeEvent)) {
 					handler(e)
 				}
 			}
@@ -96,7 +96,7 @@ function useKeyBindings(
 
 function Presenter({ modals, showModal, closeModal }: ContextType) {
 	const rootRef = useRef<HTMLDivElement>(null)
-	const showHelp = (event: KeyboardEvent) => {
+	const showHelp = (event: React.KeyboardEvent) => {
 		// Ctrl-/ seems to select all text on the page unless prevented.
 		event.preventDefault()
 		showModal(<Help />)
@@ -105,7 +105,7 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 	const campaignId = useCampaignId()
 	useClick(
 		document,
-		(event: MouseEvent) => {
+		(event: React.MouseEvent) => {
 			if (rootRef && rootRef.current && rootRef.current === event.target) {
 				closeModal()
 			}
@@ -118,7 +118,7 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 			['Escape', () => closeModal()],
 			[
 				'mod+k',
-				(event: KeyboardEvent) => {
+				(event: React.KeyboardEvent) => {
 					event.preventDefault()
 
 					const jumpToAlreadyShown = get(last(modals), 'type') === JumpTo
@@ -130,7 +130,7 @@ function Presenter({ modals, showModal, closeModal }: ContextType) {
 			['mod+/', showHelp],
 			[
 				'shift+/',
-				(event: KeyboardEvent) => {
+				(event: React.KeyboardEvent) => {
 					// We don't want to show the help modal every time someone enters a
 					// '?' character into an input
 					if (document.activeElement && !('value' in document.activeElement)) {

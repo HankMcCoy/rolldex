@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { useRef } from 'react'
 import styled from 'styled-components/macro'
-import { withRouter, Link } from 'react-router-dom'
+import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { H1 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
@@ -12,8 +13,8 @@ import { getSubAppColor, intersperse } from 'r/util'
 import { useKeydown } from 'r/util/hooks'
 import { useHistory, useTitle } from 'r/util/router'
 
-const Root = styled('div')`
-	background: ${getSubAppColor};
+const Root = styled.div<{ pathname: string }>`
+	background: ${({ pathname }) => getSubAppColor(pathname)};
 	flex: 0 0 auto;
 	padding-left: ${theme.pageHzPadding};
 	padding-right: ${theme.pageHzPadding};
@@ -54,7 +55,7 @@ const Separator = () => (
 			width: 15px;
 			stroke: ${theme.white};
 			position: relative;
-			top: 1px;
+			externaltop: 1px;
 			& > svg {
 				width: 50%;
 			}
@@ -152,25 +153,18 @@ type BreadcrumbDesc = {
 	text: string
 	to: string
 }
-type ExternalProps = {
+type Props = {
 	title: string
 	breadcrumbs?: Array<BreadcrumbDesc>
 	controls?: React.ReactNode
 }
-type RouterProps = {
-	match: any
-}
-function PageHeader({
-	title,
-	match,
-	breadcrumbs,
-	controls,
-}: ExternalProps & RouterProps) {
+function PageHeader({ title, breadcrumbs, controls }: Props) {
 	const controlsRef = useRef<HTMLDivElement>(null)
 	useEditShortcuts(controls, controlsRef)
 	useTitle(title)
+	const { pathname } = useLocation()
 	return (
-		<Root match={match}>
+		<Root pathname={pathname}>
 			<Left>
 				{breadcrumbs ? (
 					<>
@@ -192,8 +186,7 @@ function PageHeader({
 	)
 }
 
-const PageHeaderExport = withRouter(PageHeader)
-export default PageHeaderExport
+export default PageHeader
 
 export const SaveControls = ({
 	onSubmit,

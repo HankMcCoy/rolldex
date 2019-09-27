@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikActions } from 'formik'
 
 import { required } from 'r/util/formik'
 
@@ -11,7 +11,7 @@ type Values = {
 }
 type Props = {
 	initialValues: Values
-	onSubmit: (values: Values) => void
+	onSubmit: (values: Values, actions: FormikActions<Values>) => void
 }
 export default function MemberForm({ initialValues, onSubmit }: Props) {
 	return (

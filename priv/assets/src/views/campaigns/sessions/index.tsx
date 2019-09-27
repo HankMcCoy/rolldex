@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import { Match } from 'react-router-dom'
+import { match as Match } from 'react-router-dom'
 
 import SessionDetail from './session-detail'
 import AddSession from './add-session'

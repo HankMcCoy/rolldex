@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
-import { withRouter, NavLink, Switch, Route } from 'react-router-dom'
+import { useLocation } from 'react-router'
+import { NavLink, Switch, Route } from 'react-router-dom'
 import sortBy from 'lodash-es/sortBy'
 
 import { useCampaignList } from 'r/domains/campaigns'
@@ -36,8 +37,12 @@ const ChildLink = styled(CommonLink)`
 `
 
 function Nav() {
+	// Force a re-render when the location updates
+	useLocation()
+
 	const [campaigns] = useCampaignList()
 	const curUser = useCurUser()
+
 	return (
 		<div
 			css={`
@@ -135,5 +140,4 @@ function Nav() {
 	)
 }
 
-// Including withRouter to force a rerender when the location updates
-export default withRouter(Nav)
+export default Nav

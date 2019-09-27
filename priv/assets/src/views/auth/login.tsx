@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { callApi } from 'r/util/api'
-import { History } from 'history'
 import { Formik, FormikActions } from 'formik'
 import styled from 'styled-components/macro'
+import { useHistory } from 'react-router'
 
+import { callApi } from 'r/util/api'
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
 import { Spacer } from 'r/components/spacer'
@@ -20,9 +20,6 @@ const ButtonWrapper = styled.div`
 	align-items: center;
 `
 
-type Props = {
-	history: History
-}
 type Values = {
 	email: string
 	password: string
@@ -30,65 +27,64 @@ type Values = {
 type FormErrors = {
 	badLogin: boolean
 }
-class Login extends React.Component<Props, void> {
-	render() {
-		return (
-			<Formik
-				initialValues={{
-					email: '',
-					password: '',
-				}}
-				onSubmit={this.login}
-				render={({ handleSubmit, errors }) => (
-					<FormWrapper onSubmit={handleSubmit}>
-						<H1>Rolldex</H1>
-						<Spacer height={20} />
-						<FormField name="email" label="Email" validate={required} />
-						<Spacer height={10} />
-						<FormField
-							name="password"
-							label="Password"
-							validate={required}
-							type="password"
-						/>
-						{errors && errors.badLogin && <div>Bad login</div>}
-						<Spacer height={10} />
-						<ButtonWrapper>
-							<UnstyledLink to="/register">Need an account?</UnstyledLink>
-							<Spacer width={10} />
-							<PrimaryButton>Login</PrimaryButton>
-						</ButtonWrapper>
-					</FormWrapper>
-				)}
-			/>
-		)
-	}
+const Login = () => {
+	const history = useHistory()
+	const login = React.useCallback(
+		(values: Values, { setSubmitting, setErrors }: FormikActions<Values>) => {
+			const { email, password } = values
 
-	login = (
-		values: Values,
-		{ setSubmitting, setErrors }: FormikActions<Values>
-	) => {
-		const { email, password } = values
+			callApi({
+				method: 'POST',
+				path: '/api/users/sign-in',
+				body: {
+					email,
+					password,
+				},
+			}).then(
+				() => {
+					setSubmitting(false)
+					history.push('/')
+				},
+				err => {
+					setSubmitting(false)
+					setErrors({ badLogin: true })
+					console.error(err)
+				}
+			)
+		},
+		[history]
+	)
 
-		callApi({
-			method: 'POST',
-			path: '/api/users/sign-in',
-			body: {
-				email,
-				password,
-			},
-		}).then(
-			() => {
-				setSubmitting(false)
-				this.props.history.push('/')
-			},
-			err => {
-				setSubmitting(false)
-				setErrors({ badLogin: true })
-				console.error(err)
-			}
-		)
-	}
+	return (
+		<Formik
+			initialValues={{
+				email: '',
+				password: '',
+			}}
+			onSubmit={login}
+			render={({ handleSubmit, errors }) => (
+				<FormWrapper onSubmit={handleSubmit}>
+					<H1>Rolldex</H1>
+					<Spacer height={20} />
+					<FormField name="email" label="Email" validate={required} />
+					<Spacer height={10} />
+					<FormField
+						name="password"
+						label="Password"
+						validate={required}
+						type="password"
+					/>
+					{errors && errors.badLogin && <div>Bad login</div>}
+					<Spacer height={10} />
+					<ButtonWrapper>
+						<UnstyledLink to="/register">Need an account?</UnstyledLink>
+						<Spacer width={10} />
+						<PrimaryButton>Login</PrimaryButton>
+					</ButtonWrapper>
+				</FormWrapper>
+			)}
+		/>
+	)
 }
 
 export default Login

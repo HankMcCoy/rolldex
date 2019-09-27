@@ -1,5 +1,5 @@
 import flatMap from 'lodash-es/flatMap'
-import { matchPath } from 'react-router'
+import { matchPath, useLocation } from 'react-router'
 import theme from 'r/theme'
 
 export function intersperse<X, Y>(
@@ -16,19 +16,21 @@ const getSubApp = (path: string): SubApp => {
 	throw new Error(`Unknown sub-app for path: ${path}`)
 }
 
-const subAppColors: { [key in SubApp]: string } = {
+const subAppColors: {
+	campaigns: 'campaignColor'
+	systems: 'systemColor'
+} = {
 	campaigns: 'campaignColor',
 	systems: 'systemColor',
 }
-export const getSubAppColor = ({
-	match,
-}: {
-	match: {
-		path: string
-	}
-}): string => {
-	const subApp = getSubApp(match.path)
+export const getSubAppColor = (pathname: string): string => {
+	const subApp = getSubApp(pathname)
 	return theme[subAppColors[subApp]]
+}
+
+export const useSubAppColor = () => {
+	const { pathname } = useLocation()
+	return getSubAppColor(pathname)
 }
 
 interface HasUpdatedDate {

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { match as Match, Route, Switch } from 'react-router-dom'
 
 import CampaignDetail from './campaign-detail'
 import CampaignList from './campaign-list'
@@ -9,7 +9,7 @@ import Sessions from './sessions'
 import Nouns from './nouns'
 import InviteMember from './members/invite'
 
-function Campaign({ match }) {
+function Campaign({ match }: { match: Match }) {
 	return (
 		<Switch>
 			<Route exact path={`${match.path}/edit`} component={EditCampaign} />

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
-import { Field } from 'formik'
+import { Field, FieldProps, FieldInputProps } from 'formik'
 
 import { ErrCode, getValidationMessage } from 'r/util/formik'
 import { H2 } from 'r/components/heading'
@@ -13,26 +13,8 @@ const Error = styled.div`
 	color: ${theme.dangerRed};
 `
 
-type FieldInfo = {
-	name: string
-	onChange: Function
-	onBlur: Function
-	value: any
-}
-type FormInfo = {
-	values: { [field: string]: any }
-	touched: { [field: string]: boolean }
-	errors: { [field: string]: ErrCode }
-	handleChange: Function
-	handleBlur: Function
-	handleSubmit: Function
-}
-type FieldProps = {
-	field: FieldInfo
-	form: FormInfo
-}
 export default function FormField<
-	InputComponent extends React.ComponentType<FieldInfo>
+	InputComponent extends React.ComponentType<FieldInputProps & {}>
 >({
 	label,
 	name,
@@ -53,7 +35,7 @@ export default function FormField<
 			name={name}
 			validate={validate}
 			render={({ field, form }: FieldProps) => {
-				const error: ErrCode = form.errors[name]
+				const error = form.errors[name]
 				const isTouched = form.touched[name]
 				let content
 				if (render) {
@@ -61,7 +43,7 @@ export default function FormField<
 				} else if (Component) {
 					content = <Component {...rest} {...field} error={error} />
 				} else {
-					content = <Input {...rest} {...field} error={error} />
+					content = <Input {...rest} {...field} />
 				}
 
 				return (

@@ -9,6 +9,7 @@ import FormField from 'r/components/form-field'
 import { Spacer } from 'r/components/spacer'
 import { H1 } from 'r/components/heading'
 import { PrimaryButton, UnstyledLink } from 'r/components/button'
+import { useState } from 'react'
 
 const FormWrapper = styled.form`
 	max-width: 500px;
@@ -24,13 +25,11 @@ type Values = {
 	email: string
 	password: string
 }
-type FormErrors = {
-	badLogin: boolean
-}
 const Login = () => {
+	const [badLogin, setBadLogin] = useState(false)
 	const history = useHistory()
 	const login = React.useCallback(
-		(values: Values, { setSubmitting, setErrors }: FormikActions<Values>) => {
+		(values: Values, { setSubmitting }: FormikActions<Values>) => {
 			const { email, password } = values
 
 			callApi({
@@ -43,12 +42,12 @@ const Login = () => {
 			}).then(
 				() => {
 					setSubmitting(false)
+					setBadLogin(false)
 					history.push('/')
 				},
 				err => {
 					setSubmitting(false)
-					setErrors({ badLogin: true })
-					console.error(err)
+					setBadLogin(true)
 				}
 			)
 		},
@@ -74,7 +73,7 @@ const Login = () => {
 						validate={required}
 						type="password"
 					/>
-					{errors && errors.badLogin && <div>Bad login</div>}
+					{badLogin && <div>Bad login</div>}
 					<Spacer height={10} />
 					<ButtonWrapper>
 						<UnstyledLink to="/register">Need an account?</UnstyledLink>

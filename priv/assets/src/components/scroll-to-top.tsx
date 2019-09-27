@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom'
 import { Location } from 'history'
 import { withRouter } from 'react-router-dom'
 
-class ScrollToTop extends React.Component<{
+interface Props {
 	location: Location
 	children: any
-}> {
-	componentDidUpdate(prevProps) {
+}
+class ScrollToTop extends React.Component<Props> {
+	componentDidUpdate(prevProps: Props) {
 		const el = ReactDOM.findDOMNode(this)
 		if (
 			this.props.location !== prevProps.location &&

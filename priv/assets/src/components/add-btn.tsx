@@ -19,7 +19,13 @@ const commonStyles = css`
 	cursor: pointer;
 	border: none;
 `
-const commonDynamicStyles = ({ invertedFoo, match }) => css`
+const commonDynamicStyles = ({
+	invertedFoo,
+	match,
+}: {
+	invertedFoo: boolean
+	match: { path: string }
+}) => css`
 	background: ${invertedFoo ? theme.white : getSubAppColor({ match })};
 	color: ${invertedFoo ? getSubAppColor({ match }) : theme.white};
 `
@@ -35,7 +41,7 @@ const StyledLink = styled(PlainLink)`
 
 type Props<MP> = {
 	inverted?: boolean
-	onClick?: (e: MouseEvent) => void
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 	to?: string
 } & RouteComponentProps<MP>
 function AddBtn<MatchParams>({

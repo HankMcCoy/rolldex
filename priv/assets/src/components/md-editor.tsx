@@ -39,12 +39,12 @@ interface Target {
 type Props = {
 	name: string
 	value?: string
-	onChange?: ({ target: Target }) => void
+	onChange?: ({ target }: { target: Target }) => void
 	minHeight: number
 }
 export default class MdEditor extends React.Component<Props, void> {
 	textareaRef: { current: null | HTMLTextAreaElement } = React.createRef()
-	simpleMde: SimpleMdeImpl
+	simpleMde: typeof SimpleMdeImpl
 	static defaultProps = {
 		minHeight: 100,
 	}

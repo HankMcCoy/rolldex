@@ -12,7 +12,7 @@ import { Spacer } from 'r/components/spacer'
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
 import { NounType, useNoun } from 'r/domains/nouns'
 
-import { useRouteId } from 'r/util/router'
+import { useRouteIdOrDie } from 'r/util/router'
 
 import PersonSvg from 'r/svg/person'
 import PlaceSvg from 'r/svg/place'
@@ -22,7 +22,7 @@ import FactionSvg from 'r/svg/faction'
 import RelatedSessions from './related-sessions'
 import { getNounTypeTitle, getNounTypePathToken } from './util'
 
-const nounTypeToSvg: { [NounType]: React.ReactNode } = {
+const nounTypeToSvg: { [key in NounType]: React.ReactNode } = {
 	PERSON: <PersonSvg />,
 	PLACE: <PlaceSvg />,
 	THING: <ThingSvg />,
@@ -52,7 +52,7 @@ const AvatarWrapper = styled.div`
 
 export default function NounDetail() {
 	const [campaign] = useCurCampaign()
-	const [noun] = useNoun(useRouteId('nounId'))
+	const [noun] = useNoun(useRouteIdOrDie('nounId'))
 	const isOwner = useIsOwner(campaign)
 	if (!noun || !campaign) return <LoadingPage />
 

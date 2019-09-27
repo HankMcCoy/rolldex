@@ -29,7 +29,7 @@ export const useCampaignId = (): number => {
 	}
 	return campaignId as number
 }
-export const useIsOwner = (campaign: Campaign) => {
+export const useIsOwner = (campaign: Campaign | undefined) => {
 	const curUser = useCurUser()
 	return campaign ? curUser.id === campaign.created_by_id : false
 }

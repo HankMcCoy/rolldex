@@ -18,7 +18,7 @@ export const getNounTypePathToken = (nounType: NounType): NounTypePathToken => {
 }
 
 export const getNounTypeFromPathToken = (
-	nounTypePathToken: NounTypePathToken
+	nounTypePathToken: string
 ): NounType => {
 	switch (nounTypePathToken) {
 		case 'people':

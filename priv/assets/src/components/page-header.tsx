@@ -99,7 +99,7 @@ function useEditShortcuts(
 		controlsRef.current && controlsRef.current.querySelector(selector)
 	useKeydown(
 		document,
-		(event: KeyboardEvent) => {
+		(event: React.KeyboardEvent<Element>) => {
 			if (controlsRef.current === null) {
 				return
 			}

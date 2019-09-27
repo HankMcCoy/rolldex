@@ -27,7 +27,7 @@ const XBtnRoot = styled.button`
 	}
 `
 
-export default props => {
+export default function XBtn(props: React.ComponentProps<typeof XBtnRoot>) {
 	return (
 		<XBtnRoot {...props}>
 			<XSvg />

@@ -8,14 +8,14 @@ import { Spacer } from 'r/components/spacer'
 import { useSession } from 'r/domains/sessions'
 import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
 
-import { useRouteId } from 'r/util/router'
+import { useRouteIdOrDie } from 'r/util/router'
 
 import PageWithSidebar from 'r/components/page-with-sidebar'
 
 import RelatedNouns from 'r/components/related-nouns'
 
 export default function SessionDetail() {
-	const [session] = useSession(useRouteId('sessionId'))
+	const [session] = useSession(useRouteIdOrDie('sessionId'))
 	const [campaign] = useCurCampaign()
 	const isOwner = useIsOwner(campaign)
 	if (!session || !campaign) return <LoadingPage />

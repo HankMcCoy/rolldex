@@ -47,9 +47,10 @@ export default function SheetPreview({
 					if (v.valueType === 'number') {
 						content = (
 							<Input
-								type={'number'}
+								type="number"
 								onChange={e => {
-									const value = e.target.value || 0
+									const { value: rawVal } = e.target
+									const value = typeof rawVal === 'number' ? rawVal : 0
 									dispatch({
 										type: 'UPDATE',
 										sheetValue: {

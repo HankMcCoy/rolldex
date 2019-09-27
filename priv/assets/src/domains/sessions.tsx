@@ -1,6 +1,7 @@
 import { $Diff } from 'utility-types'
 import { useFetch, post, put, remove } from '../util/use-fetch'
 import { useCampaignId } from './campaigns'
+import { getFromList } from './util'
 
 export type Session = {
 	id: number
@@ -21,28 +22,22 @@ export type DraftSession = $Diff<
 export const useSessionList = () =>
 	useFetch<Array<Session>>(`/api/campaigns/${useCampaignId()}/sessions`)
 
-export const useSession = (id: number): [Session | undefined, any] => {
-	const [sessions, err] = useSessionList()
-
-	if (sessions) {
-		const session = sessions.find(n => n.id === id)
-		if (!session) {
-			return [undefined, 'NO_MATCH_FOUND']
-		}
-		return [session, err]
-	}
-	return [undefined, err]
+export const useSession = (
+	id: number
+): [Session, undefined] | [undefined, Error] => {
+	const results = useSessionList()
+	return getFromList(results, id)
 }
 
 export const createSession = (draft: DraftSession) =>
-	post({
+	post<Session>({
 		path: `/api/campaigns/${draft.campaign_id}/sessions`,
 		body: {
 			session: draft,
 		},
 	})
 export const updateSession = (session: Session) =>
-	put({
+	put<Session>({
 		path: `/api/campaigns/${session.campaign_id}/sessions/${session.id}`,
 		body: {
 			session,

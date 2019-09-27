@@ -18,7 +18,7 @@ export type Values = {
 
 export const convertValuesToDraftNoun = (
 	values: Values
-): $Diff<DraftNoun, { campaign_id: number }> => {
+): Omit<DraftNoun, 'campaign_id'> => {
 	const { name, summary, notes, privateNotes, nounType } = values
 	return {
 		name,

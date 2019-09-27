@@ -1,6 +1,7 @@
 import { $Diff } from 'utility-types'
 import { useFetch, post, put, remove } from '../util/use-fetch'
 import { useCampaignId } from './campaigns'
+import { getFromList } from './util'
 
 export type NounType = 'PERSON' | 'PLACE' | 'THING' | 'FACTION'
 export type Noun = {
@@ -22,23 +23,20 @@ export type DraftNoun = $Diff<
 
 export const useNounList = () =>
 	useFetch<Array<Noun>>(`/api/campaigns/${useCampaignId()}/nouns`)
-export const useNoun = (id: number): [Noun, any] => {
-	const [nouns, err] = useNounList()
-	if (nouns) {
-		return [nouns.find(n => n.id === id), err]
-	}
-	return [undefined, err]
+export const useNoun = (id: number): [Noun, undefined] | [undefined, Error] => {
+	const results = useNounList()
+	return getFromList(results, id)
 }
 
 export const createNoun = (draft: DraftNoun) =>
-	post({
+	post<Noun>({
 		path: `/api/campaigns/${draft.campaign_id}/nouns`,
 		body: {
 			noun: draft,
 		},
 	})
 export const updateNoun = (noun: Noun) =>
-	put({
+	put<Noun>({
 		path: `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}`,
 		body: {
 			noun,

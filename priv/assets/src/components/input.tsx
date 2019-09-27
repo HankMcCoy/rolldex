@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/macro'
 import theme from 'r/theme'
 
-const commonStyle = (props: { error?: boolean }) => css`
+const commonStyle = (props: { error?: string }) => css`
 	border-width: 1px;
 	border-style: solid;
 	border-color: ${props.error ? theme.dangerRed : theme.gray50};

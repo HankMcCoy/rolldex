@@ -11,7 +11,7 @@ type Values = {
 }
 type Props = {
 	initialValues: Values
-	onSubmit: (Values) => void
+	onSubmit: (values: Values) => void
 }
 export default function MemberForm({ initialValues, onSubmit }: Props) {
 	return (

@@ -6,7 +6,7 @@ import { NounType, DraftNoun } from 'r/domains/nouns'
 import { StandardForm } from 'r/components/form'
 import MdEditor from 'r/components/md-editor'
 import FormField from 'r/components/form-field'
-import { Textarea, Select } from 'r/components/input'
+import { Input, Textarea, Select } from 'r/components/input'
 
 export type Values = {
 	name: string
@@ -35,31 +35,40 @@ type Props = {
 export default function NounForm({ handleSubmit }: Props) {
 	return (
 		<StandardForm onSubmit={handleSubmit}>
-			<FormField name="name" label="Name" validate={required} autoFocus />
+			<FormField
+				name="name"
+				label="Name"
+				validate={required}
+				render={({ field }) => <Input autoFocus {...field} />}
+			/>
 			<FormField
 				name="nounType"
 				label="Type"
-				component={Select}
 				validate={required}
-			>
-				<option value="" />
-				<option value="PERSON">Person</option>
-				<option value="PLACE">Place</option>
-				<option value="THING">Thing</option>
-				<option value="FACTION">Faction</option>
-			</FormField>
+				render={({ field }) => (
+					<Select {...field}>
+						<option value="PERSON">Person</option>
+						<option value="PLACE">Place</option>
+						<option value="THING">Thing</option>
+						<option value="FACTION">Faction</option>
+					</Select>
+				)}
+			/>
 			<FormField
 				name="summary"
 				label="Summary"
-				component={Textarea}
-				rows={3}
 				validate={required}
+				render={({ field }) => <Textarea rows={3} {...field} />}
 			/>
-			<FormField name="notes" label="Notes" component={MdEditor} />
+			<FormField
+				name="notes"
+				label="Notes"
+				render={({ field }) => <MdEditor {...field} />}
+			/>
 			<FormField
 				name="privateNotes"
 				label="Private Notes"
-				component={MdEditor}
+				render={({ field }) => <MdEditor {...field} />}
 			/>
 		</StandardForm>
 	)

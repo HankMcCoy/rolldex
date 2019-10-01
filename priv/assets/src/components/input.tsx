@@ -16,7 +16,7 @@ const commonStyle = (props: { error?: string }) => css`
 const singleLineStyle = css`
 	height: 34px;
 	line-height: 34px;
-	padding: 5px 10px;
+	padding: 0 10px;
 `
 export const Input = styled.input`
 	${commonStyle}
@@ -26,7 +26,9 @@ export const Input = styled.input`
 export const Select = styled.select`
 	${commonStyle}
 	${singleLineStyle}
-  & > option {
+	padding-left: 5px;
+
+	& > option {
 		font: unset;
 	}
 `

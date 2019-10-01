@@ -4,7 +4,7 @@ export { useModals } from '../modals/presenter'
 
 export const useClick = (
 	el: HTMLElement | Document,
-	listener: (e: React.MouseEvent) => void,
+	listener: (e: MouseEvent) => void,
 	deps: any[]
 ) => {
 	return useEffect(() => {
@@ -16,7 +16,7 @@ export const useClick = (
 
 export const useKeydown = (
 	el: HTMLElement | Document,
-	listener: (e: React.KeyboardEvent) => void,
+	listener: (e: KeyboardEvent) => void,
 	deps: any[]
 ) => {
 	return useEffect(() => {
@@ -34,10 +34,13 @@ export const usePrevious = <T>(value: T): T | undefined => {
 	return ref.current
 }
 
-export function useHover() {
+export function useHover(): [
+	React.MutableRefObject<HTMLElement | null>,
+	boolean
+] {
 	const [value, setValue] = useState(false)
 
-	const ref = useRef<HTMLElement>(null)
+	const ref = useRef<HTMLElement | null>(null)
 
 	const handleMouseOver = () => setValue(true)
 	const handleMouseOut = () => setValue(false)
@@ -58,7 +61,13 @@ export function useHover() {
 	return [ref, value]
 }
 
-export function useHoverCombo(delay: number = 150) {
+export function useHoverCombo(
+	delay: number = 150
+): [
+	React.MutableRefObject<HTMLElement | null>,
+	React.MutableRefObject<HTMLElement | null>,
+	boolean
+] {
 	const [isHovering, setIsHovering] = useState()
 	const [refA, isHoveringA] = useHover()
 	const [refB, isHoveringB] = useHover()

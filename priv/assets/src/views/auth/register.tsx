@@ -7,6 +7,7 @@ import { callApi } from 'r/util/api'
 import { required } from 'r/util/formik'
 import FormField from 'r/components/form-field'
 import { Spacer } from 'r/components/spacer'
+import { Input } from 'r/components/input'
 import { H1 } from 'r/components/heading'
 import { PrimaryButton, UnstyledLink } from 'r/components/button'
 
@@ -56,13 +57,18 @@ const Register = () => {
 				<FormWrapper onSubmit={handleSubmit}>
 					<H1>Rolldex</H1>
 					<Spacer height={20} />
-					<FormField name="email" label="Email" validate={required} />
+					<FormField
+						name="email"
+						label="Email"
+						validate={required}
+						render={({ field }) => <Input {...field} />}
+					/>
 					<Spacer height={10} />
 					<FormField
 						name="password"
 						label="Password"
 						validate={required}
-						type="password"
+						render={({ field }) => <Input type="password" {...field} />}
 					/>
 					<Spacer height={10} />
 					<ButtonWrapper>

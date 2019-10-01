@@ -36,13 +36,13 @@ interface Target {
 	name: string
 	value: string
 }
-type Props = {
+interface Props {
 	name: string
 	value?: string
 	onChange?: ({ target }: { target: Target }) => void
 	minHeight: number
 }
-export default class MdEditor extends React.Component<Props, void> {
+export default class MdEditor extends React.Component<Props, Readonly<{}>> {
 	textareaRef: { current: null | HTMLTextAreaElement } = React.createRef()
 	simpleMde: typeof SimpleMdeImpl
 	static defaultProps = {

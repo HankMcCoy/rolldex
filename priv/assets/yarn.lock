@@ -1306,6 +1306,14 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-tether@^0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@types/react-tether/-/react-tether-0.5.5.tgz#34a5a2ddd5ba82d0ea5061cc43e6636a00091ef8"
+  integrity sha512-ZM/wd77k/kn+nPQyP3j9tnLfK1MehIG/KXAhPbZeHP4J2ZLQ/xXonzdxbeyOdQgLSQtB0hbuRZcSOUOP/VjQnw==
+  dependencies:
+    "@types/react" "*"
+    "@types/tether" "*"
+
 "@types/react@*", "@types/react@^16.9.2":
   version "16.9.2"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.2.tgz#6d1765431a1ad1877979013906731aae373de268"
@@ -1327,6 +1335,11 @@
     "@types/react" "*"
     "@types/react-native" "*"
     csstype "^2.2.0"
+
+"@types/tether@*":
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/@types/tether/-/tether-1.4.4.tgz#0fde1ccbd2f1fad74f8f465fe6227ff3b7bff634"
+  integrity sha512-6qhsFJVMuMqaQRVyQVi3zUBLfKYyryktL0ZP0Z3zegzeQ7WKm0PZNCdl3JsaitJbzqaoQ9qsFKMfaj5MiMfcSQ==
 
 "@types/yargs-parser@*":
   version "13.1.0"
@@ -8191,7 +8204,7 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-query-string@*:
+query-string@*, query-string@^6.8.3:
   version "6.8.3"
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-6.8.3.tgz#fd9fb7ffb068b79062b43383685611ee47777d4b"
   integrity sha512-llcxWccnyaWlODe7A9hRjkvdCKamEKTh+wH8ITdTc3OhchaqUZteiSCX/2ablWHVrkVIe04dntnaZJ7BdyW0lQ==
@@ -8205,15 +8218,6 @@ query-string@^4.1.0:
   resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
   integrity sha1-u7aTucqRXCMlFbIosaArYJBD2+s=
   dependencies:
-    object-assign "^4.1.0"
-    strict-uri-encode "^1.0.0"
-
-query-string@~5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.1.1.tgz#a78c012b71c17e05f2e3fa2319dd330682efb3cb"
-  integrity sha512-gjWOsm2SoGlgLEdAGt7a6slVOk9mGiXmPFMqrEhLQ68rhQuBnpfs3+EmlvqKyxnCo9/PPlF+9MtY02S1aFg+Jw==
-  dependencies:
-    decode-uri-component "^0.2.0"
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
@@ -8462,7 +8466,7 @@ react-scripts@3.1.2:
   optionalDependencies:
     fsevents "2.0.7"
 
-react-tether@~2.0.3:
+react-tether@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-tether/-/react-tether-2.0.4.tgz#792124f2b819fd11605f915e1ca1d3958e97e650"
   integrity sha512-557BtnwWsDgGFbjEHZuS6rrwpdJpxko2w25jH3Vg0qtlpX+pbybxgp/29EihAeb9jFRoUwCMzLP88P8Zdl+XPA==
@@ -9953,7 +9957,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.5.3:
+typescript@3.6.3:
   version "3.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
   integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==

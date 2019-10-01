@@ -1,33 +1,28 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
-import { Field, FieldProps, FieldInputProps } from 'formik'
+import { Field, FieldProps } from 'formik'
 
-import { ErrCode, getValidationMessage } from 'r/util/formik'
+import { isErrCode, ErrCode, getValidationMessage } from 'r/util/formik'
 import { H2 } from 'r/components/heading'
-import { Input } from 'r/components/input'
 import { FormRow } from 'r/components/form'
 import theme from 'r/theme'
 
-const Error = styled.div`
+const FieldError = styled.div`
 	margin-top: 5px;
 	color: ${theme.dangerRed};
 `
 
-export default function FormField<
-	InputComponent extends React.ComponentType<FieldInputProps & {}>
->({
+export default function FormField({
 	label,
 	name,
 	render,
-	component: Component,
 	validate,
 	...rest
 }: {
 	label: string
 	name: string
-	render?: (fp: FieldProps) => React.ReactNode
-	component?: any
-	validate?: (value: any) => void | string | Promise<any>
+	render: (fp: FieldProps) => React.ReactNode
+	validate?: (value: any) => void | ErrCode | Promise<any>
 }) {
 	return (
 		<Field
@@ -37,21 +32,19 @@ export default function FormField<
 			render={({ field, form }: FieldProps) => {
 				const error = form.errors[name]
 				const isTouched = form.touched[name]
-				let content
-				if (render) {
-					content = render({ field, form })
-				} else if (Component) {
-					content = <Component {...rest} {...field} error={error} />
-				} else {
-					content = <Input {...rest} {...field} />
+				if (
+					error !== undefined &&
+					(typeof error !== 'string' || !isErrCode(error))
+				) {
+					throw new Error('Formik errors must be an ErrCode string enum value')
 				}
 
 				return (
 					<FormRow label={<H2>{label}</H2>}>
 						<>
-							{content}
+							{render({ field, form })}
 							{error && isTouched && (
-								<Error>{getValidationMessage(error, label)}</Error>
+								<FieldError>{getValidationMessage(error, label)}</FieldError>
 							)}
 						</>
 					</FormRow>

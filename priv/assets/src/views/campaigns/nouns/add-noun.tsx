@@ -2,7 +2,7 @@ import * as React from 'react'
 import qs from 'query-string'
 import { Formik } from 'formik'
 
-import { createNoun } from 'r/domains/nouns'
+import { createNoun, asNounType } from 'r/domains/nouns'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory } from 'r/util/router'
 
@@ -11,6 +11,11 @@ import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
 import NounForm, { convertValuesToDraftNoun } from './noun-form'
+
+type ParsedParam = string | string[] | null | undefined
+const asString = (param: ParsedParam): string => {
+	return typeof param === 'string' ? param : ''
+}
 
 function AddNoun() {
 	const history = useHistory()
@@ -21,11 +26,11 @@ function AddNoun() {
 	return (
 		<Formik
 			initialValues={{
-				name: queryParams.name ? queryParams.name : '',
+				name: asString(queryParams.name),
 				summary: '',
 				notes: '',
 				privateNotes: '',
-				nounType: queryParams.nounType ? queryParams.nounType : '',
+				nounType: asNounType(asString(queryParams.nounType)) || 'PERSON',
 			}}
 			onSubmit={(values, { setSubmitting }) => {
 				const draftNoun = convertValuesToDraftNoun(values)

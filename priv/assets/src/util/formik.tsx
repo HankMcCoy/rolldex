@@ -1,7 +1,12 @@
 // Validations
-export type ErrCode = 'required'
+export enum ErrCode {
+	required = 'required',
+}
+export const isErrCode = (err: string): err is ErrCode => {
+	return err === ErrCode.required
+}
 export const required = (value: string): ErrCode | void =>
-	value ? undefined : 'required'
+	value ? undefined : ErrCode.required
 
 const validationMessagesByCode: {
 	[key in ErrCode]: (name: string) => string

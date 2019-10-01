@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { MutableRefObject } from 'react'
 import styled from 'styled-components/macro'
 import TetherComponent from 'react-tether'
 
@@ -22,10 +22,14 @@ export const Tooltip = ({
 	attachment?: string
 	targetAttachment?: string
 	offset?: string
-	renderTarget: (el: HTMLElement) => React.ReactNode
+	renderTarget: (cb: (el: HTMLElement | null) => void) => React.ReactNode
 	tooltipContent: React.ReactNode
 }) => {
 	const [targetRef, tooltipRef, showTooltip] = useHoverCombo()
+	const foo: React.ComponentProps<typeof TetherComponent> = {
+		attachment: 'blah',
+		targetAttachment: undefined,
+	}
 
 	return (
 		<TetherComponent
@@ -34,14 +38,14 @@ export const Tooltip = ({
 			offset={offset || '0 14px'}
 			renderTarget={ref => {
 				return renderTarget(el => {
-					targetRef.current = ref.current = el
+					targetRef.current = (ref as MutableRefObject<HTMLElement | null>).current = el
 				})
 			}}
 			renderElement={ref =>
 				showTooltip && (
 					<TooltipContent
 						ref={el => {
-							tooltipRef.current = ref.current = el
+							tooltipRef.current = (ref as MutableRefObject<HTMLDivElement | null>).current = el
 						}}
 					>
 						{tooltipContent}

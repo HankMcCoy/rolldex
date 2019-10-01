@@ -3,7 +3,20 @@ import { useFetch, post, put, remove } from '../util/use-fetch'
 import { useCampaignId } from './campaigns'
 import { getFromList } from './util'
 
-export type NounType = 'PERSON' | 'PLACE' | 'THING' | 'FACTION'
+const NounTypeMap = Object.freeze({
+	PERSON: null,
+	PLACE: null,
+	THING: null,
+	FACTION: null,
+})
+export type NounType = keyof typeof NounTypeMap
+export const asNounType = (val: string): NounType | undefined => {
+	if (NounTypeMap.hasOwnProperty(val)) {
+		return val as NounType
+	}
+	return undefined
+}
+
 export type Noun = {
 	id: number
 	name: string

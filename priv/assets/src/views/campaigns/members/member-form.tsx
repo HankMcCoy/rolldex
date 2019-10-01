@@ -4,6 +4,7 @@ import { Formik, FormikActions } from 'formik'
 import { required } from 'r/util/formik'
 
 import { StandardForm } from 'r/components/form'
+import { Input } from 'r/components/input'
 import FormField from 'r/components/form-field'
 
 type Values = {
@@ -20,7 +21,12 @@ export default function MemberForm({ initialValues, onSubmit }: Props) {
 			onSubmit={onSubmit}
 			render={({ handleSubmit }) => (
 				<StandardForm onSubmit={handleSubmit}>
-					<FormField name="email" label="Email" validate={required} />
+					<FormField
+						name="email"
+						label="Email"
+						validate={required}
+						render={({ field }) => <Input {...field} />}
+					/>
 				</StandardForm>
 			)}
 		/>

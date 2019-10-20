@@ -26,10 +26,6 @@ export const Tooltip = ({
 	tooltipContent: React.ReactNode
 }) => {
 	const [targetRef, tooltipRef, showTooltip] = useHoverCombo()
-	const foo: React.ComponentProps<typeof TetherComponent> = {
-		attachment: 'blah',
-		targetAttachment: undefined,
-	}
 
 	return (
 		<TetherComponent

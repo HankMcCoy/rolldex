@@ -64,6 +64,9 @@ const MarkdownContainer = styled.div`
 		padding: 5px;
 		border: 1px solid ${theme.gray30};
 	}
+	& img {
+		max-width: 100%;
+	}
 `
 
 type StyledMarkdownProps = { className?: string; children: string }

@@ -68,7 +68,7 @@ export function useHoverCombo(
 	React.MutableRefObject<HTMLElement | null>,
 	boolean
 ] {
-	const [isHovering, setIsHovering] = useState()
+	const [isHovering, setIsHovering] = useState(false)
 	const [refA, isHoveringA] = useHover()
 	const [refB, isHoveringB] = useHover()
 	const timeoutRef = useRef<number>()

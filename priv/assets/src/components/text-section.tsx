@@ -53,6 +53,9 @@ const MarkdownContainer = styled.div`
 	& ul li ul li ul li {
 		list-style-type: square;
 	}
+	& table {
+		border-collapse: collapse;
+	}
 	& th {
 		font-weight: 400;
 	}

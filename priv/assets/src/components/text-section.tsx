@@ -58,6 +58,9 @@ const MarkdownContainer = styled.div`
 	}
 	& th {
 		font-weight: 400;
+		&:empty {
+			display: none;
+		}
 	}
 	& th,
 	& td {

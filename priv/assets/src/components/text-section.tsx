@@ -89,11 +89,7 @@ type Props = {
 	children: string
 	markdown?: boolean
 }
-export default function TextSection({
-	title,
-	children,
-	markdown = false,
-}: Props) {
+export function TextSection({ title, children, markdown = false }: Props) {
 	return (
 		<div
 			css={`
@@ -108,5 +104,59 @@ export default function TextSection({
 				<P>{children}</P>
 			)}
 		</div>
+	)
+}
+
+export function PrivateTextSection({
+	title,
+	children,
+	markdown = false,
+}: Props) {
+	return (
+		<details
+			css={`
+				max-width: 760px;
+				margin-left: -30px;
+				background: ${theme.gray97};
+			`}
+		>
+			<summary
+				css={`
+					position: relative;
+					padding: 20px 30px;
+					cursor: pointer;
+					&::-webkit-details-marker {
+						display: none;
+					}
+					&:focus {
+						outline: none;
+					}
+					&:focus::before {
+						content: '';
+						position: absolute;
+						top: 20px;
+						left: 0px;
+						bottom: 20px;
+						width: 5px;
+						background: ${theme.campaignColor};
+					}
+				`}
+			>
+				<H2>{title}</H2>
+			</summary>
+			{children && (
+				<div
+					css={`
+						padding: 0 30px 20px 30px;
+					`}
+				>
+					{markdown ? (
+						<StyledMarkdown>{children}</StyledMarkdown>
+					) : (
+						<P>{children}</P>
+					)}
+				</div>
+			)}
+		</details>
 	)
 }

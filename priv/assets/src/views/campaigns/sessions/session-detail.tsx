@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
-import TextSection from 'r/components/text-section'
+import { TextSection, PrivateTextSection } from 'r/components/text-section'
 import { Spacer } from 'r/components/spacer'
 
 import { useSession } from 'r/domains/sessions'
@@ -51,9 +51,9 @@ export default function SessionDetail() {
 						{isOwner ? (
 							<>
 								<Spacer height={25} />
-								<TextSection title="Private Notes" markdown>
+								<PrivateTextSection title="Private Notes" markdown>
 									{private_notes}
-								</TextSection>
+								</PrivateTextSection>
 							</>
 						) : null}
 						<Spacer height={25} />

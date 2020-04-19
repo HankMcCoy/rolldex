@@ -5,7 +5,7 @@ import theme from 'r/theme'
 import PageHeader, { HeaderLinkButton } from 'r/components/page-header'
 import LoadingPage from 'r/components/loading-page'
 import PageWithSidebar from 'r/components/page-with-sidebar'
-import TextSection from 'r/components/text-section'
+import { TextSection, PrivateTextSection } from 'r/components/text-section'
 import RelatedNouns from 'r/components/related-nouns'
 import { Spacer } from 'r/components/spacer'
 
@@ -97,9 +97,9 @@ export default function NounDetail() {
 						{isOwner ? (
 							<>
 								<Spacer height={25} />
-								<TextSection title="Private Notes" markdown>
+								<PrivateTextSection title="Private Notes" markdown>
 									{private_notes}
-								</TextSection>
+								</PrivateTextSection>
 							</>
 						) : null}
 						<Spacer height={25} />

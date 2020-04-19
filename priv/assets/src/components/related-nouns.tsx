@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from 'styled-components/macro'
+import sortBy from 'lodash-es/sortBy'
 
 import { Noun, NounType } from 'r/domains/nouns'
 
@@ -44,7 +45,7 @@ const NounLink = ({ noun }: { noun: Noun }) => {
 }
 
 const filterByType = (nouns: Array<Noun>, type: NounType) =>
-	nouns.filter(n => n.noun_type === type)
+	sortBy(nouns.filter(n => n.noun_type === type), 'name')
 
 type Props = {
 	path: string

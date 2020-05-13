@@ -43,4 +43,4 @@ export const createCampaign = (draft: DraftCampaign) =>
 	post<Campaign>({ path: '/api/campaigns', body: { campaign: draft } })
 
 export const updateCampaign = (campaign: Campaign) =>
-	put<Campaign>({ path: '/api/campaigns', body: { campaign } })
+	put<Campaign>({ path: `/api/campaigns/${campaign.id}`, body: { campaign } })

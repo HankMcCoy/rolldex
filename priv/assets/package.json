@@ -43,7 +43,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
-		"build": "yarn && react-scripts build",
+		"build": "npm install && react-scripts build",
 		"test": "react-scripts test --env=jsdom --verbose=false",
 		"eject": "react-scripts eject"
 	},

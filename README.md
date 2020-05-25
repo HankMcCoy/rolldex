@@ -13,6 +13,7 @@ A system for keeping notes on tabletop RPG campaigns.
 ### Database setup
 1. Switch to the default postgres user: `sudo -u postgres -i`
 1. Follow the [instructions here](https://www.freecodecamp.org/news/how-to-get-started-with-postgresql-9d3bc1dd1b11/) for getting a basic Postgres DB setup, just make sure to name the database "rpgr_dev".
+  - To make tests work you'll need to create another database called "rpgr_test" as well.
 1. `mix ecto.setup`
 
 ### Secrets

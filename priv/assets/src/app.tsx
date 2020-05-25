@@ -16,7 +16,7 @@ class App extends Component<{}> {
 		return (
 			<Router history={history}>
 				<ModalsPresenter>
-					<React.Fragment>
+					<>
 						<Switch>
 							<Route
 								exact
@@ -38,7 +38,7 @@ class App extends Component<{}> {
 								)}
 							/>
 						</Switch>
-					</React.Fragment>
+					</>
 				</ModalsPresenter>
 			</Router>
 		)

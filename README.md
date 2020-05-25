@@ -37,6 +37,8 @@ pool_size: 10
 ## Local dev
 - From the root `rolldex` directory run `mix phx.server`
 - In a different terminal, navigate to the `./priv/assets` directory and run `npm start`
+- Go to http://localhost:3000
+  - If this is your first time running it, go to the [register](http://localhost:3000/register) page and sign up with your email (note: it must be approved).
 
 ## Deployment
 If you aren't me you probably don't have authorization to deploy. So maybe just ask me to deploy.

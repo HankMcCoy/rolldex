@@ -8,6 +8,7 @@ import Sidebar from './sidebar'
 
 const Root = styled('div')`
 	display: flex;
+	min-height: 100%;
 	@media (min-width: ${theme.breakpoints.smallDesktop + 1}px) {
 		height: 100vh;
 	}

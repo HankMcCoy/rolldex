@@ -48,7 +48,8 @@ defmodule Rpgr.Mixfile do
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 0.12"},
       {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false},
-      {:distillery, "~> 1.0.0"}
+      {:distillery, "~> 1.0.0"},
+      { :inflex, "~> 2.0.0" }
     ]
   end
 

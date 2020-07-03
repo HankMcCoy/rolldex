@@ -2,20 +2,33 @@ defmodule Rpgr.CampaignRelations do
   @moduledoc """
   Stuff related to relationships between things in campaigns.
   """
+  require Logger
 
   alias Rpgr.Repo
   alias Rpgr.CampaignContext
   import Ecto.Query, warn: false
 
-  defp candidate_references_this(user_id, candidate, text) do
-    search_text = String.downcase(text)
+  defp text_matches(corpus, term) do
+    # Get rid of possessives
+    search_corpus = Regex.replace(~r/'s?\b/, String.downcase(corpus), "", global: true)
 
+    search_term = Regex.replace(~r/'s?\b/, String.downcase(term), "", global: true)
+
+    singular_form = Inflex.singularize(search_term)
+    plural_form = Inflex.pluralize(search_term)
+
+    search_corpus =~ search_term or
+      search_corpus =~ singular_form or
+      search_corpus =~ plural_form
+  end
+
+  defp candidate_references_this(user_id, candidate, text) do
     matches_public_fields =
-      String.downcase(candidate.summary) =~ search_text or
-        String.downcase(candidate.notes) =~ search_text
+      text_matches(candidate.summary, text) or
+        text_matches(candidate.notes, text)
 
     if CampaignContext.can_user_edit_campaign(user_id, candidate.campaign_id) do
-      matches_private_fields = String.downcase(candidate.private_notes) =~ search_text
+      matches_private_fields = text_matches(candidate.private_notes, text)
       matches_public_fields or matches_private_fields
     else
       matches_public_fields

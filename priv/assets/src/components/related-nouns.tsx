@@ -9,7 +9,6 @@ import { Spacer } from 'r/components/spacer'
 import { StyledMarkdown } from 'r/components/text-section'
 import PlainLink from 'r/components/plain-link'
 import { Tooltip } from 'r/components/tooltip'
-import { useFetch } from 'r/util/use-fetch'
 
 const Root = styled.div`
 	padding: 20px;
@@ -48,10 +47,9 @@ const filterByType = (nouns: Array<Noun>, type: NounType) =>
 	sortBy(nouns.filter(n => n.noun_type === type), 'name')
 
 type Props = {
-	path: string
+	nouns?: Array<Noun>
 }
-function RelatedNouns({ path }: Props) {
-	const [nouns] = useFetch<Array<Noun>>(path)
+function RelatedNouns({ nouns }: Props) {
 	if (!nouns) return null
 	const people = filterByType(nouns, 'PERSON')
 	const places = filterByType(nouns, 'PLACE')

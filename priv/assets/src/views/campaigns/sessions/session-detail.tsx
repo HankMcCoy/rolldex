@@ -7,8 +7,10 @@ import { Spacer } from 'r/components/spacer'
 
 import { useSession } from 'r/domains/sessions'
 import { useCurCampaign, useIsOwner } from 'r/domains/campaigns'
+import { Noun } from 'r/domains/nouns'
 
 import { useRouteIdOrDie } from 'r/util/router'
+import { useFetch } from 'r/util/use-fetch'
 
 import PageWithSidebar from 'r/components/page-with-sidebar'
 
@@ -18,8 +20,15 @@ export default function SessionDetail() {
 	const [session] = useSession(useRouteIdOrDie('sessionId'))
 	const [campaign] = useCurCampaign()
 	const isOwner = useIsOwner(campaign)
+	const [relatedNouns] = useFetch<Array<Noun>>(
+		session && campaign
+			? `/api/campaigns/${campaign.id}/sessions/${session.id}/related-nouns`
+			: undefined
+	)
+
 	if (!session || !campaign) return <LoadingPage />
 	const { name, summary, notes, private_notes } = session
+
 	return (
 		<>
 			<PageHeader
@@ -59,11 +68,7 @@ export default function SessionDetail() {
 						<Spacer height={25} />
 					</>
 				}
-				sidebar={
-					<RelatedNouns
-						path={`/api/campaigns/${campaign.id}/sessions/${session.id}/related-nouns`}
-					/>
-				}
+				sidebar={<RelatedNouns nouns={relatedNouns} />}
 			/>
 		</>
 	)

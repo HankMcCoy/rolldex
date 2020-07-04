@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import styled from 'styled-components/macro'
 
 import theme from 'r/theme'
@@ -10,9 +10,10 @@ import RelatedNouns from 'r/components/related-nouns'
 import { Spacer } from 'r/components/spacer'
 
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
-import { NounType, useNoun } from 'r/domains/nouns'
+import { Noun, NounType, useNoun } from 'r/domains/nouns'
 
 import { useRouteIdOrDie } from 'r/util/router'
+import { useFetch } from 'r/util/use-fetch'
 
 import PersonSvg from 'r/svg/person'
 import PlaceSvg from 'r/svg/place'
@@ -54,6 +55,12 @@ export default function NounDetail() {
 	const [campaign] = useCurCampaign()
 	const [noun] = useNoun(useRouteIdOrDie('nounId'))
 	const isOwner = useIsOwner(campaign)
+	const [relatedNouns] = useFetch<Array<Noun>>(
+		noun && campaign
+			? `/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`
+			: undefined
+	)
+
 	if (!noun || !campaign) return <LoadingPage />
 
 	const { name, summary, notes, private_notes, noun_type } = noun
@@ -110,7 +117,7 @@ export default function NounDetail() {
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
 						<RelatedNouns
 							key={`related-nouns-${noun.id}`}
-							path={`/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`}
+							nouns={relatedNouns}
 						/>
 						<RelatedSessions key={`related-sessions-${noun.id}`} noun={noun} />
 					</>

@@ -11,21 +11,27 @@ type Response<T> = {
 }
 type MutateMethod = 'PUT' | 'POST' | 'DELETE'
 
-const useInvalidationHandling = (path: string) => {
+const useInvalidationHandling = (path: string | void) => {
 	const mutableInvalidationCount = useRef(0)
 	const [invalidationCount, setInvalidationCount] = useState(0)
 	const handleInvalidation = useCallback(() => {
-		// $FlowFixMe
-		mutableInvalidationCount.current++
-		cache.delete(path)
-		setInvalidationCount(mutableInvalidationCount.current)
+		if (path) {
+			// $FlowFixMe
+			mutableInvalidationCount.current++
+			cache.delete(path)
+			setInvalidationCount(mutableInvalidationCount.current)
+		}
 	}, [path])
 
 	useEffect(() => {
-		invalidationManager.subscribe(path, handleInvalidation)
-		return () => {
-			invalidationManager.unsubscribe(path, handleInvalidation)
+		if (path) {
+			invalidationManager.subscribe(path, handleInvalidation)
 		}
+		return path
+			? () => {
+					invalidationManager.unsubscribe(path, handleInvalidation)
+			  }
+			: () => {}
 	}, [path, handleInvalidation])
 
 	return invalidationCount
@@ -39,17 +45,24 @@ interface FetchOptions<T> {
 	noCache?: boolean
 }
 export function useFetch<T>(
-	path: string,
+	path?: string,
 	options: FetchOptions<T> = {}
 ): FetchResult<T> {
 	const { noCache, handleResponse } = options
 
-	const cachedValue = noCache ? undefined : (cache.get(path) as T)
+	const cachedValue =
+		noCache || path === undefined ? undefined : (cache.get(path) as T)
 	const [data, setData] = useState(cachedValue)
 	const [error, setError] = useState<Error>()
 	const invalidateCount = useInvalidationHandling(path)
 
 	useEffect(() => {
+		if (!path) {
+			setData(undefined)
+			setError(undefined)
+			return
+		}
+
 		let cancelled = false
 		const fetchData = () => {
 			const responsePromise = (window.fetch(path, {

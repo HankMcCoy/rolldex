@@ -52,35 +52,36 @@ const AvatarWrapper = styled.div`
 	}
 `
 
-const useRelatedThings = ({
+const RelatedThings = ({
 	noun,
 	campaign,
 }: {
-	noun: Noun | undefined
-	campaign: Campaign | undefined
-}): [Array<Noun> | undefined, Array<Session> | undefined] => {
+	noun: Noun
+	campaign: Campaign
+}) => {
 	let [relatedNouns] = useFetch<Array<Noun>>(
-		noun && campaign
-			? `/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`
-			: undefined
+		`/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`
 	)
 	let [relatedSessions] = useFetch<Array<Session>>(
-		noun
-			? `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`
-			: undefined
+		`/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`
 	)
 
 	// Wait until we have both nouns and sessions
-	return relatedNouns && relatedSessions
-		? [relatedNouns, relatedSessions]
-		: [undefined, undefined]
+	return relatedNouns && relatedSessions ? (
+		<>
+			<RelatedNouns key={`related-nouns-${noun.id}`} nouns={relatedNouns} />
+			<RelatedSessions
+				key={`related-sessions-${noun.id}`}
+				sessions={relatedSessions}
+			/>
+		</>
+	) : null
 }
 
 export default function NounDetail() {
 	const [campaign] = useCurCampaign()
 	const [noun] = useNoun(useRouteIdOrDie('nounId'))
 	const isOwner = useIsOwner(campaign)
-	const [relatedNouns, relatedSessions] = useRelatedThings({ noun, campaign })
 
 	if (!noun || !campaign) return <LoadingPage />
 
@@ -136,14 +137,7 @@ export default function NounDetail() {
 				sidebar={
 					<>
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
-						<RelatedNouns
-							key={`related-nouns-${noun.id}`}
-							nouns={relatedNouns}
-						/>
-						<RelatedSessions
-							key={`related-sessions-${noun.id}`}
-							sessions={relatedSessions}
-						/>
+						<RelatedThings noun={noun} campaign={campaign} />
 					</>
 				}
 			/>

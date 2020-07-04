@@ -9,7 +9,7 @@ import { TextSection, PrivateTextSection } from 'r/components/text-section'
 import RelatedNouns from 'r/components/related-nouns'
 import { Spacer } from 'r/components/spacer'
 
-import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
+import { Campaign, useIsOwner, useCurCampaign } from 'r/domains/campaigns'
 import { Noun, NounType, useNoun } from 'r/domains/nouns'
 import { Session } from 'r/domains/sessions'
 
@@ -52,21 +52,35 @@ const AvatarWrapper = styled.div`
 	}
 `
 
-export default function NounDetail() {
-	const [campaign] = useCurCampaign()
-	const [noun] = useNoun(useRouteIdOrDie('nounId'))
-	const isOwner = useIsOwner(campaign)
-
-	const [relatedNouns] = useFetch<Array<Noun>>(
+const useRelatedThings = ({
+	noun,
+	campaign,
+}: {
+	noun: Noun | undefined
+	campaign: Campaign | undefined
+}): [Array<Noun> | undefined, Array<Session> | undefined] => {
+	let [relatedNouns] = useFetch<Array<Noun>>(
 		noun && campaign
 			? `/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`
 			: undefined
 	)
-	const [relatedSessions] = useFetch<Array<Session>>(
+	let [relatedSessions] = useFetch<Array<Session>>(
 		noun
 			? `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`
 			: undefined
 	)
+
+	// Wait until we have both nouns and sessions
+	return relatedNouns && relatedSessions
+		? [relatedNouns, relatedSessions]
+		: [undefined, undefined]
+}
+
+export default function NounDetail() {
+	const [campaign] = useCurCampaign()
+	const [noun] = useNoun(useRouteIdOrDie('nounId'))
+	const isOwner = useIsOwner(campaign)
+	const [relatedNouns, relatedSessions] = useRelatedThings({ noun, campaign })
 
 	if (!noun || !campaign) return <LoadingPage />
 

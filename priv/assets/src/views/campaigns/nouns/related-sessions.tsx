@@ -39,13 +39,9 @@ const SessionLink = ({ session }: { session: Session }) => (
 )
 
 type Props = {
-	noun: Noun
+	sessions: Array<Session> | void
 }
-export default function RelatedSessions({ noun }: Props) {
-	const [sessions] = useFetch<Array<Session>>(
-		`/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`
-	)
-
+export default function RelatedSessions({ sessions }: Props) {
 	if (!sessions) return null
 
 	return (

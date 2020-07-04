@@ -11,6 +11,7 @@ import { Spacer } from 'r/components/spacer'
 
 import { useIsOwner, useCurCampaign } from 'r/domains/campaigns'
 import { Noun, NounType, useNoun } from 'r/domains/nouns'
+import { Session } from 'r/domains/sessions'
 
 import { useRouteIdOrDie } from 'r/util/router'
 import { useFetch } from 'r/util/use-fetch'
@@ -55,9 +56,15 @@ export default function NounDetail() {
 	const [campaign] = useCurCampaign()
 	const [noun] = useNoun(useRouteIdOrDie('nounId'))
 	const isOwner = useIsOwner(campaign)
+
 	const [relatedNouns] = useFetch<Array<Noun>>(
 		noun && campaign
 			? `/api/campaigns/${campaign.id}/nouns/${noun.id}/related-nouns`
+			: undefined
+	)
+	const [relatedSessions] = useFetch<Array<Session>>(
+		noun
+			? `/api/campaigns/${noun.campaign_id}/nouns/${noun.id}/related-sessions`
 			: undefined
 	)
 
@@ -119,7 +126,10 @@ export default function NounDetail() {
 							key={`related-nouns-${noun.id}`}
 							nouns={relatedNouns}
 						/>
-						<RelatedSessions key={`related-sessions-${noun.id}`} noun={noun} />
+						<RelatedSessions
+							key={`related-sessions-${noun.id}`}
+							sessions={relatedSessions}
+						/>
 					</>
 				}
 			/>

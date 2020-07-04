@@ -43,11 +43,11 @@ function modalsReducer(state: State, action: Action) {
 
 function usePreserveFocus(modals: Modal[]) {
 	// Restore the focus wherever it was previously, upon hiding the last modal.
-	const [prevFocusedEl, setPrevFocusedEl] = useState()
+	const [prevFocusedEl, setPrevFocusedEl] = useState<Element>()
 	useLayoutEffect(() => {
 		if (modals.length) {
-			setPrevFocusedEl(document.activeElement)
-		} else if (prevFocusedEl) {
+			setPrevFocusedEl(document.activeElement || undefined)
+		} else if (prevFocusedEl instanceof HTMLElement) {
 			prevFocusedEl.focus()
 		}
 	}, [modals.length, prevFocusedEl])

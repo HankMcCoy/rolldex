@@ -16,7 +16,7 @@ type ProviderProps = {
 }
 
 export function AuthProvider({ children }: ProviderProps) {
-	const [curUser, setCurUser] = useState()
+	const [curUser, setCurUser] = useState<User>()
 	useEffect(() => {
 		callApi({ method: 'GET', path: '/api/users/me' }).then(
 			({ data: curUser }) => {

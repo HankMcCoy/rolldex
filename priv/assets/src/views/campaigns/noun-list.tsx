@@ -66,7 +66,7 @@ export default function NounList({
 					width: 100%;
 				`}
 			>
-				See all >
+				{'See all >'}
 			</SecondaryLinkButton>
 		</AddableList>
 	)

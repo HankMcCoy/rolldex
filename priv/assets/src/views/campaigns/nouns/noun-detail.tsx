@@ -137,7 +137,7 @@ export default function NounDetail() {
 				sidebar={
 					<>
 						<AvatarWrapper>{typeSvg}</AvatarWrapper>
-						<RelatedThings noun={noun} campaign={campaign} />
+						<RelatedThings key={noun.id} noun={noun} campaign={campaign} />
 					</>
 				}
 			/>

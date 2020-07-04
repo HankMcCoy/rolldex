@@ -2,14 +2,12 @@ import * as React from 'react'
 import styled from 'styled-components/macro'
 import sortBy from 'lodash-es/sortBy'
 
-import { Noun } from 'r/domains/nouns'
 import { Session } from 'r/domains/sessions'
 import { H2 } from 'r/components/heading'
 import { Spacer } from 'r/components/spacer'
 import PlainLink from 'r/components/plain-link'
 import { Tooltip } from 'r/components/tooltip'
 import { StyledMarkdown } from 'r/components/text-section'
-import { useFetch } from 'r/util/use-fetch'
 
 const Root = styled.div`
 	padding: 20px;

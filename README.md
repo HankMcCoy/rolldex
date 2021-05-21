@@ -2,7 +2,6 @@
 
 A system for keeping notes on tabletop RPG campaigns.
 
-
 ## Local dev prep
 
 ### Global dependencies

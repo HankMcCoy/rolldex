@@ -145,7 +145,7 @@ export function PrivateTextSection({
 					}
 				`}
 			>
-				<H2>{title}</H2>
+				<H2 css={`display: inline`}>{title}</H2>
 			</summary>
 			{children && (
 				<div

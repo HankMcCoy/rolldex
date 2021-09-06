@@ -1,7 +1,6 @@
 defmodule Rpgr.Auth.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Comeonin.Bcrypt
   alias Rpgr.Auth.User
 
   schema "users" do
@@ -20,7 +19,7 @@ defmodule Rpgr.Auth.User do
   end
 
   defp put_pass_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
-    change(changeset, password: Bcrypt.hashpwsalt(password))
+    change(changeset, password: Bcrypt.hash_pwd_salt(password))
   end
 
   defp put_pass_hash(changeset), do: changeset

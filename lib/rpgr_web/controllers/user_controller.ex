@@ -5,26 +5,9 @@ defmodule RpgrWeb.UserController do
 
   action_fallback(RpgrWeb.FallbackController)
 
-  @permitted_emails MapSet.new([
-                      "thomas.beirne@gmail.com",
-                      "albert@wohletz.net",
-                      "brookecosta@gmail.com",
-                      "steven.purn@gmail.com",
-                      "benjamin.spoon@gmail.com",
-                      "david@garrison.net",
-                      "dbellgarrison@gmail.com",
-                      "alex@panger.org",
-                      "bethjohnson3@gmail.com",
-                      "samabeken@aol.com",
-                      "erin@wohletz.net",
-                      "chad.cerruti@gmail.com",
-                      "dkenton702@gmail.com",
-                      "bobbyjh614@gmail.com",
-                      "jakeshasteen@gmail.com"
-                    ])
-
   def register(conn, %{"email" => email, "password" => password}) do
-    if MapSet.member?(@permitted_emails, email) do
+    permitted_emails = MapSet.new(String.split(System.get_env("PERMITTED_EMAILS"), ","))
+    if MapSet.member?(permitted_emails, email) do
       with {:ok, %User{} = user} <- Auth.create_user(%{"email" => email, "password" => password}) do
         conn
         |> put_status(:created)

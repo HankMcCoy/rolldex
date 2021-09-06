@@ -37,8 +37,6 @@ defmodule Rpgr.Auth do
     User.changeset(user, %{})
   end
 
-  alias Comeonin.Bcrypt
-
   def authenticate_user(email, plain_text_password) do
     get_user_by_email(email)
     |> check_password(plain_text_password)
@@ -47,7 +45,7 @@ defmodule Rpgr.Auth do
   defp check_password(nil, _), do: {:error, "Incorrect email or password"}
 
   defp check_password(user, plain_text_password) do
-    case Bcrypt.checkpw(plain_text_password, user.password) do
+    case Bcrypt.verify_pass(plain_text_password, user.password) do
       true -> {:ok, user}
       false -> {:error, "Incorrect email or password"}
     end

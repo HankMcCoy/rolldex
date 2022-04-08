@@ -140,3 +140,21 @@ function useReducerWithLogging<S, A extends Action>(
 }
 
 export { useReducerWithLogging as useReducer }
+
+let numConfirmLeaveListeners = 0
+export let registerBeforeUnload = () => {
+	window.addEventListener('beforeunload', e => {
+		if (numConfirmLeaveListeners > 0) {
+			e.preventDefault()
+			return (e.returnValue = 'NONSENSE')
+		}
+	})
+}
+export let useConfirmLeave = () => {
+	useEffect(() => {
+		numConfirmLeaveListeners++
+		return () => {
+			numConfirmLeaveListeners--
+		}
+	}, [])
+}

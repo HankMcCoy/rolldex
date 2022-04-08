@@ -11,6 +11,7 @@ import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
 import NounForm, { convertValuesToDraftNoun } from './noun-form'
+import { useConfirmLeave } from '../../../util/hooks'
 
 type ParsedParam = string | string[] | null | undefined
 const asString = (param: ParsedParam): string => {
@@ -20,6 +21,7 @@ const asString = (param: ParsedParam): string => {
 function AddNoun() {
 	const history = useHistory()
 	const [campaign] = useCurCampaign()
+	useConfirmLeave()
 
 	if (!campaign) return <LoadingPage />
 	const queryParams = qs.parse(history.location.search)

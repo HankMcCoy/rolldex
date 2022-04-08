@@ -7,11 +7,13 @@ import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
 import CampaignForm from './campaign-form'
+import { useConfirmLeave } from '../../util/hooks'
 
 export default function EditCampaign() {
 	const campaignId = useCampaignId()
 	const [campaign] = useCampaign(campaignId)
 	const history = useHistory()
+	useConfirmLeave()
 
 	return campaign ? (
 		<>

@@ -10,10 +10,12 @@ import PageContent from 'r/components/page-content'
 import LoadingPage from 'r/components/loading-page'
 
 import SessionForm, { convertValuesToDraftSession } from './session-form'
+import { useConfirmLeave } from '../../../util/hooks'
 
 export default function AddSession() {
 	const [campaign] = useCurCampaign()
 	const history = useHistory()
+	useConfirmLeave()
 
 	if (!campaign) return <LoadingPage />
 

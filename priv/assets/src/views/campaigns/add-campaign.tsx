@@ -6,9 +6,11 @@ import PageHeader from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
 
 import CampaignForm from './campaign-form'
+import { useConfirmLeave } from '../../util/hooks'
 
 export default function AddCampaign() {
 	const history = useHistory()
+	useConfirmLeave()
 	return (
 		<>
 			<PageHeader title="New Campaign" />

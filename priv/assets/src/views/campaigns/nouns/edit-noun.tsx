@@ -4,6 +4,7 @@ import { Formik } from 'formik'
 import { useNoun, updateNoun } from 'r/domains/nouns'
 import { useCurCampaign } from 'r/domains/campaigns'
 import { useHistory, useRouteIdOrDie } from 'r/util/router'
+import { useConfirmLeave } from '../../../util/hooks'
 
 import PageHeader, { SaveControls } from 'r/components/page-header'
 import PageContent from 'r/components/page-content'
@@ -15,6 +16,7 @@ export default function EditNoun() {
 	const history = useHistory()
 	const [campaign] = useCurCampaign()
 	const [noun] = useNoun(useRouteIdOrDie('nounId'))
+	useConfirmLeave()
 
 	if (!campaign || !noun) return <LoadingPage />
 
